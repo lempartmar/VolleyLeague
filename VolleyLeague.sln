@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.API", "VolleyLeague.API\VolleyLeague.API.csproj", "{395439E0-2609-40EE-947F-02AF094CE25D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.Services", "VolleyLeague.Services\VolleyLeague.Services.csproj", "{F44F0AFA-D384-43BD-87C6-309F65DAD633}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.Entities", "VolleyLeague.Entities\VolleyLeague.Entities.csproj", "{752EAB60-A034-4734-B162-CDE2EB92B06B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.Repositories", "VolleyLeague.Repositories\VolleyLeague.Repositories.csproj", "{08971BC8-00E8-4750-A50A-C476FB867044}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{DD2B08B7-150C-4588-8EBF-53D6CE53848D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8954FE07-9AE3-42CD-9240-1533E993603F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.Client.Blazor", "VolleyLeague.Client.Blazor\VolleyLeague.Client.Blazor.csproj", "{A161F35C-9AB9-406B-AE11-9D6459567FA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolleyLeague.Client.Blazor2", "VolleyLeague.Client.Blazor2\VolleyLeague.Client.Blazor2.csproj", "{AF9B9345-6DAC-4318-9C60-FFB83477B1B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{395439E0-2609-40EE-947F-02AF094CE25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395439E0-2609-40EE-947F-02AF094CE25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395439E0-2609-40EE-947F-02AF094CE25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395439E0-2609-40EE-947F-02AF094CE25D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44F0AFA-D384-43BD-87C6-309F65DAD633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44F0AFA-D384-43BD-87C6-309F65DAD633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44F0AFA-D384-43BD-87C6-309F65DAD633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44F0AFA-D384-43BD-87C6-309F65DAD633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{752EAB60-A034-4734-B162-CDE2EB92B06B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{752EAB60-A034-4734-B162-CDE2EB92B06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{752EAB60-A034-4734-B162-CDE2EB92B06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{752EAB60-A034-4734-B162-CDE2EB92B06B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08971BC8-00E8-4750-A50A-C476FB867044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08971BC8-00E8-4750-A50A-C476FB867044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08971BC8-00E8-4750-A50A-C476FB867044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08971BC8-00E8-4750-A50A-C476FB867044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A161F35C-9AB9-406B-AE11-9D6459567FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A161F35C-9AB9-406B-AE11-9D6459567FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A161F35C-9AB9-406B-AE11-9D6459567FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A161F35C-9AB9-406B-AE11-9D6459567FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9B9345-6DAC-4318-9C60-FFB83477B1B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9B9345-6DAC-4318-9C60-FFB83477B1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9B9345-6DAC-4318-9C60-FFB83477B1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9B9345-6DAC-4318-9C60-FFB83477B1B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E44DCC6D-172F-45C4-A0C3-DA08FE7BC1D4}
+	EndGlobalSection
+EndGlobal

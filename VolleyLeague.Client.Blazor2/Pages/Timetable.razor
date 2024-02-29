@@ -1,0 +1,179 @@
+﻿@page "/timetable"
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+@inject HttpClient Http
+
+<PageTitle>Timetable</PageTitle>
+
+<h1 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Timetable</h1>
+
+<p>This component demonstrates dynamically loading data based on user selection.</p>
+
+@if (_seasons != null && _seasons.Any())
+{
+    <select value="@_selectedSeasonId.ToString()" @onchange="HandleSeasonChange">
+        @foreach (var season in _seasons)
+        {
+            <option value="@season.Id.ToString()">@season.Name</option>
+        }
+    </select>
+}
+else
+{
+    <p>Loading seasons...</p>
+}
+
+@if (_leagues != null && _leagues.Any())
+{
+    <select value="@_selectedLeagueId.ToString()" @onchange="HandleLeagueChange">
+        @foreach (var league in _leagues)
+        {
+            <option value="@league.Id.ToString()">@league.Name</option>
+        }
+        }
+    </select>
+}
+else
+{
+    <p>Loading leagues...</p>
+}
+
+@if (_rounds != null && _rounds.Any())
+{
+    <select value="@_selectedRoundId.ToString()" @onchange="HandleRoundChange">
+        @foreach (var round in _rounds)
+        {
+            <option value="@round.Id.ToString()">@round.Name</option>
+        }
+    </select>
+}
+else
+{
+    <p>Select a season to view rounds.</p>
+}
+
+@if (_matches != null && _matches.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Match ID</th>
+                <th>Date</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var match in _matches)
+            {
+                <tr>
+                    <NavLink href=@{
+                     "/match/" + match.Id
+                     }>@match.Schedule</NavLink>
+                    <td>@match.MatchInfo</td>
+                    <td>@match.HomeTeam</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No matches found based on the selected criteria.</p>
+}
+
+@code {
+    private int _selectedSeasonId;
+    private int _selectedLeagueId;
+    private int _selectedRoundId;
+    private IEnumerable<SeasonDto> _seasons;
+    private IEnumerable<RoundDto> _rounds;
+    private IEnumerable<LeagueDto> _leagues;
+    private IEnumerable<MatchDto> _matches = Enumerable.Empty<MatchDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSeasons();
+        await LoadAllLeagues();
+        // No initial LoadMatches call here; wait for user selection
+    }
+
+    private async Task LoadAllLeagues()
+    {
+        var response = await Http.GetAsync("api/League/GetAllLeagues");
+        if (response.IsSuccessStatusCode)
+        {
+            _leagues = await response.Content.ReadFromJsonAsync<IEnumerable<LeagueDto>>();
+        }
+    }
+
+    private async Task LoadSeasons()
+    {
+        var response = await Http.GetAsync("api/Season/GetAllSeasons");
+        if (response.IsSuccessStatusCode)
+        {
+            _seasons = await response.Content.ReadFromJsonAsync<IEnumerable<SeasonDto>>();
+            if (_seasons.Any())
+            {
+                _selectedSeasonId = _seasons.First().Id;
+                await LoadRounds(_selectedSeasonId); // Preload rounds for the first season
+            }
+        }
+    }
+
+    private async Task LoadRounds(int seasonId)
+    {
+        var response = await Http.GetAsync($"api/Round/GetRoundsBySeasonId/{seasonId}");
+        if (response.IsSuccessStatusCode)
+        {
+            _rounds = await response.Content.ReadFromJsonAsync<IEnumerable<RoundDto>>();
+        }
+    }
+
+    private async Task HandleSeasonChange(ChangeEventArgs e)
+    {
+        Console.WriteLine("Season: "+ e.Value?.ToString());
+        if (int.TryParse(e.Value?.ToString(), out var newSeasonId))
+        {
+            _selectedSeasonId = newSeasonId;
+            await LoadRounds(_selectedSeasonId);
+            await LoadMatches(); // Reload matches for the new season
+        }
+    }
+
+    private async Task HandleLeagueChange(ChangeEventArgs e)
+    {
+        Console.WriteLine("League: " + e.Value?.ToString());
+        if (int.TryParse(e.Value?.ToString(), out var newLeagueId))
+        {
+            _selectedLeagueId = newLeagueId;
+            await LoadMatches(); // Reload matches for the new league
+        }
+    }
+
+    private async Task HandleRoundChange(ChangeEventArgs e)
+    {
+        Console.WriteLine("Round: " + e.Value?.ToString());
+        if (int.TryParse(e.Value?.ToString(), out var newRoundId))
+        {
+            _selectedRoundId = newRoundId;
+            await LoadMatches(); // Reload matches for the new round
+        }
+    }
+
+    private async Task LoadMatches()
+    {
+        if (_selectedSeasonId > 0 && _selectedLeagueId > 0 && _selectedRoundId > 0)
+        {
+            var query = $"api/Match/matchesByCriteria2?leagueId={_selectedLeagueId}&seasonId={_selectedSeasonId}&roundId={_selectedRoundId}";
+            var response = await Http.GetAsync(query);
+            if (response.IsSuccessStatusCode)
+            {
+                _matches = await response.Content.ReadFromJsonAsync<IEnumerable<MatchDto>>();
+            }
+            else
+            {
+                _matches = Enumerable.Empty<MatchDto>();
+            }
+        }
+    }
+}

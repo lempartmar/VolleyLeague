@@ -1,0 +1,120 @@
+﻿@page "/teamslist"
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyballBlazor.Infrastructure.Client.Services
+@inject HttpClient Http
+@inject ITeamService teamService
+
+<div class="d-flex flex-column" style="min-width:75%">
+    <p class="text-danger">@ErrorMessage</p>
+
+    @if (PageReady)
+    {
+        <div class="form-group row" style="max-width:700px">
+            <label for="league">Liga:</label>
+            <select class="form-control" id="league" @onchange="UpdateLeague">
+                @if (Leagues == null)
+                {
+                    <option value="null" disabled>Ładowanie lig...</option>
+                }
+                else
+                {
+                    <option value="null" selected disabled>Wybierz ligę</option>
+                    @foreach (LeagueDto league in Leagues)
+                    {
+                        <option value="@league.Id">@league.Name</option>
+                    }
+                }
+
+            </select>
+        </div>
+        <div>
+            @if (Teams == null)
+            {
+                <p>Wybierz ligę, by zobaczyć drużyny</p>
+
+            }
+            else
+            {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Drużyna</th>
+                            <th scope="col">Kapitan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (TeamDto team in Teams)
+                        {
+                            <tr>
+                                <td>
+                                    @if (team.Logo != null)
+                                    {
+                                        <TeamLogo Image="@team.Logo" SizePx="100" />
+                                    }
+                                    else
+                                    {
+                                        <img class="img-thumbnail" style="width: 100px" src="/images/user.png">
+                                    }
+                                </td>
+                                <td  style="vertical-align: middle">
+                                    <NavLink href="@{
+                        "/team/"+team.Id
+}"> @team.Name </NavLink>
+                                </td>
+                                <td  style="vertical-align: middle">
+                                    <NavLink href="@{
+                        "/user-profile/"+team.Captain.Id
+}">@team.Captain.FirstName @team.Captain.LastName</NavLink>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+
+    }
+</div>
+
+@code {
+    public bool PageReady = false;
+
+    public string ErrorMessage = "";
+
+    public List<LeagueDto>? Leagues;
+
+    public List<TeamDto>? Teams;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Leagues = await GetLeagues();
+
+        if (Leagues != null)
+        {
+            PageReady = true;
+        }
+
+    }
+
+
+    private async Task<List<LeagueDto>?> GetLeagues()
+    {
+        var leaguesResoponse = await teamService.GetLeagues();
+        return leaguesResoponse;
+    }
+
+
+    private async void UpdateLeague(ChangeEventArgs e)
+    {
+        int leagueId = Convert.ToInt32(e.Value);
+
+        var result = await teamService.GetTeamsByLeague(leagueId);
+
+            Teams = result;
+            StateHasChanged();
+
+    }
+}

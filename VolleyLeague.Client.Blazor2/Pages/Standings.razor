@@ -1,0 +1,197 @@
+﻿@page "/standings"
+@inject IMatchService matchService
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyballBlazor.Infrastructure.Client.Services
+
+<div>
+    @if (pageReady)
+    {
+        <h3>Terminarz</h3>
+        <div class="card m-2 p-2">
+            <EditForm Model="Filter" OnValidSubmit="ApplyFilter">
+                <div class="form-group">
+                    <label for="seasonSelect">Sezon:</label>
+                    <InputSelect id="seasonSelect" @bind-Value="Filter.SeasonId" class="form-control">
+                        @foreach (var season in Filter.SeasonList)
+                        {
+                            <option value="@season.Id">@season.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                    <label for="leagueSelect">Liga:</label>
+                    <InputSelect id="leagueSelect" @bind-Value="Filter.LeagueId" class="form-control">
+                        @foreach (var league in Filter.LeagueList)
+                        {
+                            <option value="@league.Id">@league.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <button type="submit" class="btn btn-primary">Zastosuj filtr</button>
+            </EditForm>
+        </div>
+
+        @if (standingsLoading)
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Ładowanie...</span>
+                </div>
+            </div>
+        }
+        else if (standingsErrorMessage != "")
+        {
+            <div class="alert alert-danger">
+                @standingsErrorMessage
+            </div>
+        }
+        else if (StandingsList.Count == 0)
+        {
+            <div class="alert alert-info" role="alert">
+                Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
+            </div>
+        }
+        else if (StandingsList.Count > 0)
+        {
+            <div class="p-2 card mt-4 mb-5 table-responsive-lg">
+                <table class="table text-left table-sm table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Lp</th>
+                            <th rowspan="2">Drużyna</th>
+                            <th rowspan="2">Punkty</th>
+                            <th colspan="3">Mecze</th>
+                            <th colspan="6">Rodzaj wyniku</th>
+                            <th colspan="2">Sety</th>
+                            <th colspan="2">Punkty</th>
+                            <th colspan="2">Stosunek</th>
+                        </tr>
+                        <tr style="font-size:13px">
+                            <td>∑</td>
+                            <td>+</td>
+                            <td>-</td>
+                            <td style="width:20px">3-0</td>
+                            <td style="width:20px">3-1</td>
+                            <td style="width:20px">3-2</td>
+                            <td style="width:20px">2-3</td>
+                            <td style="width:20px">1-3</td>
+                            <td style="width:20px">0-3</td>
+                            <td>Wyg.</td>
+                            <td>Przegr.</td>
+                            <td>Zdobyte</td>
+                            <td>Stracone</td>
+                            <td>Setów</td>
+                            <td>Punktów</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var team in StandingsList)
+                        {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td class="text-left"><NavLink href=@("/team/" + team.Team.Id)>@team.Team.Name</NavLink></td>
+                                    <td>@team.Points</td>
+                                <td>@team.MatchesPlayed</td>
+                                <td>@team.MatchesWon</td>
+                                <td>@team.MatchesLost</td>
+                                <td>@team.Score3_0</td>
+                                <td>@team.Score3_1</td>
+                                <td>@team.Score3_2</td>
+                                <td>@team.Score2_3</td>
+                                <td>@team.Score1_3</td>
+                                <td>@team.Score0_3</td>
+                                <td>@team.SetsWon</td>
+                                <td>@team.SetsLost</td>
+                                <td>@team.PointsWon</td>
+                                <td>@team.PointsLost</td>
+                                <td>@team.SetsRatio.ToString("0.00")</td>
+                                <td>@team.BallsRatio.ToString("0.00")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Ładowanie...</span>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private bool standingsLoading = false;
+    private int i = 0;
+    private List<StandingsDto> StandingsList { get; set; } = new List<StandingsDto>();
+    private ScheduleFilter Filter { get; set; } = new ScheduleFilter();
+    private bool pageReady = false;
+    private string errorMessage = string.Empty;
+    private string standingsErrorMessage = string.Empty;
+
+    private class ScheduleFilter
+    {
+        public int SeasonId { get; set; }
+        public int LeagueId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+        public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var seasonsResult = await matchService.GetSeasons();
+            Filter.SeasonList = seasonsResult ?? new List<SeasonDto>();
+            var leaguesResult = await matchService.GetLeagues();
+            Filter.LeagueList = leaguesResult ?? new List<LeagueDto>();
+            pageReady = true;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Wystąpił błąd: {ex.Message}";
+        }
+    }
+
+    private async Task ApplyFilter()
+    {
+        if (Filter.SeasonId == 0 || Filter.LeagueId == 0)
+        {
+            standingsErrorMessage = "Wybierz sezon i ligę.";
+            return;
+        }
+
+        standingsLoading = true;
+        try
+        {
+            var result = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
+            StandingsList = result ?? new List<StandingsDto>();
+            if (StandingsList.Count == 0)
+            {
+                standingsErrorMessage = "Brak danych dla wybranych kryteriów.";
+            }
+        }
+        catch (Exception ex)
+        {
+            standingsErrorMessage = $"Wystąpił błąd: {ex.Message}";
+        }
+        finally
+        {
+            standingsLoading = false;
+        }
+    }
+}
