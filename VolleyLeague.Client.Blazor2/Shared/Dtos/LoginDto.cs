@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VolleyLeague.Entities.Dtos.Users
+namespace VolleyLeague.Client.Blazor2.Shared.Dtos
 {
     public class LoginDto
     {

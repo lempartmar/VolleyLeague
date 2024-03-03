@@ -1,0 +1,261 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor2.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+@inject IUserService UserService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<h3>Rejestracja</h3>
+
+<div class="m-2">
+    @if (!IsSubmitted)
+    {
+
+        <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+
+            <DataAnnotationsValidator />
+
+            <div class="form-group row col-xs-2">
+                <label class="col-sm-2 col-form-label" for="FirstName">Imię:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="FirstName" @bind-Value="registerModel.FirstName" />
+                    <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="LastName">Nazwisko:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="LastName" @bind-Value="registerModel.LastName" />
+                    <ValidationMessage class="text-danger sm" For="@(() => registerModel.LastName)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Email">Adres e-mail:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="Email" @bind-Value="registerModel.Email" />
+                    <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Password">Hasło:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" />
+                    <ValidationMessage class="text-danger" For="@(() => registerModel.Password)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="PositionId">Pozycja:</label>
+                <div class="col-sm-10">
+                    <InputSelect id="PositionId" @bind-Value="registerModel.PositionId">
+                        @foreach (var position in Positions)
+                        {
+                            <option value="@position.Id" selected>@position.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <ValidationMessage For="@(() => registerModel.PositionId)" />
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="PhoneNumber">Numer telefonu:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="PhoneNumber" @bind-Value="registerModel.PhoneNumber" />
+                    <ValidationMessage For="@(() => registerModel.PhoneNumber)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="BirthYear">Rok urodzenia:</label>
+
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="BirthYear" @bind-Value="registerModel.BirthYear" />
+
+                    <ValidationMessage For="@(() => registerModel.BirthYear)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Photo">Zdjęcie:</label>
+                
+                <div class="col-sm-6">
+                    <InputFile class="form-control" id="Photo" OnChange="HandleFileChange" />
+
+                    <ValidationMessage For="@(() => registerModel.Photo)" />
+                </div>
+            </div>
+
+            <ImagePreview ImageData="@registerModel.Photo" />
+
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Height">Wzrost:</label>
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="Height" @bind-Value="registerModel.Height" />
+                    <ValidationMessage For="@(() => registerModel.Height)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Weight">Waga:</label>
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="Weight" @bind-Value="registerModel.Weight" />
+                    <ValidationMessage For="@(() => registerModel.Weight)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Hobby">Hobby:</label>
+                <div class="col-sm-10">
+                    <InputTextArea class="form-control" id="Hobby" @bind-Value="registerModel.Hobby" rows="4" />
+                    <ValidationMessage For="@(() => registerModel.Hobby)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="JerseyNumber">Numer koszulki:</label>
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="JerseyNumber" @bind-Value="registerModel.JerseyNumber" />
+                    <ValidationMessage For="@(() => registerModel.JerseyNumber)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="BlockRange">Zasięg bloku:</label>
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="BlockRange" @bind-Value="registerModel.BlockRange" />
+                    <ValidationMessage For="@(() => registerModel.BlockRange)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label" for="AttackRange">Zasięg ataku:</label>
+                <div class="col-sm-2">
+                    <InputNumber class="form-control" id="AttackRange" @bind-Value="registerModel.AttackRange" />
+                    <ValidationMessage For="@(() => registerModel.AttackRange)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="VolleyballIdol">Idol siatkówki:</label>
+
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="VolleyballIdol" @bind-Value="registerModel.VolleyballIdol" />
+                    <ValidationMessage For="@(() => registerModel.VolleyballIdol)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="AdditionalEmail">Dodatkowy e-mail:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="AdditionalEmail" @bind-Value="registerModel.AdditionalEmail" />
+                    <ValidationMessage For="@(() => registerModel.AdditionalEmail)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="PersonalInfo">Informacje osobiste:</label>
+                <div class="col-sm-10">
+                    <InputTextArea class="form-control" id="PersonalInfo" @bind-Value="registerModel.PersonalInfo" rows="6" />
+                    <ValidationMessage For="@(() => registerModel.PersonalInfo)" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="City">Miasto:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="City" @bind-Value="registerModel.City" />
+                    <ValidationMessage For="@(() => registerModel.City)" />
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                @if (IsLoading)
+                {
+                    <LoadingIcon></LoadingIcon>
+                }
+                else
+                {
+                    @if (ShowErrorMessage)
+                    {
+                        <p class="text-danger">@ErrorMessage </p> <br />
+                    }
+                    <button type="submit" class="btn btn-primary col-sm-3">Zarejestruj</button>
+
+                }
+
+            </div>
+        </EditForm>
+    }
+    else
+    {
+        <h3>Zarejestrowano pomyślnie!</h3>
+        <p><a href="/login">Zaloguj się</a></p>
+    }
+</div>
+
+@code {
+    private RegisterDto registerModel = new RegisterDto();
+
+    private bool IsLoading = false;
+
+    private bool IsSubmitted = false;
+
+    private bool ShowErrorMessage = false;
+
+    private string ErrorMessage = "";
+
+    private List<PositionDto> Positions = new List<PositionDto>();
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = "Ładowanie pozycji..." } };
+
+        var positionResult = await UserService.GetPositions();
+        Positions = positionResult;
+
+        // else
+        // {
+        //     Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = positionResult.Message } };
+        // }
+
+        var token = await localStorage.GetItemAsync<string>("token");
+        if (token != null)
+        {
+            NavigationManager.NavigateTo("/");
+
+        }
+        registerModel.PositionId = Positions.First().Id;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ShowErrorMessage = false;
+        IsLoading = true;
+        await Task.Delay(1000);
+        await UserService.Register(registerModel);
+        IsLoading = false;
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+
+        if (imageFile != null)
+        {
+            using (var stream = imageFile.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    registerModel.Photo = memoryStream.ToArray();
+                }
+            }
+        }
+    }
+}

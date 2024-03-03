@@ -1,0 +1,95 @@
+﻿@page "/referees"
+@using VolleyLeague.Client.Blazor2.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@inject HttpClient Http
+@inject IMatchService matchService
+
+<div class="text-center">
+    <div class="card m-2 p-2">
+        <select class="form-control" id="_referees">
+            @if (_referees == null)
+            {
+                <option value="null" disabled>Ładowanie sędziów...</option>
+            }
+            else
+            {
+                <option value="null" selected disabled>Wybierz sędziego</option>
+                @foreach (PlayerSummaryDto referee in _referees)
+                {
+                    <option value="@referee.Id">@referee.Name</option>
+                }
+            }
+
+        </select>
+    </div>
+
+    <div class="card m-2 p-2">
+        <select @onchange="OnPotentialRefereeSelected" class="form-control" id="potentialReferees">
+            @if (_potentialReferees == null)
+            {
+                <option value="null" disabled>Ładowanie potencjalnych sędziów...</option>
+            }
+            else
+            {
+                <option value="null" selected disabled>Wybierz nowego sędziego</option>
+                @foreach (PlayerSummaryDto referee in _potentialReferees)
+                {
+                    <option value="@referee.Id">@referee.Name</option>
+                }
+            }
+        </select>
+        <button class="btn btn-primary mt-2" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
+    </div>
+
+</div>
+
+
+
+@code {
+    private IEnumerable<PlayerSummaryDto> _referees = Enumerable.Empty<PlayerSummaryDto>();
+    private IEnumerable<PlayerSummaryDto> _potentialReferees = Enumerable.Empty<PlayerSummaryDto>();
+    private int? selectedRefereeId = null;
+    private bool _isRefereeSelected => selectedRefereeId.HasValue;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _referees = await LoadReferees();
+        _potentialReferees = await LoadPotentialReferees();
+    }
+
+    private async Task<List<PlayerSummaryDto>> LoadReferees()
+    {
+        var referees = await matchService.GetReferees();
+        return referees ?? new List<PlayerSummaryDto>();
+    }
+
+    private async Task<List<PlayerSummaryDto>> LoadPotentialReferees()
+    {
+        var potentialReferees = await matchService.GetPotentialReferees();
+        return potentialReferees ?? new List<PlayerSummaryDto>();
+    }
+
+    private void OnPotentialRefereeSelected(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int id))
+        {
+            selectedRefereeId = id;
+        }
+        else
+        {
+            selectedRefereeId = null;
+        }
+    }
+
+    private async Task AddSelectedReferee()
+    {
+        if (_isRefereeSelected)
+        {
+            await matchService.AddReferee(selectedRefereeId.Value);
+            _referees = await LoadReferees();
+            _potentialReferees = await LoadPotentialReferees();
+            selectedRefereeId = null;
+        }
+    }
+}

@@ -2,7 +2,7 @@
 using VolleyLeague.Entities.Dtos.Teams;
 using System.Text.Json;
 
-namespace VolleyballBlazor.Infrastructure.Client.Services
+namespace VolleyLeague.Client.Blazor2.Services
 {
     public interface IMatchService
     {
@@ -11,6 +11,9 @@ namespace VolleyballBlazor.Infrastructure.Client.Services
         public Task<List<RoundDto>> GetRounds(int seasonId);
         public Task<List<LeagueDto>> GetLeagues();
         public Task<List<SeasonDto>> GetSeasons();
+        public Task<List<PlayerSummaryDto>> GetReferees();
+        public Task<bool> AddReferee(int userId);
+        Task<List<PlayerSummaryDto>> GetPotentialReferees();
         public Task<MatchDto> GetMatch(int matchId);
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int leagueId, int roundId);
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId);
@@ -78,6 +81,39 @@ namespace VolleyballBlazor.Infrastructure.Client.Services
             var seasons = JsonSerializer.Deserialize<List<SeasonDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return seasons;
+        }
+
+        public async Task<List<PlayerSummaryDto>> GetReferees()
+        {
+            var response = await httpClient.GetAsync("api/Match/GetReferees");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var referee = JsonSerializer.Deserialize<List<PlayerSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return referee;
+        }
+
+        public async Task<bool> AddReferee(int userId)
+        {
+            var response = await httpClient.GetAsync($"api/match/addreferee?userId={userId}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var newRefereeStatus = JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return newRefereeStatus;
+        }
+
+        public async Task<List<PlayerSummaryDto>> GetPotentialReferees()
+        {
+            var response = await httpClient.GetAsync("api/Match/GetPotentialReferees");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var referee = JsonSerializer.Deserialize<List<PlayerSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return referee;
         }
 
         public async Task<MatchDto> GetMatch(int matchId)

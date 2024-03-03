@@ -32,8 +32,7 @@ namespace VolleyLeague.API.Controllers
         }
 
         // Log in
-        [Route("login")]
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login(LoginDto loginDto)
         {
 
@@ -82,6 +81,14 @@ namespace VolleyLeague.API.Controllers
 
             return Ok(response);
 
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDto registerDto)
+        {
+            var result = await _userService.Register(registerDto);
+
+            return Ok(result);
         }
     }
 }

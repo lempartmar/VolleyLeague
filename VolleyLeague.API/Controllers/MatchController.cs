@@ -73,16 +73,34 @@ namespace VolleyLeague.API.Controllers
             return  Ok(result);
         }
 
-        [HttpGet]
-        [Route("referees")]
+        [HttpGet("GetReferees")]
         public async Task<IActionResult> GetReferees()
         {
-            string? userId = User.Identity?.Name;
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return Unauthorized();
-            }
+            //string? userId = User.Identity?.Name;
+            //if (string.IsNullOrWhiteSpace(userId))
+            //{
+            //    return Unauthorized();
+            //}
+            var data = await _matchService.GetOtherData();
             return Ok(await _matchService.GetReferees());
+        }
+
+        [HttpGet("GetPotentialReferees")]
+        public async Task<IActionResult> GetPotentialReferees()
+        {
+            return Ok(await _matchService.GetPotentialReferees());
+        }
+
+        [HttpGet("AddReferee")]
+        public async Task<IActionResult> AddReferee(int userId)
+        {
+            //string? userId = User.Identity?.Name;
+            //if (string.IsNullOrWhiteSpace(userId))
+            //{
+            //    return Unauthorized();
+            //}
+
+            return Ok(await _matchService.AddReferee(userId));
         }
 
         [HttpGet("matchesByCriteria")]

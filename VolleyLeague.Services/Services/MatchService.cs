@@ -6,6 +6,8 @@ using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
+using VolleyLeague.Repositories.Repositories;
+using VolleyLeague.Services.Helpers;
 using VolleyLeague.Services.Interfaces;
 
 namespace VolleyLeague.Services.Services
@@ -17,18 +19,21 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Match> _matchRepository;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
+        private readonly IRoleRepository _roleRepository;
         public MatchService(
             IMapper mapper,
             IBaseRepository<Match> matchRepository,
             IBaseRepository<User> userRepository,
-            IBaseRepository<Team> teamRepository
+            IBaseRepository<Team> teamRepository,
+            IRoleRepository roleRepository
             )
         {
             _mapper = mapper;
             _matchRepository = matchRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
-        }
+            _roleRepository = roleRepository;
+         }
 
         public async Task<List<MatchSummaryDto>> GetAllMatchesAsync()
         {
@@ -79,11 +84,68 @@ namespace VolleyLeague.Services.Services
                 .Include(p => p.Credentials)
                 .Where(p => p.Credentials != null)
                 .Include(p => p.Credentials)
-            .ThenInclude(c => c!.Roles)
-                //.Where(p => p.Credentials!.Roles.Any(r => r.Name == Roles.Arbiter))
+                .ThenInclude(c => c!.Roles)
+                .Where(p => p.Credentials!.Roles.Any(r => r.Name == Roles.Arbiter))
                 .ToListAsync();
 
             var response = _mapper.Map<List<PlayerSummaryDto>>(referees);
+
+            return response;
+        }
+
+        public async Task<List<PlayerSummaryDto>> GetPotentialReferees()
+        {
+            List<User> referees = await _userRepository.GetAll()
+                .Include(p => p.Team)
+                .Include(p => p.Credentials)
+                .Where(p => p.Credentials != null)
+                .Include(p => p.Credentials)
+                .ThenInclude(c => c!.Roles)
+                .Where(p => !p.Credentials!.Roles.Any(r => r.Name == Roles.Arbiter))
+                .ToListAsync();
+
+            var response = _mapper.Map<List<PlayerSummaryDto>>(referees);
+
+            return response;
+        }
+
+        public async Task<bool> AddReferee(int userId)
+        {
+            var user = await _userRepository.GetAll()
+                .Include(p => p.Credentials)
+                .ThenInclude(t => t!.Roles)
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (user != null && user.Credentials != null)
+            {
+                var hasArbiterRole = user.Credentials.Roles.Any(r => r.Name == Roles.Arbiter);
+                if (!hasArbiterRole)
+                {
+                    var arbiterRoles = await _roleRepository.GetRoles(); 
+                    var arbiterRole = arbiterRoles.FirstOrDefault(r => r.Name == Roles.Arbiter);
+                    if (arbiterRole != null)
+                    {
+                        user.Credentials.Roles.Add(arbiterRole);
+                        await _userRepository.SaveChangesAsync();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<List<PlayerSummaryDto>> GetOtherData()
+        {
+            List<User> other = await _userRepository.GetAll()
+                .Where(p => p.Id == 8499)
+                .Include(p => p.Team)
+                .Include(p => p.Credentials)
+                .ThenInclude(c => c!.Roles)
+                .ToListAsync();
+            
+            var response = _mapper.Map<List<PlayerSummaryDto>>(other);
 
             return response;
         }

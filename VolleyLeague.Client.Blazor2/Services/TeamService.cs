@@ -2,8 +2,8 @@
 using System.Text.Json;
 using VolleyLeague.Entities.Dtos.Teams;
 
-namespace VolleyballBlazor.Infrastructure.Client.Services
-{
+namespace VolleyLeague.Client.Blazor2.Services
+{ 
     public interface ITeamService
     {
         public Task<List<TeamSummaryDto>> GetAllTeams();

@@ -3,7 +3,7 @@
 @using VolleyLeague.Entities.Dtos.Matches
 @using VolleyLeague.Entities.Dtos.Teams
 @using Volleyball.DTO.Discussion
-@using VolleyballBlazor.Infrastructure.Client.Services
+@using VolleyLeague.Client.Blazor2.Services
 @inject ITeamService teamService
 @inject IMatchService matchService
 
@@ -19,7 +19,7 @@
         <h2>@TeamData.Name</h2>
         <div class="d-flex flex-row flex-wrap justify-content-center">
 
-            <div class="mr-3 d-flex justify-content-center align-items-center">
+            <div class="mr-3 d-fl ex justify-content-center align-items-center">
                 @if (TeamData.Logo != null)
                 {
                     <TeamLogo SizePx="200" Image="@TeamData.Logo"></TeamLogo>

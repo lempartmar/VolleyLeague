@@ -1,8 +1,8 @@
 ﻿@page "/teamslist"
+@using VolleyLeague.Client.Blazor2.Services
 @using VolleyLeague.Entities.Dtos.Teams
-@using VolleyballBlazor.Infrastructure.Client.Services
 @inject HttpClient Http
-@inject ITeamService teamService
+@inject ITeamService TeamService
 
 <div class="d-flex flex-column" style="min-width:75%">
     <p class="text-danger">@ErrorMessage</p>
@@ -102,7 +102,7 @@
 
     private async Task<List<LeagueDto>?> GetLeagues()
     {
-        var leaguesResoponse = await teamService.GetLeagues();
+        var leaguesResoponse = await TeamService.GetLeagues();
         return leaguesResoponse;
     }
 
@@ -111,7 +111,7 @@
     {
         int leagueId = Convert.ToInt32(e.Value);
 
-        var result = await teamService.GetTeamsByLeague(leagueId);
+        var result = await TeamService.GetTeamsByLeague(leagueId);
 
             Teams = result;
             StateHasChanged();

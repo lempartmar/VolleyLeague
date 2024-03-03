@@ -1,0 +1,50 @@
+﻿@page "/test"
+@using VolleyLeague.Client.Blazor2.Services
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+
+@inject IMatchService MatchService
+
+<PageTitle>Games</PageTitle>
+
+
+<h1 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Mecze</h1>
+
+@if (_seasons != null && _seasons.Any())
+{
+    <div class="page-wrapper">
+        <div class="blog-top clearfix">
+            <h4 class="pull-left">Mecze</h4>
+        </div><!-- end blog-top -->
+
+        <form method="post">
+            <input type="text" name="Name"/>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+        <div class="blog-list clearfix">
+            @foreach (var season in _seasons)
+            {
+                <div>@season.Name</div>
+                <hr class="invis">
+            }
+        </div><!-- end blog-list -->
+        </div>
+}
+
+
+@code {
+    private IEnumerable<SeasonDto> _seasons;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSeasons();
+    }
+
+    private async Task LoadSeasons()
+    {
+        _seasons = await MatchService.GetSeasons();
+    }
+}

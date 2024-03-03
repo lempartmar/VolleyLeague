@@ -13,6 +13,10 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<List<PlayerSummaryDto>> GetReferees();
 
+        Task<List<PlayerSummaryDto>> GetPotentialReferees();
+
+        Task<List<PlayerSummaryDto>> GetOtherData();
+
         Task<List<MatchSummaryDto>> GetMatchesByLeagueIdAsync(int id);
 
         Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId);
@@ -22,5 +26,7 @@ namespace VolleyLeague.Services.Interfaces
         Task AddMatch(NewMatchDto match);
 
         Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
+
+        Task<bool> AddReferee(int userId);
     }
 }

@@ -8,6 +8,8 @@ namespace VolleyLeague.Services.Services
         Task<UserProfileDto> GetUserProfile(int id);
 
         List<Role> Login(LoginDto loginDto, out Credentials? credentials);
+
+        Task<bool> Register(RegisterDto registerDto);
     }
 }
 

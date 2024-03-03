@@ -1,4 +1,14 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using VolleyLeague.Client.Blazor2.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using VolleyLeague.Client.Blazor2.Authentication
+@using VolleyLeague.Client.Blazor2.Shared.Dtos
+@using static VolleyLeague.Client.Blazor2.Services.AccountService
+@using System.Net.Http.Headers
+@inject AuthenticationStateProvider authStateProvider
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject IUserService userService
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">VolleyLeague.Client.Blazor</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -9,6 +19,24 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        
+                        <div class="nav-item px-3">
+                    <AuthorizeView>
+                        <NotAuthorized>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/login">Zaloguj się</NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/register">Zarejestruj się</NavLink>
+                            </li>
+                        </NotAuthorized>
+                        <Authorized>
+                            <li class="nav-item">
+                        <NavLink class="nav-link" href="/" @onclick="Logout">Wyloguj</NavLink>
+                            </li>
+                        </Authorized>
+                    </AuthorizeView>
+               </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
@@ -34,6 +62,20 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tabele
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="test">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Test
+            </NavLink>
+        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="standings">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Authorized
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
 
@@ -42,8 +84,24 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await authStateProvider.GetAuthenticationStateAsync();
+    }
+
+    public async void Logout()
+    {
+        await localStorage.RemoveItemAsync("token");
+        ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+        NavigationManager.NavigateTo("/");
+
     }
 }
