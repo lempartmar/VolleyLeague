@@ -1,0 +1,81 @@
+﻿@page "/handleseason"
+@using VolleyLeague.Client.Blazor2.Services
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+@inject ISeasonService seasonService
+
+<div class="text-center">
+    <h3>Lista sezonów</h3>
+    <div class="card m-2 p-2">
+        @if (_seasons == null)
+        {
+            <p>Ładowanie sezonów...</p>
+        }
+        else if (_seasons.Any())
+        {
+            <ul class="list-group">
+                @foreach (var season in _seasons)
+                {
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            @season.Name
+                            <span>
+                                <button class="btn btn-primary btn-sm" @onclick="() => ToggleEditSeason(season)">Edytuj</button>
+                                <button class="btn btn-danger btn-sm" @onclick="() => DeleteSeason(season.Id)">Usuń</button>
+                            </span>
+                        </div>
+                        @if (_editingSeasonId == season.Id)
+                        {
+                            <div class="card card-body mt-2">
+                                <EditForm Model="@season" OnValidSubmit="@(() => SaveSeason(season))">
+                                    <div class="form-group">
+                                        <label for="name">Nazwa sezonu:</label>
+                                        <InputText id="name" class="form-control" @bind-Value="season.Name" />
+                                    </div>
+                                    <button type="submit" class="btn btn-success btn-sm">Zapisz</button>
+                                    <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">Anuluj</button>
+                                </EditForm>
+                            </div>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Brak dostępnych sezonów.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private List<SeasonDto> _seasons;
+    private int? _editingSeasonId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _seasons = await seasonService.GetSeasons();
+    }
+
+    private async Task DeleteSeason(int seasonId)
+    {
+        // Implementacja wysyłania żądania do API do usunięcia sezonu,
+        // a następnie odświeżenie listy sezonów.
+    }
+
+    private void ToggleEditSeason(SeasonDto season)
+    {
+        _editingSeasonId = _editingSeasonId == season.Id ? null : season.Id;
+    }
+
+    private async Task SaveSeason(SeasonDto season)
+    {
+        // Implementacja wysyłania zmian do API i odświeżenie danych
+        _editingSeasonId = null;
+    }
+
+    private void CancelEdit()
+    {
+        _editingSeasonId = null;
+    }
+}

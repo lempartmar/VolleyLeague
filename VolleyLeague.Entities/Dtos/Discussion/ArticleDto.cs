@@ -12,6 +12,6 @@
 
         public byte[] Image { get; set; } = null!;
 
-        public virtual AuthorInfoDto Author { get; set; } = null!;
+        //public virtual AuthorInfoDto Author { get; set; } = null!;
     }
 }

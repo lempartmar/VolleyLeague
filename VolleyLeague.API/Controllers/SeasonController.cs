@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Services.Services;
 
 namespace VolleyLeague.API.Controllers
 {
@@ -29,6 +31,14 @@ namespace VolleyLeague.API.Controllers
         public IActionResult CreateSeason([FromBody] SeasonDto season)
         {
             _seasonService.CreateSeason(season);
+            return Ok();
+        }
+
+        //[Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSeason(SeasonDto updatedSeason)
+        {
+            await _seasonService.UpdateSeason(updatedSeason);
             return Ok();
         }
     }

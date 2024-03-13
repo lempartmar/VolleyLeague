@@ -32,10 +32,11 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("AddArticle")]
-        public IActionResult AddArticle([FromBody] ArticleDto article)
+        [HttpPost("addArticle")]
+        public async Task<IActionResult> AddArticle([FromBody] ArticleDto article)
         {
-            _articleService.AddArticle(article);
+            article.CreationDate = DateTime.Now;
+            await _articleService.AddArticle(article);
             return Ok();
         }
         [HttpGet("GetArticlesPerPage/{page}")]

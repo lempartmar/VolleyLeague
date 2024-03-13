@@ -85,6 +85,20 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.GetReferees());
         }
 
+        [HttpDelete("RemoveReferee/{userId}")]
+        public async Task<IActionResult> DeleteReferee(int userId)
+        {
+            bool result = await _matchService.RemoveReferee(userId);
+            if (result)
+            {
+                return Ok(new { success = true, message = "Rola sędziego została usunięta." });
+            }
+            else
+            {
+                return NotFound(new { success = false, message = "Użytkownik nie znaleziony lub nie posiada roli sędziego." });
+            }
+        }
+
         [HttpGet("GetPotentialReferees")]
         public async Task<IActionResult> GetPotentialReferees()
         {

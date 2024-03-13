@@ -93,6 +93,31 @@ namespace VolleyLeague.Services.Services
             return response;
         }
 
+        public async Task<bool> RemoveReferee(int userId)
+        {
+            var user = await _userRepository.GetAll()
+                .Include(u => u.Credentials)
+                .ThenInclude(c => c.Roles)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || user.Credentials == null)
+            {
+                return false;
+            }
+
+            var roleToRemove = user.Credentials.Roles.FirstOrDefault(r => r.Name == Roles.Arbiter);
+            if (roleToRemove == null)
+            {
+                return false;
+            }
+
+            user.Credentials.Roles.Remove(roleToRemove);
+
+            await _userRepository.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<List<PlayerSummaryDto>> GetPotentialReferees()
         {
             List<User> referees = await _userRepository.GetAll()

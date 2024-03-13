@@ -41,6 +41,25 @@
         <button class="btn btn-primary mt-2" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
     </div>
 
+    <div class="card m-2 p-2">
+        <ul class="list-group">
+            @if (_referees == null || !_referees.Any())
+            {
+                <li class="list-group-item">Ładowanie sędziów...</li>
+            }
+            else
+            {
+                @foreach (PlayerSummaryDto referee in _referees)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @referee.Name
+                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
 </div>
 
 
@@ -91,5 +110,11 @@
             _potentialReferees = await LoadPotentialReferees();
             selectedRefereeId = null;
         }
+    }
+
+    private async Task RemoveReferee(int refereeId)
+    {
+        await matchService.RemoveReferee(refereeId);
+        _referees = await LoadReferees(); // Odśwież listę sędziów po usunięciu
     }
 }

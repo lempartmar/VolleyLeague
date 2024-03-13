@@ -35,13 +35,13 @@ namespace VolleyLeague.Services.Services
             return articleDto;
         }
 
-        public void AddArticle(ArticleDto articleDto)
+        public async Task AddArticle(ArticleDto articleDto)
         {
             Article articleNew = new Article();
+            articleNew = _mapper.Map<Article>(articleDto);
             articleNew.AuthorId = 133;
-
-            var articleToDb = _mapper.Map(articleNew, articleDto);
-            Console.WriteLine(articleToDb);            
+            await _articleRepository.InsertAsync(articleNew);
+            await _articleRepository.SaveChangesAsync();
         }
         public async Task<List<ArticleDto>> GetArticlesPerPage(int page)
         {
