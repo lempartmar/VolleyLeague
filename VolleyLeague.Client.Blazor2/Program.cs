@@ -16,6 +16,7 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccount, AccountService>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
+builder.Services.AddScoped<IMatchOrganizerService, MatchOrganizerService>();    
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7068") });
 builder.Services.AddBlazoredLocalStorage();
