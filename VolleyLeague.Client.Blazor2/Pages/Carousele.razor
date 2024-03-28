@@ -1,0 +1,52 @@
+﻿@using System.Timers
+@using static VolleyLeague.Client.Blazor2.Pages.MainPage
+@implements IDisposable
+
+<div id="matchCarousel" class="carousel slide w-100" data-ride="carousel" style="height: 100px;">
+    <div class="carousel-inner">
+        <div class="row justify-content-around carousel-cards">
+            @for (int i = 0; i < Math.Min(4, matches.Count); i++)
+            {
+                <div class="col-sm-3 d-flex justify-content-center">
+                    <div class="card h-100 text-center" style="background-color: white; color: black;">
+                        <div class="card-body">
+                            <h6 class="card-title">@matches[(i + activeIndex) % matches.Count].Time</h6>
+                            <p class="card-text"><strong>@matches[(i + activeIndex) % matches.Count].HomeTeam</strong> vs <strong>@matches[(i + activeIndex) % matches.Count].AwayTeam</strong></p>
+                            <p class="card-text">@matches[(i + activeIndex) % matches.Count].HomeScore - @matches[(i + activeIndex) % matches.Count].AwayScore</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<MatchResult> matches { get; set; } = new List<MatchResult>();
+
+    private int activeIndex = 0;
+    private Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(2000); // Ustawia interwał przesuwania na 2 sekundy
+        timer.Elapsed += TimerElapsed;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+
+    private void TimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            activeIndex = (activeIndex + 1) % matches.Count;
+            StateHasChanged(); // Powiadom Blazor, że stan się zmienił i trzeba przerysować komponent
+        });
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

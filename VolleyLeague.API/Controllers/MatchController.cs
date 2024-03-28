@@ -126,7 +126,7 @@ namespace VolleyLeague.API.Controllers
             }
 
             if (seasonId != 0 && teamId != 0)
-            {
+            {   
                 return Ok(await _matchService.GetMatches(seasonId, teamId));
             }
 
@@ -153,6 +153,12 @@ namespace VolleyLeague.API.Controllers
             }
 
             return Ok(await _matchService.GetStandings(seasonId, leagueId));
-        }   
+        }
+
+        [HttpGet("get10LastMatches")]
+        public async Task<IActionResult> Get10LastMatches()
+        {
+            return Ok(await _matchService.GetLast10Matches());
+        }
     }
 }

@@ -206,6 +206,7 @@ namespace VolleyLeague.Services.Services
                 .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
 
             var result = _mapper.Map<ManagedTeamDataDto>(team);
+            result.Logo = team?.Logo;
             return result;
         }
 
@@ -218,6 +219,12 @@ namespace VolleyLeague.Services.Services
                 .Where(t => t.League != null && t.League.Id == leagueId).ToListAsync();
 
             var result = _mapper.Map<List<TeamDto>>(teams);
+
+            foreach (var team in result)
+            {
+                team.Logo = teams.FirstOrDefault(t => t.Id == team.Id)?.Logo;
+            }
+
             return result;
         }
 

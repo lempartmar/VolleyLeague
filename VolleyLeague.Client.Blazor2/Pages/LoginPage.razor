@@ -13,43 +13,52 @@
 @inject IJSRuntime js
 @inject HttpClient Http
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <EditForm Enhance Model="User" OnValidSubmit="HandleLogin">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <div class="card-header">Login An Account</div>
-                <div class="card-body">
+<div class="container login">
+    <div class="row justify-content-center">
+        <!-- Zmieniono klasę na wyśrodkowanie -->
+        <div class="col-md-12 mt-3">
+            <!-- Zmniejszono rozmiar kolumny do lepszego wyśrodkowania -->
+            <div class="entity_title text-center">
+                <!-- Dodano text-center do wyśrodkowania tytułu -->
+                <h1><a>Logowanie</a></h1>
+            </div>
+            <div class="entity_content">
+                <EditForm Model="User" OnValidSubmit="HandleLogin">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="card">
+                        <div class="card-body login">
 
-                    @* Email Address *@
-                    <div class="form-group mb-3">
-                        <input @bind="User.Email"
-                               class="form-control"
-                               type="email"
-                               placeholder="Email Address">
-                        </input>
-                    </div>
+                            @* Email Address *@
+                            <div class="form-group mb-3 md-4">
+                                <!-- Zmieniono klasę dla marginesu -->
+                                <input @bind="User.Email"
+                                       class="form-control"
+                                       type="email"
+                                       placeholder="Email Address">
+                                </input>
+                            </div>
 
-                    @* Password *@
-                    <div class="form-group">
-                        <div class="input-group mb-3">
-                             <input type="password" class="form-control"
-                                   @bind="User.Password"
-                                   placeholder="Password"
-                                   aria-label="Password"
-                                   aria-describedby="Password">
+                            @* Password *@
+                            <div class="form-group mb-3">
+                                <!-- Zmieniono klasę dla marginesu -->
+                                <input type="password" class="form-control"
+                                       @bind="User.Password"
+                                       placeholder="Password"
+                                       aria-label="Password"
+                                       aria-describedby="Password">
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-center">
+                            <!-- Dodano text-center do wyśrodkowania przycisku -->
+                            <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">
+                                Zaloguj
+                            </button>
                         </div>
                     </div>
-
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary float-end"
-                            type="submit">
-                        Login
-                    </button>
-                </div>
-            </EditForm>
+                </EditForm>
+            </div>
         </div>
     </div>
 </div>

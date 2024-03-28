@@ -42,7 +42,7 @@ namespace VolleyLeague.Client.Blazor2.Services
 
         public async Task<List<RoundDto>> GetRounds()
         {
-            var response = await _httpClient.GetAsync("api/round");
+            var response = await _httpClient.GetAsync("api/Round/GetAllRounds");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -53,7 +53,7 @@ namespace VolleyLeague.Client.Blazor2.Services
 
         public async Task<List<RoundDto>> GetRounds(int seasonId)
         {
-            var response = await _httpClient.GetAsync($"api/round?seasonId={seasonId}");
+            var response = await _httpClient.GetAsync($"api/api/Round/GetRoundsBySeasonId/{seasonId}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -138,7 +138,7 @@ namespace VolleyLeague.Client.Blazor2.Services
 
         public async Task<List<MatchSummaryDto>> GetMatches(int seasonId, int leagueId, int roundId)
         {
-            var response = await _httpClient.GetAsync($"api/match?seasonId={seasonId}&leagueId={leagueId}&roundId={roundId}");
+            var response = await _httpClient.GetAsync($"api/Match/matchesByCriteria2?leagueId={leagueId}&seasonId={seasonId}&roundId={roundId}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -150,6 +150,17 @@ namespace VolleyLeague.Client.Blazor2.Services
         public async Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId)
         {
             var response = await _httpClient.GetAsync($"api/match?seasonId={seasonId}&teamId={teamId}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var matches = JsonSerializer.Deserialize<List<MatchSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return matches;
+        }
+
+        public async Task<List<MatchSummaryDto>> GetLastMatches()
+        {
+            var response = await _httpClient.GetAsync($"api/match?getLastMatches");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();

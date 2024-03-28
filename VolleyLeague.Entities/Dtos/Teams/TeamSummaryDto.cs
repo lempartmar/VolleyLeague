@@ -10,6 +10,8 @@ namespace VolleyLeague.Entities.Dtos.Teams
 
         public int LeagueId { get; set; }
 
+        public byte[]? Logo { get; set; }
+
         public static explicit operator TeamSummaryDto(Team team)
         {
             return new TeamSummaryDto

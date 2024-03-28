@@ -1,0 +1,271 @@
+﻿@page "/"
+@using VolleyLeague.Entities.Dtos.Discussion
+@using static System.Net.WebRequestMethods
+@inject HttpClient Http
+
+
+<section id="category_section" class="category_section">
+
+    <div class="container">
+        <div class="col-md-8">
+            <div class="row">
+                <Carousele matches="@matches" />
+            </div>
+            <div class="category_section mobile">
+                <div class="article_title header_purple">
+                    <h2><a href="category.html" target="_self">Informacje</a></h2>
+                </div>
+                <!----article_title------>
+                <div class="category_article_wrapper">
+                    <div class="row">
+                        @if (_articles != null)
+                        {
+                            @if (_articles.Any())
+                            {
+                                var article = _articles.First();
+                                string imageBase64 = Convert.ToBase64String(article.Image);
+                                string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
+
+                                <div class="col-md-6">
+                                    <div class="top_article_img">
+                                        <a href="single.html" target="_self">
+                                            <img src="@imageSrc" alt="feature-top" style="width: 700px; height: 250px;" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <span class="tag purple">Informacje</span>
+
+                                    <div class="category_article_title">
+                                        <h2><a href="single.html" target="_self">@article.Title</a></h2>
+                                    </div>
+                                    <!--category_article_title-->
+                                    <div class="category_article_date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author Name</a></div>
+                                    <!--category_article_date-->
+                                    <div class="category_article_content">
+                                        @article.Content
+                                    </div>
+                                    <!--category_article_content-->
+                                    <div class="media_social">
+                                        <span><a href="#"><i class="fa fa-share-alt"></i>424</a> Shares</span>
+                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
+                                    </div>
+                                    <!--media_social-->
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="category_article_wrapper">
+                    <div class="row">
+                        @if (_articles != null)
+                            @if (_articles.Count() > 1)
+                            {
+                                var articlesToShow = _articles.Skip(1).Take(4);
+                                foreach (var article in articlesToShow)
+                                {
+                                    string imageBase64 = Convert.ToBase64String(article.Image);
+                                    string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
+
+                                    <div class="col-md-6">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="single.html" target="_self">
+                                                    <img class="media-object img-fixed-size" src="@imageSrc" alt="article image">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <span class="tag purple">Informacje</span>
+
+                                                <h3 class="media-heading"><a href="single.html" target="_self">@article.Title</a></h3>
+                                                <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author's Name</a></span>
+
+                                                <div class="media_social">
+                                                    <span><a href="#"><i class="fa fa-share-alt"></i>424</a> Shares</span>
+                                                    <span><a href="#"><i class="fa fa-comments-o"></i>4</a> Comments</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+
+
+                <p class="divider"><a href="#">More News&nbsp;&raquo;</a></p>
+            </div>
+            <!-- Mobile News Section -->
+
+        </div>
+        <!-- Left Section -->
+
+        <div class="col-md-4">
+            <div class="widget">
+                <div class="widget_title widget_black">
+                    <h2><a href="#">Aktualności</a></h2>
+                </div>
+                @if(_articles != null){
+                @foreach (var article in _articles)
+                {
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="media-heading">
+                                <a href="single.html" target="_self">@article.Title</a>
+                            </h3>
+                            <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>,  by: <a href="#">Author Name</a></span>
+
+                            @*                             <div class="widget_article_social">
+                        <span>
+                        <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
+                        </span>
+                        <span>
+                        <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
+                        </span>
+                        </div> *@
+                        </div>
+                    </div>
+                }
+                }
+                <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&raquo;</a></p>
+            </div>
+            <!-- Popular News -->
+
+
+
+
+            <div class="widget hidden-xs m30">
+                <img class="img-responsive adv_img" src="assets/img/right_add1.jpg" alt="add_one">
+                <img class="img-responsive adv_img" src="assets/img/right_add2.jpg" alt="add_one">
+                <img class="img-responsive adv_img" src="assets/img/right_add3.jpg" alt="add_one">
+                <img class="img-responsive adv_img" src="assets/img/right_add4.jpg" alt="add_one">
+            </div>
+        </div>
+        <!-- Advertisement -->
+        <!-- Advertisement -->
+        <!--Advertisement-->
+    </div>
+    <!-- Right Section -->
+    <!-- Row -->
+    @*     </div> *@
+    <!-- Container -->
+
+</section>
+
+
+
+@code {
+    public List<MatchResult> matches = new List<MatchResult>
+{
+    new MatchResult
+    {
+        Time = "19:00",
+        HomeTeam = "Warszawianka",
+        HomeScore = 3,
+        AwayTeam = "Gdańszczanie",
+        AwayScore = 1,
+        HomeTeamLogo = "ścieżka/do/logo_warszawianka.png",
+        AwayTeamLogo = "ścieżka/do/logo_gdańszczanie.png",
+    },
+    new MatchResult
+    {
+        Time = "20:00",
+        HomeTeam = "Krakowianie",
+        HomeScore = 2,
+        AwayTeam = "Poznaniacy",
+        AwayScore = 3,
+        HomeTeamLogo = "ścieżka/do/logo_krakowianie.png",
+        AwayTeamLogo = "ścieżka/do/logo_poznaniacy.png",
+    },
+    new MatchResult
+    {
+        Time = "21:00",
+        HomeTeam = "Ślązacy",
+        HomeScore = 3,
+        AwayTeam = "Mazowszanie",
+        AwayScore = 0,
+        HomeTeamLogo = "ścieżka/do/logo_ślązacy.png",
+        AwayTeamLogo = "ścieżka/do/logo_mazowszanie.png",
+    },
+    new MatchResult
+    {
+        Time = "21:30",
+        HomeTeam = "Wrocławianie",
+        HomeScore = 1,
+        AwayTeam = "Kujawiacy",
+        AwayScore = 3,
+        HomeTeamLogo = "ścieżka/do/logo_wrocławianie.png",
+        AwayTeamLogo = "ścieżka/do/logo_kujawiacy.png",
+    },
+    new MatchResult
+    {
+        Time = "22:00",
+        HomeTeam = "Lublinianie",
+        HomeScore = 0,
+        AwayTeam = "Pomorzanie",
+        AwayScore = 3,
+        HomeTeamLogo = "ścieżka/do/logo_lublinianie.png",
+        AwayTeamLogo = "ścieżka/do/logo_pomorzanie.png",
+    },
+    new MatchResult
+    {
+        Time = "22:30",
+        HomeTeam = "Białostoczanie",
+        HomeScore = 2,
+        AwayTeam = "Łódzianie",
+        AwayScore = 3,
+        HomeTeamLogo = "ścieżka/do/logo_białostoczanie.png",
+        AwayTeamLogo = "ścieżka/do/logo_łódzianie.png",
+    }
+    // ... możesz kontynuować dodawanie wyników
+};
+
+    public class MatchResult
+    {
+        public string Time { get; set; }
+        public string HomeTeam { get; set; }
+        public int HomeScore { get; set; }
+        public string AwayTeam { get; set; }
+        public int AwayScore { get; set; }
+        public string HomeTeamLogo { get; set; }
+        public string AwayTeamLogo { get; set; }
+    }
+
+
+    private IEnumerable<ArticleDto> _articles;
+    private int _currentPage = 1;
+    private int _articlesPerPage = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadArticles();
+    }
+
+    private async Task LoadArticles()
+    {
+        var result = await Http.GetAsync($"/api/Article/GetArticlesPerPage/{_currentPage}");
+        if (result.IsSuccessStatusCode)
+        {
+            var articlesFromApi = await result.Content.ReadFromJsonAsync<IEnumerable<ArticleDto>>();
+            _articles = articlesFromApi;
+        }
+    }
+
+    private async Task LoadNextPage()
+    {
+        _currentPage++;
+        await LoadArticles();
+    }
+
+    private async Task LoadPreviousPage()
+    {
+        if (_currentPage > 1)
+        {
+            _currentPage--;
+            await LoadArticles();
+        }
+    }
+}

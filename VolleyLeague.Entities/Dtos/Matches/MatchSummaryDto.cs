@@ -15,26 +15,8 @@ namespace VolleyLeague.Entities.Dtos.Matches
         public string? VenueName { get; set; }
         public string RoundName { get; set; } = null!;
         public PlayerSummaryDto? Referee { get; set; }
+        public PlayerSummaryDto? Mvp { get; set; }
         public string? UnknownRefereeName { get; set; }
         public string? MatchInfo { get; set; }
-
-        public static explicit operator MatchSummaryDto(Match match)
-        {
-            return new MatchSummaryDto
-            {
-                Id = match.Id,
-                HomeTeam = (TeamSummaryDto?)match.HomeTeam,
-                GuestTeam = (TeamSummaryDto?)match.GuestTeam,
-                LeagueName = match.League?.Name ?? "Nieokreślona",
-                Team1Score = match.Team1Score,
-                Team2Score = match.Team2Score,
-                Schedule = match.Schedule,
-                Referee = null,
-                UnknownRefereeName = match.UnknownRefereeName,
-                MatchInfo = match.MatchInfo,
-                VenueName = match.Venue?.Name ?? "Nieokreślona",
-                RoundName = match.Round?.Name ?? "Nieokreślona"
-            };
-        }
     }
 }

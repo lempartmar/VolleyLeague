@@ -4,97 +4,99 @@
 @using VolleyLeague.Client.Blazor2.Shared.Dtos
 @using static VolleyLeague.Client.Blazor2.Services.AccountService
 @using System.Net.Http.Headers
+@using System.Globalization
 @inject AuthenticationStateProvider authStateProvider
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject IUserService userService
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">VolleyLeague.Client.Blazor</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        
-                        <div class="nav-item px-3">
-                    <AuthorizeView>
-                        <NotAuthorized>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/login">Zaloguj się</NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/register">Zarejestruj się</NavLink>
-                            </li>
-                        </NotAuthorized>
-                        <Authorized>
-                            <li class="nav-item">
-                        <NavLink class="nav-link" href="/" @onclick="Logout">Wyloguj</NavLink>
-                            </li>
-                        </Authorized>
-                    </AuthorizeView>
-               </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="articles">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Artykuły
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="addarticle">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Dodaj Artykuł
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="timetable">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Terminarz
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="teamslist">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> List zespołów
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="createMatch">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Utwórz Mecz
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="standings">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tabele
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="referees">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sedziowie
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="handleseason">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sezony
-            </NavLink>
-        </div>
-        <AuthorizeView>
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="standings">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Authorized
-                    </NavLink>
+<section id="header_section_wrapper" class="header_section_wrapper">
+    <div class="container">
+        <div class="header-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="left_section">
+                        <span class="date">
+                            @GetDayName(DateTime.Now) .
+                        </span>
+                        <!-- Date -->
+                        <span class="time">
+                            @GetFormattedDate(DateTime.Now)
+                        </span>
+                        <!-- Top Social Section -->
+                    </div>
+                    <!-- Left Header Section -->
                 </div>
-            </Authorized>
-        </AuthorizeView>
-    </nav>
-</div>
+                <div class="col-md-4">
+                    <div class="logo">
+                        <a href="index.html"><img src="assets/img/LigaSiatkowkiNew.png" alt="Tech NewsLogo"></a>
+                    </div>
+                    <!-- Logo Section -->
+                </div>
+                <div class="col-md-4">
+                    <div class="right_section">
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <ul class="nav navbar-nav">
+                                    <!-- Dostosowane linki z użyciem <li> i <a> -->
+                                    <li><a href="/login">Zaloguj się</a></li>
+                                    <li><a href="/register">Zarejestruj się</a></li>
+                                </ul>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </div>
+                    <!-- Right Header Section -->
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-section">
+            <nav class="navbar m-menu navbar-default">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        @*                         <a href="index.html">
+                        <img src="assets/img/logo_circle.png" alt="Logo" class="logo" style="max-width: 100%; height: auto;">
+                        </a> *@
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+                        <ul class="nav navbar-nav main-nav">
+                            <li>
+                                <NavLink class="active" href="/">Strona Główna</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/standings">Tabele</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/schedule">Terminarz</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/teams-list">Zespoły</NavLink>
+                            </li>
+                            <li><a href="blog.html">Liga</a></li>
+                            <li><a href="blog.html">Kontakt</a></li>
+                        </ul>
+                    </div>
+                    <!-- .navbar-collapse -->
+                </div>
+                <!-- .container -->
+            </nav>
+            <!-- .nav -->
+        </div>
+        <!-- .navigation-section -->
+    </div>
+    <!-- .container -->
+</section>
+
 
 @code {
+
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -119,4 +121,15 @@
         NavigationManager.NavigateTo("/");
 
     }
+
+    private string GetDayName(DateTime date)
+    {
+        return date.ToString("dddd", new CultureInfo("pl-PL"));
+    }
+
+    private string GetFormattedDate(DateTime date)
+    {
+        return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
+    }
+
 }
