@@ -38,11 +38,18 @@
                         <AuthorizeView>
                             <NotAuthorized>
                                 <ul class="nav navbar-nav">
-                                    <!-- Dostosowane linki z użyciem <li> i <a> -->
                                     <li><a href="/login">Zaloguj się</a></li>
                                     <li><a href="/register">Zarejestruj się</a></li>
                                 </ul>
                             </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView>
+                            <Authorized>
+                                <ul class="nav navbar-nav">
+                                    <li><a>Zalogowany </a></li>
+                                    <li><button class="btn btn-link nav-link" @onclick="Logout">Wyloguj</button></li>
+                                </ul>
+                            </Authorized> 
                         </AuthorizeView>
                     </div>
                     <!-- Right Header Section -->
@@ -78,8 +85,12 @@
                             <li>
                                 <NavLink class="active" href="/teams-list">Zespoły</NavLink>
                             </li>
-                            <li><a href="blog.html">Liga</a></li>
-                            <li><a href="blog.html">Kontakt</a></li>
+                            <li>
+                                <NavLink class="active" href="/policy">Liga</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/contact">Kontakt</NavLink>
+                            </li>
                         </ul>
                     </div>
                     <!-- .navbar-collapse -->
@@ -95,7 +106,6 @@
 
 
 @code {
-
 
     private bool collapseNavMenu = true;
 

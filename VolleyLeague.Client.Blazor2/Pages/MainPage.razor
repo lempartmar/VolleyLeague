@@ -1,26 +1,27 @@
 ﻿@page "/"
+@using VolleyLeague.Client.Blazor2.Services
 @using VolleyLeague.Entities.Dtos.Discussion
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
 @using static System.Net.WebRequestMethods
 @inject HttpClient Http
-
+@inject IMatchService matchService
 
 <section id="category_section" class="category_section">
-
     <div class="container">
-        <div class="col-md-8">
-            <div class="row">
-                <Carousele matches="@matches" />
-            </div>
-            <div class="category_section mobile">
-                <div class="article_title header_purple">
-                    <h2><a href="category.html" target="_self">Informacje</a></h2>
+        <div class="row">
+            <!-- Brakujący tag otwierający 'row' dla całej sekcji -->
+            <div class="col-md-8">
+                <div class="row">
+                    <Carousele matchResults="@matchResults" />
                 </div>
-                <!----article_title------>
-                <div class="category_article_wrapper">
-                    <div class="row">
-                        @if (_articles != null)
-                        {
-                            @if (_articles.Any())
+                <div class="category_section mobile">
+                    <div class="article_title header_purple">
+                        <h2><a href="category.html" target="_self">Informacje</a></h2>
+                    </div>
+                    <div class="category_article_wrapper">
+                        <div class="row">
+                            @if (_articles != null && _articles.Any())
                             {
                                 var article = _articles.First();
                                 string imageBase64 = Convert.ToBase64String(article.Image);
@@ -34,42 +35,30 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-md-6">
                                     <span class="tag purple">Informacje</span>
-
                                     <div class="category_article_title">
                                         <h2><a href="single.html" target="_self">@article.Title</a></h2>
                                     </div>
-                                    <!--category_article_title-->
                                     <div class="category_article_date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author Name</a></div>
-                                    <!--category_article_date-->
                                     <div class="category_article_content">
                                         @article.Content
                                     </div>
-                                    <!--category_article_content-->
-                                    <div class="media_social">
-                                        <span><a href="#"><i class="fa fa-share-alt"></i>424</a> Shares</span>
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                    <!--media_social-->
                                 </div>
                             }
-                        }
+                        </div>
                     </div>
-                </div>
-                <div class="category_article_wrapper">
-                    <div class="row">
-                        @if (_articles != null)
-                            @if (_articles.Count() > 1)
+                    <div class="category_article_wrapper">
+                        <div class="row">
+                            @if (_articles != null && _articles.Count() > 1)
                             {
-                                var articlesToShow = _articles.Skip(1).Take(4);
+                                var articlesToShow = _articles.Skip(1).Take(6);
                                 foreach (var article in articlesToShow)
                                 {
                                     string imageBase64 = Convert.ToBase64String(article.Image);
                                     string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="margin-bottom: 20px;">
                                         <div class="media">
                                             <div class="media-left">
                                                 <a href="single.html" target="_self">
@@ -78,162 +67,222 @@
                                             </div>
                                             <div class="media-body">
                                                 <span class="tag purple">Informacje</span>
-
                                                 <h3 class="media-heading"><a href="single.html" target="_self">@article.Title</a></h3>
-                                                <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author's Name</a></span>
-
-                                                <div class="media_social">
-                                                    <span><a href="#"><i class="fa fa-share-alt"></i>424</a> Shares</span>
-                                                    <span><a href="#"><i class="fa fa-comments-o"></i>4</a> Comments</span>
-                                                </div>
+                                                <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, </span>
                                             </div>
                                         </div>
                                     </div>
                                 }
                             }
-                        }
-                    </div>
-                </div>
-
-
-                <p class="divider"><a href="#">More News&nbsp;&raquo;</a></p>
-            </div>
-            <!-- Mobile News Section -->
-
-        </div>
-        <!-- Left Section -->
-
-        <div class="col-md-4">
-            <div class="widget">
-                <div class="widget_title widget_black">
-                    <h2><a href="#">Aktualności</a></h2>
-                </div>
-                @if(_articles != null){
-                @foreach (var article in _articles)
-                {
-                    <div class="media">
-                        <div class="media-body">
-                            <h3 class="media-heading">
-                                <a href="single.html" target="_self">@article.Title</a>
-                            </h3>
-                            <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>,  by: <a href="#">Author Name</a></span>
-
-                            @*                             <div class="widget_article_social">
-                        <span>
-                        <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                        </span>
-                        <span>
-                        <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                        </span>
-                        </div> *@
                         </div>
                     </div>
-                }
-                }
-                <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&raquo;</a></p>
+                    <p class="divider"><a href="#">Więcej&nbsp;&raquo;</a></p>
+                </div>
+                <div class="article_title header_purple" style="margin-bottom">
+                    <h2><a href="category.html" target="_self">Wyniki</a></h2>
+                </div>
+                <div class="tables-container">
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; color: black;">Lp</th>
+                                    <th rowspan="2" style="text-align: center; color: black;">Drużyna</th>
+                                    <th rowspan="2" style="text-align: center; color: black;">Punkty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rank = 1;
+                                }
+                                @foreach (var team in StandingsList.Take(6))
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle; text-align: center;">@rank</td>
+                                        <td>
+                                            @{
+                                                var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                            }
+                                            <div style="display: flex; align-items: center;">
+                                                <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                <span>@team.Team.Name</span>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center;">@team.Points</td>
+                                    </tr>
+                                    rank++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive" style="margin-left: 50px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; color: black;">Lp</th>
+                                    <th rowspan="2" style="text-align: center; color: black;">Drużyna</th>
+                                    <th rowspan="2" style="text-align: center; color: black;">Punkty</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border:none">
+                                @{
+                                    int rank2 = 1;
+                                }
+                                @foreach (var team in StandingsList2)
+                                {
+                                    <tr style="border:none">
+                                        <td style="vertical-align: middle; text-align: center;">@rank2</td>
+                                        <td>
+                                            @{
+                                                var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                            }
+                                            <div style="display: flex; align-items: center;">
+                                                <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                <span>@team.Team.Name</span>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center;">@team.Points</td>
+                                    </tr>
+                                    rank2++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+               @*  <div class="p-2 card mt-4 mb-5 table-responsive-lg">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align: center; color: black;">Lp</th>
+                                <th rowspan="2" style="text-align: center; color: black;">Drużyna</th>
+                                <th rowspan="2" style="text-align: center; color: black;">Mecze Rozegrane</th>
+                                <th rowspan="2" style="text-align: center; color: black;">Punkty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rank = 1;
+                            }
+                            @foreach (var team in StandingsList)
+                            {
+                                <tr>
+                                    <td style="vertical-align: middle; text-align: center;">@rank</td>
+                                    <td>
+                                        @{
+                                            var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                        }
+                                        <div style="display: flex; align-items: center;">
+                                            <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                            <span>@team.Team.Name</span>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle; text-align: center;">@team.MatchesPlayed</td>
+                                    <td style="vertical-align: middle; text-align: center;">@team.Points</td>
+                                </tr>
+                                rank++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+ *@
+
+
+
             </div>
-            <!-- Popular News -->
+            <!-- Left Section -->
 
+            <div class="col-md-4">
+                <!-- Brakujący tag zamykający 'col-md-4', przeniesiony do odpowiedniego miejsca -->
+                <div class="widget">
+                    <div class="widget_title widget_black">
+                        <h2><a href="#">Aktualności</a></h2>
+                    </div>
+                    @if (_articles != null)
+                    {
+                        @foreach (var article in _articles)
+                        {
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3 class="media-heading">
+                                        <a href="single.html" target="_self">@article.Title</a>
+                                    </h3>
+                                    <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a></span>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <p class="widget_divider"><a href="#" target="_self">Więcej&nbsp;&raquo;</a></p>
+                </div>
+                <!-- Popular News -->
 
-
-
-            <div class="widget hidden-xs m30">
-                <img class="img-responsive adv_img" src="assets/img/right_add1.jpg" alt="add_one">
-                <img class="img-responsive adv_img" src="assets/img/right_add2.jpg" alt="add_one">
-                <img class="img-responsive adv_img" src="assets/img/right_add3.jpg" alt="add_one">
-                <img class="img-responsive adv_img" src="assets/img/right_add4.jpg" alt="add_one">
+                <div class="widget hidden-xs m30" style="display: flex; flex-wrap: wrap;">
+                    <div style="flex: 50%;">
+                        <img class="img-responsive adv_img" src="assets/img/JoinUs.png" alt="add_one">
+                    </div>
+                </div>
             </div>
+            <!-- Right Section -->
         </div>
-        <!-- Advertisement -->
-        <!-- Advertisement -->
-        <!--Advertisement-->
     </div>
-    <!-- Right Section -->
-    <!-- Row -->
-    @*     </div> *@
-    <!-- Container -->
-
 </section>
 
+<style>
+    .tables-container {
+        display: flex;
+        justify-content: space-around;
+    }
 
+    .table-responsive {
+        flex: 1; /* Każda tabela będzie miała równą szerokość */
+        max-width: 50%; /* Opcjonalnie ogranicza szerokość każdej tabeli do 50% kontenera */
+        overflow-x: auto; /* Zapewnia przewijanie, jeśli tabela jest za szeroka */
+    }
+
+    table {
+        width: 100%; /* Szerokość tabeli na cały kontener */
+    }
+
+    table th, table td, table tr {
+            border: none;
+            padding: 4px;
+            color: black; /* Ustawia kolor tekstu na czarny dla wszystkich komórek tabeli */
+        }
+
+</style>
 
 @code {
-    public List<MatchResult> matches = new List<MatchResult>
-{
-    new MatchResult
-    {
-        Time = "19:00",
-        HomeTeam = "Warszawianka",
-        HomeScore = 3,
-        AwayTeam = "Gdańszczanie",
-        AwayScore = 1,
-        HomeTeamLogo = "ścieżka/do/logo_warszawianka.png",
-        AwayTeamLogo = "ścieżka/do/logo_gdańszczanie.png",
-    },
-    new MatchResult
-    {
-        Time = "20:00",
-        HomeTeam = "Krakowianie",
-        HomeScore = 2,
-        AwayTeam = "Poznaniacy",
-        AwayScore = 3,
-        HomeTeamLogo = "ścieżka/do/logo_krakowianie.png",
-        AwayTeamLogo = "ścieżka/do/logo_poznaniacy.png",
-    },
-    new MatchResult
-    {
-        Time = "21:00",
-        HomeTeam = "Ślązacy",
-        HomeScore = 3,
-        AwayTeam = "Mazowszanie",
-        AwayScore = 0,
-        HomeTeamLogo = "ścieżka/do/logo_ślązacy.png",
-        AwayTeamLogo = "ścieżka/do/logo_mazowszanie.png",
-    },
-    new MatchResult
-    {
-        Time = "21:30",
-        HomeTeam = "Wrocławianie",
-        HomeScore = 1,
-        AwayTeam = "Kujawiacy",
-        AwayScore = 3,
-        HomeTeamLogo = "ścieżka/do/logo_wrocławianie.png",
-        AwayTeamLogo = "ścieżka/do/logo_kujawiacy.png",
-    },
-    new MatchResult
-    {
-        Time = "22:00",
-        HomeTeam = "Lublinianie",
-        HomeScore = 0,
-        AwayTeam = "Pomorzanie",
-        AwayScore = 3,
-        HomeTeamLogo = "ścieżka/do/logo_lublinianie.png",
-        AwayTeamLogo = "ścieżka/do/logo_pomorzanie.png",
-    },
-    new MatchResult
-    {
-        Time = "22:30",
-        HomeTeam = "Białostoczanie",
-        HomeScore = 2,
-        AwayTeam = "Łódzianie",
-        AwayScore = 3,
-        HomeTeamLogo = "ścieżka/do/logo_białostoczanie.png",
-        AwayTeamLogo = "ścieżka/do/logo_łódzianie.png",
-    }
-    // ... możesz kontynuować dodawanie wyników
-};
+    public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
+    private List<StandingsDto> StandingsList = new List<StandingsDto>();
+    private List<StandingsDto> StandingsList2 = new List<StandingsDto>();
+    private ScheduleFilter Filter = new ScheduleFilter();
 
-    public class MatchResult
+    private class ScheduleFilter
     {
-        public string Time { get; set; }
-        public string HomeTeam { get; set; }
-        public int HomeScore { get; set; }
-        public string AwayTeam { get; set; }
-        public int AwayScore { get; set; }
-        public string HomeTeamLogo { get; set; }
-        public string AwayTeamLogo { get; set; }
+        public int SeasonId { get; set; }
+        public int LeagueId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+        public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+
+        public ScheduleFilter()
+        {
+            SeasonId = 37;
+            LeagueId = 1;
+        }
     }
 
+    private async Task LoadInitialDataAsync()
+    {
+        // Tu załaduj listy sezonów i lig
+        StandingsList = await matchService.GetStandings(37, 1);
+        StandingsList2 = await matchService.GetStandings(37, 5);
+        // Filter.SeasonList = await matchService.GetSeasons();
+        // Filter.LeagueList = await matchService.GetLeagues();
+        // pageReady = true;
+    }
 
     private IEnumerable<ArticleDto> _articles;
     private int _currentPage = 1;
@@ -241,7 +290,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadMatchResults();
         await LoadArticles();
+        await LoadInitialDataAsync();
     }
 
     private async Task LoadArticles()
@@ -252,6 +303,15 @@
             var articlesFromApi = await result.Content.ReadFromJsonAsync<IEnumerable<ArticleDto>>();
             _articles = articlesFromApi;
         }
+    }
+
+    private async Task LoadMatchResults()
+    {
+        List<MatchSummaryDto> result1 = await matchService.GetMatches(37, 1, 1237);
+        List<MatchSummaryDto> result2 = await matchService.GetMatches(37, 1, 1237);
+        List<MatchSummaryDto> result3 = await matchService.GetMatches(37, 1, 1237);
+
+        matchResults = result1.Concat(result2).ToList();
     }
 
     private async Task LoadNextPage()
