@@ -1,18 +1,18 @@
-.page[b-e79bbwa2de] {
+.page[b-5fjy6lmuxk] {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-main[b-e79bbwa2de] {
+main[b-5fjy6lmuxk] {
     flex: 1;
 }
 
-.sidebar[b-e79bbwa2de] {
+.sidebar[b-5fjy6lmuxk] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
-.top-row[b-e79bbwa2de] {
+.top-row[b-5fjy6lmuxk] {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
@@ -21,56 +21,56 @@ main[b-e79bbwa2de] {
     align-items: center;
 }
 
-    .top-row[b-e79bbwa2de]  a, .top-row[b-e79bbwa2de]  .btn-link {
+    .top-row[b-5fjy6lmuxk]  a, .top-row[b-5fjy6lmuxk]  .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
         text-decoration: none;
     }
 
-    .top-row[b-e79bbwa2de]  a:hover, .top-row[b-e79bbwa2de]  .btn-link:hover {
+    .top-row[b-5fjy6lmuxk]  a:hover, .top-row[b-5fjy6lmuxk]  .btn-link:hover {
         text-decoration: underline;
     }
 
-    .top-row[b-e79bbwa2de]  a:first-child {
+    .top-row[b-5fjy6lmuxk]  a:first-child {
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
 @media (max-width: 640.98px) {
-    .top-row[b-e79bbwa2de] {
+    .top-row[b-5fjy6lmuxk] {
         justify-content: space-between;
     }
 
-    .top-row[b-e79bbwa2de]  a, .top-row[b-e79bbwa2de]  .btn-link {
+    .top-row[b-5fjy6lmuxk]  a, .top-row[b-5fjy6lmuxk]  .btn-link {
         margin-left: 0;
     }
 }
 
 @media (min-width: 641px) {
-    .page[b-e79bbwa2de] {
+    .page[b-5fjy6lmuxk] {
         flex-direction: row;
     }
 
-    .sidebar[b-e79bbwa2de] {
+    .sidebar[b-5fjy6lmuxk] {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
 
-    .top-row[b-e79bbwa2de] {
+    .top-row[b-5fjy6lmuxk] {
         position: sticky;
         top: 0;
         z-index: 1;
     }
 
-    .top-row.auth[b-e79bbwa2de]  a:first-child {
+    .top-row.auth[b-5fjy6lmuxk]  a:first-child {
         flex: 1;
         text-align: right;
         width: 0;
     }
 
-    .top-row[b-e79bbwa2de], article[b-e79bbwa2de] {
+    .top-row[b-5fjy6lmuxk], article[b-5fjy6lmuxk] {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }

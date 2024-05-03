@@ -445,12 +445,12 @@
       "url": "sample-data\/weather.json"
     },
     {
-      "hash": "sha256-I4LggERZ\/f+YpdIbmQq\/DkpppLSwVDlVHxq6Yvx\/QAc=",
-      "url": "_framework\/blazor.webassembly.js"
+      "hash": "sha256-zDiqar6DItDQVsc6e26tFxU2sC9xF0K3s1ddG\/A\/tQs=",
+      "url": "VolleyLeague.Client.Blazor.styles.css"
     },
     {
-      "hash": "sha256-RDz9xX4dRL96RsVO13h4rZx1sIKZbc+Tcd4ixlYKPlU=",
-      "url": "VolleyLeague.Client.Blazor.styles.css"
+      "hash": "sha256-I4LggERZ\/f+YpdIbmQq\/DkpppLSwVDlVHxq6Yvx\/QAc=",
+      "url": "_framework\/blazor.webassembly.js"
     },
     {
       "hash": "sha256-xHBGFCMjDjvvTwtMvgaMBNmQk9JdVhGmws2\/GMZlxrI=",
@@ -1281,25 +1281,25 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-Xk4GUXhvNt9h3725KSUTzZUyLRQewNSySPAR7PeB3Og=",
+      "hash": "sha256-i\/TTQYQ56kRkInU50\/Nd6JYpfix4l2h2fm3SJNjo\/R8=",
       "url": "_framework\/VolleyLeague.Entities.wasm"
     },
     {
-      "hash": "sha256-vBkQ\/Ss5SpqSC58qzs6B4JyqxP+sGUHOawoHA\/ojZD4=",
+      "hash": "sha256-6j2WiHyyI66sTnDrmkM3ajkmvcOA3znsHeUh5atoKR0=",
       "url": "_framework\/VolleyLeague.Entities.pdb"
     },
     {
-      "hash": "sha256-UryIFYUF1wmhHsQ+Tai6q3mFZBKXn8bjL9IfJuXZCPI=",
+      "hash": "sha256-gWSMY1QAiyJYWLWkX\/bj89OGt\/mHJpxnpF28NrSX5nk=",
       "url": "_framework\/VolleyLeague.Client.Blazor.wasm"
     },
     {
-      "hash": "sha256-Uu4SpDSwHgHCd56X0JsfXRtzsFxPQgwDBZUHXc57BYI=",
+      "hash": "sha256-BnX+du7+ku9AGn5SXpip9ZoJW0JlN\/wi4xDinZGmmtw=",
       "url": "_framework\/VolleyLeague.Client.Blazor.pdb"
     },
     {
-      "hash": "sha256-agMP7Iy7vgO9KimG3nxhmgWvac6jlRMEHFT+6D64yM8=",
+      "hash": "sha256-mr94XApwjUrBtkHYNljTnDwfgjEz2mZy6gIsiZoekUo=",
       "url": "_framework\/blazor.boot.json"
     }
   ],
-  "version": "CwTzUUdc"
+  "version": "h4ZUjEm8"
 };

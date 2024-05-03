@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8954FE07
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolleyLeague.Client.Blazor", "VolleyLeague.Client.Blazor\VolleyLeague.Client.Blazor.csproj", "{E0FE2A09-BBA8-4AAC-9490-ED12C20CECEA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C90275B-E877-49EB-9340-FE22CB52F60F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

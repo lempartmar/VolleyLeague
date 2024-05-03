@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "VolleyLeague.Client.Blazor",
   "resources": {
-    "hash": "sha256-RpylLnhTYDJFupPiZgc2LQgqqJpx2HiXzWmk7lOKV5s=",
+    "hash": "sha256-A30SYj+bbIdYSMNTFIwWYNI1a5gj1/WklOxgS5LAvHE=",
     "jsModuleNative": {
       "dotnet.native.8.0.1.2hcbi4mov1.js": "sha256-SGOlISx+3G4kkvpC9Uq3qoPGsnjxGmW61QBev0lyI5U="
     },
@@ -215,12 +215,12 @@
       "mscorlib.wasm": "sha256-EpWTfh4m/hEcXRFYMCR9YeYHwdUJgcm1laBaxWfq2S4=",
       "netstandard.wasm": "sha256-2kH24/YfHmU3B4eYRyRmiwebYROM4+B9eDWKvMnUdP8=",
       "System.Private.CoreLib.wasm": "sha256-CsySKiP7HYY1pS8LTDE60EkqiX5oHb3WoEZHDNd1yK0=",
-      "VolleyLeague.Entities.wasm": "sha256-EpIOLHkT2FBUcJeyPXYkcqfO5OD9ISin2Sh5QGX6Wv0=",
-      "VolleyLeague.Client.Blazor.wasm": "sha256-Ih30gtPlygjurDrd4QSKxSX4d01I5Gg6QrPE6XIQFQ4="
+      "VolleyLeague.Entities.wasm": "sha256-i/TTQYQ56kRkInU50/Nd6JYpfix4l2h2fm3SJNjo/R8=",
+      "VolleyLeague.Client.Blazor.wasm": "sha256-gWSMY1QAiyJYWLWkX/bj89OGt/mHJpxnpF28NrSX5nk="
     },
     "pdb": {
-      "VolleyLeague.Entities.pdb": "sha256-jbiJJRMKhtSD9fHTED+SZDpKwtI5y4Ua0ips51V/m0E=",
-      "VolleyLeague.Client.Blazor.pdb": "sha256-WvBGbo7Wkfa5KnN6XCSdWfnXUpFyKTHZZs3kTLYUxMY="
+      "VolleyLeague.Entities.pdb": "sha256-6j2WiHyyI66sTnDrmkM3ajkmvcOA3znsHeUh5atoKR0=",
+      "VolleyLeague.Client.Blazor.pdb": "sha256-BnX+du7+ku9AGn5SXpip9ZoJW0JlN/wi4xDinZGmmtw="
     }
   },
   "cacheBootResources": true,

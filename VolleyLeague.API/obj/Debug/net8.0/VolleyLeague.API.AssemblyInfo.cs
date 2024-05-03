@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("f57df436-2d9e-4bbf-9a85-1bacbc480148")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("VolleyLeague.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84a847174fa7ee6624cb7c4f099c9fa30b766d2f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e29cba9013957631b537a34894a0f4be6bb1e41")]
 [assembly: System.Reflection.AssemblyProductAttribute("VolleyLeague.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VolleyLeague.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

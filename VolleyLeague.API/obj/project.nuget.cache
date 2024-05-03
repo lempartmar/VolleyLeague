@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "D7xDqHkjAQObHtvJfPvjfSd5wSaceqlDxAQkt5odJcJfZ6d4oinj98pQmocly0tjs4A91IlR3eBpqj1Th961TA==",
+  "dgSpecHash": "TTs5pMVU6qthDGoGJ0IjAGd7QjEvd34nTo8IFjHPBJJNISKdxOs4KmKHoG1INH73wiASUl5h9f7OK48NB9hb8g==",
   "success": true,
   "projectFilePath": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.API\\VolleyLeague.API.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "C:\\Users\\marci\\.nuget\\packages\\microsoft.jsinterop.webassembly\\8.0.1\\microsoft.jsinterop.webassembly.8.0.1.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\marci\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.5\\microsoft.visualstudio.azure.containers.tools.targets.1.19.5.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\marci\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",

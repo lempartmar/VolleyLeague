@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VolleyLeague.Entities")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84a847174fa7ee6624cb7c4f099c9fa30b766d2f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e29cba9013957631b537a34894a0f4be6bb1e41")]
 [assembly: System.Reflection.AssemblyProductAttribute("VolleyLeague.Entities")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VolleyLeague.Entities")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
