@@ -1,0 +1,485 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\obj\\Debug\\net8.0\\compressed\\0hh3icz2dw.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VolleyLeague.Client.Blazor.styles.css",
+      "PackagePath": "staticwebassets\\VolleyLeague.Client.Blazor.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\obj\\Debug\\net8.0\\service-worker-assets.js",
+      "PackagePath": "staticwebassets\\service-worker-assets.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\obj\\Debug\\net8.0\\service-worker\\service-worker.published.js",
+      "PackagePath": "staticwebassets\\service-worker.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\font-awesome.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\fontawesome-webfont.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\fontawesome-webfont.eot"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\fontawesome-webfont.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\fontawesome-webfont.svg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\fontawesome-webfont.ttf"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\fontawesome-webfont.woff"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\fonts\\font-awesome\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\font-awesome\\fontawesome-webfont.woff2"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\JoinUs.png",
+      "PackagePath": "staticwebassets\\assets\\img\\JoinUs.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\LigaSiatkowkiNew.png",
+      "PackagePath": "staticwebassets\\assets\\img\\LigaSiatkowkiNew.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\Logo_alternative.png",
+      "PackagePath": "staticwebassets\\assets\\img\\Logo_alternative.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\ajax-loader.gif",
+      "PackagePath": "staticwebassets\\assets\\img\\ajax-loader.gif"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cam_left1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cam_left1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cam_left2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cam_left2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cam_left3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cam_left3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cat-mobi-left-1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat-mobi-left-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cat-mobi-sm1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat-mobi-sm1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cat-mobi-sm2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat-mobi-sm2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cat-mobi-sm3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat-mobi-sm3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\cat-mobi-sm4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\cat-mobi-sm4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_advertisement.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_advertisement.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img10.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img11.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img12.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img13.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img13.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img14.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img14.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img15.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img5.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img6.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img7.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img8.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img9.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img_top.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img_top.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\category_img_top1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\category_img_top1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\design_top1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\design_top1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\design_top2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\design_top2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\design_top3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\design_top3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\design_top4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\design_top4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\editor.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\editor.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\editor_pic1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\editor_pic1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\editor_pic2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\editor_pic2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\editor_pic3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\editor_pic3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\feature-static1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\feature-static1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\feature-static2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\feature-static2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\feature-top.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\feature-top.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\gad_top1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\gad_top1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\gad_top2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\gad_top2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\graylogo.png",
+      "PackagePath": "staticwebassets\\assets\\img\\graylogo.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\graylogo_text.png",
+      "PackagePath": "staticwebassets\\assets\\img\\graylogo_text.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\logo.png",
+      "PackagePath": "staticwebassets\\assets\\img\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\logo_circle.png",
+      "PackagePath": "staticwebassets\\assets\\img\\logo_circle.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\owl.video.play.png",
+      "PackagePath": "staticwebassets\\assets\\img\\owl.video.play.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\podcast.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\podcast.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\pop_right1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\pop_right1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\pop_right2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\pop_right2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\pop_right3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\pop_right3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\pop_right4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\pop_right4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\reader.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\reader.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\reader_img1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\reader_img1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\reader_img2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\reader_img2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\reader_img3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\reader_img3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add5.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add6.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\right_add7.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\right_add7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tab_top1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tab_top1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tab_top2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tab_top2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\team_join.png",
+      "PackagePath": "staticwebassets\\assets\\img\\team_join.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_about.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_about.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo1.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo10.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo11.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo12.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo2.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo3.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo4.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo5.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo6.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo7.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo8.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\img\\tech_photo9.jpg",
+      "PackagePath": "staticwebassets\\assets\\img\\tech_photo9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\jquery-2.1.4.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\jquery-2.1.4.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\jquery.easing.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\jquery.easing.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\jquery.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\mobile-menu.js",
+      "PackagePath": "staticwebassets\\assets\\js\\mobile-menu.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\offcanvas.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\offcanvas.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\owl.carousel.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\owl.carousel.min.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\script.js",
+      "PackagePath": "staticwebassets\\assets\\js\\script.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\assets\\js\\smoothscroll.js",
+      "PackagePath": "staticwebassets\\assets\\js\\smoothscroll.js"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\bootstrap5.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap5.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\mobile-menu.css",
+      "PackagePath": "staticwebassets\\css\\mobile-menu.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\offcanvas.min.css",
+      "PackagePath": "staticwebassets\\css\\offcanvas.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\owl.carousel.css",
+      "PackagePath": "staticwebassets\\css\\owl.carousel.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\owl.theme.default.min.css",
+      "PackagePath": "staticwebassets\\css\\owl.theme.default.min.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\icon-512.png",
+      "PackagePath": "staticwebassets\\icon-512.png"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\manifest.webmanifest",
+      "PackagePath": "staticwebassets\\manifest.webmanifest"
+    },
+    {
+      "Id": "C:\\Users\\marci\\source\\repos\\VolleyLeague_MVVM_to_cloud\\VolleyLeague.Client.Blazor\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.VolleyLeague.Client.Blazor.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.VolleyLeague.Client.Blazor.props",
+      "PackagePath": "build\\VolleyLeague.Client.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.VolleyLeague.Client.Blazor.props",
+      "PackagePath": "buildMultiTargeting\\VolleyLeague.Client.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.VolleyLeague.Client.Blazor.props",
+      "PackagePath": "buildTransitive\\VolleyLeague.Client.Blazor.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

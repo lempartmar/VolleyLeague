@@ -1,0 +1,136 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+@inject IUserService UserService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+
+
+<div class="container login">
+    <div class="row justify-content-center">
+        <div class="col-md-12 mt-3">
+            <div class="text-center">
+                <h1>Rejestracja</h1>
+            </div>
+            <div class="entity_content">
+                @if (!IsSubmitted)
+                {
+                    <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="card">
+                            <div class="card-body login">
+
+                                <div class="form-group mb-3">
+                                    <label for="FirstName" class="control-label">Imię:</label>
+                                    <InputText class="form-control" id="FirstName" @bind-Value="registerModel.FirstName" />
+                                    <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="LastName" class="control-label">Nazwisko:</label>
+                                    <InputText class="form-control" id="LastName" @bind-Value="registerModel.LastName" />
+                                    <ValidationMessage class="text-danger" For="@(() => registerModel.LastName)" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="Email" class="control-label">Adres e-mail:</label>
+                                    <InputText class="form-control" id="Email" @bind-Value="registerModel.Email" />
+                                    <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="Password" class="control-label">Hasło:</label>
+                                    <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" />
+                                    <ValidationMessage class="text-danger" For="@(() => registerModel.Password)" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="ConfirmPassword" class="control-label">Powtórz hasło:</label>
+                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" />
+                                    <ValidationMessage class="text-danger" For="@(() => registerModel.ConfirmPassword)" />
+                                </div>
+
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">Zarejestruj</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    <h3>Zarejestrowano pomyślnie!</h3>
+                    <p><a href="/login">Zaloguj się</a></p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private RegisterDto registerModel = new RegisterDto();
+
+    private bool IsLoading = false;
+
+    private bool IsSubmitted = false;
+
+    private bool ShowErrorMessage = false;
+
+    private string ErrorMessage = "";
+
+    private List<PositionDto> Positions = new List<PositionDto>();
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = "Ładowanie pozycji..." } };
+
+        var positionResult = await UserService.GetPositions();
+        Positions = positionResult;
+
+        // else
+        // {
+        //     Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = positionResult.Message } };
+        // }
+
+        var token = await localStorage.GetItemAsync<string>("token");
+        if (token != null)
+        {
+            NavigationManager.NavigateTo("/");
+
+        }
+        // registerModel.PositionId = Positions.First().Id;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ShowErrorMessage = false;
+        IsLoading = true;
+        await Task.Delay(1000);
+        await UserService.Register(registerModel);
+        IsLoading = false;
+    }
+
+    // private async Task HandleFileChange(InputFileChangeEventArgs e)
+    // {
+    //     var imageFile = e.File;
+
+    //     if (imageFile != null)
+    //     {
+    //         using (var stream = imageFile.OpenReadStream())
+    //         {
+    //             using (var memoryStream = new MemoryStream())
+    //             {
+    //                 await stream.CopyToAsync(memoryStream);
+    //                 registerModel.Photo = memoryStream.ToArray();
+    //             }
+    //         }
+    //     }
+    // }
+}

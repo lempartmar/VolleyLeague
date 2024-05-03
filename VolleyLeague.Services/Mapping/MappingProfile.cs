@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Routing.Constraints;
 using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Dtos.Users;
@@ -8,8 +9,8 @@ namespace VolleyLeague.Services.Mapping
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() 
-            : base() 
+        public MappingProfile()
+            : base()
         {
             CreateMap<League, LeagueDto>()
                   .ReverseMap();
@@ -22,12 +23,20 @@ namespace VolleyLeague.Services.Mapping
 
             CreateMap<Match, MatchSummaryDto>();
 
+            CreateMap<SportsVenue, VenueDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.AdditionalInfo, opt => opt.MapFrom(src => src.AdditionalInfo));
+
             CreateMap<Match, MatchDto>();
+
+            CreateMap<NewMatchDto, Match>()
+                 .ReverseMap();
 
             CreateMap<User, UserProfileDto>();
 
             CreateMap<Team, StandingsDto>()
-    .AfterMap((team, dto, context) => {
+    .AfterMap((team, dto, context) =>
+    {
         // Assuming seasonId is passed via context.Items
         var seasonId = (int)context.Items["seasonId"];
         var matches = team.HomeMatches.Concat(team.GuestMatches).Where(m => m.Round.SeasonId == seasonId).ToList();

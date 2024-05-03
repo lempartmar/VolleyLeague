@@ -1,0 +1,170 @@
+﻿@page "/policy"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@inject HttpClient Http
+@inject ITeamService TeamService
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" style="margin-top: 30px">
+                <div class="regulamin">
+                    <h3>Regulamin Białołęckiej Ligi Siatkówki</h3>
+                    <h4>Najważniejsze postanowienia i zmiany! 18.02.2024 r.</h4>
+                    <p class="data-wydania">29 stycznia 2013</p>
+                    <p>Witam,</p>
+                    <p>Poniżej cały regulamin, proszę się zapoznać!</p>
+
+                    <h3>Regulamin Białołęckiej Ligi Siatkówki w sezonie WIOSNA 2024</h3>
+
+                    <h6>§1. Informacje ogólne</h6>
+                    <ol>
+                        <li>Białołęcka Liga Siatkówki, zwana dalej BLS oraz Białołęcka Liga Siatkówki Kobiet zwana dalej BLSK, organizowane są przez European Mobility Center (dawniej SKS "ŻUBR").</li>
+                        <li>W imieniu Stowarzyszenia rozgrywkami zarządza Artur Rojek, zwany dalej organizatorem.</li>
+                        <li>Wszystkie sprawy związane z protestami, karami i wykroczeniami rozpatruje Organizator.</li>
+                        <li>
+                            Organizator ma prawo podjąć decyzję o wykluczeniu danej drużyny z rozgrywek w przypadku:
+                            <ol type="a">
+                                <li>niedopełnienia formalności zgodnie z punktami regulaminu,</li>
+                                <li>niesportowego zachowania się zawodników w czasie meczu i poza nim,</li>
+                                <li>niestawienia się drużyny na 3 mecze danego sezonu rozgrywek.</li>
+                            </ol>
+                        </li>
+                        <li>Na obiektach, na których toczyć się będą rozgrywki, obowiązuje całkowity zakaz palenia tytoniu oraz spożywania napojów alkoholowych.</li>
+                        <li>Niniejszy regulamin obowiązuje w sezonie WIOSNA 2024 BLS i BLS(K) oraz w sezonach następnych i wchodzi w życie dn. 19.02.2024 r. o godz. 00:00.</li>
+                        <li>Organizator zastrzega sobie prawo do wprowadzania zmian w regulaminie w trakcie trwania rozgrywek.</li>
+                    </ol>
+
+                    <h6>§2. Drużyny</h6>
+                    <ol>
+                        <li>Zgłoszenie drużyny do rozgrywek następuje poprzez przesłanie na adres mailowy organizatora wypełnionego formularza zgłoszeniowego i zarejestrowanie się na stronie www.ligasiatkowki.pl.</li>
+                        <li>Drużyny są przyporządkowane do poszczególnych lig na podstawie wyników jakie osiągnęły w poprzednim sezonie oraz wyników turnieju barażowego i turnieju kwalifikacyjnego (o ile taki się odbędzie).</li>
+                        <li>
+                            W przypadku wycofania się drużyny z ligi, zajmowane przez nią miejsce można będzie wywalczyć podczas turnieju kwalifikacyjnego organizowanego przed rozpoczęciem kolejnego sezonu.
+                            <ol type="a">
+                                <li>Udział w turnieju jest dodatkowo płatny.</li>
+                            </ol>
+                        </li>
+                        <li>Najlepsze zespoły II. i III. ligi dostają możliwość gry w wyższej klasie rozgrywek, natomiast najgorsze zespoły I. i II. ligi spadają o jedną ligę niżej.</li>
+                        <li>O zasadach awansów i spadków decyduje organizator.</li>
+                        <li>W/w zasady zostaną precyzyjnie określone do 5-tej kolejki.</li>
+                        <li>Zgłoszenie drużyny jest jednoznaczne z deklaracją przestrzegania regulaminu.</li>
+                        <li>Zgłoszenie do rozgrywek jest traktowane jako oświadczenie o zapoznaniu się wszystkich członków drużyny z regulaminem ligi.</li>
+                        <li>
+                            Aby wziąć udział w rozgrywkach należy dokonać wpłaty na rzecz Stowarzyszenia w wysokości 2150 zł.
+                            <ol type="a">
+                                <li>Drużyny, które grały u nas już wcześniej mogą dokonać zapłaty wpisowego w ratach, 1. rata 1100 zł do rozpoczęcia 1. kolejki, 2. rata 1050 zł płatne najpóźniej do 3. kolejki. W przypadku niezapłacenia wpisowego organizator ma prawo odebrać drużynie punkty lub w ostateczności usunąć z ligi.</li>
+                                <li>Nowe drużyny muszą zapłacić całość wpisowego najpóźniej do rozpoczęcia 1. kolejki, w przeciwnym razie nie zostaną dopuszczone do rozgrywek.</li>
+                            </ol>
+                        </li>
+                        <li>Wypełniając zgłoszenie należy wpisać w odpowiedniej rubryce imię i nazwisko kapitana drużyny, jego dane kontaktowe oraz skład zespołu. Drużyna może składać się maksymalnie z 14 zawodników/czek (w drodze wyjątku istnieje możliwość wystawienia większej liczby uczestników pod warunkiem, że drużyna bierze udział jeszcze w innych ligach i potrzebuje szerszego składu).</li>
+                        <li>
+                            Kapitan drużyny:
+                            <ol type="a">
+                                <li>jest osobą, z którą mailowo otrzymuje wszystkie informacje od organizatora;</li>
+                                <li>jest zobowiązany do odbierania korespondencji mailowej od organizatora i przekazywania jej członkom swojej drużyny;</li>
+                                <li>odpowiada w imieniu drużyny za wszelkie ustalenia pomiędzy drużyną a organizatorem;</li>
+                                <li>ma prawo zgłaszać w imieniu drużyny skargi i protesty do rozpatrzenia przez organizatora;</li>
+                                <li>jest odpowiedzialny za kwestie finansowe i w przypadku zaległości finansowych drużyny zobowiązuje się pokryć je osobiście.</li>
+                            </ol>
+                        </li>
+                        <li>Drużyny powinny występować w jednolitych strojach (mogą to być zwykłe t-shirty), jednak nie jest to obowiązkowe.</li>
+                        <li>Dla najlepszych drużyn oraz zwycięzców klasyfikacji indywidualnych przewidziane są puchary oraz medale.</li>
+                    </ol>
+
+                    <h6>§3. Uczestnicy</h6>
+                    <ol>
+                        <li>Uczestnikami zawodów mogą być osoby, które ukończyły 15 rok życia.</li>
+                        <li>Uczestnik, który nie ukończył 18 lat, musi posiadać zgodę od opiekunów prawnych na udział w Rozgrywkach. Opiekunowie biorą odpowiedzialność za przestrzeganie regulaminu przez uczestnika.</li>
+                        <li>Uczestniczący winni być ubezpieczeni od następstw nieszczęśliwych wypadków.</li>
+                        <li>Organizator nie ponosi żadnej odpowiedzialności w przypadku odniesienia uszczerbku na zdrowiu w obrębie ośrodka, na którym odbywają się rozgrywki.</li>
+                        <li>W rozgrywkach mogą brać udział zawodnicy nie mający przeciwwskazań zdrowotnych.</li>
+                        <li>Zawodnicy zgłoszeni do rozgrywek nie mogą występować w barwach innych drużyn występujących ich obrębie.</li>
+                        <li>
+                            Dopuszczalne jest wypożyczenie jednego zawodnika z innego zespołu pod warunkiem, że zespół wypożyczający przystąpi do spotkania w najwyżej pięcioosobowym składzie (wliczając wypożyczoną osobę). Dotyczy to lig 1. i 2. BLS i 1. BLS(K). W przypadku 3. ligi męskiej i 2. żeńskiej zespół może wypożyczyć jednego zawodnika tylko w przypadku, gdy przystąpi do spotkania w czteroosobowym składzie (wliczając wypożyczoną osobę).
+                            <ul>
+                                <li>Zawodnik wypożyczony nie może być z tej samej ligi ani wyższej, tylko z niższej, czyli zawodnik grający normalnie w 2. lidze może zagrać na wypożyczeniu w 1. lidze, ale odwrotnie już nie ma takiej możliwości, czyli zawodnik grający normalnie w 1. lidze nie może zagrać na wypożyczeniu w 2. lidze.</li>
+                            </ul>
+                        </li>
+                        <li>W przypadku niezastosowania się do zasady z punktu 7. drużyna może zostać ukarana walkowerem.</li>
+                        <li>Dopuszczalne jest niestosowanie się do zasady opisanej w punkcie 7. w przypadku wyrażenia zgody przeciwnika na występ wypożyczonego zawodnika.</li>
+                        <li>W rozgrywkach BLS i BLS(K) mających charakter amatorski nie mogą brać udziału zawodnicy/-czki grający w 2. lidze i wyżej PZPS.</li>
+                        <li>Każdy zawodnik biorący udział w rozgrywkach BLS zgadza się na robienie mu zdjęć i nagrywanie podczas meczów i upowszechniania ich do promocji ligi, w tym na naszym FanPage'u na Facebooku.</li>
+                    </ol>
+
+
+                    <h6>§4. Zasady gry</h6>
+                    <ol>
+                        <li>W BLS i BLSK obowiązują aktualne i oficjalnie zatwierdzone przepisy gry w piłkę siatkową PZPS.</li>
+                        <li>Mecze rozgrywane są do trzech wygranych setów do 25 punktów.</li>
+                        <li>Oficjalną, „meczową” piłką rozgrywek jest Molten V5M5000.</li>
+                        <li>Uczestnicy ligi przychodzą na mecz najpóźniej 10 minut przed wyznaczoną godziną rozgrywania spotkania, punktualnie o wyznaczonej wcześniej godzinie zaczynamy rozgrzewkę i 15-20 minut później zaczynamy mecz. W przypadku spóźnień drużyny przyznawany będzie walkower dla drużyny przeciwnej.</li>
+                        <li>O miejscu w tabeli decyduje: ilość zdobytych punktów (w przypadku takiej samej ilości punktów decydują zwycięstwa), stosunek setów zdobytych i straconych, stosunek "małych" punktów.</li>
+                        <li>Za zwycięstwo w stosunku 3:0 lub 3:1 zespół otrzymuje 3 pkt.</li>
+                        <li>Za zwycięstwo w stosunku 3:2 zespół otrzymuje 2 pkt.</li>
+                        <li>Za porażkę w stosunku 0:3 lub 1:3 zespół nie otrzymuje punktów.</li>
+                        <li>Za porażkę w stosunku 2:3 zespół otrzymuje 1 pkt.</li>
+                        <li>W przypadku wycofania się drużyny z rozgrywek wszystkie mecze, które zostały jej do rozegrania i mecze przez nią rozegrane stają się walkowerami dla drużyn przeciwnych.</li>
+                        <li>
+                            Aby uniknąć walkowerów w meczach, które zostały przełożone, postanawiamy:
+                            <ol type="a">
+                                <li>Zgodnie z zasadą fair play każda drużyna powinna zgodzić się na prośbę drużyny przeciwnej o przełożenie meczu.</li>
+                                <li>W przypadku przełożenia meczu przez jedną z drużyn zobowiązana jest ona do podania drużynie przeciwnej co najmniej trzech terminów rozegrania przełożonego meczu. Jeżeli terminy nie odpowiadają drużynie, która zgodziła się na przełożenie meczu, tym razem to ona podaje maksymalnie trzy terminy, a drużyna przekładająca mecz musi się dostosować do jednego z nich. Jeżeli się nie dostosuje, dopiero wówczas przyznawany będzie walkower na korzyść drużyny, która zgodziła się na przełożenie meczu. Mając tyle terminów do rozegrania meczu, powinno obyć się bez walkowerów.</li>
+                            </ol>
+                        </li>
+                        <li>W sezonie drużyna może przełożyć maksymalnie trzy mecze (trzeci mecz pod warunkiem, że dwa wcześniejsze zostaną już rozegrane). Mecz przełożony musi być rozegrany w ciągu dwóch-trzech tygodni, chyba że Organizator zdecyduje inaczej. W przypadku ostatniej kolejki mecz musi być rozegrany w ciągu tygodnia. Jeżeli do tego czasu nie zostanie rozegrany, będzie przyznany walkower.</li>
+                        <li>Jeżeli w jakieś lidze BLS i BLS(K) w fazie końcowej rozgrywek odbędą się play-offy, udział w nich mogą wziąć tylko zawodnicy, którzy wystąpili w co najmniej trzech meczach ligowych podczas fazy grupowej w przypadku 7 drużyn w lidze oraz w co najmniej czterech meczach ligowych podczas fazy grupowej w przypadku 8 drużyn w lidze (co najmniej 50 % frekwencji). Jest dopuszczalne, jeżeli zawodnik uzyska 50 % frekwencji dokładnie podczas 1. kolejki play-off. Zawodnicy zgłoszeni do drużyny tuż przed fazą play-off nie zostaną dopuszczeni do gry.</li>
+                        <li>Organizator dopuszcza możliwość jednego "transferu medycznego" w sezonie za jego zgodą w przypadku, gdy drużyna jest niekompletna, tzn. 5 lub 6 z libero. W innych przypadkach potrzebna będzie również zgoda drużyny przeciwnej.</li>
+                    </ol>
+
+
+                    <h6>§5. Sędziowie</h6>
+                    <ol>
+                        <li>Obsługę sędziowską zapewnia organizator. Każde spotkanie prowadzone jest przez jednego sędziego.</li>
+                        <li>Sędziowie meczów BLS nie są zobowiązani do posiadania uprawnień sędziowskich, jednak powinni być zapoznani z przepisami gry.</li>
+                        <li>Za wykonywanie swojej pracy sędziowie pobierają wynagrodzenie, które jest opłacane z wpisowego uiszczonego przez drużyny.</li>
+                        <li>Sędziowie mają prawo do korzystania z technicznych środków pomocy, takich jak gwizdki elektroniczne lub systemy wideo, w celu poprawy dokładności podejmowanych decyzji.</li>
+                        <li>Odpowiedzialność za błędy sędziowskie spoczywa wyłącznie na sędziach, jednakże w przypadku oczywistych pomyłek, drużyny mają prawo do złożenia protestu. Protest taki musi zostać złożony w ciągu 24 godzin od zakończenia meczu.</li>
+                        <li>Sędzia główny ma prawo do przerwania meczu z powodu złych warunków pogodowych, niebezpieczeństwa dla zdrowia zawodników lub innych nieprzewidzianych okoliczności. Decyzja o dalszym ciągu gry należy do sędziego po konsultacji z organizatorem.</li>
+                        <li>Wszelkie sprzeciwy dotyczące interpretacji przepisów gry podczas meczu muszą być rozstrzygnięte na miejscu przez sędziego głównego. Jego decyzja jest ostateczna i nie podlega dalszej dyskusji w trakcie trwania meczu.</li>
+                        <li>Sędzia ma obowiązek sprawdzenia, czy boisko spełnia wymagane standardy bezpieczeństwa przed rozpoczęciem meczu oraz czy obie drużyny są prawidłowo wyposażone.</li>
+                    </ol>
+
+
+                    <h6>§6. Kary</h6>
+                    <ol>
+                        <li>Każda drużyna zobowiązana jest do wpłaty dodatkowej kaucji w wysokości 240 zł, płatnej gotówką.</li>
+                        <li>W przypadku niestawienia się na spotkanie ligi BLS lub zgłoszenie walkowera w piątek przed spotkaniem lub w weekend spotkania, zespół jest karany walkowerem 0:3 (0:25, 0:25, 0:25) oraz utratą 80 zł z kaucji na rzecz drużyny przeciwnej. Jeżeli zgłoszenie jest w dniu meczu lub tuż przed meczem, dodatkowo 40 zł przechodzi na konto sędziego.</li>
+                        <li>Możliwe jest dopuszczenie zespołu do rozegrania meczu w składzie mniejszym niż wymieniony w regulaminie po uzyskaniu zgody przeciwników. W takim przypadku zespół nie podlega karze finansowej oraz nie jest karany walkowerem.</li>
+                        <li>Za niewłaściwe zachowanie względem sędziego lub zawodnika drużyny przeciwnej: zawieszenie zawodnika na okres do dwóch spotkań oraz odjęcie drużynie do 4 punktów.</li>
+                        <li>Wyjątkowo niesportowe zachowanie może być ukarane przez Organizatora wykluczeniem zespołu z rozgrywek. W takim przypadku wpłacone wpisowe nie podlega zwrotowi.</li>
+                        <li>Powyższe kary są karami maksymalnymi – każda kara wyznaczana jest indywidualnie po rozpatrzeniu danego przypadku przez Organizatora.</li>
+                        <li>Kapitan drużyny ma prawo odwołania się od decyzji Organizatora. Odwołania rozpatrywane są przez Zarząd European Mobility Center (dawniej SKS "ŻUBR").</li>
+                        <li>W przypadku, gdy drużyna naruszy regulamin więcej niż trzy razy w sezonie, może zostać podjęta decyzja o jej wykluczeniu z dalszych rozgrywek bez możliwości zwrotu wpisowego.</li>
+                        <li>Za każdym razem, gdy drużyna uzyska walkowera na swoją korzyść, przysługuje jej prawo do otrzymania części kaucji przeciwnika jako rekompensaty za nieodbyte spotkanie, z zastrzeżeniem decyzji Organizatora.</li>
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .regulamin h3, .regulamin h4, .regulamin h6 {
+        text-align: center;
+    }
+
+    .regulamin h3, .regulamin h4, .regulamin h6 {
+        margin-top: 20px;
+    }
+
+    .regulamin ol {
+        margin-left: 20px;
+    }
+
+    .data-wydania {
+        text-align: right;
+        font-style: italic;
+    }
+</style>

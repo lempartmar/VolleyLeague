@@ -1,0 +1,131 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = VolleyLeague.Client.Blazor2
+build_property.RootNamespace = VolleyLeague.Client.Blazor2
+build_property.ProjectDir = C:\Users\marci\source\repos\VolleyLeague_MVVM\VolleyLeague.Client.Blazor\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\marci\source\repos\VolleyLeague_MVVM\VolleyLeague.Client.Blazor
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/AddArticle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkQXJ0aWNsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Articles.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXJ0aWNsZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Carousele.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2Fyb3VzZWxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Contact.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/CreateMatch.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlTWF0Y2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/HandleSeason.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGFuZGxlU2Vhc29uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/MainPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpblBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Match.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWF0Y2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/New.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Policy.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9saWN5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Referees.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVmZXJlZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Schedule.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2NoZWR1bGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Standings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhbmRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Team.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/TeamList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhbUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Test.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Timetable.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGltZXRhYmxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/UserProfile.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclByb2ZpbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-e79bbwa2de
+
+[C:/Users/marci/source/repos/VolleyLeague_MVVM/VolleyLeague.Client.Blazor/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-mdfgchmppy

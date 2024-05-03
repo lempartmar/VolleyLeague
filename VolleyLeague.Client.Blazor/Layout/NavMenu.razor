@@ -1,49 +1,175 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">VolleyLeague.Client.Blazor</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿@using VolleyLeague.Client.Blazor.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using VolleyLeague.Client.Blazor.Authentication
+@using VolleyLeague.Client.Blazor.Shared.Dtos
+@using static VolleyLeague.Client.Blazor.Services.AccountService
+@using System.Net.Http.Headers
+@using System.Globalization
+@inject AuthenticationStateProvider authStateProvider
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject IUserService userService
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+
+<section id="header_section_wrapper" class="header_section_wrapper">
+    <div class="container">
+        <div class="header-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="left_section">
+                        <span class="date">
+                            @GetDayName(DateTime.Now) .
+                        </span>
+                        <!-- Date -->
+                        <span class="time">
+                            @GetFormattedDate(DateTime.Now)
+                        </span>
+                        <!-- Top Social Section -->
+                    </div>
+                    <!-- Left Header Section -->
+                </div>
+                <div class="col-md-4">
+                    <div class="logo">
+                        <a href="index.html"><img src="assets/img/LigaSiatkowkiNew.png" alt="Tech NewsLogo"></a>
+                    </div>
+                    <!-- Logo Section -->
+                </div>
+                <div class="col-md-4">
+                    <div class="right_section">
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <ul class="nav navbar-nav">
+                                    <li><a href="/login">Zaloguj się</a></li>
+                                    <li><a href="/register">Zarejestruj się</a></li>
+                                </ul>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView>
+                            <Authorized>
+                                <ul class="nav navbar-nav">
+                                    <li><a>Zalogowany </a></li>
+                                    <li><button class="btn btn-link nav-link" @onclick="Logout">Wyloguj</button></li>
+                                </ul>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                    <!-- Right Header Section -->
+                </div>
+            </div>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="articles">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Artykuły
-            </NavLink>
+
+        <div class="navigation-section">
+            <nav class="navbar m-menu navbar-default">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        @*                         <a href="index.html">
+                        <img src="assets/img/logo_circle.png" alt="Logo" class="logo" style="max-width: 100%; height: auto;">
+                        </a> *@
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+                        <ul class="nav navbar-nav main-nav">
+                            <li>
+                                <NavLink class="active" href="/">Strona Główna</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/standings">Tabele</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/schedule">Terminarz</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/teams-list">Zespoły</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/policy">Liga</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/contact">Kontakt</NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="collapse navbar-collapse" style="/* border-top: 1px solid black; */ display: flex; justify-content: center; width: 100%" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav main-nav" style="flex: 0 1 auto; padding: 0; list-style: none; display: flex; justify-content: center; width: 100%; margin: 0;">
+                            <AuthorizeView>
+                                <Authorized>
+                                    <li style="margin-right: 20px;">
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/">Panel Użytkownika</NavLink>
+                                    </li>
+                                    <li style="margin-right: 20px;">
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/addArticle">Dodaj Artykuł</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/referees">Zarządzaj Sędziami</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/createMatch">Dodaj mecz</NavLink>
+                                    </li>
+                                </Authorized>
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Admin">
+                                <Authorized>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/judges">Zarządzaj Sędziami</NavLink>
+                                    </li>
+                                </Authorized>
+                            </AuthorizeView>
+                        </ul>
+                    </div>
+
+
+
+                    <!-- .navbar-collapse -->
+                </div>
+                <!-- .container -->
+            </nav>
+            <!-- .nav -->
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="timetable">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Terminarz
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="teamslist">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> List zespołów
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="standings">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tabele
-            </NavLink>
-        </div>
-    </nav>
-</div>
+        <!-- .navigation-section -->
+    </div>
+    <!-- .container -->
+</section>
+
 
 @code {
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authstate = await authStateProvider.GetAuthenticationStateAsync();
+    }
+
+    public async void Logout()
+    {
+        await localStorage.RemoveItemAsync("token");
+        ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+        NavigationManager.NavigateTo("/");
+
+    }
+
+    private string GetDayName(DateTime date)
+    {
+        return date.ToString("dddd", new CultureInfo("pl-PL"));
+    }
+
+    private string GetFormattedDate(DateTime date)
+    {
+        return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
+    }
+
 }

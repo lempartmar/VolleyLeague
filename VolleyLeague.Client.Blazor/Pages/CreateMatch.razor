@@ -1,0 +1,323 @@
+﻿@page "/createMatch"
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+@using VolleyLeague.Entities.Dtos.Discussion
+@inject IMatchOrganizerService matchOrganizerService
+@inject ITeamService teamService
+@inject NavigationManager NavigationManager
+
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-column justify-content-center">
+                <h1>Tworzenie meczu</h1>
+
+                @if (pageReady)
+                {
+                    <EditForm Model="NewMatch" OnSubmit="OnSubmit">
+                        <div class="form-group">
+                            <label for="seasonSelect">Sezon:</label>
+                            <Select value="@NewMatch.SeasonId" @onchange="OnSeasonChanged" class="form-control">
+                                @foreach (var season in NewMatch.SeasonList)
+                                {
+                                    <option value="@season.Id">@season.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="RoundSelect">Runda:</label>
+                            <Select value="@NewMatch.RoundId" @onchange="OnRoundChanged" class="form-control">
+                                @foreach (var round in NewMatch.SpecificRound)
+                                {
+                                    <option value="@round.Id">@round.Name</option>
+                                }
+                            </Select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leagueSelect">Liga:</label>
+                            <Select value="@NewMatch.LeagueId" @onchange="OnLeagueChanged" class="form-control">
+                                @foreach (var league in NewMatch.LeagueList)
+                                {
+                                    <option value="@league.Id">@league.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="HomeTeam">Drużyna gospodarzy</label>
+                            <Select value="@NewMatch.HomeTeamId" @onchange="OnHomeTeamChanged" class="form-control">
+                                @foreach (var team in NewMatch.HomeTeamList)
+                                {
+                                    <option value="@team.Id">@team.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="GuestTeam">Drużyna gości</label>
+                            <Select value="@NewMatch.GuestTeamId" @onchange="OnGuestTeamChanged" class="form-control">
+                                @foreach (var team in NewMatch.GuestTeamList)
+                                {
+                                    <option value="@team.Id">@team.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Referees">Sędzia</label>
+                            <Select value="@NewMatch.RefereeId" @onchange="OnRefereeChange" class="form-control">
+                                @foreach (var referee in NewMatch.RefereeList)
+                                {
+                                    <option value="@referee.Id">@referee.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Venues">Miejsce Meczu</label>
+                            <Select value="@NewMatch.VenueId" @onchange="OnVenueChange" class="form-control">
+                                @foreach (var venue in NewMatch.VenueList)
+                                {
+                                    <option value="@venue.Id">@venue.Name</option>
+                                }
+                            </Select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="scheduleDate">Data:</label>
+                            <input type="date" id="scheduleDate" class="form-control"
+                                   value="@NewMatch.ScheduleDate"
+                                   @onchange="UpdateSchedule1" />
+                        </div>
+                        <div class="form-group">
+                            <label for="scheduleTime">Czas:</label>
+                            <input type="time" id="scheduleTime" class="form-control"
+                                   value="@NewMatch.ScheduleTime"
+                                   @onchange="UpdateSchedule2" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Utwórz</button>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    if (loadingError != "")
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @loadingError
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Ładowanie...</p>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@code {
+    private NewMatchModel NewMatch = new NewMatchModel();
+    private NewMatchDto NewMatchDto = new NewMatchDto();
+    private List<RoundDto> AllRounds { get; set; } = new List<RoundDto>();
+    private List<TeamSummaryDto> AllTeams { get; set; } = new List<TeamSummaryDto>();
+
+    private DateTime? dateTime2;
+    private const string format = "yyyy-MM-ddTHH:mm"; // Format odpowiedni dla input datetime-local
+    private const string timeFormat = "HH:mm"; // Format godzin i minut
+
+
+    private int previousLeagueId = 0;
+    private int previousSeasonId = 0;
+
+    private bool pageReady = false;
+    private string loadingError = "";
+
+    private bool submitLoading = false;
+    private string submitError = "";
+
+    public DateTime MatchDate { get; set; }
+    public TimeSpan MatchTime { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var seasonsResult = await matchOrganizerService.GetSeasons();
+
+        NewMatch.SeasonList = seasonsResult;
+        // NewMatch.SeasonId = NewMatch.SeasonList.First().Id;
+        // previousSeasonId = NewMatch.SeasonId;
+
+        // var venuesResult = (await matchOrganizerService.GetVenues());
+
+        //     NewMatch.VenueList = venuesResult!;
+
+        var roundsResult = await matchOrganizerService.GetRounds();
+
+        AllRounds = roundsResult;
+        NewMatch.RoundList = AllRounds.ToList();
+
+        var leaguesResult = await matchOrganizerService.GetLeagues();
+        NewMatch.LeagueList = leaguesResult;
+        NewMatch.LeagueId = NewMatch.LeagueList.First().Id;
+        previousLeagueId = NewMatch.LeagueId;
+
+        var refereesResult = await matchOrganizerService.GetReferees();
+
+        NewMatch.RefereeList = refereesResult;
+
+        var teamsResult = await teamService.GetAllTeams();
+
+        var venueResult = await matchOrganizerService.GetVenues();
+        NewMatch.VenueList = venueResult;
+
+        NewMatch.SeasonId = 37;
+        NewMatch.RoundId = 1237;
+        NewMatch.LeagueId = 1;
+        NewMatch.AllTeamList = teamsResult;
+        AllTeams = teamsResult;
+        var guestTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
+        NewMatch.GuestTeamList = guestTeamList;
+        NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
+        NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
+        NewMatch.GuestTeamId = NewMatch.GuestTeamList.ElementAtOrDefault(1)?.Id ?? 0;
+        pageReady = true;
+    }
+
+    public async Task OnSubmit()
+    {
+        submitLoading = true;
+        Console.WriteLine(NewMatchDto);
+        Console.WriteLine(NewMatchDto.VenueId);
+        var submitResult = await matchOrganizerService.CreateMatch(NewMatchDto);
+
+        // NavigationManager.NavigateTo("/matches");
+
+        submitLoading = false;
+    }
+
+    private void OnChange(NewMatchModel model)
+    {
+        // if (previousLeagueId != model.LeagueId)
+        // {
+        //     previousLeagueId = model.LeagueId;
+        //     NewMatch.GuestTeamList = AllTeams.Where(t => t.LeagueId == model.LeagueId).ToList();
+        //     NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == model.LeagueId).ToList();
+        //     NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
+        //     NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+
+        // }
+
+        // if (previousSeasonId != model.SeasonId)
+        // {
+        //     previousSeasonId = model.SeasonId;
+        //     NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == model.SeasonId).ToList();
+        // }
+    }
+
+    // private async Task ApplyFilter()
+    // {
+    //     if (NewMatch.SeasonId == 0 || NewMatch.RoundId == 0 || NewMatch.LeagueId == 0)
+    //     {
+    //         return;
+    //     }
+
+    //     var result = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, Filter.RoundId);
+    //     if (result != null)
+    //     {
+    //         Games = result;
+    //     }
+    //     else
+    //     {
+
+    //     }
+    //     scheduleLoading = false;
+    // }
+
+    // Możesz zaktualizować model pełnej daty i czasu przy każdej zmianie
+    // private void UpdateMatchDateTime()
+    // {
+    //     NewMatch.MatchDateTime = MatchDate.Date + MatchTime;
+    // }
+
+    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.SeasonId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.SeasonId = Convert.ToInt32(e.Value.ToString());
+        // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.LeagueId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.LeagueId = Convert.ToInt32(e.Value.ToString());
+        // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnGuestTeamChanged=> EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.GuestTeamId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.GuestTeamId = Convert.ToInt32(e.Value.ToString());
+        // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnHomeTeamChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.HomeTeamId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.HomeTeamId = Convert.ToInt32(e.Value.ToString());
+        // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnRoundChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.RoundId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.RoundId = Convert.ToInt32(e.Value.ToString());
+    // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnRefereeChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        NewMatch.RefereeId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.RefereeId = Convert.ToInt32(e.Value.ToString());
+    // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnVenueChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        Console.Write("Change");
+        NewMatch.VenueId = Convert.ToInt32(e.Value.ToString());
+        NewMatchDto.VenueId = Convert.ToInt32(e.Value.ToString());
+        // await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnDateChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+    Console.Write("Change");
+        NewMatch.Schedule.AddDays(Convert.ToInt32(e.Value.ToString()));
+        NewMatchDto.Schedule.AddDays(Convert.ToInt32(e.Value.ToString()));
+    // await ApplyFilter();
+    });
+
+    private void UpdateSchedule1()
+    {
+        NewMatch.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
+        NewMatchDto.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
+    }
+
+    private void UpdateSchedule2()
+    {
+        NewMatch.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
+        NewMatchDto.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
+    }
+}
+

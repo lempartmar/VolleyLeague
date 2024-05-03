@@ -1,83 +1,151 @@
-﻿@page "/teamslist"
+﻿@page "/teams-list"
+@using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Dtos.Teams
-@using VolleyballBlazor.Infrastructure.Client.Services
 @inject HttpClient Http
-@inject ITeamService teamService
+@inject ITeamService TeamService
 
-<div class="d-flex flex-column" style="min-width:75%">
-    <p class="text-danger">@ErrorMessage</p>
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mobile">
+                    <div class="article_title header_purple">
+                        <h2>ZESPOŁY</h2>
+                    </div>
+                    <p class="text-danger">@ErrorMessage</p>
 
-    @if (PageReady)
-    {
-        <div class="form-group row" style="max-width:700px">
-            <label for="league">Liga:</label>
-            <select class="form-control" id="league" @onchange="UpdateLeague">
-                @if (Leagues == null)
-                {
-                    <option value="null" disabled>Ładowanie lig...</option>
-                }
-                else
-                {
-                    <option value="null" selected disabled>Wybierz ligę</option>
-                    @foreach (LeagueDto league in Leagues)
+                    @if (PageReady)
                     {
-                        <option value="@league.Id">@league.Name</option>
-                    }
-                }
+                        <div class="container">
+                            <h2 class="text-center"></h2>
 
-            </select>
-        </div>
-        <div>
-            @if (Teams == null)
-            {
-                <p>Wybierz ligę, by zobaczyć drużyny</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3>1 Liga BLS</h3>
+                                    <div class="list-group">
+                                        @foreach (TeamDto team in team1)
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-xs-2">
+                                                        @if (team.Logo != null)
+                                                        {
+                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <div style="min-height: 45px;">
+                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
+                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
 
-            }
-            else
-            {
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Drużyna</th>
-                            <th scope="col">Kapitan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                        @foreach (TeamDto team in Teams)
-                        {
-                            <tr>
-                                <td>
-                                    @if (team.Logo != null)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h3>1 Liga BLSK</h3>
+                                    <div class="list-group">
+                                        @foreach (TeamDto team in team2)
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-xs-2">
+                                                        @if (team.Logo != null)
+                                                        {
+                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <div style="min-height: 45px;">
+                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
+                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h3>2 Liga BLS</h3>
+                                    <div class="list-group">
+                                        @foreach (TeamDto team in team3)
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-xs-2">
+                                                        @if (team.Logo != null)
+                                                        {
+                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
+                                                        }
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <div style="min-height: 45px;">
+                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
+                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
+                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container login">
+                            <h2 class="text-center">POZOSTAŁE ZESPOŁY</h2>
+                            <div class="form-group row" style="max-width:700px">
+                                <label for="league">Liga:</label>
+                                <select class="form-control" id="league" @onchange="UpdateLeague">
+                                    @if (Leagues == null)
                                     {
-                                        <TeamLogo Image="@team.Logo" SizePx="100" />
+                                        <option value="null" disabled>Ładowanie lig...</option>
                                     }
                                     else
                                     {
-                                        <img class="img-thumbnail" style="width: 100px" src="/images/user.png">
+                                        <option value="null" selected disabled>Wybierz ligę</option>
+                                        @foreach (LeagueDto league in Leagues)
+                                        {
+                                            <option value="@league.Id">@league.Name</option>
+                                        }
                                     }
-                                </td>
-                                <td  style="vertical-align: middle">
-                                    <NavLink href="@{
-                        "/team/"+team.Id
-}"> @team.Name </NavLink>
-                                </td>
-                                <td  style="vertical-align: middle">
-                                    <NavLink href="@{
-                        "/user-profile/"+team.Captain.Id
-}">@team.Captain.FirstName @team.Captain.LastName</NavLink>
-                                </td>
-                            </tr>
-                        }
 
-                    </tbody>
-                </table>
-            }
+                                </select>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+            </div>
         </div>
-
-    }
-</div>
+    </div>
+</section>
 
 @code {
     public bool PageReady = false;
@@ -88,11 +156,17 @@
 
     public List<TeamDto>? Teams;
 
+    public List<TeamDto>? team1;
+    public List<TeamDto>? team2;
+    public List<TeamDto>? team3;
+
+
     protected override async Task OnInitializedAsync()
     {
+        await GetCurrentTopTeams();
         Leagues = await GetLeagues();
 
-        if (Leagues != null)
+        if (Leagues != null && team1 != null && team2 != null && team3 != null)
         {
             PageReady = true;
         }
@@ -102,8 +176,16 @@
 
     private async Task<List<LeagueDto>?> GetLeagues()
     {
-        var leaguesResoponse = await teamService.GetLeagues();
+        var leaguesResoponse = await TeamService.GetLeagues();
         return leaguesResoponse;
+    }
+
+    private async Task GetCurrentTopTeams()
+    {
+        team1 = await TeamService.GetTeamsByLeague(1);
+        team2 = await TeamService.GetTeamsByLeague(5);
+        team3 = await TeamService.GetTeamsByLeague(2);
+        StateHasChanged();
     }
 
 
@@ -111,10 +193,17 @@
     {
         int leagueId = Convert.ToInt32(e.Value);
 
-        var result = await teamService.GetTeamsByLeague(leagueId);
+        var result = await TeamService.GetTeamsByLeague(leagueId);
 
-            Teams = result;
-            StateHasChanged();
+        Teams = result;
+        StateHasChanged();
 
+    }
+}
+
+@functions {
+    private string GetTeamLogoSrc(byte[] logo)
+    {
+        return logo != null ? $"data:image/png;base64,{Convert.ToBase64String(logo)}" : "/images/user.png";
     }
 }

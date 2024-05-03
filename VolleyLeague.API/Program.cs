@@ -15,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("VolleybalSystemConnection");
@@ -36,6 +38,7 @@ builder.Services.AddTransient(typeof(ITeamService), typeof(TeamService));
 builder.Services.AddTransient(typeof(IMatchService), typeof(MatchService));
 builder.Services.AddTransient(typeof(IPositionService), typeof(PositionService));
 builder.Services.AddTransient(typeof(IRoundService), typeof(RoundService));
+builder.Services.AddTransient(typeof(IVenueService), typeof(VenueService));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient(typeof(ISeasonService), typeof(SeasonService));
 builder.Services.AddTransient(typeof(ILeagueService), typeof(LeagueService));   
@@ -74,12 +77,18 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseWebAssemblyDebugging();
 }
 
 app.UseHttpsRedirection();
 
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();

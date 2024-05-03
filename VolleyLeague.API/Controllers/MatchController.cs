@@ -25,21 +25,21 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet(Name = "GetAllMatches")]
+        [HttpGet("GetAllMatches")]
         public async Task<IActionResult> GetAllMatches()
         {
             var result = await _matchService.GetAllMatchesAsync();
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateMatch(NewMatchDto match)
+        [HttpPost("createMatch")]
+        public async Task<IActionResult> CreateMatch([FromBody] NewMatchDto match)
         {
-            string? id = User.Identity?.Name;
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                return Unauthorized();
-            }
+            //string? id = User.Identity?.Name;
+            //if (string.IsNullOrWhiteSpace(id))
+            //{
+            //    return Unauthorized();
+            //}
             
             await _matchService.AddMatch(match);
             return Ok();

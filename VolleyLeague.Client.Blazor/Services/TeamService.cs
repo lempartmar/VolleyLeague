@@ -2,8 +2,8 @@
 using System.Text.Json;
 using VolleyLeague.Entities.Dtos.Teams;
 
-namespace VolleyballBlazor.Infrastructure.Client.Services
-{
+namespace VolleyLeague.Client.Blazor.Services
+{ 
     public interface ITeamService
     {
         public Task<List<TeamSummaryDto>> GetAllTeams();
@@ -31,7 +31,7 @@ namespace VolleyballBlazor.Infrastructure.Client.Services
 
         public async Task<List<TeamSummaryDto>> GetAllTeams()
         {
-            var response = await _httpClient.GetAsync("api/team");
+            var response = await _httpClient.GetAsync("api/team/getallteams");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();

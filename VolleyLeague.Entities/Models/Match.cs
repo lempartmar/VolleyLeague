@@ -24,7 +24,7 @@
 
         public string? MatchInfo { get; set; }
 
-        public int MvpId { get; set; }
+        public int? MvpId { get; set; }
 
         public byte? Set1Team1Score { get; set; }
 

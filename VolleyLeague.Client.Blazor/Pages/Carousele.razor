@@ -1,0 +1,107 @@
+﻿@using System.Timers
+@using VolleyLeague.Entities.Dtos.Matches
+
+@using static VolleyLeague.Client.Blazor.Pages.MainPage
+@implements IDisposable
+
+<div id="matchCarousel" class="carousel slide w-100" data-ride="carousel" style="height: 100px;">
+    <div class="carousel-inner">
+        <div class="row justify-content-around carousel-cards">
+            @for (int i = 0; i < Math.Min(4, matchResults.Count); i++)
+            {
+                var homeTeamName = matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Name;
+                var guestTeamName = matchResults[(i + activeIndex) % matchResults.Count].GuestTeam.Name;
+
+                // Ograniczenie nazw drużyn do 17 znaków
+                var displayHomeTeamName = homeTeamName.Length > 12 ? homeTeamName.Substring(0, 12) : homeTeamName;
+                var displayGuestTeamName = guestTeamName.Length > 12 ? guestTeamName.Substring(0, 12) : guestTeamName;
+
+                <div class="col-sm-3 d-flex justify-content-center">
+                    <div class="card h-100 text-center" style="background-color: white; color: black;">
+                        <div class="card-body">
+                            <div class="row" style="border-right:1px solid #eee; height: 100px">
+                                <!-- Tytuł karty z datą meczu -->
+@*                                 <div class="col-xs-7" style="text-align: left;">
+                                    <strong>Wynik</strong>
+                                    </div>
+                                <div class="col-xs-4" style="text-align:right"> *@
+                                <p style="color: #7d7d7d" class="card-title">@matchResults[(i + activeIndex) % matchResults.Count].Schedule.ToString("MM-dd")</p>
+@*                                 </div> *@
+                                <div class="col-xs-2" >
+                                                                        <p class="card-text" style="text-align:right">
+                                    <img src="@GetLogoSrc(matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Logo)" class="team-logo" alt="@matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Name" style="height: 20px; width: 20px; margin-right: 5px;">
+                                    </p>
+                                    <p class="card-text" style="text-align:right">
+                                    <img src="@GetLogoSrc(matchResults[(i + activeIndex) % matchResults.Count].GuestTeam.Logo)" class="team-logo" alt="@matchResults[(i + activeIndex) % matchResults.Count].GuestTeam.Name" style="height: 20px; width: 20px; margin-right: 5px;">
+                                    </p>
+                                </div>
+                                <div class="col-xs-7">
+                                    <!-- Pierwsza kolumna (nazwy drużyn i loga) -->
+                                    <p class="card-text" style="text-align:left">
+
+                                    <p style="color:#0268d6">@displayHomeTeamName</p>
+                                    </p>
+                                    <p class="card-text" style="text-align:left">
+
+                                    <p style="color: #0268d6">@displayGuestTeamName</p>
+                                    </p>
+                                </div>
+                                <div class="col-xs-1">
+                                    
+                                    <!-- Druga kolumna (wyniki) -->
+                                    <p class="card-text">@matchResults[(i + activeIndex) % matchResults.Count].Team1Score</p>
+                                    <p class="card-text">@matchResults[(i + activeIndex) % matchResults.Count].Team2Score</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public List<MatchSummaryDto> matchResults { get; set; } = new List<MatchSummaryDto>();
+
+    private int activeIndex = 0;
+    private Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(4000);
+        timer.Elapsed += TimerElapsed;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+
+    private void TimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            activeIndex = (activeIndex + 1) % matchResults.Count;
+            StateHasChanged(); 
+        });
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    private string GetLogoSrc(byte[] logo)
+    {
+        if (logo != null && logo.Length > 0)
+        {
+            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
+        }
+        else
+        {
+            // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
+            return "/assets/img/Logo_alternative.png";
+        }
+    }
+}

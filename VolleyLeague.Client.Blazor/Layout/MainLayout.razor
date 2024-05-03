@@ -1,16 +1,25 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<div id="main-wrapper">
+    <div class="uc-mobile-menu-pusher">
+        <div class="content-wrapper">
+            <NavMenu />
             @Body
-        </article>
-    </main>
+            <section id="footer_section" class="footer_section">
+                    <div class="footer_bottom_Section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="footer">
+                                <div class="col-sm-3">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>&copy; Copyright 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <a href="#" class="crunchify-top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
 </div>

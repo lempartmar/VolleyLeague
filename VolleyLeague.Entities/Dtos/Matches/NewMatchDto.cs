@@ -6,7 +6,7 @@ namespace VolleyLeague.Entities.Dtos.Matches
     public class NewMatchDto
     {
         [Display(Name = "Data")]
-        public DateTime Schedule { get; set; } = DateTime.Now;
+        public DateTime Schedule { get; set; }
 
         [Display(Name = "Sezon")]
         [Range(1, int.MaxValue, ErrorMessage = "Wybierz sezon")]
@@ -36,28 +36,58 @@ namespace VolleyLeague.Entities.Dtos.Matches
 
         [Display(Name = "Drużyna gospodarzy")]
         [Range(1, int.MaxValue, ErrorMessage = "Wybierz drużynę gospodarzy")]
-        [Required(ErrorMessage = "Wybierz drużynę gospodarzy")]
-        public int HomeTeamId { get; set; }
+        //[Required(ErrorMessage = "Wybierz drużynę gospodarzy")]
+        public int? HomeTeamId { get; set; }
 
         [Display(Name = "Drużyna gości")]
         [Range(1, int.MaxValue, ErrorMessage = "Wybierz drużynę gości")]
-        public int GuestTeamId { get; set; }
+        public int? GuestTeamId { get; set; }
 
-        public static explicit operator Match(NewMatchDto newMatchDto)
-        {
-            return new Match
-            {
-                Schedule = newMatchDto.Schedule,
-                VenueId = newMatchDto.VenueId,
-                LeagueId = newMatchDto.LeagueId,
-                Sector = (byte)newMatchDto.Sector,
-                RoundId = newMatchDto.RoundId,
-                RefereeId = newMatchDto.RefereeId,
-                MatchInfo = newMatchDto.MatchInfo,
-                HomeTeamId = newMatchDto.HomeTeamId,
-                GuestTeamId = newMatchDto.GuestTeamId,
-                MvpId = 1,
-            };
-        }
+        [Display(Name = "Wynik setu 1 - drużyna gospodarzy")]
+        public byte? Set1Team1Score { get; set; }
+
+        [Display(Name = "Wynik setu 2 - drużyna gospodarzy")]
+        public byte? Set2Team1Score { get; set; }
+
+        [Display(Name = "Wynik setu 3 - drużyna gospodarzy")]
+        public byte? Set3Team1Score { get; set; }
+
+        [Display(Name = "Wynik setu 4 - drużyna gospodarzy")]
+        public byte? Set4Team1Score { get; set; }
+
+        [Display(Name = "Wynik setu 5 - drużyna gospodarzy")]
+        public byte? Set5Team1Score { get; set; }
+
+        [Display(Name = "Wynik setu 1 - drużyna gości")]
+        public byte? Set1Team2Score { get; set; }
+
+        [Display(Name = "Wynik setu 2 - drużyna gości")]
+        public byte? Set2Team2Score { get; set; }
+
+        [Display(Name = "Wynik setu 3 - drużyna gości")]
+        public byte? Set3Team2Score { get; set; }
+
+        [Display(Name = "Wynik setu 4 - drużyna gości")]
+        public byte? Set4Team2Score { get; set; }
+
+        [Display(Name = "Wynik setu 5 - drużyna gości")]
+        public byte? Set5Team2Score { get; set; }
+
+        //public static explicit operator Match(NewMatchDto newMatchDto)
+        //{
+        //    return new Match
+        //    {
+        //        Schedule = newMatchDto.Schedule,
+        //        VenueId = newMatchDto.VenueId,
+        //        LeagueId = newMatchDto.LeagueId,
+        //        Sector = (byte)newMatchDto.Sector,
+        //        RoundId = newMatchDto.RoundId,
+        //        RefereeId = newMatchDto.RefereeId,
+        //        MatchInfo = newMatchDto.MatchInfo,
+        //        HomeTeamId = newMatchDto.HomeTeamId,
+        //        GuestTeamId = newMatchDto.GuestTeamId,
+        //        MvpId = 1,
+        //    };
+        //}
     }
 }

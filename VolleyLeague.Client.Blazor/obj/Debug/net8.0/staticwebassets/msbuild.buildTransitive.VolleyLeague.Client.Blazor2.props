@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\VolleyLeague.Client.Blazor2.props" />
+</Project>

@@ -1,0 +1,128 @@
+﻿@page "/addArticle"
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+@using VolleyLeague.Entities.Dtos.Discussion
+@inject IArticleService ArticleService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <h3>Rejestracja</h3>
+<div class="m-2">
+    @if (!IsSubmitted)
+    {
+
+        <EditForm Model="@articleDto" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <!-- Tytuł artykułu -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Title">Tytuł:</label>
+                <div class="col-sm-10">
+                    <InputText class="form-control" id="Title" @bind-Value="articleDto.Title" />
+                    <ValidationMessage class="text-danger" For="@(() => articleDto.Title)" />
+                </div>
+            </div>
+
+            <!-- Zawartość artykułu -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Content">Zawartość:</label>
+                <div class="col-sm-10">
+                    <InputTextArea class="form-control" id="Content" @bind-Value="articleDto.Content" rows="5" />
+                    <ValidationMessage class="text-danger" For="@(() => articleDto.Content)" />
+                </div>
+            </div>
+
+            <!-- Zdjęcie -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="Image">Zdjęcie:</label>
+                <div class="col-sm-10">
+                    <InputFile class="form-control" id="Image" OnChange="HandleFileChange" />
+                    <ValidationMessage For="@(() => articleDto.Image)" />
+                </div>
+            </div>
+            <!-- Brakujący tag </div> nie jest tutaj; cała struktura jest poprawna pod względem parowania tagów <div>. -->
+
+            <!-- Przycisk do zatwierdzania formularza -->
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Zapisz artykuł</button>
+                </div>
+            </div>
+        </EditForm>
+
+    }
+    else
+    {
+        <h3>Zarejestrowano pomyślnie!</h3>
+        <p><a href="/login">Zaloguj się</a></p>
+    }
+</div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+@code {
+    private ArticleDto articleDto = new ArticleDto();
+
+    private bool IsLoading = false;
+
+    private bool IsSubmitted = false;
+
+    private bool ShowErrorMessage = false;
+
+    private string ErrorMessage = "";
+
+    // [Inject]
+    // public NavigationManager NavigationManager { get; set; } = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // else
+        // {
+        //     Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = positionResult.Message } };
+        // }
+
+        // var token = await localStorage.GetItemAsync<string>("token");
+        // if (token != null)
+        // {
+        //     NavigationManager.NavigateTo("/");
+
+        // }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        ShowErrorMessage = false;
+        IsLoading = true;
+        await Task.Delay(1000);
+        await ArticleService.AddArticle(articleDto);
+        IsLoading = false;
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+
+        if (imageFile != null)
+        {
+            using (var stream = imageFile.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    articleDto.Image = memoryStream.ToArray();
+                }
+            }
+        }
+    }
+}

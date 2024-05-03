@@ -18,14 +18,14 @@ namespace VolleyLeague.API.Controllers
             _teamService = teamService;
         }
 
-        [HttpGet(Name= "GetAllTeams")]
+        [HttpGet("GetAllTeams")]
         public async Task<IActionResult> GetAllTeams()
         {
             var result = await _teamService.GetAllTeams();
             return Ok(result);
         }
 
-        [HttpPost(Name ="AddTeam")]
+        [HttpPost("AddTeam")]
         public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team) 
         {
             await _teamService.AddTeam(team);
@@ -61,7 +61,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
-        [HttpPut(Name ="UpdateTeam")]
+        [HttpPut("UpdateTeam")]
         public async Task<IActionResult> UpdateTeam([FromBody] ManageTeamDto team)
         {
             string? id = User.Identity?.Name;

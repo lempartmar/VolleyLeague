@@ -12,6 +12,8 @@ namespace VolleyLeague.Entities.Dtos.Teams
 
         public byte[]? Image { get; set; }
 
+        public int LeagueId { get; set; }
+
         public LeagueDto? League { get; set; }
 
         public UserProfileDto Captain { get; set; } = null!;

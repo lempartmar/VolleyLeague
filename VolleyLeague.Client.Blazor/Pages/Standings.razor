@@ -1,147 +1,191 @@
 ﻿@page "/standings"
 @inject IMatchService matchService
-@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Dtos.Matches
 @using VolleyLeague.Entities.Dtos.Teams
-@using VolleyballBlazor.Infrastructure.Client.Services
 
-<div>
-    @if (pageReady)
-    {
-        <h3>Terminarz</h3>
-        <div class="card m-2 p-2">
-            <EditForm Model="Filter" OnValidSubmit="ApplyFilter">
-                <div class="form-group">
-                    <label for="seasonSelect">Sezon:</label>
-                    <InputSelect id="seasonSelect" @bind-Value="Filter.SeasonId" class="form-control">
-                        @foreach (var season in Filter.SeasonList)
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mobile">
+                    <div class="article_title header_purple">
+                        <h2>Tabela</h2>
+                    </div>
+                    @if (pageReady)
+                    {
+                        <div class="card m-2 p-2">
+                            <EditForm Model="Filter">
+                                <div class="form-group btn-group">
+                                    <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
+                                    <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
+                                        @foreach (var season in Filter.SeasonList)
+                                        {
+                                            <option value="@season.Id">@season.Name</option>
+                                        }
+                                    </Select>
+                                </div>
+                                <div class="form-group btn-group">
+                                    <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
+                                    <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
+                                        @foreach (var league in Filter.LeagueList)
+                                        {
+                                            <option value="@league.Id">@league.Name</option>
+                                        }
+                                    </Select>
+                                </div>
+                            </EditForm>
+                        </div>
+
+                        @if (standingsLoading)
                         {
-                            <option value="@season.Id">@season.Name</option>
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Ładowanie...</span>
+                                </div>
+                            </div>
                         }
-                    </InputSelect>
-                </div>
-                <div class="form-group">
-                    <label for="leagueSelect">Liga:</label>
-                    <InputSelect id="leagueSelect" @bind-Value="Filter.LeagueId" class="form-control">
-                        @foreach (var league in Filter.LeagueList)
+                        else if (!string.IsNullOrEmpty(standingsErrorMessage))
                         {
-                            <option value="@league.Id">@league.Name</option>
+                            <div class="alert alert-danger">
+                                @standingsErrorMessage
+                            </div>
                         }
-                    </InputSelect>
+                        else if (StandingsList.Count == 0)
+                        {
+                            <div class="alert alert-info" role="alert">
+                                Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
+                            </div>
+                        }
+                        else if (StandingsList.Count > 0)
+                        {
+                            <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
+                                            <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Drużyna</th>
+                                            <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Punkty</th>
+                                            <th colspan="3" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Mecze</th>
+                                            <th colspan="6" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Rodzaj wyniku</th>
+                                            <th colspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Sety</th>
+                                            <th colspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Punkty</th>
+                                            <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Stosunek setów</th>
+                                            <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Stosunek punktów</th>
+                                        </tr>
+                                        <tr>
+                                            <!-- Drugi wiersz dla nagłówków podkolumn -->
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Rozegrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Wygrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Przegrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">3:0</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">3:1</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">3:2</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">2:3</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">1:3</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">0:3</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Wygrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Przegrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Wygrane</th>
+                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Przegrane</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int rank = 1;
+                                        }
+                            @foreach (var team in StandingsList)
+                            {
+                                <tr style=""> <!-- Dodajemy przerywaną linię pod każdym wierszem -->
+                                    <td style="vertical-align: middle;">@rank</td>
+                                    <td>
+                                        @{
+                                            var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                        }
+                                        <div style="display: flex; align-items: center;">
+                                            <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                            <span style="color: #0268d6;">@team.Team.Name</span>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle; text-align: center;">@team.Points</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesPlayed</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesWon</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesLost</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_0</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_1</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_2</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score2_3</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score1_3</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.Score0_3</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.SetsWon</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.SetsLost</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.PointsWon</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.PointsLost</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.SetsRatio.ToString("0.00")</td>
+                                    <td style="vertical-align: middle;text-align: center;">@team.BallsRatio.ToString("0.00")</td>
+                                    <!-- Dalsze dane -->
+                                </tr>
+                                rank++;
+                            }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Ładowanie...</span>
+                            </div>
+                        </div>
+                    }
                 </div>
-                <button type="submit" class="btn btn-primary">Zastosuj filtr</button>
-            </EditForm>
+            </div>
         </div>
+    </div>
+</section>
 
-        @if (standingsLoading)
-        {
-            <div class="d-flex justify-content-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Ładowanie...</span>
-                </div>
-            </div>
-        }
-        else if (standingsErrorMessage != "")
-        {
-            <div class="alert alert-danger">
-                @standingsErrorMessage
-            </div>
-        }
-        else if (StandingsList.Count == 0)
-        {
-            <div class="alert alert-info" role="alert">
-                Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
-            </div>
-        }
-        else if (StandingsList.Count > 0)
-        {
-            <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-                <table class="table text-left table-sm table-bordered text-center">
-                    <thead>
-                        <tr>
-                            <th rowspan="2">Lp</th>
-                            <th rowspan="2">Drużyna</th>
-                            <th rowspan="2">Punkty</th>
-                            <th colspan="3">Mecze</th>
-                            <th colspan="6">Rodzaj wyniku</th>
-                            <th colspan="2">Sety</th>
-                            <th colspan="2">Punkty</th>
-                            <th colspan="2">Stosunek</th>
-                        </tr>
-                        <tr style="font-size:13px">
-                            <td>∑</td>
-                            <td>+</td>
-                            <td>-</td>
-                            <td style="width:20px">3-0</td>
-                            <td style="width:20px">3-1</td>
-                            <td style="width:20px">3-2</td>
-                            <td style="width:20px">2-3</td>
-                            <td style="width:20px">1-3</td>
-                            <td style="width:20px">0-3</td>
-                            <td>Wyg.</td>
-                            <td>Przegr.</td>
-                            <td>Zdobyte</td>
-                            <td>Stracone</td>
-                            <td>Setów</td>
-                            <td>Punktów</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var team in StandingsList)
-                        {
-                            <tr>
-                                <td>@(++i)</td>
-                                <td class="text-left"><NavLink href=@("/team/" + team.Team.Id)>@team.Team.Name</NavLink></td>
-                                    <td>@team.Points</td>
-                                <td>@team.MatchesPlayed</td>
-                                <td>@team.MatchesWon</td>
-                                <td>@team.MatchesLost</td>
-                                <td>@team.Score3_0</td>
-                                <td>@team.Score3_1</td>
-                                <td>@team.Score3_2</td>
-                                <td>@team.Score2_3</td>
-                                <td>@team.Score1_3</td>
-                                <td>@team.Score0_3</td>
-                                <td>@team.SetsWon</td>
-                                <td>@team.SetsLost</td>
-                                <td>@team.PointsWon</td>
-                                <td>@team.PointsLost</td>
-                                <td>@team.SetsRatio.ToString("0.00")</td>
-                                <td>@team.BallsRatio.ToString("0.00")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+<style>
+    .btn-label {
+        background: none;
+        border: none;
+        padding: 6px 12px;
+        font-weight: bold;
+        color: #555; /* Adjust the color to match your design */
+        text-align: left;
     }
-    else
-    {
-        @if (!string.IsNullOrEmpty(errorMessage))
-        {
-            <div class="alert alert-danger" role="alert">
-                @errorMessage
-            </div>
-        }
-        else
-        {
-            <div class="d-flex justify-content-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Ładowanie...</span>
-                </div>
-            </div>
-        }
+
+    .dropdown-toggle {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     }
-</div>
+
+@*     .card {
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    } *@
+
+    .card{
+        margin-botto: 50px;
+    }
+
+    .btn.btn-default.dropdown-toggle {
+        background:#e5e7eb;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: left;
+    }
+</style>
 
 @code {
-    private bool standingsLoading = false;
-    private int i = 0;
-    private List<StandingsDto> StandingsList { get; set; } = new List<StandingsDto>();
-    private ScheduleFilter Filter { get; set; } = new ScheduleFilter();
     private bool pageReady = false;
-    private string errorMessage = string.Empty;
-    private string standingsErrorMessage = string.Empty;
+    private bool standingsLoading = false;
+    private string standingsErrorMessage = "";
+    private List<StandingsDto> StandingsList = new List<StandingsDto>();
+    private ScheduleFilter Filter = new ScheduleFilter();
 
     private class ScheduleFilter
     {
@@ -149,49 +193,89 @@
         public int LeagueId { get; set; }
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+
+                public ScheduleFilter() {
+            SeasonId = 37;
+            LeagueId = 1;
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var seasonsResult = await matchService.GetSeasons();
-            Filter.SeasonList = seasonsResult ?? new List<SeasonDto>();
-            var leaguesResult = await matchService.GetLeagues();
-            Filter.LeagueList = leaguesResult ?? new List<LeagueDto>();
-            pageReady = true;
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Wystąpił błąd: {ex.Message}";
-        }
+        StandingsList = await matchService.GetStandings(37, 1);
+
+        await LoadInitialDataAsync();
     }
+
+    private async Task LoadInitialDataAsync()
+    {
+        // Tu załaduj listy sezonów i lig
+        Filter.SeasonList = await matchService.GetSeasons();
+        Filter.LeagueList = await matchService.GetLeagues();
+        pageReady = true;
+    }
+
+    private async Task OnSeasonOrLeagueChanged(ChangeEventArgs e, bool isSeason)
+    {
+        Console.WriteLine(e);
+        Console.Write("Change");
+        var selectedId = Convert.ToInt32(e.Value.ToString());
+        if (isSeason)
+        {
+            Filter.SeasonId = selectedId;
+        }
+        else
+        {
+            Filter.LeagueId = selectedId;
+        }
+
+        await ApplyFilter();
+    }
+
+    // private Task OnSeasonChanged(ChangeEventArgs e)
+    // {
+    //     Filter.SeasonId = Convert.ToInt32(e.Value);
+    //     return ApplyFilter();
+    // }
+
+    // private Task OnLeagueChanged(ChangeEventArgs e)
+    // {
+    //     Filter.LeagueId = Convert.ToInt32(e.Value);
+    //     return ApplyFilter();
+    // }
+
 
     private async Task ApplyFilter()
     {
-        if (Filter.SeasonId == 0 || Filter.LeagueId == 0)
-        {
-            standingsErrorMessage = "Wybierz sezon i ligę.";
-            return;
-        }
-
+        Console.Write("Change");
         standingsLoading = true;
-        try
+        // Wykonaj zapytanie do serwisu, aby uzyskać dane dla wybranego sezon
+        // i ligi
+        StandingsList = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
+        if (StandingsList == null || StandingsList.Count == 0)
         {
-            var result = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
-            StandingsList = result ?? new List<StandingsDto>();
-            if (StandingsList.Count == 0)
-            {
-                standingsErrorMessage = "Brak danych dla wybranych kryteriów.";
-            }
+            standingsErrorMessage = "Brak danych dla wybranych kryteriów.";
         }
-        catch (Exception ex)
+        else
         {
-            standingsErrorMessage = $"Wystąpił błąd: {ex.Message}";
+            standingsErrorMessage = string.Empty;
         }
-        finally
-        {
-            standingsLoading = false;
-        }
+        standingsLoading = false;
     }
+
+    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        Console.WriteLine(e);
+        Console.Write("Change");
+        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
+        await ApplyFilter();
+    });
+
+    private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        Console.WriteLine(e);
+        Console.Write("Change");
+        Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
+        await ApplyFilter();
+    });
 }
