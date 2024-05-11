@@ -1,0 +1,187 @@
+﻿@page "/manageTeams"
+@using VolleyLeague.Entities.Dtos.Discussion
+@using VolleyLeague.Entities.Dtos.Matches
+@using VolleyLeague.Entities.Dtos.Teams
+@using Volleyball.DTO.Discussion
+@using VolleyLeague.Client.Blazor.Services
+@inject ITeamService teamService
+@inject IMatchService matchService
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <h3>Zarządzaj Drużynami</h3>
+
+            @if (extendedTeams == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Team ID</th>
+                            <th>Name</th>
+                            <th>Reported to Play</th>
+                            <th>Accepted</th>
+                            <th>League Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Change Count</th>
+                            <th>Point Correction</th>
+                            <th>Creation Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var team in extendedTeams)
+                        {
+                            <tr>
+                                <td>@team.Id</td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input @bind="team.Name" />
+                                    }
+                                    else
+                                    {
+                                        @team.Name
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input type="checkbox" @bind="team.IsReportedToPlay" />
+                                    }
+                                    else
+                                    {
+                                        @(team.IsReportedToPlay ? "Yes" : "No")
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input type="checkbox" @bind="team.Accepted" />
+                                    }
+                                    else
+                                    {
+                                        @(team.Accepted ? "Yes" : "No")
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <select @bind="team.LeagueId">
+                                            @foreach (var league in leagues)
+                                            {
+                                                <option value="@league.Id">@league.Name</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        @team.LeagueName
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input @bind="team.Email" />
+                                    }
+                                    else
+                                    {
+                                        @team.Email
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input @bind="team.Phone" />
+                                    }
+                                    else
+                                    {
+                                        @team.Phone
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input type="number" @bind="team.ChangeCount" />
+                                    }
+                                    else
+                                    {
+                                        @team.ChangeCount
+                                    }
+                                </td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <input type="number" @bind-value="team.PointCorrection" />
+                                    }
+                                    else
+                                    {
+                                        @team.PointCorrection
+                                    }
+                                </td>
+                                <td>@team.CreationDate.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    @if (team.IsEditing)
+                                    {
+                                        <button class="btn btn-success" @onclick="() => UpdateTeam(team)">Aktualizuj</button>
+                                        <button class="btn btn-secondary" @onclick="() => CancelEdit(team)">Anuluj</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary" @onclick="() => EditTeam(team)">Edytuj</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    private List<ExtendedTeamDto> extendedTeams;
+    private List<LeagueDto> leagues;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var extendedTeamsWithLeague = await GetTeamProfile();
+        extendedTeams = extendedTeamsWithLeague.ExtendedTeamListDto;
+        leagues = extendedTeamsWithLeague.leagueDtos;
+        foreach (var team in extendedTeams)
+        {
+            team.LeagueId = team.LeagueName == null ? 0 : leagues.FirstOrDefault(l => l.Name == team.LeagueName)?.Id ?? 0;
+        }
+    }
+
+    public async Task<ExtendedTeamWithLeagueDto> GetTeamProfile()
+    {
+        ExtendedTeamWithLeagueDto teamResponse = await teamService.GetAllTeamsForEdit();
+        return teamResponse;
+    }
+
+    private void EditTeam(ExtendedTeamDto team)
+    {
+        team.IsEditing = true;
+    }
+
+    private async Task UpdateTeam(ExtendedTeamDto team)
+    {
+        // Here you would call the service to update the team
+        await teamService.UpdateExtendedTeamByAdmin(team);
+        team.IsEditing = false;
+        // Refresh the team list or individual team data as needed
+    }
+
+    private void CancelEdit(ExtendedTeamDto team)
+    {
+        team.IsEditing = false;
+        // Optionally reset the fields to their original values if needed
+    }
+}

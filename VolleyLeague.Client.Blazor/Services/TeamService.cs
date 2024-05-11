@@ -15,7 +15,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<ManagedTeamDataDto> GetManagedTeam();
         public Task<List<LeagueDto>> GetLeagues();
         public Task<bool> UpdateCaptain(int playerId);
-
+        public Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit();
+        public Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team);
     }
 
     public class TeamService : ITeamService
@@ -36,6 +37,15 @@ namespace VolleyLeague.Client.Blazor.Services
 
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<List<TeamSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit()
+        {
+            var response = await _httpClient.GetAsync("api/team/getallteamsforedit");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<ExtendedTeamWithLeagueDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<TeamDto> GetTeam(int id)
@@ -67,13 +77,19 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<bool> CreateTeam(NewTeamDto team)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/team", team);
+            var response = await _httpClient.PostAsJsonAsync("api/team/createteam", team);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateTeam(ManageTeamDto team)
         {
             var response = await _httpClient.PutAsJsonAsync("api/team", team);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/team/updateextendedteam", team);
             return response.IsSuccessStatusCode;
         }
 

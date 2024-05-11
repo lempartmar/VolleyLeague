@@ -25,6 +25,13 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAllTeamsForEdit")]
+        public async Task<IActionResult> GetAllTeamsForEdit()
+        {
+            var result = await _teamService.GetAllExtendedTeams();
+            return Ok(result);
+        }
+
         [HttpPost("AddTeam")]
         public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team) 
         {
@@ -46,7 +53,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("CreateWithDetails", Name = "CreateTeam")]
+        [HttpPost("CreateTeam")]
         public async Task<IActionResult> CreateTeam([FromBody] NewTeamDto team)
         {
             string? id = "nowa@mail.com";
@@ -70,6 +77,19 @@ namespace VolleyLeague.API.Controllers
             //    return Unauthorized();
             //}
             var result = await _teamService.UpdateTeam(team);
+
+            return Ok();
+        }
+
+        [HttpPut("UpdateExtendedTeam")]
+        public async Task<IActionResult> UpdateExtendedTeam([FromBody] ExtendedTeamDto team)
+        {
+            string? id = User.Identity?.Name;
+            //if (string.IsNullOrWhiteSpace(id))
+            //{
+            //    return Unauthorized();
+            //}
+            var result = await _teamService.UpdateExtendedTeam(team);
 
             return Ok();
         }

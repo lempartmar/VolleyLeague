@@ -28,17 +28,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<VolleyballContext>(options =>
 {
     options.UseSqlServer(connectionString);
-});
+}, ServiceLifetime.Scoped);
 
 builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddTransient(typeof(IDefaultRepository), typeof(DefaultRepository));
 builder.Services.AddTransient(typeof(IRoleRepository), typeof(RoleRepository));
 builder.Services.AddTransient(typeof(IArticleService), typeof(ArticleService));
-builder.Services.AddTransient(typeof(ITeamService), typeof(TeamService));
+builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddTransient(typeof(IMatchService), typeof(MatchService));
+builder.Services.AddTransient(typeof(ILogService), typeof(LogService));
 builder.Services.AddTransient(typeof(IPositionService), typeof(PositionService));
 builder.Services.AddTransient(typeof(IRoundService), typeof(RoundService));
 builder.Services.AddTransient(typeof(IVenueService), typeof(VenueService));
+builder.Services.AddTransient(typeof(ITypedResultService), typeof(TypedResultService));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient(typeof(ISeasonService), typeof(SeasonService));
 builder.Services.AddTransient(typeof(ILeagueService), typeof(LeagueService));   

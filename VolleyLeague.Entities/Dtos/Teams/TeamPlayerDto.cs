@@ -21,6 +21,8 @@ namespace VolleyLeague.Entities.Dtos.Teams
 
         public int PositionId { get; set; }
 
+        public string? PositionName { get; set; }
+
         public bool Gender { get; set; }
 
         public bool IsRegisteredUser { get; set; }

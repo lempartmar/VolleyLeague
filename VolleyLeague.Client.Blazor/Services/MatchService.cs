@@ -149,7 +149,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId)
         {
-            var response = await _httpClient.GetAsync($"api/match?seasonId={seasonId}&teamId={teamId}");
+            var response = await _httpClient.GetAsync($"api/Match/matchesByCriteria?seasonId={seasonId}&teamId={teamId}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();

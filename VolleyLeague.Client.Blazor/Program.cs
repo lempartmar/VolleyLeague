@@ -16,11 +16,19 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccount, AccountService>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
-builder.Services.AddScoped<IMatchOrganizerService, MatchOrganizerService>();    
+builder.Services.AddScoped<ILogService, LogService>();
+builder.Services.AddScoped<IMatchOrganizerService, MatchOrganizerService>();
+builder.Services.AddScoped<ITypedResultService, TypedResultService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7068") });
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
+
+//options =>
+//{
+//    options.AddPolicy("IsAdmin", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin"));
+//});
+
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 await builder.Build().RunAsync();

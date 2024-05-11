@@ -8,192 +8,141 @@
 @inject IMatchService matchService
 
 
-<section class="category_section">
+<section class="category_section team">
     <div class="container">
         <div class="row">
-<div class="text-center">
-    @if (TeamData != null)
-    {
-        <div>
-            @if (TeamData.Photo != null)
-            {
-                <BigImage Image="@TeamData.Photo"></BigImage>
-            }
-        </div>
-        <h2>@TeamData.Name</h2>
-        <div class="d-flex flex-row flex-wrap justify-content-center">
 
-            <div class="mr-3 d-fl ex justify-content-center align-items-center">
-                @if (TeamData.Logo != null)
+            <div class="article_title header_purple">
+                <h2>Profil zespołu</h2>
+            </div>
+            <div class="text-center">
+                @if (TeamData != null)
                 {
-                    <TeamLogo SizePx="200" Image="@TeamData.Logo"></TeamLogo>
+
+                    <h2>@TeamData.Name</h2>
+                    <div class="d-flex flex-row flex-wrap justify-content-center">
+                        <img src="@GetLogoSrc(TeamData.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                        <div class="mr-3 d-fl ex justify-content-center align-items-center">
+                            @if (TeamData.Logo != null)
+                            {
+                                <TeamLogo SizePx="200" Image="@TeamData.Logo"></TeamLogo>
+                            }
+                            else
+                            {
+                                <img src="/images/user.png">
+                            }
+
+                        </div>
+                        <div>
+                            <img src="@($"/assets/images/teams/{Id}.jpg")" style="width:70%; height: 70%;" />
+                        </div>
+                        <div class="p-2 card table-responsive" style="">
+                            <div class="card-header" style="margin-top: 30px">
+                                <h2>Zawodnicy</h2>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table text-left">
+                                    <thead>
+                                        <tr>
+                                            <th>LP:</th>
+                                            <th>Imię i nazwisko</th>
+                                            <th>Numer</th>
+                                            <th>Wzrost</th>
+                                            <th>Pozycja</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <NavLink href=@{
+                                                     "/user-profile/" + TeamData.Captain.Id
+                                                     }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink>
+                                            </td>
+                                            <td>@TeamData.Captain.JerseyNumber</td>
+                                            <td>@TeamData.Captain.Height</td>
+                                            <td>@TeamData.Captain.PositionName</td>
+                                        </tr>
+                                        @foreach (var player in TeamData.Players)
+                                        {
+
+                                            <tr>
+                                                <td>@(++i)</td>
+                                                <td>
+                                                    <NavLink href=@{
+                                                     "/user-profile/" + player.Id
+                                                     }>@player.FirstName @player.LastName</NavLink>
+                                                    </td>
+                                                    <td>@(player.JerseyNumber.ToString() ?? "?")</td>
+                                                    <td>@(player.Height.ToString() ?? "?")</td>
+                                                    <td>@(player.PositionName.ToString() ?? "?")</td>
+                                                </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="p-2 card mt-4 mb-5 table-responsive">
+                        <div class="card-header">
+                            <h2>Informacje o drużynie</h2>
+                        </div>
+                        <table class="table text-left">
+                            <tbody>
+                                <tr>
+                                    <td><b>Nazwa</b></td>
+                                    <td>@TeamData.Name</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Strona www</b></td>
+                                    <td><a href="@TeamData.Website">@TeamData.Website</a></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Opis</b></td>
+                                    <td>@TeamData.TeamDescription</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                    <div class="p-2 card mt-4 mb-5 table-responsive-lg">
+                        <div class="card-header">
+                            Historia meczów
+                            <a href="/team-result/@Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
+                        </div>
+
+
+
+                    </div>
                 }
                 else
                 {
-                    <img src="/images/user.png">
-                }
-
-            </div>
-            <div class="p-2 card table-responsive" style="max-width:580px">
-                <div class="card-header">
-                    Zawodnicy
-                </div>
-                <div class="table-responsive">
-                    <table class="table text-left">
-                        <thead>
-                            <tr>
-                                <th>LP:</th>
-                                <th>Imię i nazwisko</th>
-                                <th>Numer</th>
-                                <th>Wzrost</th>
-                                <th>Pozycja</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <NavLink href=@{
-                                         "/user-profile/" + TeamData.Captain.Id
-                                         }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink>
-                                </td>
-                                <td>@TeamData.Captain.JerseyNumber</td>
-                                <td>@TeamData.Captain.Height</td>
-                                <td>@TeamData.Captain.PositionName</td>
-                            </tr>
-                            @foreach (var player in TeamData.Players)
-                            {
-
-                                <tr>
-                                    <td>@(++i)</td>
-                                    <td>
-                                        <NavLink href=@{
-                                         "/user-profile/" + player.Id
-                                         }>@player.FirstName @player.LastName</NavLink>
-                                    </td>
-                                    <td>@(player.JerseyNumber.ToString() ?? "?")</td>
-                                    <td>@(player.Height.ToString() ?? "?")</td>
-@*                                     <td>@(player.PositionName.ToString() ?? "?")</td> *@
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="p-2 card mt-4 mb-5 table-responsive">
-            <div class="card-header">
-                Informacje o drużynie
-            </div>
-            <table class="table text-left">
-                <tbody>
-                    <tr>
-                        <td><b>Nazwa</b></td>
-                        <td>@TeamData.Name</td>
-                    </tr>
-                    <tr>
-                        <td><b>Strona www</b></td>
-                        <td><a href="@TeamData.Website">@TeamData.Website</a></td>
-                    </tr>
-                    <tr>
-                        <td><b>Opis</b></td>
-                        <td>@TeamData.TeamDescription</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-
-        <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-            <div class="card-header">
-                Historia meczów
-            </div>
-            <div class="form-group row p-5">
-                <label for="season">Sezon:</label>
-                <select class="form-control" id="season" @onchange="UpdateSeason">
-                    @if (Seasons == null)
+                    @if (ErrorMessage != "")
                     {
-                        <option value="null" disabled>Ładowanie sezonów...</option>
+                        <div class="alert alert-danger" role="alert">
+                            @ErrorMessage
+                        </div>
                     }
                     else
                     {
-                        @foreach (SeasonDto season in Seasons)
-                        {
-                            <option value="@season.Id">@season.Name</option>
-                        }
+                        <LoadingIcon></LoadingIcon>
                     }
-
-                </select>
+                }
             </div>
-            <table class="table text-left" style="max-width:800px">
-                <thead>
-                    <tr>
-                        <th>Termin</th>
-                        <th>Gospodarz</th>
-                        <th>Wynik</th>
-                        <th>Gość</th>
-                        <th>Miejsce</th>
-                        <th>Kolejka</th>
-                        <th>Sędzia</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Games != null)
-                    {
-                        @foreach (var game in Games)
-                        {
-                            <tr>
-                                <td>
-                                    <NavLink href=@{
-                                 "/match/" + game.Id
-                                 }>@game.Schedule</NavLink>
-                                </td>
-                                <td>
-                                    <NavLink href=@{
-                                 "/team/" + game.HomeTeam.Id
-                                 }>@game.HomeTeam.Name</NavLink>
-                                </td>
-                                <td>@game.Team1Score : @game.Team2Score</td>
-                                <td>
-                                    <NavLink href=@{
-                                 "/team/" + game.GuestTeam.Id
-                                 }>@game.GuestTeam.Name</NavLink>
-                                </td>
-                                <td>@game.VenueName</td>
-                                <td>@game.RoundName</td>
-                                <td>
-                                    <NavLink href=@{
-                                 "/user-profile/" + game.Referee.Id
-                                 }>@game.Referee.FirstName @game.Referee.LastName</NavLink>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
         </div>
-    }
-    else
-    {
-        @if (ErrorMessage != "")
-        {
-            <div class="alert alert-danger" role="alert">
-                @ErrorMessage
-            </div>
-        }
-        else
-        {
-            <LoadingIcon></LoadingIcon>
-        }
-    }
-</div>
-</div>
-</div>
+    </div>
 </section>
+
+<style>
+    .category_section.team {
+        margin-top: 50px;
+    }
+</style>
+
 
 
 
@@ -204,6 +153,14 @@
     public string ErrorMessage { get; set; } = "";
 
     public string CommentsErrorMessage { get; set; } = "";
+
+    private ScheduleFilter Filter = new ScheduleFilter();
+
+    private class ScheduleFilter
+    {
+        public int SeasonId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+    }
 
     [Parameter]
     public int Id { get; set; }
@@ -231,6 +188,7 @@
                 ContentLocationId = Id,
             };
 
+        Filter.SeasonList = await matchService.GetSeasons();
 
         StateHasChanged();
     }
@@ -242,19 +200,48 @@
         UpdateSeason(seasonId);
     }
 
+    private async Task ApplyFilter()
+    {
+        Console.Write("Change");
+        // Wykonaj zapytanie do serwisu, aby uzyskać dane dla wybranego sezon
+        // i ligi
+        Games = await matchService.GetMatches(Filter.SeasonId, Id);
+    }
+
+    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        Console.WriteLine(e);
+        Console.Write("Change");
+        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
+        await ApplyFilter();
+    });
+
     private async void UpdateSeason(int id)
     {
         var gamesResult = await matchService.GetMatches(id, Id);
 
-            Games = gamesResult;
-   
+        Games = gamesResult;
+
     }
 
     public async Task<TeamDto?> GetTeamProfile()
     {
         var teamResponse = await teamService.GetTeam(Id);
-            return teamResponse;
-        
+        return teamResponse;
 
+
+    }
+
+    private string GetLogoSrc(byte[] logo)
+    {
+        if (logo != null && logo.Length > 0)
+        {
+            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
+        }
+        else
+        {
+            // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
+            return "/assets/img/Logo_alternative.png";
+        }
     }
 }

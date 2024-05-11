@@ -45,9 +45,6 @@
                                 </div>
                             </EditForm>
                         </div>
-
-                        <!-- Brakujące zamknięcie dla <div class="card m-2 p-2"> jeśli jest potrzebne -->
-                        <!-- Prawdopodobnie tutaj powinno być zamknięcie, ale zależy to od struktury, którą chcesz osiągnąć -->
                         @if (scheduleLoading)
                         {
                             <div class="d-flex justify-content-center">
@@ -63,61 +60,6 @@
                         else if (Games.Count > 0)
                         {
                             <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-                            @* <table class="table text-left" style="max-width:800px">
-                                <thead>
-                                    <tr>
-                                        <th>Termin</th>
-                                        <th>Gospodarz</th>
-                                        <th>Logo gospodarza</th> <!-- Updated column for the host team's logo -->
-                                        <th>Wynik</th>
-                                        <th>Gość</th>
-                                        <th>Logo gościa</th> <!-- Updated column for the guest team's logo -->
-                                        <th>Miejsce</th>
-                                        <th>Sędzia</th>
-                                        <th>Dodatkowe informacje</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Games != null)
-                                    {
-                                        @foreach (var game in Games)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <NavLink href="@{"/match/" + game.Id}">@game.Schedule</NavLink>
-                                                </td>
-                                                <td>
-                                                    <NavLink href="@{"/team/" + game.HomeTeam.Id}">@game.HomeTeam.Name</NavLink>
-                                                </td>
-                                                <td>
-                                                    <!-- Convert and display the host team's logo -->
-                                                    @{
-                                                        var imgSrcHost = game.HomeTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.HomeTeam.Logo)}" : "/assets/img/Logo_alternative.png";
-                                                    }
-                                                    <img src="@imgSrcHost" alt="Logo gospodarza" style="width:50px; height:auto;">
-                                                </td>
-                                                <td>@game.Team1Score : @game.Team2Score</td>
-                                                <td>
-                                                    <NavLink href="@{"/team/" + game.GuestTeam.Id}">@game.GuestTeam.Name</NavLink>
-                                                </td>
-                                                <td>
-                                                    <!-- Convert and display the guest team's logo -->
-                                                    @{
-                                                        var imgSrcGuest = game.GuestTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.GuestTeam.Logo)}" : "/assets/img/Logo_alternative.png";
-                                                    }
-                                                    <img src="@imgSrcGuest" alt="Logo gościa" style="width:50px; height:auto;">
-                                                </td>
-                                                <td>@game.VenueName</td>
-                                                <td>
-                                                    <NavLink href="@{"/user-profile/" + game.Referee.Id}">@game.Referee.FirstName @game.Referee.LastName</NavLink>
-                                                </td>
-                                                <td>@game.MatchInfo</td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table> *@
-
 <div class="container-fluid">
   <div class="row">
     @foreach (var game in Games)
@@ -126,7 +68,8 @@
         <div class="scoreboard d-flex justify-content-between align-items-center">
           <div class="team-section home-team">
             <img src="@GetLogoSrc(game.HomeTeam.Logo)" class="team-logo" alt="@game.HomeTeam.Name">
-            <div class="team-name">@game.HomeTeam.Name</div>
+            <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.HomeTeam.Name</a>
+@*             <div class="team-name">@game.HomeTeam.Name</div> *@
           </div>
           <div class="score-section d-flex align-items-center">
             <div class="team-score">@game.Team1Score</div>
@@ -135,7 +78,8 @@
           </div>
           <div class="team-section guest-team">
             <img src="@GetLogoSrc(game.GuestTeam.Logo)" class="team-logo" alt="@game.GuestTeam.Name">
-            <div class="team-name">@game.GuestTeam.Name</div>
+           @*  <div class="team-name">@game.GuestTeam.Name</div> *@
+            <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.GuestTeam.Name</a>
           </div>
           <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
           <div class="additional-info">
@@ -153,6 +97,7 @@
           <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
           <div class="mvp-info">
 @*             <strong>MVP:</strong>  @game.Mvp.FirstName @game.Mvp.LastName *@
+                        <strong><NavLink href=@{"/match/" + game.Id}>Szczegóły Meczu</NavLink></strong>
           </div>
         </div>
       </div>

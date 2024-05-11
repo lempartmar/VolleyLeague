@@ -1,0 +1,218 @@
+﻿@page "/CreateTeam"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@* @attribute [Authorize] *@
+@inject IUserService userService
+@inject ITeamService teamService
+@inject NavigationManager navigationManager
+
+
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            @if (PageReady)
+            {
+                <EditForm Model="@NewTeam" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="card">
+                        <h2>Tworzenie drużyny</h2>
+                        <div class="card-body login">
+                            <div class="form-group mb-3">
+                                <label for="Name" class="control-label">Nazwa drużyny</label>
+                                <InputText class="form-control" id="Name" @bind-Value="NewTeam.Name" />
+                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Name)" />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="Email" class="control-label">Email drużynowy:</label>
+                                <InputText class="form-control" id="Email" @bind-Value="NewTeam.Email" />
+                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Email)" />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="Phone" class="control-label">Telefon komórkowy:</label>
+                                <InputText class="form-control" id="Phone" @bind-Value="NewTeam.Phone" />
+                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Phone)" />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="TeamDescription" class="control-label">Opis drużyny:</label>
+                                <InputText class="form-control" id="TeamDescription" @bind-Value="NewTeam.TeamDescription" />
+                                <ValidationMessage class="text-danger" For="@(() => NewTeam.TeamDescription)" />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="Website" class="control-label">Strona internetowa:</label>
+                                <InputText class="form-control" id="Website" @bind-Value="NewTeam.Website" />
+                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Website)" />
+                            </div>
+                        
+
+                        </div>
+
+                        <h3>Zawodnicy</h3>
+                        <p class="text-danger"><ValidationMessage For="@(() => NewTeam.Players)"></ValidationMessage></p>
+                        <table class="table table-responsive table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Lp</th>
+                                    <th>Imię</th>
+                                    <th>Nazwisko</th>
+                                    <th>Numer</th>
+                                    <th>Wzrost</th>
+                                    <th>Pozycja</th>
+                                    <th>Płeć</th>
+                                    <th>Email</th>
+                                    <th>Usuń</th>
+                                </tr>
+                            </thead>
+                            @{
+                                i = 0;
+                            }
+                            @foreach (var player in NewTeam.Players)
+                            {
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>
+                                        <InputText style="max-width:120px" @bind-Value="player.FirstName" />
+                                        <p class="text-danger"><ValidationMessage For="@(() => player.FirstName)" /></p>
+                                    </td>
+                                    <td><InputText style="max-width:120px" @bind-Value="player.LastName" /></td>
+                                    <td><InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" /></td>
+                                    <td><InputNumber style="max-width:55px" @bind-Value="player.Height" /></td>
+                                    <td>
+                                        <InputSelect style="max-width:100px" @bind-Value="player.PositionId">
+                                            @foreach (var position in Positions)
+                                            {
+                                                <option value="@position.Id">@position.Name</option>
+                                            }
+                                        </InputSelect>
+                                    </td>
+                                    <td class="d-flex flex-nowrap align-items-center">
+                                        <InputRadioGroup @bind-Value="player.Gender">
+                                            <InputRadio Value="false" class="m-1"></InputRadio>
+                                            <label class="m-1">M </label>
+                                            <InputRadio Value="true" class="m-1"></InputRadio>
+                                            <label class="m-1">K </label>
+                                        </InputRadioGroup>
+                                    </td>
+                                    <td><InputText style="max-width:120px" @bind-Value="player.Email" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" @onclick="() => NewTeam.Players.Remove(player)"><b>-</b></button>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-success" @onclick="AddPlayer"><b>+</b></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+                <p class="text-danger"></p>
+                <div class="d-flex flex-column align-items-center">
+                    @if (IsLoading)
+                    {
+                        <LoadingIcon></LoadingIcon>
+                    }
+                    else
+                    {
+                        @if (ShowErrorMessage)
+                        {
+                            <p class="text-danger">@ErrorMessage </p> <br />
+                        }
+
+                        <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
+                    }
+
+                </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="d-flex flex-column align-items-center mt-4">
+                    @if (ShowErrorMessage)
+                    {
+                        <p class="text-danger">Wystąpił błąd: @ErrorMessage </p>
+                        <br />
+                    }
+                    else
+                    {
+                        <LoadingIcon></LoadingIcon>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    NewTeamDto NewTeam { get; set; } = new NewTeamDto();
+    List<PositionDto> Positions { get; set; } = new List<PositionDto>();
+    int i = 0;
+    bool IsLoading { get; set; } = false;
+    bool ShowErrorMessage { get; set; } = false;
+    string ErrorMessage { get; set; } = "";
+    bool PageReady { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // var userHasTeam = await userService.IsTeamCaptain();
+
+        // if (!userHasTeam)
+        // {
+        //     ShowErrorMessage = true;
+        //     // ErrorMessage = userHasTeam.Message;
+        //     return;
+        // }
+
+        // if (userHasTeam)
+        // {
+        //     navigationManager.NavigateTo("/ManageTeam");
+        //     return;
+        // }
+
+
+        var positionsResult = await userService.GetPositions();
+        Positions = positionsResult;
+
+        AddPlayer();
+
+        PageReady = true;
+    }
+
+    public void AddPlayer()
+    {
+        i = 0;
+        NewTeam.Players.Add(new TeamPlayerDto());
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        if (NewTeam.Players.Count < 6)
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "Drużyna musi się składać z co najmniej 6 zawodników";
+            StateHasChanged(); 
+            return;
+        }
+        IsLoading = true;
+        var response = await teamService.CreateTeam(NewTeam);
+        IsLoading = false;
+        if (response)
+        {
+            navigationManager.NavigateTo("/ManageTeam");
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            // ErrorMessage = response.Message;
+            StateHasChanged();
+        }
+
+    }
+}

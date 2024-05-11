@@ -7,102 +7,110 @@
 
 @inject IUserService userService
 
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-row justify-content-center" style="margin-top: 30px;">
 
-<div class="d-flex flex-row justify-content-center">
+                @if (UserProfileData != null)
+                {
+                    <div class="text-center" style="max-width: 750px">
+                        <div class="d-flex flex-row justify-content-center" style="display: flex; justify-content: space-around;">
+@* 
+                            <div class="p-2" style="width: 150px; height: 200px">
+                                @if (UserProfileData.Photo != null)
+                                {
+                                    <img src="@GetLogoSrc(UserProfileData.Photo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                                }
+                                else
+                                {
+                                    <div></div>
+                                }
 
-    @if (UserProfileData != null)
-    {
-        <div class="text-center" style="max-width: 750px">
-            <div class="d-flex flex-row justify-content-center">
+                            </div> *@
+                            
+                            <div class="mr-5"></div>
+                            <div class="p-2">
+                                <h2>Profil Zawodnika</h2>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Imię i nazwisko</th>
+                                            <td>@UserProfileData.FirstName @UserProfileData.LastName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pozycja</th>
+                                            <td>@(UserProfileData.PositionName ?? "Nieokreślona")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rok urodzenia</th>
+                                            <td>@UserProfileData.BirthYear</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Miasto</th>
+                                            <td>@UserProfileData.City</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Płeć</th>
+                                            <td>@(UserProfileData.Gender.HasValue ? (UserProfileData.Gender.Value ? "Mężczyzna" : "Kobieta") : "Nieokreślone")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wzrost</th>
+                                            <td>@UserProfileData.Height</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Waga</th>
+                                            <td>@UserProfileData.Weight</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Numer koszulki</th>
+                                            <td>@UserProfileData.JerseyNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Zasięg w bloku</th>
+                                            <td>@UserProfileData.BlockRange cm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Zasięg w ataku</th>
+                                            <td>@UserProfileData.AttackRange cm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Idol siatkówki</th>
+                                            <td>@UserProfileData.VolleyballIdol</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Hobby</th>
+                                            <td>@UserProfileData.Hobby</td>
+                                        </tr>
 
-                <div class="p-2" style="width: 150px; height: 200px">
-                    @if (UserProfileData.Photo != null)
+                                        <tr>
+                                            <th>Informacje dodatkowe</th>
+                                            <td>@UserProfileData.PersonalInfo</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @if (Error != "")
                     {
-                        <TeamLogo Logo="@UserProfileData.Photo" SizePx="150" />
+                        <div class="alert alert-danger" role="alert">
+                            @Error
+                        </div>
                     }
                     else
                     {
-                        <img src="/images/user.png">
+                        <LoadingIcon />
                     }
-
-                </div>
-                <div class="mr-5"></div>
-                <div class="p-2">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>Imię i nazwisko</th>
-                                <td>@UserProfileData.FirstName @UserProfileData.LastName</td>
-                            </tr>
-                            <tr>
-                                <th>Pozycja</th>
-                                <td>@(UserProfileData.PositionName ?? "Nieokreślona")</td>
-                            </tr>
-                            <tr>
-                                <th>Rok urodzenia</th>
-                                <td>@UserProfileData.BirthYear</td>
-                            </tr>
-                            <tr>
-                                <th>Miasto</th>
-                                <td>@UserProfileData.City</td>
-                            </tr>
-                            <tr>
-                                <th>Płeć</th>
-                                <td>@(UserProfileData.Gender.HasValue ? (UserProfileData.Gender.Value ? "Mężczyzna" : "Kobieta") : "Nieokreślone")</td>
-                            </tr>
-                            <tr>
-                                <th>Wzrost</th>
-                                <td>@UserProfileData.Height</td>
-                            </tr>
-                            <tr>
-                                <th>Waga</th>
-                                <td>@UserProfileData.Weight</td>
-                            </tr>
-                            <tr>
-                                <th>Numer koszulki</th>
-                                <td>@UserProfileData.JerseyNumber</td>
-                            </tr>
-                            <tr>
-                                <th>Zasięg w bloku</th>
-                                <td>@UserProfileData.BlockRange cm</td>
-                            </tr>
-                            <tr>
-                                <th>Zasięg w ataku</th>
-                                <td>@UserProfileData.AttackRange cm</td>
-                            </tr>
-                            <tr>
-                                <th>Idol siatkówki</th>
-                                <td>@UserProfileData.VolleyballIdol</td>
-                            </tr>
-                            <tr>
-                                <th>Hobby</th>
-                                <td>@UserProfileData.Hobby</td>
-                            </tr>
-
-                            <tr>
-                                <th>Informacje dodatkowe</th>
-                                <td>@UserProfileData.PersonalInfo</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                }
             </div>
+
         </div>
-    }
-    else
-    {
-        @if (Error != "")
-        {
-            <div class="alert alert-danger" role="alert">
-                @Error
-            </div>
-        }
-        else
-        {
-            <LoadingIcon />
-        }
-    }
-</div>
+    </div>
+</section>
 
 
 @code {
@@ -139,7 +147,22 @@
     {
         var response = await userService.GetUserProfile(Id);
 
-            return response;
+        return response;
 
+    }
+
+    private string GetLogoSrc(byte[] logo)
+    {
+        if (logo != null && logo.Length > 0)
+        {
+            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
+        }
+
+        return "";
+        // else
+        // {
+        //     // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
+        //     return "/assets/img/Logo_alternative.png";
+        // }
     }
 }

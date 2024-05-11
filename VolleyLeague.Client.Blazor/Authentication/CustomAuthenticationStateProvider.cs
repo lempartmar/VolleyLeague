@@ -25,7 +25,7 @@ namespace VolleyLeague.Client.Blazor.Authentication
             try
             {
                 string stringToken = await localStorageService.GetItemAsStringAsync("token");
-
+                Console.WriteLine(stringToken);
                 if (string.IsNullOrWhiteSpace(stringToken))
                     return await Task.FromResult(new AuthenticationState(anonymous));
 

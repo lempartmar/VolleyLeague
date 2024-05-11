@@ -1,0 +1,149 @@
+﻿@page "/typedResults"
+@inject ITypedResultService typedResultService
+@inject IMatchService matchService
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mobile">
+                    <div class="article_title header_purple">
+                        <h2>Results</h2>
+                    </div>
+                    @if (pageReady)
+                    {
+                        <div class="card m-2 p-2">
+                            <EditForm Model="Filter">
+                                <div class="form-group btn-group">
+                                    <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
+                                    <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
+                                        @foreach (var season in Filter.SeasonList)
+                                        {
+                                            <option value="@season.Id">@season.Name</option>
+                                        }
+                                    </Select>
+                                </div>
+                            </EditForm>
+                        </div>
+
+                        @if (resultsLoading)
+                        {
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(resultsErrorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @resultsErrorMessage
+                            </div>
+                        }
+                        else if (TypedUserList.Count == 0)
+                        {
+                            <div class="alert alert-info" role="alert">
+                                No results to display for the selected season.
+                            </div>
+                        }
+                        else
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Temporary Vote</th>
+                                        <th>Correct Results Count</th>
+                                        <th>Perfect Results Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in TypedUserList)
+                                    {
+                                        <tr>
+                                            <td>@user.UserId</td>
+                                            <td>@user.FirstName @user.LastName</td>
+                                            <td>@user.TemporaryVote</td>
+                                            <td>@user.CorrectResultsCount</td>
+                                            <td>@user.PerfectResultsCount</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private bool pageReady = false;
+    private bool resultsLoading = false;
+    private string resultsErrorMessage = "";
+    private List<TypedUserDto> TypedUserList = new List<TypedUserDto>();
+    private ScheduleFilter Filter = new ScheduleFilter();
+
+    private class ScheduleFilter
+    {
+        public int SeasonId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+
+        public ScheduleFilter() {
+            SeasonId = 37; // Assume a default or current season
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Filter.SeasonList = await matchService.GetSeasons();
+        TypedUserList = await typedResultService.GetTypedUserDto(Filter.SeasonId);
+        pageReady = true;
+    }
+
+    // private async Task OnSeasonChanged(ChangeEventArgs e)
+    // {
+    //     var selectedId = Convert.ToInt32(e.Value.ToString());
+    //     Filter.SeasonId = selectedId;
+    //     await ApplyFilter();
+    // }
+
+    private async Task ApplyFilter()
+    {
+        resultsLoading = true;
+        TypedUserList = await typedResultService.GetTypedUserDto(Filter.SeasonId);
+        resultsLoading = false;
+
+        if (TypedUserList == null || TypedUserList.Count == 0)
+        {
+            resultsErrorMessage = "No data available for the selected criteria.";
+        }
+        else
+        {
+            resultsErrorMessage = string.Empty;
+        }
+    }
+
+    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    {
+        Console.WriteLine(e);
+        Console.Write("Change");
+        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
+        Console.WriteLine(Filter.SeasonId);
+        await ApplyFilter();
+    });
+}

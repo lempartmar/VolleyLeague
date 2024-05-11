@@ -16,6 +16,26 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.spinner {
+    border: 6px solid #f3f3f3; 
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -1068,6 +1088,7 @@ section {
 
 .category_section {
     margin-top: 20px;
+    min-height: 300px;
 }
 
 .category_article_star {
@@ -1924,4 +1945,21 @@ section {
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid #ddd;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-progress circle {
+    animation: spin 2s linear infinite;
+    stroke: #3498db; /* Mo¿esz zmieniæ kolor obramowania */
+    stroke-width: 5; /* Szerokoœæ obramowania */
+    fill: transparent; /* T³o krêgu */
 }

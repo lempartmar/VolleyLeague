@@ -16,8 +16,12 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<ManagedTeamDataDto> GetTeamByCaptain(string email);
 
+        Task<ExtendedTeamWithLeagueDto> GetAllExtendedTeams();
+
         Task<List<TeamDto>> GetTeamsByLeagueId(int leagueId);
 
         Task<bool> UpdateCaptain(int newCaptainId, string email);
+
+        Task<bool> UpdateExtendedTeam(ExtendedTeamDto extendedTeamDto);
     }
 }

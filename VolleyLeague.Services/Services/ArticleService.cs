@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using VolleyLeague.Entities.Dtos.Discussion;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
+using VolleyLeague.Services.Interfaces;
 
 namespace VolleyLeague.Services.Services
 {
@@ -10,11 +11,13 @@ namespace VolleyLeague.Services.Services
     {
             private readonly IMapper _mapper;
             private readonly IBaseRepository<Article> _articleRepository;
-            
-        public ArticleService(IBaseRepository<Article> articleRepository, IMapper mapper)
+            private readonly ILogService _logService;
+
+        public ArticleService(IBaseRepository<Article> articleRepository, ILogService logService, IMapper mapper)
             {
                 _mapper = mapper;
                 _articleRepository = articleRepository;
+                _logService = logService;
             }
 
             public async Task<List<ArticleDto>> GetAllArticles()
@@ -42,6 +45,7 @@ namespace VolleyLeague.Services.Services
             articleNew.AuthorId = 133;
             await _articleRepository.InsertAsync(articleNew);
             await _articleRepository.SaveChangesAsync();
+            await _logService.AddLog("Nowy artykuł: " + articleNew.Title, "Strony/Artykul.aspx?id=" + articleNew.Id, false, null);
         }
         public async Task<List<ArticleDto>> GetArticlesPerPage(int page)
         {

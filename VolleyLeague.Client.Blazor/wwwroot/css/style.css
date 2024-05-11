@@ -978,6 +978,7 @@ section {
 
 .category_section {
     margin-top: 20px;
+    min-height: 300px;
 }
 
 .category_article_star {
@@ -1740,4 +1741,21 @@ section {
 .crunchify-top:hover {
     background-color: rgb(49, 160, 177);
     color: #fff;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-progress circle {
+    animation: spin 2s linear infinite;
+    stroke: #3498db;
+    stroke-width: 5;
+    fill: transparent;
 }

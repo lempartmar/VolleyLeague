@@ -18,7 +18,7 @@ namespace VolleyLeague.API.Controllers
             _positionService = positionService;
         }
 
-        [HttpGet(Name ="GetAllPositions")]
+        [HttpGet("GetAllPositions")]
         public async Task<IActionResult> GetAllPositions() 
         { 
             var result = await _positionService.GetAllPositions();

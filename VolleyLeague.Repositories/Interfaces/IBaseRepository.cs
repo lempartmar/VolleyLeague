@@ -13,6 +13,8 @@
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
+        TEntity Update(TEntity entity);
+
         Task Delete(TEntity entity);
 
         Task SaveChangesAsync();

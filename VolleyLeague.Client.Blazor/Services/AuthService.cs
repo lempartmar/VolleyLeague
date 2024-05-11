@@ -18,19 +18,23 @@ namespace VolleyLeague.Client.Blazor.Services
                     new(ClaimTypes.Role, model.Role!),
                     }, "JwtAuth"));
             }
-
             public static UserSession GetClaimsFromToken(string jwtToken)
             {
                 var handler = new JwtSecurityTokenHandler();
                 var token = handler.ReadJwtToken(jwtToken);
                 var claims = token.Claims;
 
-                string Id = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value!;
-                string Name = claims.First(c => c.Type == ClaimTypes.Name).Value!;
-                string Role = claims.First(c => c.Type == ClaimTypes.Role).Value!;
+                string id = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value!;
+                string name = claims.First(c => c.Type == ClaimTypes.Name).Value!;
 
-                return new UserSession(Id, Name, Role);
-            }
+                var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+
+                string roleString = string.Join(", ", roles);
+
+                return new UserSession(id, name, roleString);
+            
+
+        }
 
         public static JsonSerializerOptions JsonOptions()
             {

@@ -44,7 +44,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<List<PositionDto>> GetPositions()
         {
-            var response = await _httpClient.GetAsync("api/position");
+            var response = await _httpClient.GetAsync("api/position/getallpositions");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();

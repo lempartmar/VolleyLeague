@@ -95,11 +95,18 @@
                     </div>
                     <div class="collapse navbar-collapse" style="/* border-top: 1px solid black; */ display: flex; justify-content: center; width: 100%" id="navbar-collapse-1">
                         <ul class="nav navbar-nav main-nav" style="flex: 0 1 auto; padding: 0; list-style: none; display: flex; justify-content: center; width: 100%; margin: 0;">
-                            <AuthorizeView>
-                                <Authorized>
+                            <AuthorizeView Roles="Player">
+                                <Authorized >
                                     <li style="margin-right: 20px;">
                                         <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/">Panel Użytkownika</NavLink>
                                     </li>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/createteam">Stwórz drużynę</NavLink>
+                                    </li>
+                                </Authorized>
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Admin">
+                                <Authorized>
                                     <li style="margin-right: 20px;">
                                         <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/addArticle">Dodaj Artykuł</NavLink>
                                     </li>
@@ -109,15 +116,22 @@
                                     <li>
                                         <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/createMatch">Dodaj mecz</NavLink>
                                     </li>
-                                </Authorized>
-                            </AuthorizeView>
-                            <AuthorizeView Roles="Admin">
-                                <Authorized>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/manageTeams">Zarządzaj drużynami</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/typedResults">Typowane wyniki</NavLink>
+                                    </li>
                                     <li>
                                         <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/judges">Zarządzaj Sędziami</NavLink>
                                     </li>
                                 </Authorized>
                             </AuthorizeView>
+
+                            @foreach (var role in rolesUser)
+                            {
+                                <div>@role</div>
+                            }
                         </ul>
                     </div>
 
@@ -140,6 +154,7 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    List<string> rolesUser = new List<string>();
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
@@ -151,7 +166,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authstate = await authStateProvider.GetAuthenticationStateAsync();
+        // var authstate = await authStateProvider.GetAuthenticationStateAsync();
+
+        var authState = await authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        Console.WriteLine(user);
+
+        if (user.Identity.IsAuthenticated)
+        {
+            Console.WriteLine($"User: {user.Identity.Name}");
+            var roles = user.FindAll("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(c => c.Value);
+            foreach (var role in roles)
+            {
+                Console.WriteLine($"Role: {role}");
+                rolesUser.Add(role);
+            }
+        }
     }
 
     public async void Logout()

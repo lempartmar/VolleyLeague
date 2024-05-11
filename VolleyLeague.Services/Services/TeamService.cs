@@ -13,12 +13,14 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
+        private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
-        public TeamService(IMapper mapper, IBaseRepository<Team> teamRepository, IBaseRepository<User> userRepository)
+        public TeamService(IMapper mapper, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository)
         {
             _mapper = mapper;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
+            _leagueRepository = leagueRepository;
         }
 
         public async Task<List<TeamDto>> GetAllTeams()
@@ -27,20 +29,43 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<List<TeamDto>>(allTeams);
         }
 
+        public async Task<ExtendedTeamWithLeagueDto> GetAllExtendedTeams()
+        {
+            var allTeams = await _teamRepository.GetAll().Include(d => d.League).ToListAsync();
+            var allLeagues = await _leagueRepository.GetAll().ToListAsync();
+            var extendedTeams = _mapper.Map<List<ExtendedTeamDto>>(allTeams);
+            var allLeaguesDtoList = _mapper.Map<List<LeagueDto>>(allLeagues);
+
+            ExtendedTeamWithLeagueDto extendedTeam = new ExtendedTeamWithLeagueDto();
+            extendedTeam.ExtendedTeamListDto = extendedTeams;
+            extendedTeam.leagueDtos = allLeaguesDtoList; 
+            
+            return extendedTeam;
+        }
+
         public async Task<TeamDto> GetTeamById(int Id)
         {
+            Team team2 = new Team();
             var team = await _teamRepository.GetAll()
-                .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
-                .Include(t => t.Captain).ThenInclude(c => c.Position)
+                .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).ThenInclude(c => c.Position)
+                .Include(t => t.Captain)
                 .Include(t => t.League)
                 .FirstOrDefaultAsync(t => t.Id == Id);
+
+            //var team = await _teamRepository.GetAll()
+            //    .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
+            //    .Include(t => t.Captain).ThenInclude(c => c.Position)
+            //    .Include(t => t.League)
+            //    .FirstOrDefaultAsync(t => t.Id == Id);
 
             if (team == null)
             {
                 return null;
             }
 
-            return _mapper.Map<TeamDto>(team);
+            TeamDto teamDto = _mapper.Map<TeamDto>(team);
+
+            return teamDto;
         }
 
         public async Task AddTeam(NewTeamDto team)
@@ -110,6 +135,31 @@ namespace VolleyLeague.Services.Services
                 return false;
             }
         }
+
+        public async Task<bool> UpdateExtendedTeam(ExtendedTeamDto extendedTeamDto)
+        {
+            if (extendedTeamDto == null) throw new ArgumentNullException(nameof(extendedTeamDto));
+
+            try
+            {
+                var teamToUpdate = await _teamRepository.GetAll()
+                    .FirstOrDefaultAsync(t => t.Id == extendedTeamDto.Id);
+                if (teamToUpdate == null) return false;  // Zespół nie został znaleziony
+
+                _mapper.Map(extendedTeamDto, teamToUpdate); // Mapuj zaktualizowane wartości na pobrany obiekt zespołu
+
+                _teamRepository.Update(teamToUpdate); // Aktualizacja zespołu
+                //await _teamRepository.SaveChangesAsync(); // Zapisz zmiany w bazie danych
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Logowanie szczegółów wyjątku
+                // Obsługa nieoczekiwanych wyjątków
+                return false;
+            }
+        }
+
 
         public async Task<bool> UpdateTeam(ManageTeamDto teamDto)
         {
