@@ -9,6 +9,8 @@ namespace VolleyLeague.Services.Services
 
         List<Role> Login(LoginDto loginDto, out Credentials? credentials);
 
+        Task<UserProfileDto> GetUserProfileByEmail(string email);
+
         Task<bool> Register(RegisterDto registerDto);
 
         Task<bool> IsTeamCaptain(string playerEmail);

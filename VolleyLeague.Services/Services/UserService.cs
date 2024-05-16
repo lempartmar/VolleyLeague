@@ -35,6 +35,8 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
+
+
         // Service to login a user
         public List<Role> Login(LoginDto loginDto, out Credentials? credentials)
         {
@@ -50,6 +52,14 @@ namespace VolleyLeague.Services.Services
             response = credentials.Roles.ToList();
 
             return response;
+        }
+
+        public async Task<UserProfileDto> GetUserProfileByEmail(string email)
+        {
+            var user = await _userRepository.GetAll()
+                .Include(u => u.Credentials)
+                .FirstOrDefaultAsync(u => u.Credentials != null && u.Credentials.Email == email);
+            return _mapper.Map<UserProfileDto>(user);
         }
 
         private bool VerifyPassword(string email, string password, string hashedPassword)

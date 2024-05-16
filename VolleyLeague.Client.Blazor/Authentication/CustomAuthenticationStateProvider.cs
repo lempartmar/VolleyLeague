@@ -2,57 +2,62 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using VolleyLeague.Client.Blazor.Services;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace VolleyLeague.Client.Blazor.Authentication
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private ClaimsPrincipal anonymous = new(new ClaimsIdentity());
         private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService localStorageService;
-        private readonly AuthenticationState _anonymous;
+        private readonly ILocalStorageService _localStorageService;
+        private readonly ClaimsPrincipal _anonymous = new(new ClaimsIdentity());
 
-        public CustomAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
+        public CustomAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorageService)
         {
             _httpClient = httpClient;
-            localStorageService = localStorage;
-            _anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            _localStorageService = localStorageService;
         }
 
-        public async override Task<AuthenticationState> GetAuthenticationStateAsync()
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             try
             {
-                string stringToken = await localStorageService.GetItemAsStringAsync("token");
-                Console.WriteLine(stringToken);
+                string stringToken = await _localStorageService.GetItemAsStringAsync("token");
                 if (string.IsNullOrWhiteSpace(stringToken))
-                    return await Task.FromResult(new AuthenticationState(anonymous));
+                    return new AuthenticationState(_anonymous);
 
                 var claims = AuthService.GetClaimsFromToken(stringToken);
-
                 var claimsPrincipal = AuthService.SetClaimPrincipal(claims);
-                return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+
+                // Add the token to the default request headers for the HttpClient
+                _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", stringToken);
+
+                return new AuthenticationState(claimsPrincipal);
             }
             catch
             {
-                return await Task.FromResult(new AuthenticationState(anonymous));
+                return new AuthenticationState(_anonymous);
             }
         }
 
         public async Task UpdateAuthenticationState(string? token)
         {
-            ClaimsPrincipal claimsPrincipal = new();
+            ClaimsPrincipal claimsPrincipal;
             if (!string.IsNullOrWhiteSpace(token))
             {
                 var userSession = AuthService.GetClaimsFromToken(token);
                 claimsPrincipal = AuthService.SetClaimPrincipal(userSession);
-                await localStorageService.SetItemAsStringAsync("token", token);
+                await _localStorageService.SetItemAsStringAsync("token", token);
+
+                // Add the token to the default request headers for the HttpClient
+                _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
             else
             {
-                claimsPrincipal = anonymous;
-                await localStorageService.RemoveItemAsync("token");
+                claimsPrincipal = _anonymous;
+                await _localStorageService.RemoveItemAsync("token");
+                _httpClient.DefaultRequestHeaders.Authorization = null;
             }
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
         }
@@ -61,14 +66,27 @@ namespace VolleyLeague.Client.Blazor.Authentication
         {
             var token = new JwtSecurityToken(tokenString);
             var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(token.Claims, "jwtAuthType"));
-            var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
-            NotifyAuthenticationStateChanged(authState);
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(authenticatedUser)));
         }
 
         public void NotifyUserLogout()
         {
-            var authState = Task.FromResult(_anonymous);
-            NotifyAuthenticationStateChanged(authState);
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_anonymous)));
+        }
+    }
+
+    public static class AuthService
+    {
+        public static IEnumerable<Claim> GetClaimsFromToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            return jwtToken.Claims;
+        }
+
+        public static ClaimsPrincipal SetClaimPrincipal(IEnumerable<Claim> claims)
+        {
+            return new ClaimsPrincipal(new ClaimsIdentity(claims, "jwtAuthType"));
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿@page "/CreateTeam"
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Dtos.Teams
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @* @attribute [Authorize] *@
 @inject IUserService userService
 @inject ITeamService teamService
 @inject NavigationManager navigationManager
-
-
+@inject AuthenticationStateProvider authenticationStateProvider
 
 <section class="category_section">
     <div class="container">
@@ -47,8 +48,6 @@
                                 <InputText class="form-control" id="Website" @bind-Value="NewTeam.Website" />
                                 <ValidationMessage class="text-danger" For="@(() => NewTeam.Website)" />
                             </div>
-                        
-
                         </div>
 
                         <h3>Zawodnicy</h3>
@@ -75,14 +74,14 @@
                                 <tr>
                                     <td>@(++i)</td>
                                     <td>
-                                        <InputText style="max-width:120px" @bind-Value="player.FirstName" />
+                                        <InputText style="max-width:120px" @bind-Value="player.FirstName" readonly="@(i == 1)" />
                                         <p class="text-danger"><ValidationMessage For="@(() => player.FirstName)" /></p>
                                     </td>
-                                    <td><InputText style="max-width:120px" @bind-Value="player.LastName" /></td>
-                                    <td><InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" /></td>
-                                    <td><InputNumber style="max-width:55px" @bind-Value="player.Height" /></td>
+                                    <td><InputText style="max-width:120px" @bind-Value="player.LastName" readonly="@(i == 1)" /></td>
+                                    <td><InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" disabled="@(i == 1)" /></td>
+                                    <td><InputNumber style="max-width:55px" @bind-Value="player.Height" disabled="@(i == 1)" /></td>
                                     <td>
-                                        <InputSelect style="max-width:100px" @bind-Value="player.PositionId">
+                                        <InputSelect style="max-width:100px" @bind-Value="player.PositionId" disabled="@(i == 1)">
                                             @foreach (var position in Positions)
                                             {
                                                 <option value="@position.Id">@position.Name</option>
@@ -90,46 +89,46 @@
                                         </InputSelect>
                                     </td>
                                     <td class="d-flex flex-nowrap align-items-center">
-                                        <InputRadioGroup @bind-Value="player.Gender">
+                                        <InputRadioGroup @bind-Value="player.Gender" disabled="@(i == 1)">
                                             <InputRadio Value="false" class="m-1"></InputRadio>
                                             <label class="m-1">M </label>
                                             <InputRadio Value="true" class="m-1"></InputRadio>
                                             <label class="m-1">K </label>
                                         </InputRadioGroup>
                                     </td>
-                                    <td><InputText style="max-width:120px" @bind-Value="player.Email" /></td>
+                                    <td><InputText style="max-width:120px" @bind-Value="player.Email" readonly="@(i == 1)" /></td>
                                     <td>
-                                        <button type="button" class="btn btn-danger" @onclick="() => NewTeam.Players.Remove(player)"><b>-</b></button>
+                                        @if (i > 1)
+                                        {
+                                            <button type="button" class="btn btn-danger" @onclick="() => RemovePlayer(player)"><b>-</b></button>
+                                        }
                                     </td>
                                 </tr>
                             }
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-success" @onclick="AddPlayer"><b>+</b></button>
+                                    <button type="button" class="btn btn-success" @onclick="() => AddPlayer()"><b>+</b></button>
                                 </td>
                             </tr>
                         </table>
                     </div>
 
-
-
-                <p class="text-danger"></p>
-                <div class="d-flex flex-column align-items-center">
-                    @if (IsLoading)
-                    {
-                        <LoadingIcon></LoadingIcon>
-                    }
-                    else
-                    {
-                        @if (ShowErrorMessage)
+                    <p class="text-danger"></p>
+                    <div class="d-flex flex-column align-items-center">
+                        @if (IsLoading)
                         {
-                            <p class="text-danger">@ErrorMessage </p> <br />
+                            <LoadingIcon></LoadingIcon>
                         }
+                        else
+                        {
+                            @if (ShowErrorMessage)
+                            {
+                                <p class="text-danger">@ErrorMessage </p> <br />
+                            }
 
-                        <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
-                    }
-
-                </div>
+                            <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
+                        }
+                    </div>
                 </EditForm>
             }
             else
@@ -161,34 +160,41 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // var userHasTeam = await userService.IsTeamCaptain();
-
-        // if (!userHasTeam)
-        // {
-        //     ShowErrorMessage = true;
-        //     // ErrorMessage = userHasTeam.Message;
-        //     return;
-        // }
-
-        // if (userHasTeam)
-        // {
-        //     navigationManager.NavigateTo("/ManageTeam");
-        //     return;
-        // }
-
-
         var positionsResult = await userService.GetPositions();
         Positions = positionsResult;
 
-        AddPlayer();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var email = user.FindFirstValue(ClaimTypes.Name);
+            Console.WriteLine($"Retrieved email: {email}"); // Debugging log
+
+            var currentUser = await userService.GetCurrentUserProfile();
+            var captain = new TeamPlayerDto
+            {
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                Email = email,
+                // Add other necessary properties here
+            };
+
+            AddPlayer(captain);
+        }
 
         PageReady = true;
     }
 
-    public void AddPlayer()
+    public void AddPlayer(TeamPlayerDto player = null)
     {
         i = 0;
-        NewTeam.Players.Add(new TeamPlayerDto());
+        NewTeam.Players.Add(player ?? new TeamPlayerDto());
+    }
+
+    public void RemovePlayer(TeamPlayerDto player)
+    {
+        NewTeam.Players.Remove(player);
     }
 
     public async Task HandleValidSubmit()
@@ -213,6 +219,5 @@
             // ErrorMessage = response.Message;
             StateHasChanged();
         }
-
     }
 }

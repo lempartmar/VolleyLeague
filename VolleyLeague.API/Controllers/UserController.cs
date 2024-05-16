@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using VolleyLeague.Client.Blazor.Services;
 using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Services.Services;
@@ -14,10 +16,10 @@ namespace VolleyLeague.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly IUserService _userService;
+        private readonly Services.Services.IUserService _userService;
         private readonly IConfiguration _config;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, IConfiguration config)
+        public UserController(ILogger<UserController> logger, Services.Services.IUserService userService, IConfiguration config)
         {
             _logger = logger;
             _userService = userService;
@@ -28,40 +30,35 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> GetUserProfile(int id)
         {
             var result = await _userService.GetUserProfile(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
 
-        // Log in
         [HttpPost("login")]
         public IActionResult Login(LoginDto loginDto)
         {
-
             var serviceResult = _userService.Login(loginDto, out Credentials? credentials);
-
-            var response = new String("");
 
             if (serviceResult == null || credentials == null)
             {
-                return null;
+                return Unauthorized();
             }
 
             string issuer = _config.GetValue<string>("Jwt:Issuer");
             string audience = _config.GetValue<string>("Jwt:Audience");
             var key = Encoding.UTF8.GetBytes(_config.GetValue<string>("Jwt:Key"));
 
-            List<Claim> roles = new List<Claim>();
-
-            foreach (var role in credentials.Roles)
-            {
-                roles.Add(new Claim(ClaimTypes.Role, role.Name));
-            }
+            List<Claim> roles = credentials.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)).ToList();
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
-        {
-                        new Claim(ClaimTypes.Name, credentials.Email),
-                        new Claim(ClaimTypes.NameIdentifier, credentials.Email),
+                {
+                    new Claim(ClaimTypes.Name, credentials.Email),
+                    new Claim(ClaimTypes.NameIdentifier, credentials.Email),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(240),
                 Issuer = issuer,
@@ -77,24 +74,47 @@ namespace VolleyLeague.API.Controllers
 
             var stringToken = tokenHandler.WriteToken(token);
 
-            response = stringToken;
-
-            return Ok(response);
-
+            return Ok(stringToken);
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             var result = await _userService.Register(registerDto);
+            if (!result)
+            {
+                return BadRequest("Registration failed");
+            }
+            return Ok("Registration successful");
+        }
 
+        [Authorize]
+        [HttpGet("myprofile")]
+        public async Task<IActionResult> GetMyProfile()
+        {
+            string? email = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return NotFound();
+            }
+            var result = await _userService.GetUserProfileByEmail(email);
+            if (result == null)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("isTeamCaptain")]
-        public async Task<IActionResult> IsTeamCaptain(string userEmail)
+        public async Task<IActionResult> IsTeamCaptain()
         {
-            var result = await _userService.IsTeamCaptain(userEmail);
+            string? email = User.FindFirstValue(ClaimTypes.Name);
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return NotFound();
+            }
+            var result = await _userService.IsTeamCaptain(email);
             return Ok(result);
         }
     }

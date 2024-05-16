@@ -14,7 +14,7 @@ namespace VolleyLeague.Client.Blazor.Services
         //Task<PlayerSummaryDto> GetUserSummary();
         Task<UserProfileDto> GetUserProfile(int userId);
         //Task<bool> IsTeamCaptain();
-        //Task<UserProfileDto> GetCurrentUserProfile();
+        Task<UserProfileDto> GetCurrentUserProfile();
         //Task UpdateUser(UpdateUserDto userProfileDto);
     }
 
@@ -94,14 +94,14 @@ namespace VolleyLeague.Client.Blazor.Services
             return JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
-        //public async Task<UserProfileDto> GetCurrentUserProfile()
-        //{
-        //    var response = await _httpClient.GetAsync($"api/User/myprofile");
-        //    response.EnsureSuccessStatusCode();
+        public async Task<UserProfileDto> GetCurrentUserProfile()
+        {
+            var response = await _httpClient.GetAsync($"api/User/myprofile");
+            response.EnsureSuccessStatusCode();
 
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return JsonSerializer.Deserialize<UserProfileDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //}
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<UserProfileDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
 
         //public async Task UpdateUser(UpdateUserDto updateUserDto)
         //{
