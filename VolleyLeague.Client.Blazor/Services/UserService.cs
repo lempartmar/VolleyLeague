@@ -85,14 +85,14 @@ namespace VolleyLeague.Client.Blazor.Services
         //    }
         //}
 
-        //public async Task<bool> IsTeamCaptain()
-        //{
-        //    var response = await _httpClient.GetAsync($"api/User/isteamcaptain");
-        //    response.EnsureSuccessStatusCode();
+        public async Task<bool> IsTeamCaptain()
+        {
+            var response = await _httpClient.GetAsync($"api/User/isteamcaptain");
+            response.EnsureSuccessStatusCode();
 
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //}
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
 
         //public async Task<UserProfileDto> GetCurrentUserProfile()
         //{

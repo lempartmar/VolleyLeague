@@ -90,5 +90,12 @@ namespace VolleyLeague.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("isTeamCaptain")]
+        public async Task<IActionResult> IsTeamCaptain(string userEmail)
+        {
+            var result = await _userService.IsTeamCaptain(userEmail);
+            return Ok(result);
+        }
     }
 }

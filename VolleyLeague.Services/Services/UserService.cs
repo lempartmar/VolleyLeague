@@ -128,6 +128,18 @@ namespace VolleyLeague.Services.Services
             return true;
         }
 
+        public async Task<bool> IsTeamCaptain(string playerEmail)
+        {
+            var user = (await _credentialsRepository.GetAll().Include(c => c.User).ThenInclude(u => u.Team).FirstOrDefaultAsync(p => p.Email == playerEmail))?.User;
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
         private User ConvertToUser(RegisterDto registerDto)
         {
             return new User

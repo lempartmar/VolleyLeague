@@ -98,40 +98,37 @@
                             <AuthorizeView Roles="Player">
                                 <Authorized >
                                     <li style="margin-right: 20px;">
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/">Panel Użytkownika</NavLink>
+                                        <NavLink class=".nav-item.nav-user" href="/">Panel Użytkownika</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/createteam">Stwórz drużynę</NavLink>
+                                        <NavLink class=".nav-item.nav-user"  href="/createteam">Stwórz drużynę</NavLink>
                                     </li>
                                 </Authorized>
                             </AuthorizeView>
                             <AuthorizeView Roles="Admin">
                                 <Authorized>
                                     <li style="margin-right: 20px;">
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/addArticle">Dodaj Artykuł</NavLink>
+                                        <NavLink class=".nav-item.nav-user"  href="/addArticle">Dodaj Artykuł</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/referees">Zarządzaj Sędziami</NavLink>
+                                        <NavLink class=".nav-item.nav-user"  href="/referees">Zarządzaj Sędziami</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/createMatch">Dodaj mecz</NavLink>
+                                        <NavLink class=".nav-item.nav-user"  href="/createMatch">Dodaj mecz</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/manageTeams">Zarządzaj drużynami</NavLink>
+                                        <NavLink class=".nav-item.nav-user" href="/manageTeams">Zarządzaj drużynami</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/typedResults">Typowane wyniki</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink class="nav-item" style="color: red; text-decoration: none;" href="/judges">Zarządzaj Sędziami</NavLink>
+                                        <NavLink class=".nav-item.nav-user" href="/typedResults">Typowane wyniki</NavLink>
                                     </li>
                                 </Authorized>
                             </AuthorizeView>
-
+@* 
                             @foreach (var role in rolesUser)
                             {
                                 <div>@role</div>
-                            }
+                            } *@
                         </ul>
                     </div>
 
@@ -148,6 +145,14 @@
     <!-- .container -->
 </section>
 
+<style>
+.nav-item.nav-user{
+        color: #7d7d7d;
+        text-decoration: none;
+        font-size: 9px;
+}
+
+</style>
 
 @code {
 

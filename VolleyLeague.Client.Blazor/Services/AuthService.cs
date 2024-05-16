@@ -8,32 +8,38 @@ namespace VolleyLeague.Client.Blazor.Services
 {
     public static class AuthService
     {
-            public static ClaimsPrincipal SetClaimPrincipal(UserSession model)
+        public static ClaimsPrincipal SetClaimPrincipal(UserSession model)
+        {
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, model.Id!),
+        new Claim(ClaimTypes.Name, model.Name!)
+    };
+
+            // Dodaj każdą rolę jako oddzielne roszczenie
+            foreach (var role in model.Roles)
             {
-                return new ClaimsPrincipal(new ClaimsIdentity(
-                    new List<Claim>
-                    {
-                    new(ClaimTypes.NameIdentifier, model.Id!),
-                    new(ClaimTypes.Name, model.Name!),
-                    new(ClaimTypes.Role, model.Role!),
-                    }, "JwtAuth"));
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            public static UserSession GetClaimsFromToken(string jwtToken)
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwtToken);
-                var claims = token.Claims;
 
-                string id = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value!;
-                string name = claims.First(c => c.Type == ClaimTypes.Name).Value!;
+            // Utwórz ClaimsIdentity z listą roszczeń
+            var identity = new ClaimsIdentity(claims, "JwtAuth");
 
-                var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+            // Utwórz i zwróć ClaimsPrincipal z powyższym identity
+            return new ClaimsPrincipal(identity);
+        }
+        public static UserSession GetClaimsFromToken(string jwtToken)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+            var claims = token.Claims;
 
-                string roleString = string.Join(", ", roles);
+            string id = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value!;
+            string name = claims.First(c => c.Type == ClaimTypes.Name).Value!;
 
-                return new UserSession(id, name, roleString);
-            
+            var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
 
+            return new UserSession(id, name, roles);
         }
 
         public static JsonSerializerOptions JsonOptions()
