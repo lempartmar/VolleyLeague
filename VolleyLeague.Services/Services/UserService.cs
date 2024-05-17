@@ -140,13 +140,24 @@ namespace VolleyLeague.Services.Services
 
         public async Task<bool> IsTeamCaptain(string playerEmail)
         {
-            var user = (await _credentialsRepository.GetAll().Include(c => c.User).ThenInclude(u => u.Team).FirstOrDefaultAsync(p => p.Email == playerEmail))?.User;
+            // Find the user by email
+            var user = await _credentialsRepository.GetAll()
+                          .Include(c => c.User)
+                          .ThenInclude(u => u.Team)
+                          .Where(c => c.Email == playerEmail)
+                          .Select(c => c.User)
+                          .FirstOrDefaultAsync();
+
             if (user == null)
             {
                 return false;
             }
 
-            return true;
+            // Check if the user is a captain of any team
+            var isCaptain = await _userRepository.GetAll()
+                              .AnyAsync(u => u.Id == user.Id && u.Team.CaptainId == user.Id);
+
+            return isCaptain;
         }
 
 

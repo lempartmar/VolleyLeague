@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Services.Interfaces;
 
@@ -32,10 +33,13 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+
+        [Authorize]
         [HttpPost("AddTeam")]
         public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team) 
         {
-            await _teamService.AddTeam(team);
+            string? email = User.Identity?.Name;
+            await _teamService.AddTeam(team, email);
             return Ok();
         }
 
@@ -53,17 +57,38 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("CreateTeam")]
-        public async Task<IActionResult> CreateTeam([FromBody] NewTeamDto team)
-        {
-            string? id = "nowa@mail.com";
 
+        [Authorize]
+        [HttpGet("GetManagedTeam")]
+        public async Task<IActionResult> GetManagedTeam()
+        {
+            string? id = User.Identity?.Name;
             if (string.IsNullOrWhiteSpace(id))
             {
                 return Unauthorized();
             }
 
-            await _teamService.AddTeam(team);
+            var result = await _teamService.GetTeamByCaptain(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [Authorize]
+        [HttpPost("CreateTeam")]
+        public async Task<IActionResult> CreateTeam([FromBody] NewTeamDto team)
+        {
+            string? email = User.Identity?.Name;
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return Unauthorized();
+            }
+
+            await _teamService.AddTeam(team, email);
 
             return Ok();
         }

@@ -76,6 +76,9 @@ namespace VolleyLeague.Services.Mapping
              .ForMember(dest => dest.Player, opt => opt.MapFrom(src => src))
              .ForMember(dest => dest.JoinDate, opt => opt.MapFrom(src => DateTime.Now));
 
+            CreateMap<Team, ManagedTeamDataDto>();
+            CreateMap<ManagedTeamDataDto, Team>();
+
             CreateMap<NewTeamDto, Team>()
              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))

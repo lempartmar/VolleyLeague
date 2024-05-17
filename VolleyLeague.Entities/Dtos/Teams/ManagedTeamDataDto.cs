@@ -31,7 +31,7 @@
         public int? AvailableTransfers { get; set; }
 
         // Method to generate TeamDto from Team
-       
+
 
     }
 }

@@ -59,7 +59,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<ManagedTeamDataDto> GetManagedTeam()
         {
-            var response = await _httpClient.GetAsync($"api/team/managedteam");
+            var response = await _httpClient.GetAsync($"api/team/GetManagedTeam");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();

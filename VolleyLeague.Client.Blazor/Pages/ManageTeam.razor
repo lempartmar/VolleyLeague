@@ -1,0 +1,423 @@
+﻿@page "/ManageTeam"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using VolleyballBlazor.Client.Models
+@inject IUserService userService
+@inject ITeamService teamService
+@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider authenticationStateProvider
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            @if (PageReady)
+            {
+                <EditForm Model="@ManagedTeam" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="card">
+                        <h2>Zarządzanie drużyną: @(Team?.Name ?? "Unknown")</h2> <!-- Ensuring Team is not null -->
+                        <div class="card-body login">
+                            <div class="form-group">
+                                <label for="Email">Email drużynowy</label>
+                                <InputText class="form-control" id="Email" @bind-Value="ManagedTeam.Email" />
+                                <ValidationMessage For="@(() => ManagedTeam.Email)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Phone">Telefon komórkowy</label>
+                                <InputText class="form-control" id="Phone" @bind-Value="ManagedTeam.Phone" />
+                                <ValidationMessage For="@(() => ManagedTeam.Phone)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="TeamDescription">Opis drużyny</label>
+                                <InputText class="form-control" id="TeamDescription" @bind-Value="ManagedTeam.TeamDescription" />
+                                <ValidationMessage For="@(() => ManagedTeam.TeamDescription)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Website">Strona internetowa</label>
+                                <InputText class="form-control" id="Website" @bind-Value="ManagedTeam.Website" />
+                                <ValidationMessage For="@(() => ManagedTeam.Website)" />
+                            </div>
+
+                            <h5>Zawodnicy</h5>
+                            <small class="text-info">Możesz edytować adres email niezarejestrowanych graczy. Jeśli założą konto na podany email, to automatycznie ich konto stanie się członkiem drużyny.</small>
+                            <p class="text-danger"><ValidationMessage For="@(() => ManagedTeam.Players)"></ValidationMessage></p>
+                            <table class="table table-responsive table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Lp</th>
+                                        <th>Imię</th>
+                                        <th>Nazwisko</th>
+                                        <th>Numer</th>
+                                        <th>Wzrost</th>
+                                        <th>Pozycja</th>
+                                        <th>Płeć</th>
+                                        <th>Email</th>
+                                        <th>Usuń</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @* Display Captain *@
+                                    @{
+                                        int i = 0;
+                                    }
+                                    <tr>
+                                        <td>@(++i) (K)</td>
+                                        <td>
+                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.FirstName" readonly />
+                                        </td>
+                                        <td>
+                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.LastName" readonly />
+                                        </td>
+                                        <td>
+                                            <InputNumber style="max-width:55px" @bind-Value="ManagedTeam.Captain.JerseyNumber" />
+                                        </td>
+                                        <td>
+                                            <InputNumber style="max-width:55px" @bind-Value="ManagedTeam.Captain.Height" />
+                                        </td>
+                                        <td>
+                                            <InputSelect style="max-width:100px" @bind-Value="ManagedTeam.Captain.PositionId">
+                                                @foreach (var position in Positions)
+                                                {
+                                                    <option value="@position.Id">@position.Name</option>
+                                                }
+                                            </InputSelect>
+                                        </td>
+                                        <td class="d-flex flex-nowrap align-items-center">
+                                            <InputRadioGroup @bind-Value="ManagedTeam.Captain.Gender">
+                                                <InputRadio Value="false" class="m-1"></InputRadio>
+                                                <label class="mt-1">M</label>
+                                                <InputRadio Value="true" class="m-1"></InputRadio>
+                                                <label class="mt-1">K</label>
+                                            </InputRadioGroup>
+                                        </td>
+                                        <td>
+                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.Email" readonly />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                    @* Display Existing Players *@
+                                    @if (ManagedTeam.Players != null)
+                                    {
+                                        @foreach (var player in ManagedTeam.Players)
+                                        {
+                                            <tr>
+                                                <td>@(++i)</td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="player.FirstName" readonly />
+                                                    <p class="text-danger"><ValidationMessage For="@(() => player.FirstName)" /></p>
+                                                </td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="player.LastName" readonly />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:55px" @bind-Value="player.Height" />
+                                                </td>
+                                                <td>
+                                                    <InputSelect style="max-width:100px" @bind-Value="player.PositionId">
+                                                        @foreach (var position in Positions)
+                                                        {
+                                                            <option value="@position.Id">@position.Name</option>
+                                                        }
+                                                    </InputSelect>
+                                                </td>
+                                                <td class="d-flex flex-nowrap align-items-center">
+                                                    <InputRadioGroup @bind-Value="player.Gender">
+                                                        <InputRadio Value="false" class="m-1"></InputRadio>
+                                                        <label class="mt-1">M</label>
+                                                        <InputRadio Value="true" class="m-1"></InputRadio>
+                                                        <label class="mt-1">K</label>
+                                                    </InputRadioGroup>
+                                                </td>
+                                                <td>
+                                                    @if (!player.IsRegisteredUser)
+                                                    {
+                                                        <InputText style="max-width:110px" @bind-Value="player.Email" />
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                    @* Display New Players *@
+                                    @if (ManagedTeam.NewPlayers != null && ManagedTeam.NewPlayers.Count > 0)
+                                    {
+                                        <tr>
+                                            <td colspan="9"><h6>Nowi zawodnicy</h6></td>
+                                        </tr>
+                                        @foreach (var newPlayer in ManagedTeam.NewPlayers)
+                                        {
+                                            <tr>
+                                                <td>@(++i)</td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.FirstName" />
+                                                    <p class="text-danger"><ValidationMessage For="@(() => newPlayer.FirstName)" /></p>
+                                                </td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.LastName" />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:55px" @bind-Value="newPlayer.JerseyNumber" />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:55px" @bind-Value="newPlayer.Height" />
+                                                </td>
+                                                <td>
+                                                    <InputSelect style="max-width:100px" @bind-Value="newPlayer.PositionId">
+                                                        @foreach (var position in Positions)
+                                                        {
+                                                            <option value="@position.Id">@position.Name</option>
+                                                        }
+                                                    </InputSelect>
+                                                </td>
+                                                <td class="d-flex flex-nowrap align-items-center">
+                                                    <InputRadioGroup @bind-Value="newPlayer.Gender">
+                                                        <InputRadio Value="false" class="m-1"></InputRadio>
+                                                        <label class="m-1">M </label>
+                                                        <InputRadio Value="true" class="m-1"></InputRadio>
+                                                        <label class="m-1">K </label>
+                                                    </InputRadioGroup>
+                                                </td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.Email" />
+                                                    <p class="text-danger"><ValidationMessage For="@(() => newPlayer.Email)" /></p>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" @onclick="@(() => UndoAdd(newPlayer))"><b>-</b></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                    @* Display Removed Players *@
+                                    @if (ManagedTeam.RemovedPlayers != null && ManagedTeam.RemovedPlayers.Count > 0)
+                                    {
+                                        <tr>
+                                            <td colspan="9"><h6>Usuwani zawodnicy</h6></td>
+                                        </tr>
+                                        @foreach (var removedPlayer in ManagedTeam.RemovedPlayers)
+                                        {
+                                            <tr>
+                                                <td>@(++i)</td>
+                                                <td>
+                                                    <InputText style="max-width:110px" @bind-Value="removedPlayer.FirstName" readonly />
+                                                    <p class="text-danger"><ValidationMessage For="@(() => removedPlayer.FirstName)" /></p>
+                                                </td>
+                                                <td>
+                                                    <InputText style="max-width:120px" @bind-Value="removedPlayer.LastName" readonly />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:60px" @bind-Value="removedPlayer.JerseyNumber" readonly />
+                                                </td>
+                                                <td>
+                                                    <InputNumber style="max-width:60px" @bind-Value="removedPlayer.Height" readonly />
+                                                </td>
+                                                <td>
+                                                    <InputSelect @bind-Value="removedPlayer.PositionId" readonly>
+                                                        @foreach (var position in Positions)
+                                                        {
+                                                            <option value="@position.Id">@position.Name</option>
+                                                        }
+                                                    </InputSelect>
+                                                </td>
+                                                <td class="d-flex flex-nowrap align-items-center">
+                                                    <InputRadioGroup @bind-Value="removedPlayer.Gender">
+                                                        <InputRadio readonly Value="false" class="m-1"></InputRadio>
+                                                        <label class="m-1">M </label>
+                                                        <InputRadio readonly Value="true" class="m-1"></InputRadio>
+                                                        <label class="m-1">K </label>
+                                                    </InputRadioGroup>
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" @onclick="@(() => UndoRemove(removedPlayer))"><b>-</b></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-success" @onclick="AddPlayer"><b>+</b></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if (transfers > 0)
+                        {
+                            <p>Tymi operacjami wykorzystasz następującą liczbę transferów: @transfers. Posiadasz jeszcze: @(Team?.AvailableTransfers ?? 0) transferów</p> <!-- Ensure Team is not null -->
+                        }
+                        <p class="text-danger"><ValidationSummary /></p>
+                        <div class="d-flex flex-column align-items-center">
+                            @if (IsLoading)
+                            {
+                                <LoadingIcon></LoadingIcon>
+                            }
+                            else
+                            {
+                                @if (ShowErrorMessage)
+                                {
+                                    <p class="text-danger">@ErrorMessage </p> <br />
+                                }
+
+                                <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
+                            }
+                        </div>
+                    </div>
+                </EditForm>
+
+                <EditForm Model="CaptainId" class="form mt-4" OnValidSubmit="UpdateCaptain">
+                    <div class="d-flex flex-column">
+                        <h4>Zmień kapitana</h4>
+                        <p>Obecny kapitan: @(Team?.Captain.FirstName ?? "Unknown") @(Team?.Captain.LastName ?? "Unknown")</p>
+                        <div class="form-group">
+                            <label for="CaptainId">Nowy kapitan:</label>
+                            <InputSelect @bind-Value="CaptainId">
+                                @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser) ?? Enumerable.Empty<TeamPlayerDto>()))
+                                {
+                                    <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <p class="text-primary">Uwaga: Zmieniając kapitana stracisz dostęp do zarządzania drużyną. Nowy kapitan musi posiadać własne konto.</p>
+                        <div class="d-flex flex-column align-items-center">
+                            @if (IsLoadingCaptain)
+                            {
+                                <LoadingIcon></LoadingIcon>
+                            }
+                            else
+                            {
+                                <p class="text-danger">@ErrorMessageCaptain </p> <br />
+                                <button class="btn btn-primary col-sm-3" disabled="@(CaptainId == 0)" type="submit">Aktualizuj</button>
+                            }
+                        </div>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="d-flex flex-column align-items-center mt-4">
+                    @if (ShowErrorMessage)
+                    {
+                        <p class="text-danger">Wystąpił błąd: @ErrorMessage </p>
+                        <br />
+                    }
+                    else
+                    {
+                        <LoadingIcon></LoadingIcon>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    ManageTeamListsDto ManagedTeam { get; set; } = new ManageTeamListsDto();
+    List<PositionDto> Positions { get; set; } = new List<PositionDto>();
+    ManagedTeamDataDto? Team { get; set; } = new ManagedTeamDataDto(); // Initialize as empty object
+    int CaptainId { get; set; }
+    int transfers = 0;
+
+    bool IsLoadingCaptain { get; set; } = false;
+    string ErrorMessageCaptain { get; set; } = "";
+    bool IsLoading { get; set; } = false;
+    bool ShowErrorMessage { get; set; } = false;
+    string ErrorMessage { get; set; } = "";
+    bool PageReady { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var teamResult = await teamService.GetManagedTeam();
+        var userHasTeam = await userService.IsTeamCaptain();
+
+        if (!userHasTeam)
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "You do not have a team.";
+            return;
+        }
+
+        var positionsResult = await userService.GetPositions();
+        Positions = positionsResult;
+
+        Team = teamResult;
+        ManagedTeam = new ManageTeamListsDto((ManageTeamDto)Team);
+
+        // Ensure collections are not null
+        ManagedTeam.Players = ManagedTeam.Players ?? new List<TeamPlayerDto>();
+        ManagedTeam.NewPlayers = ManagedTeam.NewPlayers ?? new List<TeamPlayerDto>();
+        ManagedTeam.RemovedPlayers = ManagedTeam.RemovedPlayers ?? new List<TeamPlayerDto>();
+
+        PageReady = true;
+    }
+
+    public void AddPlayer()
+    {
+        ManagedTeam.NewPlayers.Add(new TeamPlayerDto() { Id = 0 });
+        transfers++;
+    }
+
+    public void RemovePlayer(TeamPlayerDto player)
+    {
+        ManagedTeam.Players.Remove(player);
+        ManagedTeam.RemovedPlayers.Add(player);
+    }
+
+    public void UndoAdd(TeamPlayerDto player)
+    {
+        ManagedTeam.NewPlayers.Remove(player);
+        transfers--;
+    }
+
+    public void UndoRemove(TeamPlayerDto player)
+    {
+        ManagedTeam.RemovedPlayers.Remove(player);
+        ManagedTeam.Players.Add(player);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        IsLoading = true;
+        var response = await teamService.UpdateTeam(ManagedTeam);
+        IsLoading = false;
+        if (response)
+        {
+            navigationManager.NavigateTo("/ManageTeam", forceLoad: true);
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "An error occurred while updating the team.";
+            StateHasChanged();
+        }
+    }
+
+    public async Task UpdateCaptain()
+    {
+        IsLoadingCaptain = true;
+        var response = await teamService.UpdateCaptain(CaptainId);
+        IsLoadingCaptain = false;
+        if (response)
+        {
+            navigationManager.NavigateTo($"team/{Team?.Id}", forceLoad: true);
+        }
+        else
+        {
+            ErrorMessageCaptain = "An error occurred while updating the captain.";
+            StateHasChanged();
+        }
+    }
+}

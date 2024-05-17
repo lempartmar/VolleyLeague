@@ -15,12 +15,13 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
-        public TeamService(IMapper mapper, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository)
+        public TeamService(IMapper mapper, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
+            _credentialsRepository = credentialsRepository;
         }
 
         public async Task<List<TeamDto>> GetAllTeams()
@@ -68,51 +69,100 @@ namespace VolleyLeague.Services.Services
             return teamDto;
         }
 
-        public async Task AddTeam(NewTeamDto team)
+        public async Task AddTeam(NewTeamDto team, string email)
         {
             var teamPlayers = new List<TeamPlayer>();
             var newUsersToSendInvitation = new List<TeamPlayerDto>();
 
+            // Match players to existing users or create new ones
             foreach (var player in team.Players)
             {
-                if (player.Id != null)
+                if (!string.IsNullOrEmpty(player.Email))
                 {
-                    var user = await _userRepository.GetAll().Where(u => u.Id == player.Id).FirstOrDefaultAsync();
-                    if (user != null)
+                    var existingUser = await _userRepository.GetAll()
+                                                            .Include(u => u.Credentials)
+                                                            .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
+
+                    if (existingUser != null)
                     {
-                        var teamPlayer = _mapper.Map<TeamPlayer>(user);
-                        teamPlayers.Add(teamPlayer);
+                        teamPlayers.Add(new TeamPlayer
+                        {
+                            Player = existingUser,
+                            JoinDate = DateTime.UtcNow
+                        });
                         continue;
                     }
                 }
 
-                else
+                // Add new user to the list to send an invitation
+                newUsersToSendInvitation.Add(player);
+                teamPlayers.Add(new TeamPlayer
                 {
-                    //newUsersToSendInvitation.Add(player);
-                    TeamPlayer teamPlayer = _mapper.Map<TeamPlayer>(player);
-                    teamPlayers.Add(teamPlayer);
-                }
+                    Player = new User
+                    {
+                        FirstName = player.FirstName,
+                        LastName = player.LastName,
+                        Height = (byte?)player.Height,
+                        JerseyNumber = (byte?)player.JerseyNumber,
+                        PositionId = 2,
+                        Credentials = null // New user without credentials yet
+                    },
+                    JoinDate = DateTime.UtcNow
+                });
             }
 
-            var newTeam = new Team();
-            newTeam.TeamPlayers = teamPlayers;
-            var captainUser = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(u => u.Email == "nowa@mail.com");
-            newTeam.Captain = captainUser.User;
+            // Find the captain by email
+            var captainCredentials = await _credentialsRepository.GetAll()
+                                           .Include(c => c.User)
+                                           .FirstOrDefaultAsync(c => c.Email == email);
 
-            var newTeamToDb = _mapper.Map(team, newTeam);
+            if (captainCredentials?.User == null)
+            {
+                throw new Exception("Captain not found.");
+            }
+
+            // Create new team
+            var newTeam = new Team
+            {
+                Name = team.Name,
+                CreationDate = DateTime.UtcNow,
+                Image = team.Image,
+                LeagueId = 7,
+                //    LeagueId = team.LeagueId, // Ensure this is a valid LeagueId
+                CaptainId = captainCredentials.User.Id,
+                TeamPlayers = teamPlayers,
+                Email = team.Email,
+                Logo = team.Logo,
+                Phone = team.Phone,
+                TeamDescription = team.TeamDescription,
+                Website = team.Website,
+                IsReportedToPlay = false
+            };
 
             try
             {
-                await _teamRepository.InsertAsync(newTeamToDb);
+                await _teamRepository.InsertAsync(newTeam);
+                await _teamRepository.SaveChangesAsync();
+
+                foreach (var player in teamPlayers)
+                {
+                    player.Team = newTeam;
+                    await _teamRepository.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                // Log the exception
+                Console.WriteLine($"An error occurred while inserting the team: {ex}");
+                throw;
+            }
+
+            // Send invitations to new users
+            foreach (var newUser in newUsersToSendInvitation)
+            {
+              //  SendEmailAddedToTeam(newUser);
             }
         }
-
-
-        
 
 
         public async Task<bool> DeleteTeam(int teamId)

@@ -13,7 +13,9 @@ namespace VolleyLeague.Client.Blazor.Services
         Task<List<PositionDto>> GetPositions();
         //Task<PlayerSummaryDto> GetUserSummary();
         Task<UserProfileDto> GetUserProfile(int userId);
-        //Task<bool> IsTeamCaptain();
+        
+        Task<bool> IsTeamCaptain();
+
         Task<UserProfileDto> GetCurrentUserProfile();
         //Task UpdateUser(UpdateUserDto userProfileDto);
     }
