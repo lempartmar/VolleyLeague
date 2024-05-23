@@ -8,6 +8,7 @@
 @inject ITeamService teamService
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authenticationStateProvider
+@inject IJSRuntime JSRuntime
 
 <section class="category_section">
     <div class="container">
@@ -273,6 +274,7 @@
                                 }
 
                                 <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
+                                <button class="btn btn-danger col-sm-3 mt-2" @onclick="DeleteTeam">Usuń drużynę</button>
                             }
                         </div>
                     </div>
@@ -418,6 +420,27 @@
         {
             ErrorMessageCaptain = "An error occurred while updating the captain.";
             StateHasChanged();
+        }
+    }
+
+    public async Task DeleteTeam()
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Czy na pewno chcesz usunąć drużynę?");
+        if (confirmed)
+        {
+            IsLoading = true;
+            var response = await teamService.DeleteTeam(Team.Id);
+            IsLoading = false;
+            if (response)
+            {
+                navigationManager.NavigateTo("/teams");
+            }
+            else
+            {
+                ShowErrorMessage = true;
+                ErrorMessage = "An error occurred while deleting the team.";
+                StateHasChanged();
+            }
         }
     }
 }

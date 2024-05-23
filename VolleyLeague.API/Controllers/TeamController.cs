@@ -127,5 +127,23 @@ namespace VolleyLeague.API.Controllers
 
             return Ok();
         }
+
+        [Authorize]
+        [HttpDelete("DeleteTeam/{Id}")]
+        public async Task<IActionResult> DeleteTeam(int Id)
+        {
+            string? email = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return Unauthorized();
+            }
+
+            var result = await _teamService.DeleteTeam(Id);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest("Failed to delete the team.");
+        }
     }
 }

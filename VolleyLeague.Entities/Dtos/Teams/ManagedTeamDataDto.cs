@@ -11,7 +11,7 @@
         public DateTime CreationDate { get; set; }
 
         public LeagueDto? League { get; set; }
-
+            
         public List<TeamPlayerDto> Players { get; set; } = null!;
 
         public string Email { get; set; } = null!;

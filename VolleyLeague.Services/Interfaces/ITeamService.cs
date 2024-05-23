@@ -18,6 +18,8 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<ExtendedTeamWithLeagueDto> GetAllExtendedTeams();
 
+        Task<bool> DeleteTeam(int teamId);
+
         Task<List<TeamDto>> GetTeamsByLeagueId(int leagueId);
 
         Task<bool> UpdateCaptain(int newCaptainId, string email);
