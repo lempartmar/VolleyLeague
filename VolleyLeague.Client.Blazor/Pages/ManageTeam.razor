@@ -65,96 +65,53 @@
                                     @{
                                         int i = 0;
                                     }
-                                    <tr>
-                                        <td>@(++i) (K)</td>
-                                        <td>
-                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.FirstName" readonly class="form-control" />
-                                        </td>
-                                        <td>
-                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.LastName" readonly class="form-control" />
-                                        </td>
-                                        <td>
-                                            <InputNumber style="max-width:55px" @bind-Value="ManagedTeam.Captain.JerseyNumber" class="form-control" />
-                                        </td>
-                                        <td>
-                                            <InputNumber style="max-width:55px" @bind-Value="ManagedTeam.Captain.Height" class="form-control" />
-                                        </td>
-                                        <td>
-                                            <InputSelect style="max-width:100px" @bind-Value="ManagedTeam.Captain.PositionId" class="form-control">
-                                                @foreach (var position in Positions)
-                                                {
-                                                    <option value="@position.Id">@position.Name</option>
-                                                }
-                                            </InputSelect>
-                                        </td>
-                                        <td class="d-flex flex-nowrap align-items-center">
-                                            <InputRadioGroup @bind-Value="ManagedTeam.Captain.Gender">
-                                                <div class="form-check form-check-inline">
-                                                    <InputRadio Value="false" class="form-check-input" id="genderM" />
-                                                    <label class="form-check-label" for="genderM">M</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <InputRadio Value="true" class="form-check-input" id="genderK" />
-                                                    <label class="form-check-label" for="genderK">K</label>
-                                                </div>
-                                            </InputRadioGroup>
-                                        </td>
-                                        <td>
-                                            <InputText style="max-width:110px" @bind-Value="ManagedTeam.Captain.Email" readonly class="form-control" />
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    @if (ManagedTeam.Players != null)
+                                    @foreach (var player in ManagedTeam.Players)
                                     {
-                                        @foreach (var player in ManagedTeam.Players)
-                                        {
-                                            <tr>
-                                                <td>@(++i)</td>
-                                                <td>
-                                                    <InputText style="max-width:110px" @bind-Value="player.FirstName" readonly class="form-control" />
-                                                    <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
-                                                </td>
-                                                <td>
-                                                    <InputText style="max-width:110px" @bind-Value="player.LastName" readonly class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputNumber style="max-width:55px" @bind-Value="player.Height" class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputSelect style="max-width:100px" @bind-Value="player.PositionId" class="form-control">
-                                                        @foreach (var position in Positions)
-                                                        {
-                                                            <option value="@position.Id">@position.Name</option>
-                                                        }
-                                                    </InputSelect>
-                                                </td>
-                                                <td class="d-flex flex-nowrap align-items-center">
-                                                    <InputRadioGroup @bind-Value="player.Gender">
-                                                        <div class="form-check form-check-inline">
-                                                            <InputRadio Value="false" class="form-check-input" />
-                                                            <label class="form-check-label">M</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <InputRadio Value="true" class="form-check-input" />
-                                                            <label class="form-check-label">K</label>
-                                                        </div>
-                                                    </InputRadioGroup>
-                                                </td>
-                                                <td>
-                                                    @if (!player.IsRegisteredUser)
+                                        <tr>
+                                            <td>@(++i)</td>
+                                            <td>
+                                                <InputText style="max-width:110px" @bind-Value="player.FirstName" readonly class="form-control" />
+                                                <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText style="max-width:110px" @bind-Value="player.LastName" readonly class="form-control" />
+                                            </td>
+                                            <td>
+                                                <InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <InputNumber style="max-width:55px" @bind-Value="player.Height" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <InputSelect style="max-width:100px" @bind-Value="player.PositionId" class="form-control">
+                                                    @foreach (var position in Positions)
                                                     {
-                                                        <InputText style="max-width:110px" @bind-Value="player.Email" class="form-control" />
+                                                        <option value="@position.Id">@position.Name</option>
                                                     }
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
-                                                </td>
-                                            </tr>
-                                        }
+                                                </InputSelect>
+                                            </td>
+                                            <td class="d-flex flex-nowrap align-items-center">
+                                                <InputRadioGroup @bind-Value="player.Gender">
+                                                    <div class="form-check form-check-inline">
+                                                        <InputRadio Value="false" class="form-check-input" />
+                                                        <label class="form-check-label">M</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <InputRadio Value="true" class="form-check-input" />
+                                                        <label class="form-check-label">K</label>
+                                                    </div>
+                                                </InputRadioGroup>
+                                            </td>
+                                            <td>
+                                                @if (!player.IsRegisteredUser)
+                                                {
+                                                    <InputText style="max-width:110px" @bind-Value="player.Email" class="form-control" />
+                                                }
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
+                                            </td>
+                                        </tr>
                                     }
 
                                     @if (ManagedTeam.NewPlayers != null && ManagedTeam.NewPlayers.Count > 0)
@@ -273,7 +230,8 @@
                             <p class="text-warning">Tymi operacjami wykorzystasz następującą liczbę transferów: @transfers. Posiadasz jeszcze: @(Team?.AvailableTransfers ?? 0) transferów</p>
                         }
                         <ValidationSummary class="text-danger" />
-                        <div class="d-flex flex-column align-items-center">
+                        <div style="display: flex; flex-direction: column; gap: 20px">
+                        <div class="d-flex flex-column align-items-center mt-3">
                             @if (IsLoading)
                             {
                                 <LoadingIcon></LoadingIcon>
@@ -285,9 +243,24 @@
                                     <p class="text-danger">@ErrorMessage </p> <br />
                                 }
 
-                                <button class="btn btn-primary col-sm-3" type="submit">Wyślij</button>
-                                <button class="btn btn-danger col-sm-3 mt-2" @onclick="DeleteTeam">Usuń drużynę</button>
+                                <button class="btn btn-primary col-sm-3 mb-2" type="submit">Wyślij</button>
                             }
+                        </div>
+                                                <div class="d-flex flex-column align-items-center mt-3">
+                            @if (IsLoading)
+                            {
+                                <LoadingIcon></LoadingIcon>
+                            }
+                            else
+                            {
+                                @if (ShowErrorMessage)
+                                {
+                                    <p class="text-danger">@ErrorMessage </p> <br />
+                                }
+
+                                <button class="btn btn-danger col-sm-3 mb-2" @onclick="DeleteTeam">Usuń drużynę</button>
+                            }
+                        </div>
                         </div>
                     </div>
                 </EditForm>
@@ -299,7 +272,7 @@
                         <div class="form-group mb-3">
                             <label for="CaptainId">Nowy kapitan:</label>
                             <InputSelect @bind-Value="CaptainId" class="form-control">
-                                @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser) ?? Enumerable.Empty<TeamPlayerDto>()))
+                                @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser && p.Id != ManagedTeam.Captain.Id) ?? Enumerable.Empty<TeamPlayerDto>()))
                                 {
                                     <option value="@player.Id">@player.FirstName @player.LastName</option>
                                 }
@@ -314,7 +287,7 @@
                             else
                             {
                                 <p class="text-danger">@ErrorMessageCaptain </p> <br />
-                                <button class="btn btn-primary col-sm-3" disabled="@(CaptainId == 0)" type="submit">Aktualizuj</button>
+                                <button class="btn btn-primary col-sm-3 mb-2" disabled="@(CaptainId == 0)" type="submit">Aktualizuj</button>
                             }
                         </div>
                     </div>
