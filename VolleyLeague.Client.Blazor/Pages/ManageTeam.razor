@@ -109,7 +109,10 @@
                                                 }
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
+                                                @if (player.Id != Team?.Captain.Id)
+                                                {
+                                                    <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
+                                                }
                                             </td>
                                         </tr>
                                     }
@@ -358,6 +361,18 @@
 
     public void RemovePlayer(TeamPlayerDto player)
     {
+        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count <= 5)
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "Nie można mieć mniej niż 5 zawodników.";
+            return;
+        }
+        if (player.Id == Team?.Captain.Id)
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "Nie można usunąć kapitana.";
+            return;
+        }
         ManagedTeam.Players.Remove(player);
         ManagedTeam.RemovedPlayers.Add(player);
     }
@@ -376,6 +391,12 @@
 
     public async Task HandleValidSubmit()
     {
+        if (!ValidateTeam())
+        {
+            ShowErrorMessage = true;
+            return;
+        }
+
         IsLoading = true;
         var response = await teamService.UpdateTeam(ManagedTeam);
         IsLoading = false;
@@ -426,5 +447,25 @@
                 StateHasChanged();
             }
         }
+    }
+
+    private bool ValidateTeam()
+    {
+        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count < 5)
+        {
+            ErrorMessage = "Musi być co najmniej 6 zawodników (kapitana nie można usunąć).";
+            return false;
+        }
+
+        foreach (var player in ManagedTeam.NewPlayers)
+        {
+            if (string.IsNullOrEmpty(player.FirstName) || string.IsNullOrEmpty(player.LastName) || player.PositionId == 0)
+            {
+                ErrorMessage = "Nowi zawodnicy muszą mieć imię, nazwisko oraz pozycję.";
+                return false;
+            }
+        }
+
+        return true;
     }
 }

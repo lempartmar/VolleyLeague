@@ -357,7 +357,8 @@ namespace VolleyLeague.Services.Services
 
             foreach (var player in team.RemovedPlayers)
             {
-                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
+                var playerid = player.Id;
+                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == playerid);
                 if (playerToRemove != null)
                 {
                     teamToUpdate.TeamPlayers.Remove(playerToRemove);
@@ -412,10 +413,11 @@ namespace VolleyLeague.Services.Services
         public async Task<ManagedTeamDataDto> GetTeamByCaptain(string email)
         {
             var team = await _teamRepository.GetAll()
-                .Include(t => t.League)
-                .Include(u => u.Captain).ThenInclude(c => c.Credentials)
-                .Include(t => t.TeamPlayers).ThenInclude(t => t.Player).ThenInclude(p => p.Credentials)
-                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
+                            .Include(t => t.League)
+                            .Include(u => u.Captain).ThenInclude(c => c.Credentials)
+                            .Include(t => t.TeamPlayers).ThenInclude(t => t.Player).ThenInclude(p => p.Credentials)
+                            .Include(t => t.TeamPlayers).ThenInclude(t => t.Player).ThenInclude(p => p.Position)
+                            .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
 
             var result = _mapper.Map<ManagedTeamDataDto>(team);
             result.Logo = team?.Logo;
