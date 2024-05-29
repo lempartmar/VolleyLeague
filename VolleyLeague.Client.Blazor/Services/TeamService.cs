@@ -83,7 +83,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<bool> UpdateTeam(ManageTeamDto team)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/team", team);
+            var response = await _httpClient.PutAsJsonAsync("api/team/UpdateTeam", team);
             return response.IsSuccessStatusCode;
         }
 

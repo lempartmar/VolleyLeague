@@ -101,7 +101,7 @@ namespace VolleyLeague.API.Controllers
             //{
             //    return Unauthorized();
             //}
-            var result = await _teamService.UpdateTeam(team);
+            var result = await _teamService.UpdateTeam(team, id);
 
             return Ok();
         }

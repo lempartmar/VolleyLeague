@@ -211,40 +211,151 @@ namespace VolleyLeague.Services.Services
         }
 
 
-        public async Task<bool> UpdateTeam(ManageTeamDto teamDto)
+        //public async Task<bool> UpdateTeam(ManageTeamDto teamDto)
+        //{
+        //    var teamToUpdate = await _teamRepository.GetAll()
+        //        .Include(u => u.Captain).ThenInclude(c => c.Credentials)
+        //        .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).ThenInclude(p => p.Credentials)
+        //        .FirstOrDefaultAsync(t => t.Captain.Credentials.Email == "nowy@mail.com");
+
+        //    if (teamToUpdate == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    _mapper.Map(teamDto, teamToUpdate);
+
+        //    var existingPlayerIds = teamToUpdate.TeamPlayers.Select(tp => tp.PlayerId).ToList();
+        //    foreach (var playerDto in teamDto.Players.Where(p => existingPlayerIds.Contains((int)p.Id)))
+        //    {
+        //        var player = teamToUpdate.TeamPlayers.FirstOrDefault(tp => tp.PlayerId == playerDto.Id)?.Player;
+        //        if (player != null)
+        //        {
+        //            _mapper.Map(playerDto, player);
+        //        }
+        //    }
+
+        //    foreach (var newPlayerDto in teamDto.NewPlayers)
+        //    {
+        //        if (!existingPlayerIds.Contains((int)newPlayerDto.Id))
+        //        {
+        //            var newPlayer = _mapper.Map<User>(newPlayerDto);
+        //            teamToUpdate.TeamPlayers.Add(new TeamPlayer { Player = newPlayer, JoinDate = DateTime.UtcNow });
+        //        }
+        //    }
+
+        //    foreach (var player in teamDto.RemovedPlayers)
+        //    {
+        //        var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
+        //        if (playerToRemove != null)
+        //        {
+        //            teamToUpdate.TeamPlayers.Remove(playerToRemove);
+        //        }
+        //    }
+
+        //    try
+        //    {
+        //        await _teamRepository.UpdateAsync(teamToUpdate);
+        //        await _teamRepository.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public async Task<bool> UpdateTeam(ManageTeamDto team, string email)
         {
+
             var teamToUpdate = await _teamRepository.GetAll()
-                .Include(u => u.Captain).ThenInclude(c => c.Credentials)
-                .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).ThenInclude(p => p.Credentials)
-                .FirstOrDefaultAsync(t => t.Captain.Credentials.Email == "nowy@mail.com");
+                .Include(u => u.Captain)
+                .Include(t => t.TeamPlayers).ThenInclude(t => t.Player).ThenInclude(p => p.Credentials)
+                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
 
             if (teamToUpdate == null)
             {
                 return false;
             }
 
-            _mapper.Map(teamDto, teamToUpdate);
+            teamToUpdate.Image = team.Photo;
+            teamToUpdate.Email = team.Email;
+            teamToUpdate.Logo = team.Logo;
+            teamToUpdate.Phone = team.Phone;
+            teamToUpdate.TeamDescription = team.TeamDescription;
+            teamToUpdate.Website = team.Website;
 
-            var existingPlayerIds = teamToUpdate.TeamPlayers.Select(tp => tp.PlayerId).ToList();
-            foreach (var playerDto in teamDto.Players.Where(p => existingPlayerIds.Contains((int)p.Id)))
+            teamToUpdate.Captain.JerseyNumber = (byte?)team.Captain.JerseyNumber;
+            teamToUpdate.Captain.Height = (byte?)team.Captain.Height;
+            teamToUpdate.Captain.PositionId = team.Captain.PositionId;
+            teamToUpdate.Captain.Gender = team.Captain.Gender;
+
+            foreach (var player in team.Players)
             {
-                var player = teamToUpdate.TeamPlayers.FirstOrDefault(tp => tp.PlayerId == playerDto.Id)?.Player;
-                if (player != null)
+                var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
+                if (playerToUpdate != null)
                 {
-                    _mapper.Map(playerDto, player);
+                    playerToUpdate.Player.JerseyNumber = (byte?)player.JerseyNumber;
+                    playerToUpdate.Player.Height = (byte?)player.Height;
+                    playerToUpdate.Player.PositionId = player.PositionId;
+                    playerToUpdate.Player.Gender = player.Gender;
+                    if (playerToUpdate.Player.Credentials == null)
+                    {
+                        playerToUpdate.Player.AdditionalEmail = player.Email;
+                    }
                 }
             }
 
-            foreach (var newPlayerDto in teamDto.NewPlayers)
+            teamToUpdate.TeamPlayers.Concat(team.NewPlayers.Select(p => new TeamPlayer
             {
-                if (!existingPlayerIds.Contains((int)newPlayerDto.Id))
+                Player = new User
                 {
-                    var newPlayer = _mapper.Map<User>(newPlayerDto);
-                    teamToUpdate.TeamPlayers.Add(new TeamPlayer { Player = newPlayer, JoinDate = DateTime.UtcNow });
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Height = (byte?)p.Height,
+                    JerseyNumber = (byte?)p.JerseyNumber,
+                    PositionId = p.PositionId,
+                    Credentials = null
+                },
+                JoinDate = DateTime.Now
+            }).ToList());
+
+            foreach (var player in team.NewPlayers)
+            {
+                var user = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == player.Email);
+                if (user != null)
+                {
+                    teamToUpdate.TeamPlayers.Add(new TeamPlayer
+                    {
+                        Player = user.User,
+                        JoinDate = DateTime.Now
+                    });
+                }
+                else
+                {
+                    teamToUpdate.TeamPlayers.Add(new TeamPlayer
+                    {
+                        Player = new User
+                        {
+                            FirstName = player.FirstName,
+                            LastName = player.LastName,
+                            Height = (byte?)player.Height,
+                            JerseyNumber = (byte?)player.JerseyNumber,
+                            PositionId = player.PositionId,
+                            Credentials = null,
+                            AdditionalEmail = player.Email
+                        },
+                        JoinDate = DateTime.Now
+                    });
+
+                    if (player.Email != null)
+                    {
+                        //SendEmailAddedToTeam(player);
+                    }
                 }
             }
 
-            foreach (var player in teamDto.RemovedPlayers)
+            foreach (var player in team.RemovedPlayers)
             {
                 var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
                 if (playerToRemove != null)
@@ -255,14 +366,15 @@ namespace VolleyLeague.Services.Services
 
             try
             {
-                await _teamRepository.UpdateAsync(teamToUpdate);
+                _teamRepository.Update(teamToUpdate);
                 await _teamRepository.SaveChangesAsync();
-                return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
+
+            return true;
         }
 
 
