@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -89,6 +90,19 @@ namespace VolleyLeague.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("summary")]
+        public async Task<IActionResult> GetUserSummary()
+        {
+            string? id = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+            var result = await _userService.GetPlayerSummary(id);
+            return Ok(result);
+        }
+
+        [Authorize]
         [HttpGet("myprofile")]
         public async Task<IActionResult> GetMyProfile()
         {
@@ -103,6 +117,26 @@ namespace VolleyLeague.API.Controllers
                 return NotFound();
             }
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPut("updateuserdata")]
+        public async Task<IActionResult> UpdateUserData(UpdateUserDto updateUserDto)
+        {
+            string? id = User.Identity?.Name;
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+
+            var result = await _userService.UpdateUserAsync(id, updateUserDto);
+
+            if (result)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [Authorize]

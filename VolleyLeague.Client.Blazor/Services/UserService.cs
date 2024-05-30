@@ -11,13 +11,13 @@ namespace VolleyLeague.Client.Blazor.Services
         //Task<string> Login(LoginDto loginDto);
         //Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto);
         Task<List<PositionDto>> GetPositions();
-        //Task<PlayerSummaryDto> GetUserSummary();
+        Task<PlayerSummaryDto> GetUserSummary();
         Task<UserProfileDto> GetUserProfile(int userId);
         
         Task<bool> IsTeamCaptain();
 
         Task<UserProfileDto> GetCurrentUserProfile();
-        //Task UpdateUser(UpdateUserDto userProfileDto);
+        Task UpdateUser(UpdateUserDto userProfileDto);
     }
 
     public class UserService : IUserService
@@ -53,14 +53,15 @@ namespace VolleyLeague.Client.Blazor.Services
             return JsonSerializer.Deserialize<List<PositionDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
-        //public async Task<PlayerSummaryDto> GetUserSummary()
-        //{
-        //    var response = await _httpClient.GetAsync("api/user/usersummary");
-        //    response.EnsureSuccessStatusCode();
+        public async Task<PlayerSummaryDto> GetUserSummary()
+        {
+            var response = await _httpClient.GetAsync("api/user/summary");
+            response.EnsureSuccessStatusCode();
 
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return JsonSerializer.Deserialize<PlayerSummaryDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //}
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<PlayerSummaryDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return result;
+        }
 
         public async Task<UserProfileDto> GetUserProfile(int userId)
         {
@@ -105,11 +106,11 @@ namespace VolleyLeague.Client.Blazor.Services
             return JsonSerializer.Deserialize<UserProfileDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
-        //public async Task UpdateUser(UpdateUserDto updateUserDto)
-        //{
-        //    var response = await _httpClient.PutAsJsonAsync("api/user/updateuserdata", updateUserDto);
-        //    response.EnsureSuccessStatusCode();
-        //}
+        public async Task UpdateUser(UpdateUserDto updateUserDto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/user/updateuserdata", updateUserDto);
+            response.EnsureSuccessStatusCode();
+        }
 
         //public async Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto)
         //{

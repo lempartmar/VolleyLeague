@@ -5,6 +5,7 @@
 @using static VolleyLeague.Client.Blazor.Services.AccountService
 @using System.Net.Http.Headers
 @using System.Globalization
+@using VolleyLeague.Entities.Dtos.Teams
 @inject AuthenticationStateProvider authStateProvider
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject IUserService userService
@@ -106,9 +107,15 @@
                                     else
                                     {
                                         <li>
-                                            <NavLink class=".nav-item.nav-user" href="/createteam">Stwórz drużynę</NavLink>
+                                        <NavLink class=".nav-item.nav-user" href="/createteam">Stwórz drużynę</NavLink>
                                         </li>
                                     }
+
+                                    <li style="margin-right: 20px;">
+                                        <NavLink class="card-link text-secondary" href=@{
+                                                 "/user-profile/" + playerSummary.Id
+                                                 }>Profil Użytkownika</NavLink>
+                                    </li>
                                 </Authorized>
                             </AuthorizeView>
                             <AuthorizeView Roles="Admin">
@@ -154,6 +161,7 @@
     private bool collapseNavMenu = true;
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     private bool HasTeam { get; set; } = false;
+    PlayerSummaryDto playerSummary = new PlayerSummaryDto();
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
@@ -177,7 +185,7 @@
             {
                 Console.WriteLine($"Role: {role}");
             }
-
+            playerSummary = await userService.GetUserSummary();
             HasTeam = await userService.IsTeamCaptain();
         }
     }

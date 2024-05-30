@@ -1,0 +1,135 @@
+﻿@page "/edit-profile/{Id:int}"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@using VolleyLeague.Entities.Dtos.Users
+@inject IUserService userService
+@inject NavigationManager Navigation
+
+<section class="category_section">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-row justify-content-center" style="margin-top: 30px;">
+                @if (UserProfileData != null)
+                {
+                    <div class="text-center" style="max-width: 750px">
+                        <h2>Edytuj Profil Użytkownika</h2>
+                        <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+
+                            <div class="form-group">
+                                <label for="FirstName">Imię</label>
+                                <InputText id="FirstName" class="form-control" @bind-Value="UserProfileData.FirstName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="LastName">Nazwisko</label>
+                                <InputText id="LastName" class="form-control" @bind-Value="UserProfileData.LastName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="City">Miasto</label>
+                                <InputText id="City" class="form-control" @bind-Value="UserProfileData.City" />
+                            </div>
+                            <div class="form-group">
+                                <label for="PositionId">Pozycja</label>
+                                <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId">
+                                    @foreach (var position in Positions)
+                                    {
+                                        <option value="@position.Id">@position.Name</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            <div class="form-group">
+                                <label for="BirthYear">Rok urodzenia</label>
+                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Height">Wzrost</label>
+                                <InputNumber id="Height" class="form-control" @bind-Value="UserProfileData.Height" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Weight">Waga</label>
+                                <InputNumber id="Weight" class="form-control" @bind-Value="UserProfileData.Weight" />
+                            </div>
+                            <div class="form-group">
+                                <label for="JerseyNumber">Numer koszulki</label>
+                                <InputNumber id="JerseyNumber" class="form-control" @bind-Value="UserProfileData.JerseyNumber" />
+                            </div>
+                            <div class="form-group">
+                                <label for="BlockRange">Zasięg w bloku (cm)</label>
+                                <InputNumber id="BlockRange" class="form-control" @bind-Value="UserProfileData.BlockRange" />
+                            </div>
+                            <div class="form-group">
+                                <label for="AttackRange">Zasięg w ataku (cm)</label>
+                                <InputNumber id="AttackRange" class="form-control" @bind-Value="UserProfileData.AttackRange" />
+                            </div>
+                            <div class="form-group">
+                                <label for="VolleyballIdol">Idol siatkówki</label>
+                                <InputText id="VolleyballIdol" class="form-control" @bind-Value="UserProfileData.VolleyballIdol" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Hobby">Hobby</label>
+                                <InputText id="Hobby" class="form-control" @bind-Value="UserProfileData.Hobby" />
+                            </div>
+                            <div class="form-group">
+                                <label for="PersonalInfo">Informacje dodatkowe</label>
+                                <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Zapisz</button>
+                            <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
+                        </EditForm>
+                    </div>
+                }
+                else
+                {
+                    <LoadingIcon />
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public UpdateUserDto UserProfileData { get; set; } = new UpdateUserDto();
+    public List<PositionDto> Positions { get; set; } = new List<PositionDto>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var userProfile = await userService.GetUserProfile(Id);
+        if (userProfile != null)
+        {
+            UserProfileData = new UpdateUserDto
+            {
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                City = userProfile.City,
+                PositionId = userProfile.PositionId ?? 0,
+                BirthYear = userProfile.BirthYear ?? 0,
+                Height = userProfile.Height ?? 0,
+                Weight = userProfile.Weight ?? 0,
+                JerseyNumber = userProfile.JerseyNumber ?? 0,
+                BlockRange = userProfile.BlockRange ?? 0,
+                AttackRange = userProfile.AttackRange ?? 0,
+                VolleyballIdol = userProfile.VolleyballIdol,
+                Hobby = userProfile.Hobby,
+                PersonalInfo = userProfile.PersonalInfo
+            };
+        }
+
+        Positions = await userService.GetPositions();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await userService.UpdateUser(UserProfileData);
+        Navigation.NavigateTo($"/user-profile/{Id}");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo($"/user-profile/{Id}");
+    }
+}

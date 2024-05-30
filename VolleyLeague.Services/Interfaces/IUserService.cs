@@ -1,4 +1,5 @@
-﻿using VolleyLeague.Entities.Dtos.Users;
+﻿using VolleyLeague.Entities.Dtos.Teams;
+using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 
 namespace VolleyLeague.Services.Services
@@ -14,6 +15,10 @@ namespace VolleyLeague.Services.Services
         Task<bool> Register(RegisterDto registerDto);
 
         Task<bool> IsTeamCaptain(string playerEmail);
+
+        Task<PlayerSummaryDto> GetPlayerSummary(string email);
+
+        Task<bool> UpdateUserAsync(string userId, UpdateUserDto updateUserDto);
     }
 }
 

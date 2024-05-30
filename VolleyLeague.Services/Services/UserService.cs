@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
@@ -60,6 +61,60 @@ namespace VolleyLeague.Services.Services
                 .Include(u => u.Credentials)
                 .FirstOrDefaultAsync(u => u.Credentials != null && u.Credentials.Email == email);
             return _mapper.Map<UserProfileDto>(user);
+        }
+
+        public async Task<PlayerSummaryDto> GetPlayerSummary(string email)
+        {
+            var response = new PlayerSummaryDto();
+
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == email);
+
+            if (credentials == null)
+            {
+                return null;
+            }
+
+            var player = new PlayerSummaryDto()
+            {
+                Id = credentials.User.Id,
+                FirstName = credentials.User.FirstName,
+                LastName = credentials.User.LastName,
+                Photo = credentials.User.Photo,
+            };
+
+            return player;
+        }
+
+        public async Task<bool> UpdateUserAsync(string userId, UpdateUserDto updateUserDto)
+        {
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == userId);
+
+            if (credentials == null)
+            {
+                return false;
+            }
+
+            var user = credentials.User;
+
+            user.AttackRange = updateUserDto.AttackRange;
+            user.BirthYear = updateUserDto.BirthYear;
+            user.City = updateUserDto.City;
+            user.BlockRange = updateUserDto.BlockRange;
+            user.FirstName = updateUserDto.FirstName ?? user.FirstName;
+            user.Gender = updateUserDto.Gender;
+            user.Height = (byte?)(updateUserDto.Height);
+            user.Weight = (byte?)(updateUserDto.Weight);
+            user.JerseyNumber = (byte?)(updateUserDto.JerseyNumber);
+            user.VolleyballIdol = updateUserDto.VolleyballIdol;
+            user.Hobby = updateUserDto.Hobby;
+            user.Photo = updateUserDto.Photo;
+            user.LastName = updateUserDto.LastName ?? user.LastName;
+            user.PositionId = updateUserDto.PositionId;
+            user.PersonalInfo = updateUserDto.PersonalInfo;
+
+            await _credentialsRepository.SaveChangesAsync();
+
+            return true;
         }
 
         private bool VerifyPassword(string email, string password, string hashedPassword)
