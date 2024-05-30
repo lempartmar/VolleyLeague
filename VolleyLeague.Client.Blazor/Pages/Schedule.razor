@@ -300,7 +300,7 @@
         var seasonsResult = await matchService.GetSeasons();
         if (seasonsResult != null)
         {
-            Filter.SeasonList = seasonsResult;
+            Filter.SeasonList = seasonsResult.OrderByDescending(s => s.Id).ToList();
         }
         else
         {
