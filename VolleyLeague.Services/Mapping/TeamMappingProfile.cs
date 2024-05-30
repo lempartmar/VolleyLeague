@@ -42,6 +42,7 @@ namespace VolleyLeague.Services.Mapping
 
             CreateMap<TeamPlayer, TeamPlayerDto>()
                 .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Player.Position.Name))
+                .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.Position.Id))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Player.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Player.LastName));
 

@@ -292,7 +292,8 @@ namespace VolleyLeague.Services.Services
 
             foreach (var player in team.Players)
             {
-                var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
+                var playerId = player.Id;
+                var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
                 if (playerToUpdate != null)
                 {
                     playerToUpdate.Player.JerseyNumber = (byte?)player.JerseyNumber;
@@ -420,6 +421,9 @@ namespace VolleyLeague.Services.Services
                             .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
 
             var result = _mapper.Map<ManagedTeamDataDto>(team);
+
+
+
             result.Logo = team?.Logo;
             return result;
         }
