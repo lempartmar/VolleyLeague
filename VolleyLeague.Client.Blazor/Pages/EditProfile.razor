@@ -9,7 +9,11 @@
     <div class="container">
         <div class="row">
             <div class="d-flex flex-row justify-content-center" style="margin-top: 30px;">
-                @if (UserProfileData != null)
+                @if (isLoading)
+                {
+                    <LoadingIcon />
+                }
+                else if (UserProfileData != null)
                 {
                     <div class="text-center" style="max-width: 750px">
                         <h2>Edytuj Profil Użytkownika</h2>
@@ -82,7 +86,9 @@
                 }
                 else
                 {
-                    <LoadingIcon />
+                    <div class="alert alert-danger" role="alert">
+                        Błąd ładowania danych.
+                    </div>
                 }
             </div>
         </div>
@@ -95,9 +101,12 @@
 
     public UpdateUserDto UserProfileData { get; set; } = new UpdateUserDto();
     public List<PositionDto> Positions { get; set; } = new List<PositionDto>();
+    private bool isLoading = true;
 
     protected override async Task OnParametersSetAsync()
     {
+        isLoading = true;
+
         var userProfile = await userService.GetUserProfile(Id);
         if (userProfile != null)
         {
@@ -120,6 +129,7 @@
         }
 
         Positions = await userService.GetPositions();
+        isLoading = false;
     }
 
     private async Task HandleValidSubmit()
