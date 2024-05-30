@@ -74,7 +74,6 @@
                                             <th rowspan="2" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Stosunek punktów</th>
                                         </tr>
                                         <tr>
-                                            <!-- Drugi wiersz dla nagłówków podkolumn -->
                                             <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Rozegrane</th>
                                             <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Wygrane</th>
                                             <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Przegrane</th>
@@ -94,40 +93,39 @@
                                         @{
                                             int rank = 1;
                                         }
-                            @foreach (var team in StandingsList)
-                            {
-                                <tr style=""> <!-- Dodajemy przerywaną linię pod każdym wierszem -->
-                                    <td style="vertical-align: middle;">@rank</td>
-                                    <td>
-                                        @{
-                                            var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                        @foreach (var team in StandingsList)
+                                        {
+                                            <tr style="">
+                                                <!-- Dodajemy przerywaną linię pod każdym wierszem -->
+                                                <td style="vertical-align: middle;">@rank</td>
+                                                <td>
+                                                    @{
+                                                        var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
+                                                    }
+                                                    <div style="display: flex; align-items: center;">
+                                                        <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                        <a href="/team/@team.Team.Id/" class="team-link" style="color: #0268d6;">@team.Team.Name</a>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align: middle; text-align: center;">@team.Points</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.MatchesPlayed</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.MatchesWon</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.MatchesLost</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score3_0</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score3_1</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score3_2</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score2_3</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score1_3</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.Score0_3</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.SetsWon</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.SetsLost</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.PointsWon</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.PointsLost</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.SetsRatio.ToString("0.00")</td>
+                                                <td style="vertical-align: middle;text-align: center;">@team.BallsRatio.ToString("0.00")</td>
+                                            </tr>
+                                            rank++;
                                         }
-                                        <div style="display: flex; align-items: center;">
-                                            <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
-                                            <a href="/team/@team.Team.Id/" class="team-link" style="color: #0268d6;">@team.Team.Name</a>
-                              @*               <span style="color: #0268d6;">@team.Team.Name</span> *@
-                                        </div>
-                                    </td>
-                                    <td style="vertical-align: middle; text-align: center;">@team.Points</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesPlayed</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesWon</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.MatchesLost</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_0</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_1</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score3_2</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score2_3</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score1_3</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.Score0_3</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.SetsWon</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.SetsLost</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.PointsWon</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.PointsLost</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.SetsRatio.ToString("0.00")</td>
-                                    <td style="vertical-align: middle;text-align: center;">@team.BallsRatio.ToString("0.00")</td>
-                                    <!-- Dalsze dane -->
-                                </tr>
-                                rank++;
-                            }
                                     </tbody>
                                 </table>
                             </div>
@@ -153,7 +151,7 @@
         border: none;
         padding: 6px 12px;
         font-weight: bold;
-        color: #555; /* Adjust the color to match your design */
+        color: #555;
         text-align: left;
     }
 
@@ -164,18 +162,14 @@
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     }
 
-@*     .card {
-        border: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,.1);
-    } *@
-
-    .card{
-        margin-botto: 50px;
+    .card {
+        margin-bottom: 50px;
     }
 
     .btn.btn-default.dropdown-toggle {
-        background:#e5e7eb;
+        background: #e5e7eb;
         font-size: 12px;
+        color: black;
         font-weight: bold;
         text-align: left;
     }
@@ -195,7 +189,8 @@
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
 
-                public ScheduleFilter() {
+        public ScheduleFilter()
+        {
             SeasonId = 37;
             LeagueId = 1;
         }
@@ -210,16 +205,13 @@
 
     private async Task LoadInitialDataAsync()
     {
-        // Tu załaduj listy sezonów i lig
-        Filter.SeasonList = await matchService.GetSeasons();
+        Filter.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
         Filter.LeagueList = await matchService.GetLeagues();
         pageReady = true;
     }
 
     private async Task OnSeasonOrLeagueChanged(ChangeEventArgs e, bool isSeason)
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         var selectedId = Convert.ToInt32(e.Value.ToString());
         if (isSeason)
         {
@@ -233,25 +225,9 @@
         await ApplyFilter();
     }
 
-    // private Task OnSeasonChanged(ChangeEventArgs e)
-    // {
-    //     Filter.SeasonId = Convert.ToInt32(e.Value);
-    //     return ApplyFilter();
-    // }
-
-    // private Task OnLeagueChanged(ChangeEventArgs e)
-    // {
-    //     Filter.LeagueId = Convert.ToInt32(e.Value);
-    //     return ApplyFilter();
-    // }
-
-
     private async Task ApplyFilter()
     {
-        Console.Write("Change");
         standingsLoading = true;
-        // Wykonaj zapytanie do serwisu, aby uzyskać dane dla wybranego sezon
-        // i ligi
         StandingsList = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
         if (StandingsList == null || StandingsList.Count == 0)
         {
@@ -266,16 +242,12 @@
 
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
