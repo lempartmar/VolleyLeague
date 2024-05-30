@@ -4,6 +4,7 @@
 @using VolleyLeague.Entities.Dtos.Users
 @inject IUserService userService
 @inject NavigationManager Navigation
+@using System.ComponentModel.DataAnnotations
 
 <section class="category_section">
     <div class="container">
@@ -44,7 +45,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="BirthYear">Rok urodzenia</label>
-                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" />
+                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" 
+                                             min="1920" max="@DateTime.Now.Year" />
+                                <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
                             </div>
                             <div class="form-group">
                                 <label for="Height">Wzrost</label>
