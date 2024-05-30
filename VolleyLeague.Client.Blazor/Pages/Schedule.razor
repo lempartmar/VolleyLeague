@@ -60,68 +60,55 @@
                         else if (Games.Count > 0)
                         {
                             <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-<div class="container-fluid">
-  <div class="row">
-    @foreach (var game in Games)
-    {
-      <div class="col-xs-12 game-entry">
-        <div class="scoreboard d-flex justify-content-between align-items-center">
-          <div class="team-section home-team">
-            <img src="@GetLogoSrc(game.HomeTeam.Logo)" class="team-logo" alt="@game.HomeTeam.Name">
-            <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.HomeTeam.Name</a>
-@*             <div class="team-name">@game.HomeTeam.Name</div> *@
-          </div>
-          <div class="score-section d-flex align-items-center">
-            <div class="team-score">@game.Team1Score</div>
-            <div class="versus">VS</div>
-            <div class="team-score">@game.Team2Score</div>
-          </div>
-          <div class="team-section guest-team">
-            <img src="@GetLogoSrc(game.GuestTeam.Logo)" class="team-logo" alt="@game.GuestTeam.Name">
-           @*  <div class="team-name">@game.GuestTeam.Name</div> *@
-            <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.GuestTeam.Name</a>
-          </div>
-          <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
-          <div class="additional-info">
-            <div class="referee">
-              <strong>Sędzia:</strong> @game.Referee.FirstName @game.Referee.LastName
-            </div>
-            <div class="venue">
-              <strong>Miejsce:</strong> @game.VenueName
-            </div>
-             <strong>Data:</strong> @game.Schedule.ToShortDateString()
-                         <div class="venue">
-              <strong>Dodatkowe Informacje:</strong> @game.MatchInfo
-             </div>
-          </div>
-          <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
-          <div class="mvp-info">
-@*             <strong>MVP:</strong>  @game.Mvp.FirstName @game.Mvp.LastName *@
-                        <strong><NavLink href=@{"/match/" + game.Id}>Szczegóły Meczu</NavLink></strong>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
-</div>
-
-
-
-
-
-
-
-
-</div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        @foreach (var game in Games)
+                                        {
+                                            <div class="col-xs-12 game-entry">
+                                                <div class="scoreboard d-flex justify-content-between align-items-center">
+                                                    <div class="team-section home-team">
+                                                        <img src="@GetLogoSrc(game.HomeTeam.Logo)" class="team-logo" alt="@game.HomeTeam.Name">
+                                                        <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.HomeTeam.Name</a>
+                                                    </div>
+                                                    <div class="score-section d-flex align-items-center">
+                                                        <div class="team-score">@game.Team1Score</div>
+                                                        <div class="versus">VS</div>
+                                                        <div class="team-score">@game.Team2Score</div>
+                                                    </div>
+                                                    <div class="team-section guest-team">
+                                                        <img src="@GetLogoSrc(game.GuestTeam.Logo)" class="team-logo" alt="@game.GuestTeam.Name">
+                                                        <a href="/team/@game.GuestTeam.Id/" class="team-link" style="color: #0268d6;">@game.GuestTeam.Name</a>
+                                                    </div>
+                                                    <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
+                                                    <div class="additional-info">
+                                                        <div class="referee">
+                                                            <strong>Sędzia:</strong> @game.Referee.FirstName @game.Referee.LastName
+                                                        </div>
+                                                        <div class="venue">
+                                                            <strong>Miejsce:</strong> @game.VenueName
+                                                        </div>
+                                                        <strong>Data:</strong> @game.Schedule.ToShortDateString()
+                                                        <div class="venue">
+                                                            <strong>Dodatkowe Informacje:</strong> @game.MatchInfo
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
+                                                    <div class="mvp-info">
+                                                        <strong><NavLink href=@{"/match/" + game.Id}>Szczegóły Meczu</NavLink></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         }
-
                     }
                     else
                     {
                         @if (!string.IsNullOrEmpty(errorMessage))
                         {
                             <div class="alert alert-danger" role="alert">
-                                <!-- Tutaj prawdopodobnie powinna być wyświetlana wiadomość błędu -->
                                 @errorMessage
                             </div>
                         }
@@ -144,7 +131,7 @@
         border: none;
         padding: 6px 12px;
         font-weight: bold;
-        color: #555; /* Adjust the color to match your design */
+        color: #555;
         text-align: left;
     }
 
@@ -155,119 +142,106 @@
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     }
 
-@*     .card {
-        border: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,.1);
-    } *@
-
-    .card{
-        margin-botto: 50px;
+    .card {
+        margin-bottom: 50px;
     }
 
     .btn.btn-default.dropdown-toggle {
-        background:#e5e7eb;
+        background: #e5e7eb;
         font-size: 12px;
-        font-color: black;
+        color: black;
         font-weight: bold;
         text-align: left;
     }
 
-.game-entry {
-  margin-bottom: 20px;
-      color: black;
-      min-height: 150px;
-  border: none; /* Optional: adds a border around the entire entry */
-}
+    .game-entry {
+        margin-bottom: 20px;
+        color: black;
+        min-height: 150px;
+        border: none;
+    }
 
-.scoreboard {
-  display: flex;
-  justify-content: space-between; 
-}
+    .scoreboard {
+        display: flex;
+        justify-content: space-between;
+    }
 
-.team-section{
-    flex: 2;
-display: flex;
-    align-items: center;
-    flex-direction: column;
-@*     min-width:100px;
-    max-width:130px; *@
-}
-.team-section, .score-section, .additional-info, .mvp-info {
-text-align: center;
-  padding: 0 10px;
-  flex: 1; /* This ensures each section grows equally */
+    .team-section {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
 
-}
+    .team-section, .score-section, .additional-info, .mvp-info {
+        text-align: center;
+        padding: 0 10px;
+        flex: 1;
+    }
 
-.score-section {
-    flex: 1; 
-}
+    .score-section {
+        flex: 1;
+    }
 
-.mvp-info {
-  flex: 1; /* MVP section takes base space */
-}
+    .mvp-info {
+        flex: 1;
+    }
 
-.additional-info {
-    flex: 2;
-    
-}
+    .additional-info {
+        flex: 2;
+    }
 
-.vertical-line {
-  border-left: 1px solid #000; /* Adjust the color as needed */
-  height: 100%;
-}
+    .vertical-line {
+        border-left: 1px solid #000;
+        height: 100%;
+    }
 
-/* Additional styles */
-.team-logo {
-  width: 80px;
-  margin-bottom: 5px;
-}
+    .team-logo {
+        width: 80px;
+        margin-bottom: 5px;
+    }
 
-.team-name {
-    max-width: 110px;
-    min-width: 110px;
-    margin-bottom: 5px;
-  color: #0268d6;
-}
+    .team-name {
+        max-width: 110px;
+        min-width: 110px;
+        margin-bottom: 5px;
+        color: #0268d6;
+    }
 
-.team-score {
-  font-size: 1.2em;
-    font-weight: bold;
-    color: black;
-}
+    .team-score {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: black;
+    }
 
-.versus {
-  font-size: 1.0em;
-  font-weight: bold;
-  margin: 0 10px;
-      color: black;
-}
+    .versus {
+        font-size: 1.0em;
+        font-weight: bold;
+        margin: 0 10px;
+        color: black;
+    }
 
-.game-date {
-  font-size: 0.8em;
-}
+    .game-date {
+        font-size: 0.8em;
+    }
 
-/* Make sure the container stretches to 100% width */
-.container-fluid {
-  width: 100%;
-  margin-top:35px;
-}
+    .container-fluid {
+        width: 100%;
+        margin-top: 35px;
+    }
 
-/* Use Bootstrap classes for a flexbox layout */
-.d-flex {
-  display: flex;
-}
+    .d-flex {
+        display: flex;
+    }
 
-.justify-content-between {
-  justify-content: space-between;
-}
+    .justify-content-between {
+        justify-content: space-between;
+    }
 
-.align-items-center {
-  align-items: center;
-  justify-content: center;
-}
-
-
+    .align-items-center {
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 
 @code {
@@ -284,20 +258,15 @@ text-align: center;
 
     public class ScheduleFilter
     {
-
-
         private int seasonId;
         public int SeasonId
         {
-            get
-            {
-                return seasonId;
-            }
+            get => seasonId;
             set
             {
+                seasonId = value;
                 RoundList = AllRounds.Where(x => x.SeasonId == value).ToList();
                 RoundId = RoundList.FirstOrDefault()?.Id ?? 0;
-                seasonId = value;
             }
         }
         public int RoundId { get; set; }
@@ -306,7 +275,8 @@ text-align: center;
         public List<RoundDto> RoundList { get; set; } = new List<RoundDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
 
-        public ScheduleFilter() {
+        public ScheduleFilter()
+        {
             SeasonId = 37;
             RoundId = 1237;
             LeagueId = 1;
@@ -321,17 +291,7 @@ text-align: center;
         {
             Games = result;
         }
-        else
-        {
-
-        }
         scheduleLoading = false;
-        base.OnInitialized();
-        // Filter = new ScheduleFilter();
-        // Filter.LeagueId = 1;
-        // Filter.SeasonId = 37;
-        // Filter.RoundId = 1237;
-
         await LoadInitialDataAsync();
     }
 
@@ -351,6 +311,8 @@ text-align: center;
         if (roundsResult != null)
         {
             AllRounds = roundsResult;
+            Filter.RoundList = AllRounds.Where(x => x.SeasonId == Filter.SeasonId).ToList();
+            Filter.RoundId = Filter.RoundList.FirstOrDefault()?.Id ?? 0;
         }
         else
         {
@@ -372,8 +334,6 @@ text-align: center;
 
     private async Task OnSeasonOrLeagueChanged(ChangeEventArgs e, bool isSeason)
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         var selectedId = Convert.ToInt32(e.Value.ToString());
         if (isSeason)
         {
@@ -387,19 +347,6 @@ text-align: center;
         await ApplyFilter();
     }
 
-    // private Task OnSeasonChanged(ChangeEventArgs e)
-    // {
-    //     Filter.SeasonId = Convert.ToInt32(e.Value);
-    //     return ApplyFilter();
-    // }
-
-    // private Task OnLeagueChanged(ChangeEventArgs e)
-    // {
-    //     Filter.LeagueId = Convert.ToInt32(e.Value);
-    //     return ApplyFilter();
-    // }
-
-
     private async Task ApplyFilter()
     {
         if (Filter.SeasonId == 0 || Filter.RoundId == 0 || Filter.LeagueId == 0)
@@ -412,47 +359,36 @@ text-align: center;
         {
             Games = result;
         }
-        else
-        {
-
-        }
         scheduleLoading = false;
     }
 
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
 
-        private EventCallback<ChangeEventArgs> OnRoundChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private EventCallback<ChangeEventArgs> OnRoundChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.RoundId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
 
-      private string GetLogoSrc(byte[] logo)
-      {
+    private string GetLogoSrc(byte[] logo)
+    {
         if (logo != null && logo.Length > 0)
         {
-          return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
+            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
         }
         else
         {
-          // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
-          return "/assets/img/Logo_alternative.png";
+            return "/assets/img/Logo_alternative.png";
         }
-      }
+    }
 }
