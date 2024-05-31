@@ -26,7 +26,6 @@
                                 {
                                     <option value="@season.Id">@season.Name</option>
                                 }
-                                }
                             </Select>
                         </div>
 
@@ -90,18 +89,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="scheduleDate">Data:</label>
-                            <input type="date" id="scheduleDate" class="form-control"
-                                   value="@NewMatch.ScheduleDate"
-                                   @onchange="UpdateSchedule1" />
+                            <label for="scheduleDateTime">Data i czas:</label>
+                            <input type="datetime-local" id="scheduleDateTime" class="form-control"
+                                   @bind="NewMatch.Schedule" />
                         </div>
-                        <div class="form-group">
-                            <label for="scheduleTime">Czas:</label>
-                            <input type="time" id="scheduleTime" class="form-control"
-                                   value="@NewMatch.ScheduleTime"
-                                   @onchange="UpdateSchedule2" />
-                        </div>
-
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Utwórz</button>
@@ -133,60 +124,34 @@
     private List<RoundDto> AllRounds { get; set; } = new List<RoundDto>();
     private List<TeamSummaryDto> AllTeams { get; set; } = new List<TeamSummaryDto>();
 
-    private DateTime? dateTime2;
-    private const string format = "yyyy-MM-ddTHH:mm"; // Format odpowiedni dla input datetime-local
-    private const string timeFormat = "HH:mm"; // Format godzin i minut
-
-
-    private int previousLeagueId = 0;
-    private int previousSeasonId = 0;
-
     private bool pageReady = false;
     private string loadingError = "";
 
     private bool submitLoading = false;
     private string submitError = "";
 
-    public DateTime MatchDate { get; set; }
-    public TimeSpan MatchTime { get; set; }
-
-
     protected override async Task OnInitializedAsync()
     {
         var seasonsResult = await matchOrganizerService.GetSeasons();
 
         NewMatch.SeasonList = seasonsResult;
-        // NewMatch.SeasonId = NewMatch.SeasonList.First().Id;
-        // previousSeasonId = NewMatch.SeasonId;
-
-        // var venuesResult = (await matchOrganizerService.GetVenues());
-
-        //     NewMatch.VenueList = venuesResult!;
 
         var roundsResult = await matchOrganizerService.GetRounds();
-
         AllRounds = roundsResult;
         NewMatch.RoundList = AllRounds.ToList();
 
         var leaguesResult = await matchOrganizerService.GetLeagues();
         NewMatch.LeagueList = leaguesResult;
         NewMatch.LeagueId = NewMatch.LeagueList.First().Id;
-        previousLeagueId = NewMatch.LeagueId;
 
         var refereesResult = await matchOrganizerService.GetReferees();
-
         NewMatch.RefereeList = refereesResult;
 
         var teamsResult = await teamService.GetAllTeams();
-
         var venueResult = await matchOrganizerService.GetVenues();
         NewMatch.VenueList = venueResult;
 
-        NewMatch.SeasonId = 37;
-        NewMatch.RoundId = 1237;
-        NewMatch.LeagueId = 1;
         NewMatch.AllTeamList = teamsResult;
-        AllTeams = teamsResult;
         var guestTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
         NewMatch.GuestTeamList = guestTeamList;
         NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
@@ -198,8 +163,17 @@
     public async Task OnSubmit()
     {
         submitLoading = true;
-        Console.WriteLine(NewMatchDto);
-        Console.WriteLine(NewMatchDto.VenueId);
+
+        NewMatchDto.Schedule = NewMatch.Schedule;
+
+        NewMatchDto.SeasonId = NewMatch.SeasonId;
+        NewMatchDto.RoundId = NewMatch.RoundId;
+        NewMatchDto.LeagueId = NewMatch.LeagueId;
+        NewMatchDto.HomeTeamId = NewMatch.HomeTeamId;
+        NewMatchDto.GuestTeamId = NewMatch.GuestTeamId;
+        NewMatchDto.RefereeId = NewMatch.RefereeId;
+        NewMatchDto.VenueId = NewMatch.VenueId;
+
         var submitResult = await matchOrganizerService.CreateMatch(NewMatchDto);
 
         // NavigationManager.NavigateTo("/matches");
@@ -207,118 +181,50 @@
         submitLoading = false;
     }
 
-    private void OnChange(NewMatchModel model)
-    {
-        // if (previousLeagueId != model.LeagueId)
-        // {
-        //     previousLeagueId = model.LeagueId;
-        //     NewMatch.GuestTeamList = AllTeams.Where(t => t.LeagueId == model.LeagueId).ToList();
-        //     NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == model.LeagueId).ToList();
-        //     NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
-        //     NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
-
-        // }
-
-        // if (previousSeasonId != model.SeasonId)
-        // {
-        //     previousSeasonId = model.SeasonId;
-        //     NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == model.SeasonId).ToList();
-        // }
-    }
-
-    // private async Task ApplyFilter()
-    // {
-    //     if (NewMatch.SeasonId == 0 || NewMatch.RoundId == 0 || NewMatch.LeagueId == 0)
-    //     {
-    //         return;
-    //     }
-
-    //     var result = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, Filter.RoundId);
-    //     if (result != null)
-    //     {
-    //         Games = result;
-    //     }
-    //     else
-    //     {
-
-    //     }
-    //     scheduleLoading = false;
-    // }
-
-    // Możesz zaktualizować model pełnej daty i czasu przy każdej zmianie
-    // private void UpdateMatchDateTime()
-    // {
-    //     NewMatch.MatchDateTime = MatchDate.Date + MatchTime;
-    // }
-
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.SeasonId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.SeasonId = Convert.ToInt32(e.Value.ToString());
-        // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.LeagueId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.LeagueId = Convert.ToInt32(e.Value.ToString());
-        // await ApplyFilter();
     });
 
-    private EventCallback<ChangeEventArgs> OnGuestTeamChanged=> EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private EventCallback<ChangeEventArgs> OnGuestTeamChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.GuestTeamId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.GuestTeamId = Convert.ToInt32(e.Value.ToString());
-        // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnHomeTeamChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.HomeTeamId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.HomeTeamId = Convert.ToInt32(e.Value.ToString());
-        // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnRoundChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.RoundId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.RoundId = Convert.ToInt32(e.Value.ToString());
-    // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnRefereeChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         NewMatch.RefereeId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.RefereeId = Convert.ToInt32(e.Value.ToString());
-    // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnVenueChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.Write("Change");
         NewMatch.VenueId = Convert.ToInt32(e.Value.ToString());
         NewMatchDto.VenueId = Convert.ToInt32(e.Value.ToString());
-        // await ApplyFilter();
     });
 
     private EventCallback<ChangeEventArgs> OnDateChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-    Console.Write("Change");
-        NewMatch.Schedule.AddDays(Convert.ToInt32(e.Value.ToString()));
-        NewMatchDto.Schedule.AddDays(Convert.ToInt32(e.Value.ToString()));
-    // await ApplyFilter();
+        NewMatch.Schedule = DateTime.Parse(e.Value.ToString());
     });
-
-    private void UpdateSchedule1()
-    {
-        NewMatch.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
-        NewMatchDto.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
-    }
-
-    private void UpdateSchedule2()
-    {
-        NewMatch.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
-        NewMatchDto.Schedule = NewMatch.ScheduleDate.Date + NewMatch.ScheduleTime;
-    }
 }
-

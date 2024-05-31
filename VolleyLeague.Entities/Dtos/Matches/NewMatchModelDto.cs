@@ -1,10 +1,12 @@
 ﻿using VolleyLeague.Entities.Dtos.Teams;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VolleyLeague.Entities.Dtos.Matches
 {
     public class NewMatchModel : NewMatchDto
     {
-
         public NewMatchModel()
         {
             SeasonId = 37;
@@ -40,7 +42,7 @@ namespace VolleyLeague.Entities.Dtos.Matches
             get => leagueId;
             set
             {
-                if(leagueId != value)
+                if (leagueId != value)
                 {
                     leagueId = value;
                     UpdateLeagueTeams();
@@ -48,21 +50,8 @@ namespace VolleyLeague.Entities.Dtos.Matches
             }
         }
 
-        public DateTime ScheduleDate { get; set; } = DateTime.Today;
-        public TimeSpan ScheduleTime { get; set; } = DateTime.Now.TimeOfDay;
+        public DateTime Schedule { get; set; } = DateTime.Now;
 
-        public DateTime Schedule
-        {
-            get
-            {
-                return ScheduleDate.Date + ScheduleTime;
-            }
-            set
-            {
-                ScheduleDate = value.Date;
-                ScheduleTime = value.TimeOfDay;
-            }
-        }
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
         public List<VenueDto> VenueList { get; set; } = new List<VenueDto>();
         public List<RoundDto> RoundList { get; set; } = new List<RoundDto>();
