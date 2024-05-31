@@ -15,6 +15,7 @@ namespace VolleyLeague.Services.Services
     public class MatchService : IMatchService
     {
         private readonly ILogger<SeasonService> _logger;
+        private readonly ILogService _logService;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Match> _matchRepository;
         private readonly IBaseRepository<Team> _teamRepository;
@@ -22,6 +23,7 @@ namespace VolleyLeague.Services.Services
         private readonly IRoleRepository _roleRepository;
         public MatchService(
             IMapper mapper,
+            ILogService logService,
             IBaseRepository<Match> matchRepository,
             IBaseRepository<User> userRepository,
             IBaseRepository<Team> teamRepository,
@@ -29,6 +31,7 @@ namespace VolleyLeague.Services.Services
             )
         {
             _mapper = mapper;
+            _logService = logService;
             _matchRepository = matchRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
@@ -489,6 +492,12 @@ namespace VolleyLeague.Services.Services
             var newMatchEntity = _mapper.Map<Match>(match);
             await _matchRepository.InsertAsync(newMatchEntity);
             await _matchRepository.SaveChangesAsync();
+            var homeTeam = _teamRepository.GetAll().Where(x => x.Id == match.HomeTeamId).FirstOrDefault();
+            var guestTeam = _teamRepository.GetAll().Where(x => x.Id == match.GuestTeamId).FirstOrDefault();
+
+            string logMessage = $"Mecz {homeTeam.Name} vs {guestTeam.Name} odbędzie się {newMatchEntity.Schedule.ToString("D")}";
+            string logLink = $"match/" + newMatchEntity.Id;
+            await _logService.AddLog(logMessage, logLink, false, null);
         }
 
         //public async Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId)
