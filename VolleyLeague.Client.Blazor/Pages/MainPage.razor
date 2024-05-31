@@ -99,17 +99,19 @@ else{
                     </div>
                     @if (_articles != null)
                     {
-                        @foreach (var log in _logs)
-                        {
-                            <div class="media">
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">@log.Description</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">@log.Date.ToString("ddMMM- yyyy")</a></span>
+                            @foreach (var log in _logs)
+                            {
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h3 class="media-heading">
+                                            <a href="@log.Link" target="_self">@log.Description</a>
+                                        </h3>
+                                        <span class="media-date">
+                                            <a href="@log.Link">@log.Date.ToString("ddMMM- yyyy")</a>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
                     }
                     <p class="widget_divider"><a href="#" target="_self">Więcej&nbsp;&raquo;</a></p>
                 </div>

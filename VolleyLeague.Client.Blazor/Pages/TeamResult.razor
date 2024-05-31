@@ -7,14 +7,12 @@
 @inject ITeamService teamService
 @inject IMatchService matchService
 
-
 <section class="category_section team">
     <div class="container">
         <div class="row">
             <div class="text-center">
                 @if (TeamData != null)
                 {
-
                     <h2>@TeamData.Name</h2>
 
                     <div class="p-2 card mt-4 mb-5 table-responsive-lg">
@@ -23,7 +21,7 @@
                         </div>
                         <div class="form-group row p-5">
                             <label for="season">Sezon:</label>
-                               <EditForm Model="Filter">
+                            <EditForm Model="Filter">
                                 <div class="form-group btn-group">
                                     <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
                                     <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
@@ -33,21 +31,7 @@
                                         }
                                     </Select>
                                 </div>
-                               </EditForm>
-@*                             <select class="form-control" id="season" @onchange="UpdateSeason">
-                                @if (Seasons == null)
-                                {
-                                    <option value="null" disabled>Ładowanie sezonów...</option>
-                                }
-                                else
-                                {
-                                    @foreach (SeasonDto season in Seasons)
-                                    {
-                                        <option value="@season.Id">@season.Name</option>
-                                    }
-                                }
-
-                            </select> *@
+                            </EditForm>
                         </div>
                         <table class="table text-left" style="max-width:800px">
                             <thead>
@@ -68,34 +52,25 @@
                                     {
                                         <tr>
                                             <td>
-                                                <NavLink href=@{
-                                             "/match/" + game.Id
-                                             }>@game.Schedule</NavLink>
-                                                </td>
-                                                <td>
-                                                    <NavLink href=@{
-                                             "/team/" + game.HomeTeam.Id
-                                             }>@game.HomeTeam.Name</NavLink>
-                                                </td>
-                                                <td>@game.Team1Score : @game.Team2Score</td>
+                                                <NavLink href=@{"/match/" + game.Id}>@game.Schedule</NavLink>
+                                            </td>
                                             <td>
-                                                <NavLink href=@{
-                                             "/team/" + game.GuestTeam.Id
-                                             }>@game.GuestTeam.Name</NavLink>
-                                                </td>
-                                                <td>@game.VenueName</td>
+                                                <NavLink href=@{"/team/" + game.HomeTeam.Id}>@game.HomeTeam.Name</NavLink>
+                                            </td>
+                                            <td>@game.Team1Score : @game.Team2Score</td>
+                                            <td>
+                                                <NavLink href=@{"/team/" + game.GuestTeam.Id}>@game.GuestTeam.Name</NavLink>
+                                            </td>
+                                            <td>@game.VenueName</td>
                                             <td>@game.RoundName</td>
                                             <td>
-                                                <NavLink href=@{
-                                             "/user-profile/" + game.Referee.Id
-                                             }>@game.Referee.FirstName @game.Referee.LastName</NavLink>
-                                                </td>
-                                            </tr>
+                                                <NavLink href=@{"/user-profile/" + game.Referee.Id}>@game.Referee.FirstName @game.Referee.LastName</NavLink>
+                                            </td>
+                                        </tr>
                                     }
                                 }
                             </tbody>
                         </table>
-
                     </div>
                 }
                 else
@@ -122,16 +97,8 @@
     }
 </style>
 
-
-
-
-
 @code {
-    private int i = 1;
-
     public string ErrorMessage { get; set; } = "";
-
-    public string CommentsErrorMessage { get; set; } = "";
 
     private ScheduleFilter Filter = new ScheduleFilter();
 
@@ -146,81 +113,32 @@
 
     public TeamDto? TeamData { get; set; }
 
-    public List<CommentDto> TeamComments { get; set; } = new List<CommentDto>();
-
-    public List<SeasonDto>? Seasons { get; set; }
-
-    public NewCommentDto commentModel { get; set; } = new NewCommentDto();
-
     public List<MatchSummaryDto>? Games { get; set; }
-
-    public bool SubmitLoading { get; set; } = false;
-
-    public string NewCommentError { get; set; } = "";
 
     protected override async void OnInitialized()
     {
         TeamData = await GetTeamProfile();
 
-        commentModel = new NewCommentDto()
-            {
-                ContentLocationId = Id,
-            };
+        Filter.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
 
-        Filter.SeasonList = await matchService.GetSeasons();
-
+        await ApplyFilter();
         StateHasChanged();
-    }
-
-    private void UpdateSeason(ChangeEventArgs e)
-    {
-        int seasonId = Convert.ToInt32(e.Value);
-
-        UpdateSeason(seasonId);
     }
 
     private async Task ApplyFilter()
     {
-        Console.Write("Change");
-        // Wykonaj zapytanie do serwisu, aby uzyskać dane dla wybranego sezon
-        // i ligi
         Games = await matchService.GetMatches(Filter.SeasonId, Id);
     }
 
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
         await ApplyFilter();
     });
-
-    private async void UpdateSeason(int id)
-    {
-        var gamesResult = await matchService.GetMatches(id, Id);
-
-        Games = gamesResult;
-
-    }
 
     public async Task<TeamDto?> GetTeamProfile()
     {
         var teamResponse = await teamService.GetTeam(Id);
         return teamResponse;
-
-
-    }
-
-    private string GetLogoSrc(byte[] logo)
-    {
-        if (logo != null && logo.Length > 0)
-        {
-            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
-        }
-        else
-        {
-            // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
-            return "/assets/img/Logo_alternative.png";
-        }
     }
 }

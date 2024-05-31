@@ -49,5 +49,17 @@
         public ICollection<Match> GuestMatches { get; set; } = new List<Match>();
 
         public virtual ICollection<Invitation> Invitations { get; set; } = new List<Invitation>();
+
+        public User[] GetAllPlayers()
+        {
+            List<User> users = new List<User>();
+
+            foreach (var teamPlayer in this.TeamPlayers)
+            {
+                users.Add(teamPlayer.Player);
+            }
+
+            return users.ToArray();
+        }
     }
 }

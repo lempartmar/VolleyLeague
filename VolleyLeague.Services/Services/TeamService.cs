@@ -10,14 +10,17 @@ namespace VolleyLeague.Services.Services
     public class TeamService : ITeamService
     {
         private readonly IMapper _mapper;
+        private readonly ILogService _logService;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
-        public TeamService(IMapper mapper, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
+
+        public TeamService(IMapper mapper, ILogService logService, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
+            _logService = logService;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
@@ -323,18 +326,23 @@ namespace VolleyLeague.Services.Services
 
             foreach (var player in team.NewPlayers)
             {
+                var firstName = player.FirstName;
+                var lastName = player.LastName;
                 var user = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == player.Email);
                 if (user != null)
                 {
-                    teamToUpdate.TeamPlayers.Add(new TeamPlayer
+                    var newTeamPlayer = new TeamPlayer
                     {
                         Player = user.User,
                         JoinDate = DateTime.Now
-                    });
+                    };
+                    teamToUpdate.TeamPlayers.Add(newTeamPlayer);
+
+                    await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, newTeamPlayer.Team.GetAllPlayers());
                 }
                 else
                 {
-                    teamToUpdate.TeamPlayers.Add(new TeamPlayer
+                    var newTeamPlayer = new TeamPlayer
                     {
                         Player = new User
                         {
@@ -347,12 +355,16 @@ namespace VolleyLeague.Services.Services
                             AdditionalEmail = player.Email
                         },
                         JoinDate = DateTime.Now
-                    });
+                    };
+
+                    teamToUpdate.TeamPlayers.Add(newTeamPlayer);
 
                     if (player.Email != null)
                     {
                         //SendEmailAddedToTeam(player);
                     }
+
+                    await _logService.AddLog(firstName + " " + lastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
                 }
             }
 
@@ -489,6 +501,25 @@ namespace VolleyLeague.Services.Services
             }
 
             return true;
+        }
+
+        public async Task<Match?> GetClosestMatch(int teamId)
+        {
+            var team = await _teamRepository.GetAll()
+                                            .Include(t => t.HomeMatches)
+                                            .Include(t => t.GuestMatches)
+                                            .FirstOrDefaultAsync(t => t.Id == teamId);
+
+            if (team == null)
+            {
+                return null;
+            }
+
+            var allMatches = team.HomeMatches.Concat(team.GuestMatches)
+                                             .Where(m => m.CreationDate >= DateTime.Now)
+                                             .OrderBy(m => m.CreationDate);
+
+            return allMatches.FirstOrDefault();
         }
     }
 }

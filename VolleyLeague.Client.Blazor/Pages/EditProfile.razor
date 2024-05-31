@@ -14,9 +14,10 @@
                 {
                     <LoadingIcon />
                 }
+                ''
                 else if (UserProfileData != null)
                 {
-                    <div class="text-center" style="max-width: 750px">
+                    <div class="text-center" style="max-width: 750px; width: 75%;">
                         <h2>Edytuj Profil Użytkownika</h2>
                         <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
                             <DataAnnotationsValidator />
