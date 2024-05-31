@@ -10,11 +10,11 @@
 @inject NavigationManager NavigationManager
 
 
-<section class="category_section">
-    <div class="container">
-        <div class="row">
-            <div class="d-flex flex-column justify-content-center">
-                <h1>Tworzenie meczu</h1>
+<section class="category_section" style="margin-top: 60px;">
+    <div class="container" style="display:flex; justify-content: center">
+        <div class="row" style="width: 75%;">
+            <div class="">
+                <h1 style="text-align: center;">Tworzenie meczu</h1>
 
                 @if (pageReady)
                 {
@@ -94,7 +94,7 @@
                                    @bind="NewMatch.Schedule" />
                         </div>
 
-                        <div class="form-group">
+                        <div style="display: flex; justify-content: center;">
                             <button type="submit" class="btn btn-primary">Utwórz</button>
                         </div>
                     </EditForm>

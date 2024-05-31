@@ -35,12 +35,12 @@ namespace VolleyLeague.API.Controllers
         [HttpPost("createMatch")]
         public async Task<IActionResult> CreateMatch([FromBody] NewMatchDto match)
         {
-            //string? id = User.Identity?.Name;
-            //if (string.IsNullOrWhiteSpace(id))
-            //{
-            //    return Unauthorized();
-            //}
-            
+            string? id = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Unauthorized();
+            }
+
             await _matchService.AddMatch(match);
             return Ok();
         }
