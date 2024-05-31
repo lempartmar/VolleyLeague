@@ -270,7 +270,6 @@ namespace VolleyLeague.Services.Services
 
         public async Task<bool> UpdateTeam(ManageTeamDto team, string email)
         {
-
             var teamToUpdate = await _teamRepository.GetAll()
                 .Include(u => u.Captain)
                 .Include(t => t.TeamPlayers).ThenInclude(t => t.Player).ThenInclude(p => p.Credentials)
@@ -310,88 +309,61 @@ namespace VolleyLeague.Services.Services
                 }
             }
 
-            teamToUpdate.TeamPlayers.Concat(team.NewPlayers.Select(p => new TeamPlayer
-            {
-                Player = new User
-                {
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Height = (byte?)p.Height,
-                    JerseyNumber = (byte?)p.JerseyNumber,
-                    PositionId = p.PositionId,
-                    Credentials = null
-                },
-                JoinDate = DateTime.Now
-            }).ToList());
-
+            // Dodaj nowych graczy do drużyny
             foreach (var player in team.NewPlayers)
             {
-                var firstName = player.FirstName;
-                var lastName = player.LastName;
+                var newTeamPlayer = new TeamPlayer
+                {
+                    Player = new User
+                    {
+                        FirstName = player.FirstName,
+                        LastName = player.LastName,
+                        Height = (byte?)player.Height,
+                        JerseyNumber = (byte?)player.JerseyNumber,
+                        PositionId = player.PositionId,
+                        Credentials = null,
+                        AdditionalEmail = player.Email
+                    },
+                    JoinDate = DateTime.Now
+                };
+
+                teamToUpdate.TeamPlayers.Add(newTeamPlayer);
+            }
+
+            // Zapisz zmiany w bazie danych, aby uzyskać ID nowych graczy
+            await _teamRepository.SaveChangesAsync();
+
+            // Dodaj logi po zapisaniu do bazy danych
+            foreach (var player in team.NewPlayers)
+            {
                 var user = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == player.Email);
                 if (user != null)
                 {
-                    var newTeamPlayer = new TeamPlayer
-                    {
-                        Player = user.User,
-                        JoinDate = DateTime.Now
-                    };
-                    teamToUpdate.TeamPlayers.Add(newTeamPlayer);
+                    var newTeamPlayer = teamToUpdate.TeamPlayers.FirstOrDefault(tp => tp.Player.AdditionalEmail == player.Email);
 
-                    await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, newTeamPlayer.Team.GetAllPlayers());
+                    if (newTeamPlayer != null)
+                    {
+                        await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, newTeamPlayer.Team.GetAllPlayers());
+                    }
                 }
                 else
                 {
-                    var newTeamPlayer = new TeamPlayer
+                    var newTeamPlayer = teamToUpdate.TeamPlayers.FirstOrDefault(tp => tp.Player.AdditionalEmail == player.Email);
+
+                    if (newTeamPlayer != null)
                     {
-                        Player = new User
+                        if (player.Email != null)
                         {
-                            FirstName = player.FirstName,
-                            LastName = player.LastName,
-                            Height = (byte?)player.Height,
-                            JerseyNumber = (byte?)player.JerseyNumber,
-                            PositionId = player.PositionId,
-                            Credentials = null,
-                            AdditionalEmail = player.Email
-                        },
-                        JoinDate = DateTime.Now
-                    };
+                            // SendEmailAddedToTeam(player);
+                        }
 
-                    teamToUpdate.TeamPlayers.Add(newTeamPlayer);
-
-                    if (player.Email != null)
-                    {
-                        //SendEmailAddedToTeam(player);
+                        await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
                     }
-
-                    await _logService.AddLog(firstName + " " + lastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
                 }
-            }
-
-            foreach (var player in team.RemovedPlayers)
-            {
-                var playerid = player.Id;
-                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == playerid);
-                if (playerToRemove != null)
-                {
-                    teamToUpdate.TeamPlayers.Remove(playerToRemove);
-                }
-            }
-
-            try
-            {
-                _teamRepository.Update(teamToUpdate);
-                await _teamRepository.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                return false;
             }
 
             return true;
         }
-
-
 
         public async Task<bool> UpdateTeamPlayer(PlayerSummaryDto userSummary)
         {
