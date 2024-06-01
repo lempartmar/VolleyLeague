@@ -23,6 +23,8 @@
         public string PositionName { get; set; } = null!;
 
         public int? JerseyNumber { get; set; }
-        
-        }
+
+        public int TotalMvpCount { get; set; }
+
+    }
     }

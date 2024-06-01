@@ -19,6 +19,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int leagueId, int roundId);
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId);
         public Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
+
+        Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId);
     }
     public class MatchService : IMatchService
     {
@@ -82,6 +84,17 @@ namespace VolleyLeague.Client.Blazor.Services
             var seasons = JsonSerializer.Deserialize<List<SeasonDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return seasons;
+        }
+
+        public async Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId)
+        {
+            var response = await _httpClient.GetAsync($"api/Match/GetMvpBySeasonAndLeague?seasonId={seasonId}&leagueId={leagueId}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var referee = JsonSerializer.Deserialize<List<PlayerSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return referee;
         }
 
         public async Task<List<PlayerSummaryDto>> GetReferees()

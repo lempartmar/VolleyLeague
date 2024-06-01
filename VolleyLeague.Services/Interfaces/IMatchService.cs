@@ -32,5 +32,7 @@ namespace VolleyLeague.Services.Interfaces
         Task<List<MatchSummaryDto>> GetLast10Matches();
 
         Task<bool> AddReferee(int userId);
+
+        Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId);
     }
 }

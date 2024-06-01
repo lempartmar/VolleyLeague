@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Services.Interfaces;
 
@@ -159,6 +160,17 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> Get10LastMatches()
         {
             return Ok(await _matchService.GetLast10Matches());
+        }
+
+        [HttpGet("getMvpBySeasonAndLeague")]
+        public async Task<IActionResult> GetMvpBySeasonAndLeague([FromQuery] int seasonId, [FromQuery] int leagueId)
+        {
+            var mvps = await _matchService.GetMvpBySeasonAndLeague(seasonId, leagueId);
+            //if (mvps == null || !mvps.Any())
+            //{
+            //    return NotFound("No MVPs found for the given season and league.");
+            //}
+            return Ok(mvps);
         }
     }
 }

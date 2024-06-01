@@ -517,5 +517,56 @@ namespace VolleyLeague.Services.Services
 
         //    return response;
         //}
+
+        public async Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId)
+        {
+            var mvpUsers = await _matchRepository.GetAll()
+                .Include(m => m.Mvp)
+                .Include(m => m.League)
+                .Include(m => m.Round)
+                .Where(m => m.LeagueId == leagueId && m.Round.SeasonId == seasonId)
+                .GroupBy(m => m.Mvp)
+                .Select(g => new { User = g.Key, TotalMvpCount = g.Count() })
+                .OrderByDescending(x => x.TotalMvpCount)
+                .ToListAsync();
+
+            if (!mvpUsers.Any())
+            {
+                return new List<PlayerSummaryDto>();
+            }
+
+            //var result = mvpUsers.Select(mvp => new PlayerSummaryDto
+            //{
+            //    Id = mvp.User.Id,
+            //    FirstName = mvp.User.FirstName,
+            //    LastName = mvp.User.LastName,
+            //    TotalMvpCount = mvp.TotalMvpCount 
+            //}).ToList();
+            var result = new List<PlayerSummaryDto>();
+
+            if (mvpUsers.Any())
+            {
+                // Use foreach to populate the result list
+                foreach (var mvp in mvpUsers)
+                {
+                    if (mvp.User != null)
+                    {
+                        var playerSummary = new PlayerSummaryDto
+                        {
+                            Id = mvp.User.Id,
+                            FirstName = mvp.User.FirstName,
+                            LastName = mvp.User.LastName,
+                            TotalMvpCount = mvp.TotalMvpCount // Assign the MVP count
+                        };
+
+                        result.Add(playerSummary);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
     }
 }
