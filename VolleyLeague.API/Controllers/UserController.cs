@@ -57,11 +57,11 @@ namespace VolleyLeague.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, credentials.Email),
-                    new Claim(ClaimTypes.NameIdentifier, credentials.Email),
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(240),
+    {
+        new Claim(ClaimTypes.Name, credentials.Email),
+        new Claim(ClaimTypes.NameIdentifier, credentials.Email),
+    }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)

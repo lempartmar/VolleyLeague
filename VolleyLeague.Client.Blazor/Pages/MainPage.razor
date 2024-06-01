@@ -1,13 +1,18 @@
 ﻿@page "/"
+@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.IdentityModel.Tokens.Jwt
+@using VolleyLeague.Client.Blazor.Authentication
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Dtos.Discussion
 @using VolleyLeague.Entities.Dtos.Matches
 @using VolleyLeague.Entities.Dtos.Teams
-@using static System.Net.WebRequestMethods
 @inject HttpClient Http
 @inject IMatchService matchService
 @inject ILogService logService
-
+@inject ILocalStorageService _localStorageService
+@inject AuthenticationStateProvider _authStateProvider
+@inject AuthenticationStateProvider authStateProvider
 
 @if (!pageReady)
 {
@@ -17,88 +22,85 @@
         </div>
     </section>
 }
-else{
-<section id="category_section" class="category_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-@*                 <div class="row">
-                    <Carousele matchResults="@matchResults" />
-                </div> *@
-                <div class="category_section mobile">
-                    <div class="article_title header_purple">
-                        <h2><a href="category.html" target="_self">Informacje</a></h2>
-                    </div>
-                    <div class="category_article_wrapper">
-                        <div class="row">
-                            @if (_articles != null && _articles.Any())
-                            {
-                                var article = _articles.First();
-                                string imageBase64 = Convert.ToBase64String(article.Image);
-                                string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
-
-                                <div class="col-md-6">
-                                    <div class="top_article_img">
-                                        <a href="single.html" target="_self">
-                                            <img src="@imageSrc" alt="feature-top" style="width: 700px; height: 250px;" class="img-responsive">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <span class="tag purple">Informacje</span>
-                                    <div class="category_article_title">
-                                        <h2><a href="single.html" target="_self">@article.Title</a></h2>
-                                    </div>
-                                    <div class="category_article_date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author Name</a></div>
-                                    <div class="category_article_content">
-                                        @article.Content
-                                    </div>
-                                </div>
-                            }
+else
+{
+    <section id="category_section" class="category_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="category_section mobile">
+                        <div class="article_title header_purple">
+                            <h2><a href="category.html" target="_self">Informacje</a></h2>
                         </div>
-                    </div>
-                    <div class="category_article_wrapper">
-                        <div class="row">
-                            @if (_articles != null && _articles.Count() > 1)
-                            {
-                                var articlesToShow = _articles.Skip(1).Take(6);
-                                foreach (var article in articlesToShow)
+                        <div class="category_article_wrapper">
+                            <div class="row">
+                                @if (_articles != null && _articles.Any())
                                 {
+                                    var article = _articles.First();
                                     string imageBase64 = Convert.ToBase64String(article.Image);
                                     string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
 
-                                    <div class="col-md-6" style="margin-bottom: 20px;">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="single.html" target="_self">
-                                                    <img class="media-object img-fixed-size" src="@imageSrc" alt="article image">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <span class="tag purple">Informacje</span>
-                                                <h3 class="media-heading"><a href="single.html" target="_self">@article.Title</a></h3>
-                                                <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, </span>
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="top_article_img">
+                                            <a href="single.html" target="_self">
+                                                <img src="@imageSrc" alt="feature-top" style="width: 700px; height: 250px;" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <span class="tag purple">Informacje</span>
+                                        <div class="category_article_title">
+                                            <h2><a href="single.html" target="_self">@article.Title</a></h2>
+                                        </div>
+                                        <div class="category_article_date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author Name</a></div>
+                                        <div class="category_article_content">
+                                            @article.Content
                                         </div>
                                     </div>
                                 }
-                            }
+                            </div>
                         </div>
-                    </div>
-                    <p class="divider"><a href="#">Więcej&nbsp;&raquo;</a></p>
-                </div>
-            </div>
-            <!-- Left Section -->
+                        <div class="category_article_wrapper">
+                            <div class="row">
+                                @if (_articles != null && _articles.Count() > 1)
+                                {
+                                    var articlesToShow = _articles.Skip(1).Take(6);
+                                    foreach (var article in articlesToShow)
+                                    {
+                                        string imageBase64 = Convert.ToBase64String(article.Image);
+                                        string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
 
-            <div class="col-md-4">
-                <!-- Brakujący tag zamykający 'col-md-4', przeniesiony do odpowiedniego miejsca -->
-                <div class="widget">
-                    <div class="widget_title widget_black">
-                        <h2><a href="#">Aktualności</a></h2>
+                                        <div class="col-md-6" style="margin-bottom: 20px;">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <a href="single.html" target="_self">
+                                                        <img class="media-object img-fixed-size" src="@imageSrc" alt="article image">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <span class="tag purple">Informacje</span>
+                                                    <h3 class="media-heading"><a href="single.html" target="_self">@article.Title</a></h3>
+                                                    <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <p class="divider"><a href="#">Więcej&nbsp;&raquo;</a></p>
                     </div>
-                    @if (_articles != null)
-                    {
+                </div>
+                <!-- Left Section -->
+
+                <div class="col-md-4">
+                    <div class="widget">
+                        <div class="widget_title widget_black">
+                            <h2><a href="#">Aktualności</a></h2>
+                        </div>
+                        @if (_articles != null)
+                        {
                             @foreach (var log in _logs)
                             {
                                 <div class="media">
@@ -112,14 +114,14 @@ else{
                                     </div>
                                 </div>
                             }
-                    }
-                    <p class="widget_divider"><a href="#" target="_self">Więcej&nbsp;&raquo;</a></p>
+                        }
+                        <p class="widget_divider"><a href="#" target="_self">Więcej&nbsp;&raquo;</a></p>
+                    </div>
                 </div>
+                <!-- Right Section -->
             </div>
-            <!-- Right Section -->
         </div>
-    </div>
-</section>
+    </section>
 }
 
 <style>
@@ -137,8 +139,6 @@ else{
         margin: 50px auto;
     }
 
-
-
     .table-responsive {
         flex: 1; /* Każda tabela będzie miała równą szerokość */
         max-width: 50%; /* Opcjonalnie ogranicza szerokość każdej tabeli do 50% kontenera */
@@ -149,7 +149,7 @@ else{
         width: 100%; /* Szerokość tabeli na cały kontener */
     }
 
-    table th, table td, table tr {
+        table th, table td, table tr {
             border: none;
             padding: 4px;
             color: black; /* Ustawia kolor tekstu na czarny dla wszystkich komórek tabeli */
@@ -185,6 +185,23 @@ else{
 
     protected override async Task OnInitializedAsync()
     {
+        var token = await _localStorageService.GetItemAsStringAsync("token");
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            if (jwtToken.ValidTo < DateTime.UtcNow)
+            {
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+                await customAuthStateProvider.NotifyUserLogout();
+            }
+            else
+            {
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
         await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings());
     }
 
@@ -237,5 +254,4 @@ else{
             await LoadArticles();
         }
     }
-
 }
