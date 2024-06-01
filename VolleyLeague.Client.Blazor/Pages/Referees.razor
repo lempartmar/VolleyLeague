@@ -4,32 +4,40 @@
 @inject HttpClient Http
 @inject IMatchService matchService
 
-
-<section class="category_section">
+<section class="category_section" style="margin-top: 60px;">
     <div class="container">
-        <div class="row">
+        <div class="content-center">
+            <div class="content-width">
+                <div class="text-center">
+                    <h2 class="mt-4">Zarządzanie Sędziami</h2>
+                    <p>Wybierz sędziego z listy aktualnych sędziów lub dodaj nowego sędziego z listy potencjalnych sędziów.</p>
+                </div>
 
-            <div class="text-center">
-                <div class="card m-2 p-2">
-                    <select class="form-control" id="_referees">
-                        @if (_referees == null)
+                <div class="card m-2 p-2" style="margin-top:30px;">
+                    <h5>Aktualni Sędziowie</h5>
+                    <ul class="list-group">
+                        @if (_referees == null || !_referees.Any())
                         {
-                            <option value="null" disabled>Ładowanie sędziów...</option>
+                            <li class="list-group-item">Ładowanie sędziów...</li>
                         }
                         else
                         {
-                            <option value="null" selected disabled>Wybierz sędziego</option>
                             @foreach (PlayerSummaryDto referee in _referees)
                             {
-                                <option value="@referee.Id">@referee.Name</option>
+                                <li class="list-group-item">
+                                    <div class="list-item-content" style="width: 100%;">
+                                        <span>@referee.Name</span>
+                                        <button class="button button-danger button-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
+                                    </div>
+                                </li>
                             }
                         }
-
-                    </select>
+                    </ul>
                 </div>
 
                 <div class="card m-2 p-2">
-                    <select @onchange="OnPotentialRefereeSelected" class="form-control" id="potentialReferees">
+                    <h5>Dodaj Nowego Sędziego</h5>
+                    <select @onchange="OnPotentialRefereeSelected" class="form-control mb-3" id="potentialReferees">
                         @if (_potentialReferees == null)
                         {
                             <option value="null" disabled>Ładowanie potencjalnych sędziów...</option>
@@ -43,39 +51,71 @@
                             }
                         }
                     </select>
-                    <button class="btn btn-primary mt-2" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
+                    <button class="button button-primary" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
                 </div>
-
-                <div class="card m-2 p-2">
-                    <ul class="list-group">
-                        @if (_referees == null || !_referees.Any())
-                        {
-                            <li class="list-group-item">Ładowanie sędziów...</li>
-                        }
-                        else
-                        {
-                            @foreach (PlayerSummaryDto referee in _referees)
-                            {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    @referee.Name
-                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </div>
-
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .content-center {
+        display: flex;
+        justify-content: center;
+    }
+
+    .content-width {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .list-item-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+/*         border: 1px solid #ddd; */
+        margin-bottom: 5px;
+    }
+
+    .button {
+        padding: 5px 10px;
+        color: white;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        border: none;
+        cursor: pointer;
+    }
+
+        .button:hover {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        .button:disabled {
+            background-color: #aaa;
+        }
+
+    .form-control {
+        width: 100%;
+        height: 40px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+</style>
 
 @code {
     private IEnumerable<PlayerSummaryDto> _referees = Enumerable.Empty<PlayerSummaryDto>();
     private IEnumerable<PlayerSummaryDto> _potentialReferees = Enumerable.Empty<PlayerSummaryDto>();
     private int? selectedRefereeId = null;
     private bool _isRefereeSelected => selectedRefereeId.HasValue;
-
 
     protected override async Task OnInitializedAsync()
     {
