@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace VolleyLeague.Entities.Dtos.Users
 {
-    public class RegisterDto
+    public class RegisterDto : IValidatableObject
     {
         [Required(ErrorMessage = "Imię jest wymagane.")]
         public string FirstName { get; set; }
@@ -15,7 +16,6 @@ namespace VolleyLeague.Entities.Dtos.Users
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Hasło jest wymagane.")]
-        [StringLength(100, ErrorMessage = "Hasło musi zawierać co najmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -23,39 +23,32 @@ namespace VolleyLeague.Entities.Dtos.Users
         [Compare("Password", ErrorMessage = "Hasła nie są identyczne.")]
         public string ConfirmPassword { get; set; }
 
-        //public int PositionId { get; set; }
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var validationResults = new List<ValidationResult>();
 
-        //public bool Gender { get; set; }
+            if (Password.Length < 8)
+            {
+                validationResults.Add(new ValidationResult("Hasło musi zawierać co najmniej 8 znaków.", new[] { nameof(Password) }));
+            }
+            if (!Regex.IsMatch(Password, @"[A-Z]"))
+            {
+                validationResults.Add(new ValidationResult("Hasło musi zawierać co najmniej jedną wielką literę.", new[] { nameof(Password) }));
+            }
+            if (!Regex.IsMatch(Password, @"[a-z]"))
+            {
+                validationResults.Add(new ValidationResult("Hasło musi zawierać co najmniej jedną małą literę.", new[] { nameof(Password) }));
+            }
+            if (!Regex.IsMatch(Password, @"[0-9]"))
+            {
+                validationResults.Add(new ValidationResult("Hasło musi zawierać co najmniej jedną cyfrę.", new[] { nameof(Password) }));
+            }
+            if (!Regex.IsMatch(Password, @"[\p{P}\p{S}]"))
+            {
+                validationResults.Add(new ValidationResult("Hasło musi zawierać co najmniej jeden znak interpunkcyjny.", new[] { nameof(Password) }));
+            }
 
-        //[Phone(ErrorMessage = "Niepoprawny format numeru telefonu.")]
-        //public string? PhoneNumber { get; set; }
-
-        //[Range(1900, 2023, ErrorMessage = "Podaj poprawny rok urodzenia.")]
-        //public int? BirthYear { get; set; }
-
-        //[Range(50, 250, ErrorMessage = "Podaj prawidłowy wzrost w centymetrach")]
-        //public int? Height { get; set; }
-
-        //[Range(20, 500, ErrorMessage = "Podaj prawidłową wagę w kilogramach")]
-        //public int? Weight { get; set; }
-
-        //public byte[]? Photo { get; set; }
-
-        //public string? Hobby { get; set; }
-
-        //public int? JerseyNumber { get; set; }
-
-        //public int? BlockRange { get; set; }
-
-        //public int? AttackRange { get; set; }
-
-        //public string? VolleyballIdol { get; set; }
-
-        //public string? AdditionalEmail { get; set; }
-
-        //public string? PersonalInfo { get; set; }
-
-        //public string? City { get; set; }
-
+            return validationResults;
+        }
     }
 }
