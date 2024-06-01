@@ -14,7 +14,7 @@ namespace VolleyLeague.Entities.Dtos.Users
         [EmailAddress(ErrorMessage = "Niepoprawny format adresu e-mail.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Hasło jest wymagane.")]
         [StringLength(100, ErrorMessage = "Hasło musi zawierać co najmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }

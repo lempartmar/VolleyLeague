@@ -58,6 +58,10 @@
                         </div>
                     </div>
                 </EditForm>
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger mt-3 text-center" style="margin-top: 30px;">@errorMessage</div>
+                }
             </div>
         </div>
     </div>
@@ -66,6 +70,8 @@
 @code {
     public LoginDto User { get; set; } = new();
 
+    private string errorMessage = string.Empty;
+
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -73,14 +79,18 @@
     {
         var result = await AccountService.LoginAccount(User);
 
-        if (result != null)
+        if (result.Success)
         {
-            await sessionStorage.SetItemAsync("authToken", result);
-            ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserAuthentication(result!);
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result);
+            await sessionStorage.SetItemAsync("authToken", result.Token);
+            ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserAuthentication(result.Token);
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
             var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
-            await customAuthStateProvider.UpdateAuthenticationState(result);
+            await customAuthStateProvider.UpdateAuthenticationState(result.Token);
             NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            errorMessage = result.ErrorMessage;
         }
     }
 }

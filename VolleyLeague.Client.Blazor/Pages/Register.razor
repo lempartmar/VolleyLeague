@@ -6,8 +6,6 @@
 @inject IUserService UserService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-
-
 <div class="container login">
     <div class="row justify-content-center">
         <div class="col-md-12 mt-3">
@@ -19,7 +17,6 @@
                 {
                     <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
-                        <ValidationSummary />
                         <div class="card">
                             <div class="card-body login">
 
@@ -43,14 +40,25 @@
 
                                 <div class="form-group mb-3">
                                     <label for="Password" class="control-label">Hasło:</label>
-                                    <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" />
+                                    <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" @oninput="ValidatePassword" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.Password)" />
+                                    <ul class="password-requirements mt-2">
+                                        <li class="@GetValidationClass(PasswordLengthValid)">Co najmniej 8 znaków</li>
+                                        <li class="@GetValidationClass(PasswordUppercaseValid)">Zawiera wielkie litery</li>
+                                        <li class="@GetValidationClass(PasswordLowercaseValid)">Zawiera małe litery</li>
+                                        <li class="@GetValidationClass(PasswordNumberValid)">Zawiera cyfry</li>
+                                        <li class="@GetValidationClass(PasswordPunctuationValid)">Zawiera znaki interpunkcyjne</li>
+                                    </ul>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label for="ConfirmPassword" class="control-label">Powtórz hasło:</label>
-                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" />
+                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" @oninput="ValidateConfirmPassword" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.ConfirmPassword)" />
+                                    @if (!string.IsNullOrEmpty(confirmPasswordValidationMessage))
+                                    {
+                                        <div class="text-danger mt-2">@confirmPasswordValidationMessage</div>
+                                    }
                                 </div>
 
                             </div>
@@ -70,6 +78,34 @@
     </div>
 </div>
 
+<style>
+    .password-requirements {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .password-requirements li {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5em; /* Dodano margines górny */
+        }
+
+            .password-requirements li.valid {
+                color: green;
+            }
+
+            .password-requirements li::before {
+                content: '✘';
+                margin-right: 8px;
+                font-size: 1.2em;
+                display: inline-block;
+            }
+
+            .password-requirements li.valid::before {
+                content: '✔';
+                color: green;
+            }
+</style>
 
 @code {
     private RegisterDto registerModel = new RegisterDto();
@@ -82,10 +118,19 @@
 
     private string ErrorMessage = "";
 
+    private string confirmPasswordValidationMessage = "";
+
     private List<PositionDto> Positions = new List<PositionDto>();
+
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
 
+    // Password validation states
+    private bool PasswordLengthValid = false;
+    private bool PasswordUppercaseValid = false;
+    private bool PasswordLowercaseValid = false;
+    private bool PasswordNumberValid = false;
+    private bool PasswordPunctuationValid = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,18 +139,11 @@
         var positionResult = await UserService.GetPositions();
         Positions = positionResult;
 
-        // else
-        // {
-        //     Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = positionResult.Message } };
-        // }
-
         var token = await localStorage.GetItemAsync<string>("token");
         if (token != null)
         {
             NavigationManager.NavigateTo("/");
-
         }
-        // registerModel.PositionId = Positions.First().Id;
     }
 
     private async Task HandleValidSubmit()
@@ -117,20 +155,30 @@
         IsLoading = false;
     }
 
-    // private async Task HandleFileChange(InputFileChangeEventArgs e)
-    // {
-    //     var imageFile = e.File;
+    private void ValidatePassword(ChangeEventArgs e)
+    {
+        var password = e.Value.ToString();
+        PasswordLengthValid = password.Length >= 8;
+        PasswordUppercaseValid = password.Any(char.IsUpper);
+        PasswordLowercaseValid = password.Any(char.IsLower);
+        PasswordNumberValid = password.Any(char.IsDigit);
+        PasswordPunctuationValid = password.Any(ch => char.IsPunctuation(ch) || char.IsSymbol(ch));
+    }
 
-    //     if (imageFile != null)
-    //     {
-    //         using (var stream = imageFile.OpenReadStream())
-    //         {
-    //             using (var memoryStream = new MemoryStream())
-    //             {
-    //                 await stream.CopyToAsync(memoryStream);
-    //                 registerModel.Photo = memoryStream.ToArray();
-    //             }
-    //         }
-    //     }
-    // }
+    private void ValidateConfirmPassword(ChangeEventArgs e)
+    {
+        if (registerModel.Password != registerModel.ConfirmPassword)
+        {
+            confirmPasswordValidationMessage = "Hasła nie są identyczne.";
+        }
+        else
+        {
+            confirmPasswordValidationMessage = "";
+        }
+    }
+
+    private string GetValidationClass(bool isValid)
+    {
+        return isValid ? "valid" : "invalidZero";
+    }
 }

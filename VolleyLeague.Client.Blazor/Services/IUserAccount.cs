@@ -6,6 +6,6 @@ namespace VolleyLeague.Client.Blazor.Services
     public interface IUserAccount
     {
         Task<GeneralResponse> CreateAccount(UserDto userDTO);
-        Task<string> LoginAccount(LoginDto loginDTO);
+        Task<Shared.Dtos.LoginResponse> LoginAccount(LoginDto loginDTO);
     }
 }

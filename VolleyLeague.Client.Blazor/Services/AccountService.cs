@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace VolleyLeague.Client.Blazor.Services
 {
-        public class AccountService : IUserAccount
+    public class AccountService : IUserAccount
         {
             public AccountService(HttpClient httpClient, ILocalStorageService localStorageService)
             {
@@ -33,35 +33,25 @@ namespace VolleyLeague.Client.Blazor.Services
                 return AuthService.DeserializeJsonString<GeneralResponse>(apiResponse);
             }
 
-        public async Task<string> LoginAccount(LoginDto loginDTO)
+        public async Task<Shared.Dtos.LoginResponse> LoginAccount(LoginDto loginDTO)
         {
-            //var response = await httpClient.PostAsJsonAsync("api/User/login", loginDTO);
-
-            //if (!response.IsSuccessStatusCode)
-            //    return new LoginResponse(false, null!, "Error occurred. Try again later...");
-
-            //var apiResponse = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(apiResponse); // Log the raw response
-
-            //try
-            //{
-            //    return AuthService.DeserializeJsonString<LoginResponse>(apiResponse);
-            //}
-            //catch (JsonException ex)
-            //{
-            //    // Handle or log the exception as needed
-            //    Console.WriteLine($"JSON Deserialization error: {ex.Message}");
-            //    return new LoginResponse(false, null!, "Invalid JSON response.");
-            //}
-
             var response = await httpClient.PostAsJsonAsync("api/User/login", loginDTO);
-            var apiResponse = await response.Content.ReadAsStringAsync();
-            ////Read Response
-            //if (!response.IsSuccessStatusCode)
-            //    return new LoginResponse(false, null!, "Error occured. Try again later...");
 
-            //var apiResponse = await response.Content.ReadAsStringAsync();
-            return apiResponse;
+            if (!response.IsSuccessStatusCode)
+            {
+                return new Shared.Dtos.LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Błędny email lub hasło. Spróbuj ponownie."
+                };
+            }
+
+            var apiResponse = await response.Content.ReadAsStringAsync();
+            return new Shared.Dtos.LoginResponse
+            {
+                Success = true,
+                Token = apiResponse
+            };
         }
 
 
@@ -81,5 +71,5 @@ namespace VolleyLeague.Client.Blazor.Services
         //        return AuthService.DeserializeJsonString<LoginResponse>(apiResponse);
 
         //    }
-        }
+    }
     }
