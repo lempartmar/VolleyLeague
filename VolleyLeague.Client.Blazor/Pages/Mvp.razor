@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="mobile">
                     <div class="article_title header_purple">
-                        <h2>MVP według sezonu i ligi</h2>
+                        <h2>MVP</h2>
                     </div>
                     @if (pageReady)
                     {
@@ -156,6 +156,7 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadInitialDataAsync();
+        await ApplyFilter(); // Immediately apply the filter with default season and league
     }
 
     private async Task LoadInitialDataAsync()
@@ -183,14 +184,11 @@
     private async Task ApplyFilter()
     {
         mvpLoading = true;
+        mvpErrorMessage = string.Empty; // Reset the error message
         MvpList = await matchService.GetMvpBySeasonAndLeague(Filter.SeasonId, Filter.LeagueId);
         if (MvpList == null || MvpList.Count == 0)
         {
             mvpErrorMessage = "Nie znaleziono MVP dla danego sezonu.";
-        }
-        else
-        {
-            mvpErrorMessage = string.Empty;
         }
         mvpLoading = false;
     }
