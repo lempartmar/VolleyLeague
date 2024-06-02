@@ -166,10 +166,6 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> GetMvpBySeasonAndLeague([FromQuery] int seasonId, [FromQuery] int leagueId)
         {
             var mvps = await _matchService.GetMvpBySeasonAndLeague(seasonId, leagueId);
-            //if (mvps == null || !mvps.Any())
-            //{
-            //    return NotFound("No MVPs found for the given season and league.");
-            //}
             return Ok(mvps);
         }
     }
