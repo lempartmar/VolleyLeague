@@ -151,5 +151,38 @@ namespace VolleyLeague.API.Controllers
             var result = await _userService.IsTeamCaptain(email);
             return Ok(result);
         }
+
+        [HttpPost("requestPasswordReset")]
+        public async Task<IActionResult> RequestPasswordReset(PasswordResetRequestDto requestDto)
+        {
+            var result = await _userService.RequestPasswordResetAsync(requestDto.Email);
+            if (!result)
+            {
+                return BadRequest("Invalid email address");
+            }
+            return Ok("Password reset email sent");
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword(PasswordResetDto resetDto)
+        {
+            var result = await _userService.ResetPasswordAsync(resetDto.Token, resetDto.NewPassword);
+            if (!result)
+            {
+                return BadRequest("Invalid token or token expired");
+            }
+            return Ok("Password has been reset successfully");
+        }
+
+        [HttpGet("isTokenValid")]
+        public async Task<IActionResult> IsTokenValid([FromQuery] string token)
+        {
+            var result = await _userService.IsTokenValid(token);
+            if (!result)
+            {
+                return BadRequest("Invalid token or token expired");
+            }
+            return Ok(result);
+        }
     }
 }

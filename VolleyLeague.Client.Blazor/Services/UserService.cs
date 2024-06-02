@@ -18,6 +18,13 @@ namespace VolleyLeague.Client.Blazor.Services
 
         Task<UserProfileDto> GetCurrentUserProfile();
         Task UpdateUser(UpdateUserDto userProfileDto);
+
+        Task<bool> RequestPasswordReset(PasswordResetRequestDto requestDto);
+
+        Task<bool> ResetPassword(PasswordResetDto resetDto);
+
+        Task<bool> IsTokenValid(string token);
+
     }
 
     public class UserService : IUserService
@@ -71,6 +78,25 @@ namespace VolleyLeague.Client.Blazor.Services
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<UserProfileDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
+
+        public async Task<bool> RequestPasswordReset(PasswordResetRequestDto requestDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/requestPasswordReset", requestDto);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ResetPassword(PasswordResetDto resetDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/resetPassword", resetDto);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> IsTokenValid(string token)
+        {
+            var response = await _httpClient.GetAsync($"api/user/isTokenValid?token={token}");
+            return response.IsSuccessStatusCode;
+        }
+
 
         //public async Task<string> Login(LoginDto loginDto)
         //{

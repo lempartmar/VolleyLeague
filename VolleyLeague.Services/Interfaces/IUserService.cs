@@ -1,4 +1,5 @@
-﻿using VolleyLeague.Entities.Dtos.Teams;
+﻿using Microsoft.AspNetCore.Mvc;
+using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 
@@ -19,6 +20,12 @@ namespace VolleyLeague.Services.Services
         Task<PlayerSummaryDto> GetPlayerSummary(string email);
 
         Task<bool> UpdateUserAsync(string userId, UpdateUserDto updateUserDto);
+
+        Task<bool> ResetPasswordAsync(string token, string newPassword);
+
+        Task<bool> RequestPasswordResetAsync(string email);
+
+        Task<bool> IsTokenValid(string token);
     }
 }
 

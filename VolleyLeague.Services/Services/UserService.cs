@@ -2,12 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace VolleyLeague.Services.Services
 {
@@ -18,16 +25,19 @@ namespace VolleyLeague.Services.Services
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
+        private readonly IConfiguration _config;
 
-        public UserService(IBaseRepository<User> userRepository, 
-            IBaseRepository<Credentials> credentialsRepository, 
-            IRoleRepository roleRepository,
-            IMapper mapper)
+        public UserService(IBaseRepository<User> userRepository,
+                           IBaseRepository<Credentials> credentialsRepository,
+                           IRoleRepository roleRepository,
+                           IMapper mapper,
+                           IConfiguration config)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _credentialsRepository = credentialsRepository;
             _mapper = mapper;
+            _config = config;
         }
 
         public async Task<UserProfileDto> GetUserProfile(int id)
@@ -36,14 +46,11 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
-
-
         // Service to login a user
         public List<Role> Login(LoginDto loginDto, out Credentials? credentials)
         {
             var response = new List<Role>();
             credentials = _credentialsRepository.GetAll().Include(c => c.Roles).FirstOrDefault(c => c.Email == loginDto.Email);
-
 
             if (credentials == null || !VerifyPassword(loginDto.Email, loginDto.Password, credentials.Password))
             {
@@ -119,12 +126,12 @@ namespace VolleyLeague.Services.Services
 
         private bool VerifyPassword(string email, string password, string hashedPassword)
         {
-            string hash = PepperPassowrd(password);
+            string hash = PepperPassword(password);
             var result = passwordHasher.VerifyHashedPassword(email, hashedPassword, hash);
             return result == PasswordVerificationResult.Success;
         }
 
-        private string PepperPassowrd(string password)
+        private string PepperPassword(string password)
         {
             string pepper = "qaSJKvYBm9$$;=EDOC-)EJ0m";
             return password + pepper;
@@ -143,22 +150,8 @@ namespace VolleyLeague.Services.Services
 
             if (user != null && user.Credentials == null)
             {
-                // someone has added this email to a team
                 user.FirstName = registerDto.FirstName;
                 user.LastName = registerDto.LastName;
-                //user.Phone = registerDto.PhoneNumber;
-                //user.PositionId = registerDto.PositionId;
-                //user.BirthYear = registerDto.BirthYear;
-                //user.Height = (byte?)registerDto.Height;
-                //user.Weight = (byte?)registerDto.Weight;
-                //user.JerseyNumber = (byte?)registerDto.JerseyNumber;
-                //user.AttackRange = (byte?)registerDto.AttackRange;
-                //user.BlockRange = (byte?)registerDto.BlockRange;
-                //user.VolleyballIdol = registerDto.VolleyballIdol;
-                //user.AdditionalEmail = registerDto.AdditionalEmail;
-                //user.PersonalInfo = registerDto.PersonalInfo;
-                //user.City = registerDto.City;
-                //user.Hobby = registerDto.Hobby;
             }
             else
             {
@@ -166,17 +159,15 @@ namespace VolleyLeague.Services.Services
                 await _userRepository.InsertAsync(user);
             }
 
-
             var playerRoles = await _roleRepository.GetRoles();
-            var playerRole = playerRoles.Where(r => r.Name == Roles.Player).FirstOrDefault();
+            var playerRole = playerRoles.FirstOrDefault(r => r.Name == Roles.Player);
 
             var credentials = new Credentials
             {
                 Email = registerDto.Email,
-                Password = HashPassword(registerDto.Email, registerDto.Password), // Hash the password
+                Password = HashPassword(registerDto.Email, registerDto.Password),
                 User = user,
                 Roles = new List<Role> { playerRole }
-
             };
 
             await _credentialsRepository.InsertAsync(credentials);
@@ -185,36 +176,126 @@ namespace VolleyLeague.Services.Services
                 await _credentialsRepository.SaveChangesAsync();
                 await _userRepository.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
-                //response.Message = "Błąd zapisu danych. Spróbuj ponownie później";
             }
             return true;
         }
 
         public async Task<bool> IsTeamCaptain(string playerEmail)
         {
-            // Find the user by email
             var user = await _credentialsRepository.GetAll()
-                          .Include(c => c.User)
-                          .ThenInclude(u => u.Team)
-                          .Where(c => c.Email == playerEmail)
-                          .Select(c => c.User)
-                          .FirstOrDefaultAsync();
+                .Include(c => c.User)
+                .ThenInclude(u => u.Team)
+                .Where(c => c.Email == playerEmail)
+                .Select(c => c.User)
+                .FirstOrDefaultAsync();
 
             if (user == null)
             {
                 return false;
             }
 
-            // Check if the user is a captain of any team
             var isCaptain = await _userRepository.GetAll()
-                              .AnyAsync(u => u.Id == user.Id && u.Team.CaptainId == user.Id);
+                .AnyAsync(u => u.Id == user.Id && u.Team.CaptainId == user.Id);
 
             return isCaptain;
         }
 
+        public async Task<bool> RequestPasswordResetAsync(string email)
+        {
+            var user = await _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefaultAsync(u => u.Credentials.Email == email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var resetToken = GeneratePasswordResetToken(user.Credentials.Email);
+
+            await SendPasswordResetEmail(user.Credentials.Email, resetToken);
+
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+        {
+            try
+            {
+                var principal = GetPrincipalFromExpiredToken(token);
+                var email = principal.FindFirstValue(ClaimTypes.Email);
+
+                var user = await _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefaultAsync(u => u.Credentials.Email == email);
+
+                if (user == null)
+                {
+                    return false;
+                }
+
+                user.Credentials.Password = HashPassword(user.Credentials.Email, newPassword);
+
+                await _userRepository.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> IsTokenValid(string token)
+        {
+            try
+            {
+                var principal = GetPrincipalFromExpiredToken(token);
+                var email = principal.FindFirstValue(ClaimTypes.Email);
+
+                var user = await _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefaultAsync(u => u.Credentials.Email == email);
+
+                if (user == null)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task SendPasswordResetEmail(string email, string resetToken)
+        {
+            var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
+            var message = new MailMessage("noreply@yourwebsite.com", email)
+            {
+                Subject = "Resetowanie hasła",
+                Body = $"Kliknij na poniższy link, aby zresetować hasło: <a href=\"{resetLink}\">Resetuj hasło</a>",
+                IsBodyHtml = true,
+            };
+
+            try
+            {
+                using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new NetworkCredential("ligasiatkowkidevelopment@gmail.com", "awonkpobrfhwvvck"),
+                    EnableSsl = true,
+                };
+
+                await smtpClient.SendMailAsync(message);
+            }
+            catch (SmtpException smtpEx)
+            {
+                // Obsługa specyficznych wyjątków SMTP
+                Console.WriteLine($"SMTP Error: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Obsługa innych wyjątków
+                Console.WriteLine($"General Error: {ex.Message}");
+            }
+        }
 
         private User ConvertToUser(RegisterDto registerDto)
         {
@@ -237,7 +318,7 @@ namespace VolleyLeague.Services.Services
                 //AdditionalEmail = registerDto.AdditionalEmail,
                 //Hobby = registerDto.Hobby,
                 //Phone = null,
-                //PositionId = registerDto.PositionId > 0 ? registerDto.PositionId : 1,
+                PositionId = 6,
                 PhotoWidth = null,
                 PhotoHeight = null,
                 Articles = new List<Article>(),
@@ -248,11 +329,61 @@ namespace VolleyLeague.Services.Services
 
         private string HashPassword(string email, string password)
         {
-            string hash = PepperPassowrd(password);
-
+            string hash = PepperPassword(password);
             hash = passwordHasher.HashPassword(email, hash);
             return hash;
+        }
 
+
+
+        private string GeneratePasswordResetToken(string email)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim(ClaimTypes.Email, email)
+            }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Jwt:Key"])),
+                ValidateLifetime = false // Ignorujemy datę wygaśnięcia tokenu
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
+                var jwtSecurityToken = securityToken as JwtSecurityToken;
+
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    throw new SecurityTokenException("Invalid token");
+                }
+
+                return principal;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Token validation error: {ex.Message}");
+                throw new SecurityTokenException("Invalid token");
+            }
         }
     }
-}
+    }

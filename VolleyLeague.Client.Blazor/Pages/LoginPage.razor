@@ -15,11 +15,8 @@
 
 <div class="container login">
     <div class="row justify-content-center">
-        <!-- Zmieniono klasę na wyśrodkowanie -->
         <div class="col-md-12 mt-3">
-            <!-- Zmniejszono rozmiar kolumny do lepszego wyśrodkowania -->
             <div class="entity_title text-center">
-                <!-- Dodano text-center do wyśrodkowania tytułu -->
                 <h1><a>Logowanie</a></h1>
             </div>
             <div class="entity_content">
@@ -28,30 +25,14 @@
                     <ValidationSummary />
                     <div class="card">
                         <div class="card-body login">
-
-                            @* Email Address *@
                             <div class="form-group mb-3 md-4">
-                                <!-- Zmieniono klasę dla marginesu -->
-                                <input @bind="User.Email"
-                                       class="form-control"
-                                       type="email"
-                                       placeholder="Email Address">
-                                </input>
+                                <input @bind="User.Email" class="form-control" type="email" placeholder="Email Address"></input>
                             </div>
-
-                            @* Password *@
                             <div class="form-group mb-3">
-                                <!-- Zmieniono klasę dla marginesu -->
-                                <input type="password" class="form-control"
-                                       @bind="User.Password"
-                                       placeholder="Password"
-                                       aria-label="Password"
-                                       aria-describedby="Password">
+                                <input type="password" class="form-control" @bind="User.Password" placeholder="Password" aria-label="Password" aria-describedby="Password">
                             </div>
-
                         </div>
                         <div class="card-footer text-center">
-                            <!-- Dodano text-center do wyśrodkowania przycisku -->
                             <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">
                                 Zaloguj
                             </button>
@@ -62,6 +43,9 @@
                 {
                     <div class="alert alert-danger mt-3 text-center" style="margin-top: 30px;">@errorMessage</div>
                 }
+                <div class="text-center mt-3">
+                    <a @onclick="NavigateToResetPassword">Zapomniałeś hasła?</a>
+                </div>
             </div>
         </div>
     </div>
@@ -92,5 +76,10 @@
         {
             errorMessage = result.ErrorMessage;
         }
+    }
+
+    void NavigateToResetPassword()
+    {
+        NavigationManager.NavigateTo("/request-password-reset");
     }
 }
