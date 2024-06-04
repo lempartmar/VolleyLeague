@@ -185,15 +185,17 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("changePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
+            string? email = User.FindFirstValue(ClaimTypes.Name);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _userService.ChangePasswordAsync(changePasswordDto.Email, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+            var result = await _userService.ChangePasswordAsync(email, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
 
             if (result)
             {
