@@ -26,6 +26,8 @@ namespace VolleyLeague.Services.Services
         Task<bool> RequestPasswordResetAsync(string email);
 
         Task<bool> IsTokenValid(string token);
+
+        Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword);
     }
 }
 

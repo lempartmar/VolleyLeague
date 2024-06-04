@@ -25,6 +25,8 @@ namespace VolleyLeague.Client.Blazor.Services
 
         Task<bool> IsTokenValid(string token);
 
+        Task<bool> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
+
     }
 
     public class UserService : IUserService
@@ -94,6 +96,12 @@ namespace VolleyLeague.Client.Blazor.Services
         public async Task<bool> IsTokenValid(string token)
         {
             var response = await _httpClient.GetAsync($"api/user/isTokenValid?token={token}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/changePassword", changePasswordDto);
             return response.IsSuccessStatusCode;
         }
 

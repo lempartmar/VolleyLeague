@@ -224,12 +224,35 @@ namespace VolleyLeague.Services.Services
             try
             {
                 var principal = GetPrincipalFromExpiredToken(token);
-                var email = principal.FindFirstValue(ClaimTypes.Email);
+                if (principal == null)
+                {
+                    Console.WriteLine("Principal is null.");
+                    return false;
+                }
 
-                var user = await _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefaultAsync(u => u.Credentials.Email == email);
+                var email = principal.FindFirst("email").ToString();
 
+                string input = "email: liga.siatkowki12345@interia.pl";
+                string prefix = "email: ";
+
+                if (input.StartsWith(prefix))
+                {
+                    email = input.Substring(prefix.Length);
+                    Console.WriteLine(email);
+                }
+
+                if (string.IsNullOrEmpty(email))
+                {
+                    Console.WriteLine("Email claim is null or empty.");
+                    return false;
+                }
+
+                var user = await _userRepository.GetAll()
+                                                .Include(u => u.Credentials)
+                                                .FirstOrDefaultAsync(u => u.Credentials.Email == email);
                 if (user == null)
                 {
+                    Console.WriteLine("User not found.");
                     return false;
                 }
 
@@ -238,11 +261,13 @@ namespace VolleyLeague.Services.Services
                 await _userRepository.SaveChangesAsync();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error resetting password: {ex.Message}");
                 return false;
             }
         }
+
 
         public async Task<bool> IsTokenValid(string token)
         {
@@ -263,6 +288,26 @@ namespace VolleyLeague.Services.Services
             {
                 return false;
             }
+        }
+
+        public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
+        {
+            var credentials = await _credentialsRepository.GetAll()
+                .FirstOrDefaultAsync(c => c.Email == email);
+
+            if (credentials == null)
+            {
+                return false;
+            }
+
+            if (!VerifyPassword(email, currentPassword, credentials.Password))
+            {
+                return false;
+            }
+
+            credentials.Password = HashPassword(email, newPassword);
+            await _credentialsRepository.SaveChangesAsync();
+            return true;
         }
 
         private async Task SendPasswordResetEmail(string email, string resetToken)
@@ -345,8 +390,8 @@ namespace VolleyLeague.Services.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                new Claim(ClaimTypes.Email, email)
-            }),
+            new Claim(ClaimTypes.Email, email)
+        }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -372,9 +417,26 @@ namespace VolleyLeague.Services.Services
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
                 var jwtSecurityToken = securityToken as JwtSecurityToken;
 
-                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                if (jwtSecurityToken == null)
                 {
+                    Console.WriteLine("Invalid JWT token.");
                     throw new SecurityTokenException("Invalid token");
+                }
+
+                if (!jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Console.WriteLine("Invalid JWT token algorithm.");
+                    throw new SecurityTokenException("Invalid token");
+                }
+
+                var emailClaim = principal.FindFirst("email");
+                if (emailClaim == null)
+                {
+                    Console.WriteLine("Email claim not found.");
+                }
+                else
+                {
+                    Console.WriteLine($"Email claim found: {emailClaim.Value}");
                 }
 
                 return principal;
@@ -385,5 +447,8 @@ namespace VolleyLeague.Services.Services
                 throw new SecurityTokenException("Invalid token");
             }
         }
+
+
+
     }
-    }
+}

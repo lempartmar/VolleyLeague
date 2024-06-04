@@ -184,5 +184,23 @@ namespace VolleyLeague.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _userService.ChangePasswordAsync(changePasswordDto.Email, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+            if (result)
+            {
+                return Ok(new { message = "Password changed successfully" });
+            }
+
+            return BadRequest(new { message = "Failed to change password" });
+        }
     }
 }
