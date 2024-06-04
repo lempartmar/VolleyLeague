@@ -9,12 +9,12 @@
 <section class="category_section">
     <div class="container">
         <div class="row">
-            <div class="d-flex flex-row justify-content-center" style="margin-top: 30px; display: flex; justify-content: center;">
-                @if (isLoading)
+            <div class="d-flex flex-row justify-content-center" style="margin-top: 30px; margin-left:auto; margin-right:auto; width: 500px">
+            @if (isLoading)
                 {
                     <LoadingIcon />
                 }
-                ''
+                
                 else if (UserProfileData != null)
                 {
                     <div class="text-center" style="max-width: 750px; width: 75%;">
@@ -46,8 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="BirthYear">Rok urodzenia</label>
-                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" 
-                                             min="1920" max="@DateTime.Now.Year" />
+                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear"  />
                                 <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
                             </div>
                             <div class="form-group">
