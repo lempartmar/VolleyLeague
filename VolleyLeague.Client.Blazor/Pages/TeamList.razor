@@ -4,18 +4,26 @@
 @inject HttpClient Http
 @inject ITeamService TeamService
 
-<section class="category_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mobile">
-                    <div class="article_title header_purple">
-                        <h2>ZESPOŁY</h2>
-                    </div>
-                    <p class="text-danger">@ErrorMessage</p>
+@if (!PageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="category_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile">
+                        <div class="article_title header_purple">
+                            <h2>ZESPOŁY</h2>
+                        </div>
+                        <p class="text-danger">@ErrorMessage</p>
 
-                    @if (PageReady)
-                    {
                         <div class="container">
                             <h2 class="text-center"></h2>
 
@@ -48,8 +56,6 @@
                                                 </div>
                                             </div>
                                         }
-
-
                                     </div>
                                 </div>
 
@@ -138,14 +144,30 @@
                                 </select>
                             </div>
                         </div>
-
-                    }
+                    </div>
                 </div>
-
             </div>
         </div>
-    </div>
-</section>
+    </section>
+}
+
+<style>
+    .nav-item.nav-user {
+        color: #7d7d7d;
+        text-decoration: none;
+        font-size: 9px;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;   
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+</style>
 
 @code {
     public bool PageReady = false;
@@ -160,7 +182,6 @@
     public List<TeamDto>? team2;
     public List<TeamDto>? team3;
 
-
     protected override async Task OnInitializedAsync()
     {
         await GetCurrentTopTeams();
@@ -170,9 +191,7 @@
         {
             PageReady = true;
         }
-
     }
-
 
     private async Task<List<LeagueDto>?> GetLeagues()
     {
@@ -188,7 +207,6 @@
         StateHasChanged();
     }
 
-
     private async void UpdateLeague(ChangeEventArgs e)
     {
         int leagueId = Convert.ToInt32(e.Value);
@@ -197,11 +215,8 @@
 
         Teams = result;
         StateHasChanged();
-
     }
-}
 
-@functions {
     private string GetTeamLogoSrc(byte[] logo)
     {
         return logo != null ? $"data:image/png;base64,{Convert.ToBase64String(logo)}" : "/images/user.png";
