@@ -74,8 +74,12 @@
                             <li>
                                 <NavLink class="active" href="/">Strona Główna</NavLink>
                             </li>
-                            <li>
-                                <NavLink class="active" href="/standings">Tabele</NavLink>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Wyniki <span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                    <li><NavLink href="/standings" style="color: inherit; font-weight: bold; background: none; border: none;">Tabele</NavLink></li>
+                                    <li><NavLink href="/mvp" style="color: inherit; background: none; font-weight: bold; border: none;">MVP</NavLink></li>
+                                </ul>
                             </li>
                             <li>
                                 <NavLink class="active" href="/schedule">Terminarz</NavLink>
@@ -89,17 +93,14 @@
                             <li>
                                 <NavLink class="active" href="/contact">Kontakt</NavLink>
                             </li>
-                            <li>
-                                <NavLink class="active" href="/mvp">MVP</NavLink>
-                            </li>
                         </ul>
                     </div>
                     <div class="collapse navbar-collapse" style="/* border-top: 1px solid black; */ display: flex; justify-content: center; width: 100%" id="navbar-collapse-1">
                         <ul class="nav navbar-nav main-nav" style="flex: 0 1 auto; padding: 0; list-style: none; display: flex; justify-content: center; width: 100%; margin: 0;">
                             <AuthorizeView Roles="Player">
                                 <Authorized>
-@*                                     <li style="margin-right: 20px;">
-                                        <NavLink class=".nav-item.nav-user" href="/">Panel Użytkownika</NavLink>
+                                    @*                                     <li style="margin-right: 20px;">
+                                    <NavLink class=".nav-item.nav-user" href="/">Panel Użytkownika</NavLink>
                                     </li> *@
                                     @if (HasTeam)
                                     {
@@ -110,7 +111,7 @@
                                     else
                                     {
                                         <li>
-                                        <NavLink class=".nav-item.nav-user" href="/createteam">Stwórz drużynę</NavLink>
+                                            <NavLink class=".nav-item.nav-user" href="/createteam">Stwórz drużynę</NavLink>
                                         </li>
                                     }
                                     <li>
