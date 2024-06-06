@@ -94,50 +94,31 @@
                             <li>
                                 <NavLink class="active" href="/contact">Kontakt</NavLink>
                             </li>
-                        </ul>
-                    </div>
-                    <div class="collapse navbar-collapse" style="/* border-top: 1px solid black; */ display: flex; justify-content: center; width: 100%" id="navbar-collapse-1">
-                        <ul class="nav navbar-nav main-nav" style="flex: 0 1 auto; padding: 0; list-style: none; display: flex; justify-content: center; width: 100%; margin: 0;">
-                            <AuthorizeView Roles="Player">
-                                <Authorized>
-                                    @*                                     <li style="margin-right: 20px;">
-                                    <NavLink class=".nav-item.nav-user" href="/">Panel Użytkownika</NavLink>
-                                    </li> *@
-                                    @if (HasTeam)
-                                    {
-                                        <li>
-                                            <NavLink class=".nav-item.nav-user" href="/manageTeam">Zarządzaj Drużyną</NavLink>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <NavLink class=".nav-item.nav-user" href="/createteam">Stwórz drużynę</NavLink>
-                                        </li>
-                                    }
-                                    <li>
-                                        <NavLink class=".nav-item.nav-user" href="/change-password">Zmiana hasła</NavLink>
-                                    </li>
-                                    <li style="margin-right: 20px;">
-                                        <NavLink class="card-link text-secondary" href=@{
-                                                 "/user-profile/" + playerSummary.Id
-                                                 }>Profil Użytkownika</NavLink>
-                                    </li>
-                                </Authorized>
-                            </AuthorizeView>
                             <AuthorizeView Roles="Admin">
                                 <Authorized>
-                                    <li style="margin-right: 20px;">
-                                        <NavLink class=".nav-item.nav-user" href="/addArticle">Dodaj Artykuł</NavLink>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Użytkownikiem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/createteam" style="color: inherit; font-weight: bold; background: none; border: none;">Stwórz drużynę</NavLink></li>
+                                            <li><NavLink href="/change-password" style="color: inherit; font-weight: bold; background: none; border: none;">Zmiana hasła</NavLink></li>
+                                            <li><NavLink href=@{
+                                                    "/user-profile/" + playerSummary.Id
+} style="color: inherit; font-weight: bold; background: none; border: none;">Profil Użytkownika</NavLink></li>
+                                        </ul>
                                     </li>
-                                    <li>
-                                        <NavLink class=".nav-item.nav-user" href="/referees">Zarządzaj Sędziami</NavLink>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Meczem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/referees" style="color: inherit; font-weight: bold; background: none; border: none;">Zarządzaj Sędziami</NavLink></li>
+                                            <li><NavLink href="/createMatch" style="color: inherit; font-weight: bold; background: none; border: none;">Dodaj mecz</NavLink></li>
+                                            <li><NavLink href="/manageTeams" style="color: inherit; font-weight: bold; background: none; border: none;">Zarządzaj drużynami</NavLink></li>
+                                        </ul>
                                     </li>
-                                    <li>
-                                        <NavLink class=".nav-item.nav-user" href="/createMatch">Dodaj mecz</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink class=".nav-item.nav-user" href="/manageTeams">Zarządzaj drużynami</NavLink>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Portalem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/addArticle" style="color: inherit; font-weight: bold; background: none; border: none;">Dodaj Artykuł</NavLink></li>
+                                        </ul>
                                     </li>
                                 </Authorized>
                             </AuthorizeView>
