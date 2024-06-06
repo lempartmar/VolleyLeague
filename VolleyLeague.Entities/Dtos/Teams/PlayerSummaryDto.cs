@@ -24,6 +24,8 @@
 
         public int? JerseyNumber { get; set; }
 
+        public string? TeamName { get; set; }
+
         public int TotalMvpCount { get; set; }
 
     }

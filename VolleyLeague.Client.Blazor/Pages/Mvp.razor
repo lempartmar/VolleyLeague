@@ -67,12 +67,13 @@ else
                             }
                             else if (MvpList.Count > 0)
                             {
-                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px">
+                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px; max-width: 500px; margin-left:auto; margin-right:auto;">
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
                                                 <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
+                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Drużyna</th>
                                                 <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
                                             </tr>
                                         </thead>
@@ -85,14 +86,15 @@ else
                                                 <tr>
                                                     <td style="vertical-align: middle; text-align: center;">@rank</td>
                                                     <td style="vertical-align: middle; text-align: center;">
-                                                        <a href="/player/@player.Id/" class="player-link" style="color: #0268d6;">@player.Name</a>
+                                                        <a href="/user-profile/@player.Id/" class="player-link" style="color: #0268d6;">@player.Name</a>
                                                     </td>
+                                                    <td style="vertical-align: middle; text-align: center;">@player.TeamName</td>
                                                     <td style="vertical-align: middle; text-align: center;">@player.TotalMvpCount</td>
                                                 </tr>
                                                 rank++;
                                             }
                                         </tbody>
-                                    </table>
+                                    </table>    
                                 </div>
                             }
                         }
@@ -102,14 +104,13 @@ else
                                 <div id="spinner"></div>
                             </div>
                         }
-                    }
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 }
-
 <style>
     .btn-label {
         background: none;

@@ -20,6 +20,7 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Match> _matchRepository;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
+        private readonly IBaseRepository<TeamPlayer> _teamPlayerRepository;
         private readonly IRoleRepository _roleRepository;
         public MatchService(
             IMapper mapper,
@@ -27,6 +28,7 @@ namespace VolleyLeague.Services.Services
             IBaseRepository<Match> matchRepository,
             IBaseRepository<User> userRepository,
             IBaseRepository<Team> teamRepository,
+            IBaseRepository<TeamPlayer> teamPlayerRepository,
             IRoleRepository roleRepository
             )
         {
@@ -36,6 +38,7 @@ namespace VolleyLeague.Services.Services
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _teamPlayerRepository = teamPlayerRepository;
          }
 
         public async Task<List<MatchSummaryDto>> GetAllMatchesAsync()
@@ -520,11 +523,12 @@ namespace VolleyLeague.Services.Services
 
         public async Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId)
         {
+            // Pierwsze zapytanie: Uzyskanie użytkowników MVP
             var mvpUsers = await _matchRepository.GetAll()
                 .Include(m => m.Mvp)
                 .Include(m => m.League)
                 .Include(m => m.Round)
-                .Where(m => m.LeagueId == leagueId && m.Round.SeasonId == seasonId)
+                .Where(m => m.LeagueId == leagueId && m.Round.SeasonId == seasonId && m.MvpId != 32 && m.MvpId != 39)
                 .GroupBy(m => m.Mvp)
                 .Select(g => new { User = g.Key, TotalMvpCount = g.Count() })
                 .OrderByDescending(x => x.TotalMvpCount)
@@ -535,38 +539,54 @@ namespace VolleyLeague.Services.Services
                 return new List<PlayerSummaryDto>();
             }
 
-            //var result = mvpUsers.Select(mvp => new PlayerSummaryDto
-            //{
-            //    Id = mvp.User.Id,
-            //    FirstName = mvp.User.FirstName,
-            //    LastName = mvp.User.LastName,
-            //    TotalMvpCount = mvp.TotalMvpCount 
-            //}).ToList();
-            var result = new List<PlayerSummaryDto>();
+            var userIds = mvpUsers
+                .Where(mvp => mvp.User != null) // Filtruj tylko tych, którzy mają User nie null
+                .Select(mvp => mvp.User.Id)
+                .ToList();
 
-            if (mvpUsers.Any())
+            // Lista do przechowywania informacji o drużynach dla użytkowników MVP
+            var userTeams = new List<TeamPlayer>();
+
+            // Pojedyncze zapytania dla każdego userId
+            foreach (var userId in userIds)
             {
-                // Use foreach to populate the result list
-                foreach (var mvp in mvpUsers)
-                {
-                    if (mvp.User != null)
-                    {
-                        var playerSummary = new PlayerSummaryDto
-                        {
-                            Id = mvp.User.Id,
-                            FirstName = mvp.User.FirstName,
-                            LastName = mvp.User.LastName,
-                            TotalMvpCount = mvp.TotalMvpCount // Assign the MVP count
-                        };
+                var userTeam = await _teamPlayerRepository.GetAll()
+                    .Where(tp => tp.PlayerId == userId)
+                    .Include(tp => tp.Team)
+                    .FirstOrDefaultAsync();
 
-                        result.Add(playerSummary);
-                    }
+                if (userTeam != null)
+                {
+                    userTeams.Add(userTeam);
                 }
+            }
+
+            // Utworzenie mapy użytkowników MVP i ich drużyn
+            var teamDict = userTeams
+                .Where(tp => tp.Team != null) // Tylko ci, którzy mają przypisany zespół
+                .GroupBy(tp => tp.PlayerId)
+                .ToDictionary(g => g.Key, g => g.First().Team.Name);
+
+            // Stworzenie listy wynikowej, uwzględniającej brak drużyny
+            var result = mvpUsers
+                .Where(mvp => mvp.User != null)
+                .Select(mvp => new PlayerSummaryDto
+                {
+                    Id = mvp.User.Id,
+                    FirstName = mvp.User.FirstName,
+                    LastName = mvp.User.LastName,
+                    TotalMvpCount = mvp.TotalMvpCount,
+                    TeamName = teamDict.TryGetValue(mvp.User.Id, out var teamName) ? teamName : "Brak drużyny"
+                }).ToList();
+
+            // Sprawdzenie, czy każdy z użytkowników ma drużynę
+            foreach (var player in result)
+            {
+                Console.WriteLine($"Player: {player.FirstName} {player.LastName}, Team: {player.TeamName}");
             }
 
             return result;
         }
-
 
     }
 }
