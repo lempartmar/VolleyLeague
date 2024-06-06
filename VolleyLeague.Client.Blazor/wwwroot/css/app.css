@@ -1963,3 +1963,9 @@ section {
     stroke-width: 5; /* Szerokoœæ obramowania */
     fill: transparent; /* T³o krêgu */
 }
+
+@media screen and (max-width: 1930px) {
+    body {
+        zoom: 0.8; /* Zmniejsza widok o 20% */
+    }
+}
