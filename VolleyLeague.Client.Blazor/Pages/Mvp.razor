@@ -4,103 +4,111 @@
 @using VolleyLeague.Entities.Dtos.Matches
 @using VolleyLeague.Entities.Dtos.Teams
 
-<section class="category_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mobile">
-                    <div class="article_title header_purple">
-                        <h2>MVP</h2>
-                    </div>
-                    @if (pageReady)
-                    {
-                        <div class="card m-2 p-2">
-                            <EditForm Model="Filter">
-                                <div class="form-group btn-group">
-                                    <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
-                                    <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                                        @foreach (var season in Filter.SeasonList)
-                                        {
-                                            <option value="@season.Id">@season.Name</option>
-                                        }
-                                    </Select>
-                                </div>
-                                <div class="form-group btn-group">
-                                    <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
-                                    <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
-                                        @foreach (var league in Filter.LeagueList)
-                                        {
-                                            <option value="@league.Id">@league.Name</option>
-                                        }
-                                    </Select>
-                                </div>
-                            </EditForm>
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="category_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile">
+                        <div class="article_title header_purple">
+                            <h2>MVP</h2>
                         </div>
+                        @if (pageReady)
+                        {
+                            <div class="card m-2 p-2">
+                                <EditForm Model="Filter">
+                                    <div class="form-group btn-group">
+                                        <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
+                                        <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
+                                            @foreach (var season in Filter.SeasonList)
+                                            {
+                                                <option value="@season.Id">@season.Name</option>
+                                            }
+                                        </Select>
+                                    </div>
+                                    <div class="form-group btn-group">
+                                        <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
+                                        <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
+                                            @foreach (var league in Filter.LeagueList)
+                                            {
+                                                <option value="@league.Id">@league.Name</option>
+                                            }
+                                        </Select>
+                                    </div>
+                                </EditForm>
+                            </div>
 
-                        @if (mvpLoading)
+                            @if (mvpLoading)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div id="spinner"></div>
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(mvpErrorMessage))
+                            {
+                                <div class="alert alert-danger">
+                                    @mvpErrorMessage
+                                </div>
+                            }
+                            else if (MvpList.Count == 0)
+                            {
+                                <div class="alert alert-info" role="alert">
+                                    Nie znaleziono MVP dla danego sezonu.
+                                </div>
+                            }
+                            else if (MvpList.Count > 0)
+                            {
+                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
+                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
+                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int rank = 1;
+                                            }
+                                            @foreach (var player in MvpList)
+                                            {
+                                                <tr>
+                                                    <td style="vertical-align: middle; text-align: center;">@rank</td>
+                                                    <td style="vertical-align: middle; text-align: center;">
+                                                        <a href="/player/@player.Id/" class="player-link" style="color: #0268d6;">@player.Name</a>
+                                                    </td>
+                                                    <td style="vertical-align: middle; text-align: center;">@player.TotalMvpCount</td>
+                                                </tr>
+                                                rank++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        }
+                        else
                         {
                             <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Ładowanie...</span>
-                                </div>
+                                <div id="spinner"></div>
                             </div>
                         }
-                        else if (!string.IsNullOrEmpty(mvpErrorMessage))
-                        {
-                            <div class="alert alert-danger">
-                                @mvpErrorMessage
-                            </div>
-                        }
-                        else if (MvpList.Count == 0)
-                        {
-                            <div class="alert alert-info" role="alert">
-                                Nie znaleziono MVP dla danego sezonu.
-                            </div>
-                        }
-                        else if (MvpList.Count > 0)
-                        {
-                            <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
-                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
-                                            <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            int rank = 1;
-                                        }
-                                        @foreach (var player in MvpList)
-                                        {
-                                            <tr>
-                                                <td style="vertical-align: middle; text-align: center;">@rank</td>
-                                                <td style="vertical-align: middle; text-align: center;">
-                                                    <a href="/player/@player.Id/" class="player-link" style="color: #0268d6;">@player.Name</a>
-                                                </td>
-                                                <td style="vertical-align: middle; text-align: center;">@player.TotalMvpCount</td>
-                                            </tr>
-                                            rank++;
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Ładowanie...</span>
-                            </div>
-                        </div>
                     }
                 </div>
             </div>
         </div>
     </div>
 </section>
+}
 
 <style>
     .btn-label {
@@ -129,6 +137,16 @@
         color: black;
         font-weight: bold;
         text-align: left;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
     }
 </style>
 
