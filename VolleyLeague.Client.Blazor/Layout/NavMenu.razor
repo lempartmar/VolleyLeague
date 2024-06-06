@@ -96,8 +96,11 @@
                             </li>
                             <AuthorizeView Roles="Player">
                                 <Authorized>
-                                    <ul class="nav navbar-nav">
+                                    <ul class="nav navbar-nav" style="width: 100%;margin-left: auto;margin-right: auto;display: flex;justify-content: center;">
                                         <li><NavLink href=@{"/user-profile/" + @playerSummary.Id}>Profil</NavLink></li>
+                                        <li><NavLink href=@{
+                                                "/edit-profile/" + @playerSummary.Id
+                                                            }>Edytuj profil</NavLink></li>
 
                                         @if (HasTeam)
                                         {
