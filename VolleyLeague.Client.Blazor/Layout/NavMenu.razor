@@ -94,6 +94,23 @@
                             <li>
                                 <NavLink class="active" href="/contact">Kontakt</NavLink>
                             </li>
+                            <AuthorizeView Roles="Player">
+                                <Authorized>
+                                    <ul class="nav navbar-nav">
+                                        <li><NavLink href=@{"/user-profile/" + @playerSummary.Id}>Profil</NavLink></li>
+
+                                        @if (HasTeam)
+                                        {
+                                            <li><NavLink href="/manageTeams">Zarządzaj drużyną</NavLink></li>
+                                        }
+                                        else
+                                        {
+                                            <li><NavLink href="/createteam">Stwórz drużynę</NavLink></li>
+                                        }
+                                        <li><NavLink href="/change-password">Zmiana hasła</NavLink></li>
+                                    </ul>
+                                </Authorized>
+                            </AuthorizeView>
                             <AuthorizeView Roles="Admin">
                                 <Authorized>
                                     <li class="dropdown">
