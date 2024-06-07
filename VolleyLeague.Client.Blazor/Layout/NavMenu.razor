@@ -94,29 +94,42 @@
                             <li>
                                 <NavLink class="active" href="/contact">Kontakt</NavLink>
                             </li>
+                            <ul class="nav navbar-nav" style="width: 100%;margin-left: auto;margin-right: auto;display: flex;justify-content: center;">
                             <AuthorizeView Roles="Player">
                                 <Authorized>
-                                    <ul class="nav navbar-nav" style="width: 100%;margin-left: auto;margin-right: auto;display: flex;justify-content: center;">
-                                        <li><NavLink href=@{"/user-profile/" + @playerSummary.Id}>Profil</NavLink></li>
-                                        <li><NavLink href=@{
+                                        @if (!IsAdmin)
+                                        {
+                                            <li><NavLink href=@{"/user-profile/" + @playerSummary.Id}>Profil</NavLink></li>
+                                            <li><NavLink href=@{
                                                 "/edit-profile/" + @playerSummary.Id
                                                             }>Edytuj profil</NavLink></li>
 
-                                        @if (HasTeam)
-                                        {
-                                            <li><NavLink href="/manageTeams">Zarządzaj drużyną</NavLink></li>
+                                            @if (HasTeam)
+                                            {
+                                                <li><NavLink href="/manageTeams">Zarządzaj drużyną</NavLink></li>
+                                            }
+                                            else
+                                            {
+                                                <li><NavLink href="/createteam">Stwórz drużynę</NavLink></li>
+                                            }
+                                            <li><NavLink href="/change-password">Zmiana hasła</NavLink></li>
+                                        }else{
+                                                               <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Użytkownikiem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                        <li><NavLink href="/createteam" style="color: inherit; font-weight: bold; background: none; border: none;">Stwórz drużynę</NavLink></li>
+                                        <li><NavLink href="/change-password" style="color: inherit; font-weight: bold; background: none; border: none;">Zmiana hasła</NavLink></li>
+                                        <li><NavLink href=@{
+                                        "/user-profile/" + playerSummary.Id
+                                        } style="color: inherit; font-weight: bold; background: none; border: none;">Profil Użytkownika</NavLink></li>
+                                        </ul>
+                                        </li>
                                         }
-                                        else
-                                        {
-                                            <li><NavLink href="/createteam">Stwórz drużynę</NavLink></li>
-                                        }
-                                        <li><NavLink href="/change-password">Zmiana hasła</NavLink></li>
-                                    </ul>
                                 </Authorized>
                             </AuthorizeView>
                             <AuthorizeView Roles="Admin">
                                 <Authorized>
-                                    <li class="dropdown">
+@*                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Użytkownikiem <span class="caret"></span></a>
                                         <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
                                             <li><NavLink href="/createteam" style="color: inherit; font-weight: bold; background: none; border: none;">Stwórz drużynę</NavLink></li>
@@ -125,7 +138,7 @@
                                                     "/user-profile/" + playerSummary.Id
 } style="color: inherit; font-weight: bold; background: none; border: none;">Profil Użytkownika</NavLink></li>
                                         </ul>
-                                    </li>
+                                    </li> *@
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Meczem <span class="caret"></span></a>
                                         <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
@@ -142,6 +155,7 @@
                                     </li>
                                 </Authorized>
                             </AuthorizeView>
+                            </ul>
                         </ul>
                     </div>
                 </div>
@@ -167,6 +181,9 @@
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     private bool HasTeam { get; set; } = false;
     PlayerSummaryDto playerSummary = new PlayerSummaryDto();
+    private bool IsPlayer { get; set; }
+    private bool IsAdmin { get; set; }
+
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
@@ -184,6 +201,10 @@
 
         if (user.Identity.IsAuthenticated)
         {
+
+            IsPlayer = user.IsInRole("Player");
+            IsAdmin = user.IsInRole("Admin");
+
             Console.WriteLine($"User: {user.Identity.Name}");
             var roles = user.FindAll("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(c => c.Value);
             foreach (var role in roles)
