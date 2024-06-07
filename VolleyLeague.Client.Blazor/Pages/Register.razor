@@ -24,18 +24,21 @@
                                     <label for="FirstName" class="control-label">Imię:</label>
                                     <InputText class="form-control" id="FirstName" @bind-Value="registerModel.FirstName" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
+                                    <small class="form-text text-muted">Twoje dane będą weryfikowane przez sędziów w lidze.</small>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label for="LastName" class="control-label">Nazwisko:</label>
                                     <InputText class="form-control" id="LastName" @bind-Value="registerModel.LastName" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.LastName)" />
+                                    <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label for="Email" class="control-label">Adres e-mail:</label>
                                     <InputText class="form-control" id="Email" @bind-Value="registerModel.Email" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
+                                    <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
                                 </div>
 
                                 <div class="form-group mb-3">
@@ -87,7 +90,7 @@
         .password-requirements li {
             display: flex;
             align-items: center;
-            margin-top: 0.5em; /* Dodano margines górny */
+            margin-top: 0.5em;
         }
 
             .password-requirements li.valid {
