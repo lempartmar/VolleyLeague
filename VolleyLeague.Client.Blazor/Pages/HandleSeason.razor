@@ -46,21 +46,39 @@
             <p>Brak dostępnych sezonów.</p>
         }
     </div>
+    <div class="card m-2 p-2">
+        <h3>Dodaj nowy sezon</h3>
+        <EditForm Model="@newSeason" OnValidSubmit="CreateSeason">
+            <div class="form-group">
+                <label for="newSeasonName">Nazwa sezonu:</label>
+                <InputText id="newSeasonName" class="form-control" @bind-Value="newSeason.Name" />
+            </div>
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </EditForm>
+    </div>
 </div>
 
 @code {
     private List<SeasonDto> _seasons;
     private int? _editingSeasonId;
+    private SeasonDto newSeason = new SeasonDto();
 
     protected override async Task OnInitializedAsync()
     {
         _seasons = await seasonService.GetSeasons();
     }
 
+    private async Task CreateSeason()
+    {
+        await seasonService.CreateSeason(newSeason);
+        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
+        newSeason = new SeasonDto(); // Resetuj formularz
+    }
+
     private async Task DeleteSeason(int seasonId)
     {
-        // Implementacja wysyłania żądania do API do usunięcia sezonu,
-        // a następnie odświeżenie listy sezonów.
+        await seasonService.DeleteSeason(seasonId);
+        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
     }
 
     private void ToggleEditSeason(SeasonDto season)
@@ -70,7 +88,8 @@
 
     private async Task SaveSeason(SeasonDto season)
     {
-        // Implementacja wysyłania zmian do API i odświeżenie danych
+        await seasonService.UpdateSeason(season);
+        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
         _editingSeasonId = null;
     }
 

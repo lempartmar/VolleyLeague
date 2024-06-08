@@ -6,7 +6,7 @@ namespace VolleyLeague.Services.Interfaces
     {
         Task<List<SeasonDto>> GetAllSeasons();
 
-        void CreateSeason(SeasonDto season);
+        Task CreateSeason(SeasonDto season);
 
         Task UpdateSeason(SeasonDto season);
     }

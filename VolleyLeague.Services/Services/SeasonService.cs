@@ -30,12 +30,13 @@ namespace VolleyLeague.Services.Services
             return leagueDtoList;
         }
 
-        public void CreateSeason(SeasonDto season)
+        public async Task CreateSeason(SeasonDto season)
         {
             var newSeason = _mapper.Map<Season>(season);
             Console.WriteLine(newSeason.Name);
 
-            _seasonRepository.InsertAsync(newSeason);
+            await _seasonRepository.InsertAsync(newSeason);
+            await _seasonRepository.SaveChangesAsync();
         }
 
         public async Task UpdateSeason(SeasonDto season)
