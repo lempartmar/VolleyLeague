@@ -4,81 +4,196 @@
 @using VolleyLeague.Entities.Dtos.Teams
 @inject ISeasonService seasonService
 
-<div class="text-center">
-    <h3>Lista sezonów</h3>
-    <div class="card m-2 p-2">
-        @if (_seasons == null)
-        {
-            <p>Ładowanie sezonów...</p>
-        }
-        else if (_seasons.Any())
-        {
-            <ul class="list-group">
-                @foreach (var season in _seasons)
-                {
-                    <li class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-center">
-                            @season.Name
-                            <span>
-                                <button class="btn btn-primary btn-sm" @onclick="() => ToggleEditSeason(season)">Edytuj</button>
-                                <button class="btn btn-danger btn-sm" @onclick="() => DeleteSeason(season.Id)">Usuń</button>
-                            </span>
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="category_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile">
+                        <div class="article_title header_purple">
+                            <h2>Sezony</h2>
                         </div>
-                        @if (_editingSeasonId == season.Id)
-                        {
-                            <div class="card card-body mt-2">
-                                <EditForm Model="@season" OnValidSubmit="@(() => SaveSeason(season))">
-                                    <div class="form-group">
-                                        <label for="name">Nazwa sezonu:</label>
-                                        <InputText id="name" class="form-control" @bind-Value="season.Name" />
-                                    </div>
-                                    <button type="submit" class="btn btn-success btn-sm">Zapisz</button>
-                                    <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">Anuluj</button>
-                                </EditForm>
-                            </div>
-                        }
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Brak dostępnych sezonów.</p>
-        }
-    </div>
-    <div class="card m-2 p-2">
-        <h3>Dodaj nowy sezon</h3>
-        <EditForm Model="@newSeason" OnValidSubmit="CreateSeason">
-            <div class="form-group">
-                <label for="newSeasonName">Nazwa sezonu:</label>
-                <InputText id="newSeasonName" class="form-control" @bind-Value="newSeason.Name" />
+                        <div class="card m-2 p-2">
+                            <h3>Dodaj nowy sezon</h3>
+                            <EditForm Model="@newSeason" OnValidSubmit="CreateSeason">
+                                <div class="form-group">
+                                    <label for="newSeasonName">Nazwa sezonu:</label>
+                                    <InputText id="newSeasonName" class="form-control" @bind-Value="newSeason.Name" />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                            </EditForm>
+                        </div>
+                        <div class="card m-2 p-2">
+                            <h3>Lista sezonów</h3>
+                            @if (seasonsLoading)
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <div id="spinner"></div>
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(seasonsErrorMessage))
+                            {
+                                <div class="alert alert-danger">
+                                    @seasonsErrorMessage
+                                </div>
+                            }
+                            else if (_seasons != null && _seasons.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var season in PaginatedSeasons)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                @season.Name
+                                                <span>
+                                                    <button class="btn btn-primary btn-sm" @onclick="() => ToggleEditSeason(season)">Edytuj</button>
+                                                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteSeason(season.Id)">Usuń</button>
+                                                </span>
+                                            </div>
+                                            @if (_editingSeasonId == season.Id)
+                                            {
+                                                <div class="card card-body mt-2">
+                                                    <EditForm Model="@season" OnValidSubmit="@(() => SaveSeason(season))">
+                                                        <div class="form-group">
+                                                            <label for="name">Nazwa sezonu:</label>
+                                                            <InputText id="name" class="form-control" @bind-Value="season.Name" />
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success btn-sm">Zapisz</button>
+                                                        <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">Anuluj</button>
+                                                    </EditForm>
+                                                </div>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <button class="btn btn-outline-secondary" @onclick="PreviousPage" disabled="@(_currentPage == 1)">Poprzednia</button>
+                                    <span>Strona @_currentPage z @_totalPages</span>
+                                    <button class="btn btn-outline-secondary" @onclick="NextPage" disabled="@(_currentPage == _totalPages)">Następna</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Brak dostępnych sezonów.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Dodaj</button>
-        </EditForm>
-    </div>
-</div>
+        </div>
+    </section>
+}
+
+<style>
+    .btn-label {
+        background: none;
+        border: none;
+        padding: 6px 12px;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+    }
+
+    .dropdown-toggle {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .card {
+        margin-bottom: 50px;
+    }
+
+    .btn.btn-default.dropdown-toggle {
+        background: #e5e7eb;
+        font-size: 12px;
+        color: black;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+</style>
 
 @code {
+    private bool pageReady = false;
+    private bool seasonsLoading = false;
+    private string seasonsErrorMessage = "";
     private List<SeasonDto> _seasons;
     private int? _editingSeasonId;
     private SeasonDto newSeason = new SeasonDto();
 
+    private const int PageSize = 7;
+    private int _currentPage = 1;
+    private int _totalPages => (_seasons.Count + PageSize - 1) / PageSize;
+
+    private IEnumerable<SeasonDto> PaginatedSeasons => _seasons.Skip((_currentPage - 1) * PageSize).Take(PageSize);
+
     protected override async Task OnInitializedAsync()
     {
-        _seasons = await seasonService.GetSeasons();
+        await LoadSeasons();
+        pageReady = true;
+    }
+
+    private async Task LoadSeasons()
+    {
+        seasonsLoading = true;
+        try
+        {
+            _seasons = await seasonService.GetSeasons();
+            _seasons = _seasons.OrderByDescending(s => s.Id).ToList(); // Sortowanie sezonów od najnowszego do najstarszego
+            seasonsErrorMessage = "";
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas ładowania sezonów: {ex.Message}";
+        }
+        seasonsLoading = false;
     }
 
     private async Task CreateSeason()
     {
-        await seasonService.CreateSeason(newSeason);
-        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
-        newSeason = new SeasonDto(); // Resetuj formularz
+        try
+        {
+            await seasonService.CreateSeason(newSeason);
+            newSeason = new SeasonDto(); // Resetuj formularz
+            await LoadSeasons(); // Odśwież listę sezonów
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas tworzenia sezonu: {ex.Message}";
+        }
     }
 
     private async Task DeleteSeason(int seasonId)
     {
-        await seasonService.DeleteSeason(seasonId);
-        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
+        try
+        {
+            await seasonService.DeleteSeason(seasonId);
+            await LoadSeasons(); // Odśwież listę sezonów
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas usuwania sezonu: {ex.Message}";
+        }
     }
 
     private void ToggleEditSeason(SeasonDto season)
@@ -88,13 +203,36 @@
 
     private async Task SaveSeason(SeasonDto season)
     {
-        await seasonService.UpdateSeason(season);
-        _seasons = await seasonService.GetSeasons(); // Odśwież listę sezonów
-        _editingSeasonId = null;
+        try
+        {
+            await seasonService.UpdateSeason(season);
+            _editingSeasonId = null;
+            await LoadSeasons(); // Odśwież listę sezonów
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas zapisywania sezonu: {ex.Message}";
+        }
     }
 
     private void CancelEdit()
     {
         _editingSeasonId = null;
+    }
+
+    private void PreviousPage()
+    {
+        if (_currentPage > 1)
+        {
+            _currentPage--;
+        }
+    }
+
+    private void NextPage()
+    {
+        if (_currentPage < _totalPages)
+        {
+            _currentPage++;
+        }
     }
 }
