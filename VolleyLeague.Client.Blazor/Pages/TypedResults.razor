@@ -11,8 +11,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mobile">
-                    <div class="article_title header_purple">
-                        <h2>Results</h2>
+                    <div class="article_title">
+                        <h2>Typowane wyniki</h2>
                     </div>
                     @if (pageReady)
                     {
@@ -21,7 +21,7 @@
                                 <div class="form-group btn-group">
                                     <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
                                     <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                                        @foreach (var season in Filter.SeasonList)
+                                        @foreach (var season in Filter.SeasonList.OrderByDescending(s => s.Id))
                                         {
                                             <option value="@season.Id">@season.Name</option>
                                         }
@@ -55,22 +55,23 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>User ID</th>
-                                        <th>Name</th>
-                                        <th>Temporary Vote</th>
-                                        <th>Correct Results Count</th>
-                                        <th>Perfect Results Count</th>
+                                        <th>LP</th>
+                                        <th>Głosujący</th>
+                                        <th>Poprawnych wyników</th>
+                                        <th>Wytypowanych zwycięzców</th>
+                                        <th>Punkty</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var user in TypedUserList)
+                                    @for (var i = 0; i < TypedUserList.Count; i++)
                                     {
+                                        var user = TypedUserList[i];
                                         <tr>
-                                            <td>@user.UserId</td>
+                                            <td>@(i + 1)</td>
                                             <td>@user.FirstName @user.LastName</td>
-                                            <td>@user.TemporaryVote</td>
-                                            <td>@user.CorrectResultsCount</td>
                                             <td>@user.PerfectResultsCount</td>
+                                            <td>@user.CorrectResultsCount</td>
+                                            <td>@user.TemporaryVote</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -103,7 +104,8 @@
         public int SeasonId { get; set; }
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
 
-        public ScheduleFilter() {
+        public ScheduleFilter()
+        {
             SeasonId = 37; // Assume a default or current season
         }
     }
@@ -114,13 +116,6 @@
         TypedUserList = await typedResultService.GetTypedUserDto(Filter.SeasonId);
         pageReady = true;
     }
-
-    // private async Task OnSeasonChanged(ChangeEventArgs e)
-    // {
-    //     var selectedId = Convert.ToInt32(e.Value.ToString());
-    //     Filter.SeasonId = selectedId;
-    //     await ApplyFilter();
-    // }
 
     private async Task ApplyFilter()
     {
@@ -140,10 +135,7 @@
 
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
-        Console.WriteLine(e);
-        Console.Write("Change");
         Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
-        Console.WriteLine(Filter.SeasonId);
         await ApplyFilter();
     });
 }
