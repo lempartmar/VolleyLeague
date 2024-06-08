@@ -127,6 +127,14 @@ namespace VolleyLeague.Client.Blazor.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> RemoveRound(int roundId)
+        {
+            var response = await _httpClient.DeleteAsync($"api/match/deleteround/{roundId}");
+            response.EnsureSuccessStatusCode();
+
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<List<PlayerSummaryDto>> GetPotentialReferees()
         {
             var response = await _httpClient.GetAsync("api/Match/GetPotentialReferees");

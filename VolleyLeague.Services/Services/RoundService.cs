@@ -43,12 +43,13 @@ namespace VolleyLeague.Services.Services
             return roundDtoList;
         }
 
-        public void CreateRound(RoundDto round)
+        public async Task CreateRound(RoundDto round)
         {
             var newRound = _mapper.Map<Round>(round);
             Console.WriteLine(newRound.Name);
 
-            _roundRepository.InsertAsync(newRound);
+            await _roundRepository.InsertAsync(newRound);
+            await _roundRepository.SaveChangesAsync();
         }
 
         public async Task UpdateRound(RoundDto round)
@@ -60,6 +61,7 @@ namespace VolleyLeague.Services.Services
             }
             roundToUpdate.Name = round.Name;
             await _roundRepository.UpdateAsync(roundToUpdate);
+            await _roundRepository.SaveChangesAsync();
         }
 
         public async Task<bool> DeletePosition(int id)

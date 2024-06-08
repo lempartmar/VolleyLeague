@@ -57,6 +57,7 @@ else
                                                 <span>
                                                     <button class="btn btn-primary btn-sm" @onclick="() => ToggleEditSeason(season)">Edytuj</button>
                                                     <button class="btn btn-danger btn-sm" @onclick="() => DeleteSeason(season.Id)">Usuń</button>
+                                                    <button class="btn btn-info btn-sm" @onclick="() => ShowRounds(season.Id)">Zarządzaj kolejkami sezonu</button>
                                                 </span>
                                             </div>
                                             @if (_editingSeasonId == season.Id)
@@ -70,6 +71,46 @@ else
                                                         <button type="submit" class="btn btn-success btn-sm">Zapisz</button>
                                                         <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">Anuluj</button>
                                                     </EditForm>
+                                                </div>
+                                            }
+                                            @if (selectedSeasonId == season.Id && rounds != null)
+                                            {
+                                                <div class="card card-body mt-2">
+                                                    <h4>Kolejki sezonu</h4>
+                                                    <EditForm Model="@newRound" OnValidSubmit="CreateRound">
+                                                        <div class="form-group">
+                                                            <label for="newRoundName">Nazwa kolejki:</label>
+                                                            <InputText id="newRoundName" class="form-control" @bind-Value="newRound.Name" />
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Dodaj Rundę</button>
+                                                    </EditForm>
+                                                    <ul class="list-group mt-2">
+                                                        @foreach (var round in rounds)
+                                                        {
+                                                            <li class="list-group-item">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    @round.Name
+                                                                    <span>
+                                                                        <button class="btn btn-primary btn-sm" @onclick="() => ToggleEditRound(round)">Edytuj</button>
+                                                                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteRound(round.Id)">Usuń</button>
+                                                                    </span>
+                                                                </div>
+                                                                @if (_editingRoundId == round.Id)
+                                                                {
+                                                                    <div class="card card-body mt-2">
+                                                                        <EditForm Model="@round" OnValidSubmit="@(() => SaveRound(round))">
+                                                                            <div class="form-group">
+                                                                                <label for="roundName">Nazwa rundy:</label>
+                                                                                <InputText id="roundName" class="form-control" @bind-Value="round.Name" />
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-success btn-sm">Zapisz</button>
+                                                                            <button class="btn btn-secondary btn-sm" @onclick="() => CancelEditRound()">Anuluj</button>
+                                                                        </EditForm>
+                                                                    </div>
+                                                                }
+                                                            </li>
+                                                        }
+                                                    </ul>
                                                 </div>
                                             }
                                         </li>
@@ -139,7 +180,11 @@ else
     private string seasonsErrorMessage = "";
     private List<SeasonDto> _seasons;
     private int? _editingSeasonId;
+    private int? _editingRoundId;
+    private int? selectedSeasonId;
     private SeasonDto newSeason = new SeasonDto();
+    private RoundDto newRound = new RoundDto();
+    private List<RoundDto> rounds;
 
     private const int PageSize = 7;
     private int _currentPage = 1;
@@ -220,6 +265,11 @@ else
         _editingSeasonId = null;
     }
 
+    private void CancelEditRound()
+    {
+        _editingRoundId = null;
+    }
+
     private void PreviousPage()
     {
         if (_currentPage > 1)
@@ -233,6 +283,59 @@ else
         if (_currentPage < _totalPages)
         {
             _currentPage++;
+        }
+    }
+
+    private async Task ShowRounds(int seasonId)
+    {
+        selectedSeasonId = seasonId;
+        rounds = await seasonService.GetRounds(seasonId);
+    }
+
+    private async Task CreateRound()
+    {
+        try
+        {
+            newRound.SeasonId = selectedSeasonId.Value;
+            await seasonService.CreateRound(newRound);
+            newRound = new RoundDto(); // Resetuj formularz
+            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas tworzenia rundy: {ex.Message}";
+        }
+    }
+
+    private void ToggleEditRound(RoundDto round)
+    {
+        _editingRoundId = _editingRoundId == round.Id ? null : round.Id;
+    }
+
+    private async Task SaveRound(RoundDto round)
+    {
+        try
+        {
+            await seasonService.UpdateRound(round);
+            _editingRoundId = null;
+            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas zapisywania rundy: {ex.Message}";
+        }
+    }
+
+    private async Task DeleteRound(int roundId)
+    {
+        try
+        {
+            await seasonService.DeleteRound(roundId);
+            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+        }
+        catch (Exception ex)
+        {
+            seasonsErrorMessage = $"Błąd podczas usuwania rundy: {ex.Message}";
         }
     }
 }

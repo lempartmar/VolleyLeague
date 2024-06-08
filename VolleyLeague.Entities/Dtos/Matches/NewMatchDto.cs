@@ -21,7 +21,7 @@ namespace VolleyLeague.Entities.Dtos.Matches
         public int VenueId { get; set; }
 
         [Display(Name = "Sektor")]
-        public int Sector { get; set; }
+        public int? Sector { get; set; }
 
         [Display(Name = "Runda")]
         [Range(1, int.MaxValue, ErrorMessage = "Wybierz rundę")]

@@ -6,7 +6,7 @@ namespace VolleyLeague.Services.Interfaces
     {
         Task<List<RoundDto>> GetAllRounds();
 
-        void CreateRound(RoundDto round);
+        Task CreateRound(RoundDto round);
 
         Task UpdateRound(RoundDto round);
 

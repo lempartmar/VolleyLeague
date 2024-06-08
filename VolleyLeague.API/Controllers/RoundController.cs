@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Entities.Dtos.Matches;
+using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Services.Interfaces;
 
 namespace VolleyLeague.API.Controllers
@@ -36,6 +37,13 @@ namespace VolleyLeague.API.Controllers
         public IActionResult CreateSeason([FromBody] RoundDto round)
         {
             _roundService.CreateRound(round);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRound(RoundDto roundDto)
+        {
+            await _roundService.UpdateRound(roundDto);
             return Ok();
         }
 

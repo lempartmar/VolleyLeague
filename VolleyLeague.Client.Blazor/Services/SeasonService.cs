@@ -14,6 +14,9 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task CreateSeason(SeasonDto season);
         public Task UpdateSeason(SeasonDto season);
         public Task DeleteSeason(int seasonId);
+        public Task CreateRound(RoundDto round); // Dodano metodę
+        public Task UpdateRound(RoundDto round); // Dodano metodę
+        public Task DeleteRound(int roundId); // Dodano metodę
     }
 
     public class SeasonService : ISeasonService
@@ -27,7 +30,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<List<RoundDto>> GetRounds()
         {
-            var response = await httpClient.GetAsync("api/round");
+            var response = await httpClient.GetAsync("api/round/GetAllRounds");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -38,7 +41,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<List<RoundDto>> GetRounds(int seasonId)
         {
-            var response = await httpClient.GetAsync($"api/round?seasonId={seasonId}");
+            var response = await httpClient.GetAsync($"api/round/GetRoundsBySeasonId/{seasonId}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -90,6 +93,30 @@ namespace VolleyLeague.Client.Blazor.Services
         public async Task DeleteSeason(int seasonId)
         {
             var response = await httpClient.DeleteAsync($"api/Season/{seasonId}");
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task CreateRound(RoundDto round)
+        {
+            var roundJson = JsonSerializer.Serialize(round);
+            var content = new StringContent(roundJson, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("api/round/CreateRound", content);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateRound(RoundDto round)
+        {
+            var roundJson = JsonSerializer.Serialize(round);
+            var content = new StringContent(roundJson, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PutAsync($"api/round/{round.Id}", content);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteRound(int roundId)
+        {
+            var response = await httpClient.DeleteAsync($"api/round/{roundId}");
             response.EnsureSuccessStatusCode();
         }
     }
