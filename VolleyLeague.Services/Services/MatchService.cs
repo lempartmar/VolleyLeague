@@ -288,53 +288,51 @@ namespace VolleyLeague.Services.Services
 
         public async Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId)
         {
-            var matchesDto = await _teamRepository.GetAll()
+            var matches = await _matchRepository.GetAll()
                 .Include(m => m.League)
-                .Include(m => m.GuestMatches)
-                    .ThenInclude(m => m.Round)
-                    .ThenInclude(r => r.Season)
-                .Include(m => m.HomeMatches)
-                    .ThenInclude(m => m.Round)
-                    .ThenInclude(r => r.Season)
-                .Where(m => m.LeagueId == leagueId)
+                .Include(m => m.HomeTeam)
+                .Include(m => m.GuestTeam)
+                .Include(m => m.Round)
+                .Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId)
                 .ToListAsync();
 
-            List<StandingsDto> standings = new List<StandingsDto>();
+            var teams = matches.SelectMany(m => new[] { m.HomeTeam, m.GuestTeam }).Distinct();
+            var standings = new List<StandingsDto>();
 
-            foreach (var team in matchesDto)
+            foreach (var team in teams)
             {
-                StandingsDto standingsDto = new StandingsDto();
-                standingsDto.Team = _mapper.Map<TeamSummaryDto>(team);
-                standingsDto.Team.Logo = team.Logo; 
-                standingsDto.Team.Id = team.Id;
-                standingsDto.Team.Name = team.Name;
-                standingsDto.Team.LeagueId = team.LeagueId;
-                List<Match> matchesHome = team.HomeMatches.Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId).ToList();
-                List<Match> matchesGuest = team.GuestMatches.Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId).ToList();
-                List<Match> combinedMatches = matchesHome.Concat(matchesGuest).ToList();
-                IEnumerable<Match> matches = team.HomeMatches.Concat(team.GuestMatches).Where(m => m.Round.SeasonId == seasonId);
-                standingsDto.MatchesPlayed = combinedMatches.Count();
-                standingsDto.MatchesWon = CalculateTotalHostWins(matchesHome) + CalculateTotalGuestWins(matchesGuest);
-                standingsDto.MatchesWon = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score > m.Team2Score || m.GuestTeamId == team.Id && m.Team2Score > m.Team1Score);
-                standingsDto.MatchesLost = standingsDto.MatchesPlayed - standingsDto.MatchesWon;
-                standingsDto.SetsWon = matches.Sum(m => m.HomeTeamId == team.Id ? m.Team1Score : m.Team2Score);
-                standingsDto.SetsLost = matches.Sum(m => m.HomeTeamId == team.Id ? m.Team2Score : m.Team1Score);
-                standingsDto.PointsWon = matches.Sum(m => m.HomeTeamId == team.Id ?
-                (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0) :
-                (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0));
-                standingsDto.PointsLost = matches.Sum(m => m.HomeTeamId == team.Id ?
-                    (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0) :
-                    (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0));
-                standingsDto.SetsRatio = (double)standingsDto.SetsWon / (double)(standingsDto.SetsLost == 0 ? 1 : standingsDto.SetsLost);
-                standingsDto.BallsRatio = (double)standingsDto.PointsWon / (double)(standingsDto.PointsLost == 0 ? 1 : standingsDto.PointsLost);
-                standingsDto.Score3_0 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 0 || m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 0);
-                standingsDto.Score3_1 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 1 || m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 1);
-                standingsDto.Score3_2 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 2 || m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 2);
-                standingsDto.Score2_3 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 2 && m.Team2Score == 3 || m.GuestTeamId == team.Id && m.Team2Score == 2 && m.Team1Score == 3);
-                standingsDto.Score1_3 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 1 && m.Team2Score == 3 || m.GuestTeamId == team.Id && m.Team2Score == 1 && m.Team1Score == 3);
-                standingsDto.Score0_3 = matches.Count(m => m.HomeTeamId == team.Id && m.Team1Score == 0 && m.Team2Score == 3 || m.GuestTeamId == team.Id && m.Team2Score == 0 && m.Team1Score == 3);
-                standingsDto.Points = CalculateVolleyballPoints(matchesHome, matchesGuest);
-                //var teamStandings = _mapper.Map<StandingsDto>(team);
+                var matchesHome = matches.Where(m => m.HomeTeamId == team.Id).ToList();
+                var matchesGuest = matches.Where(m => m.GuestTeamId == team.Id).ToList();
+                var combinedMatches = matchesHome.Concat(matchesGuest).ToList();
+
+                var setsWon = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? m.Team1Score : m.Team2Score);
+                var setsLost = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? m.Team2Score : m.Team1Score);
+                var pointsWon = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0) : (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0));
+                var pointsLost = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0) : (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0));
+
+                var standingsDto = new StandingsDto
+                {
+                    Team = _mapper.Map<TeamSummaryDto>(team),
+                    MatchesPlayed = combinedMatches.Count(),
+                    MatchesWon = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score > m.Team2Score) || (m.GuestTeamId == team.Id && m.Team2Score > m.Team1Score)),
+                    MatchesLost = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score < m.Team2Score) || (m.GuestTeamId == team.Id && m.Team2Score < m.Team1Score)),
+                    SetsWon = setsWon,
+                    SetsLost = setsLost,
+                    PointsWon = pointsWon,
+                    PointsLost = pointsLost,
+                    SetsRatio = (double)setsWon / (setsLost == 0 ? 1 : setsLost),
+                    BallsRatio = (double)pointsWon / (pointsLost == 0 ? 1 : pointsLost),
+                    Score3_0 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 0) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 0)),
+                    Score3_1 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 1) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 1)),
+                    Score3_2 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 2) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 2)),
+                    Score2_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 2 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 2 && m.Team1Score == 3)),
+                    Score1_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 1 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 1 && m.Team1Score == 3)),
+                    Score0_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 0 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 0 && m.Team1Score == 3)),
+                    Points = CalculateVolleyballPoints(matchesHome, matchesGuest)
+                };
+
+                standingsDto.Team.Logo = team.Logo;
+
                 standings.Add(standingsDto);
             }
 
@@ -342,6 +340,7 @@ namespace VolleyLeague.Services.Services
 
             return standingsToReturn;
         }
+
 
         private int CalculateTotalHostWins(IEnumerable<Match> matches)
         {
