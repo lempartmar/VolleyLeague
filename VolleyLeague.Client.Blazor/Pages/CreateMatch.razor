@@ -9,7 +9,6 @@
 @inject ITeamService teamService
 @inject NavigationManager NavigationManager
 
-
 <section class="category_section" style="margin-top: 60px;">
     <div class="container" style="display:flex; justify-content: center">
         <div class="row" style="width: 75%;">
@@ -32,7 +31,7 @@
                         <div class="form-group">
                             <label for="RoundSelect">Runda:</label>
                             <Select value="@NewMatch.RoundId" @onchange="OnRoundChanged" class="form-control">
-                                @foreach (var round in NewMatch.SpecificRound)
+                                @foreach (var round in NewMatch.RoundList)
                                 {
                                     <option value="@round.Id">@round.Name</option>
                                 }
@@ -113,7 +112,6 @@
                     }
                 }
             </div>
-
         </div>
     </div>
 </section>
@@ -132,32 +130,42 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var seasonsResult = await matchOrganizerService.GetSeasons();
+        try
+        {
+            var seasonsResult = await matchOrganizerService.GetSeasons();
+            NewMatch.SeasonList = seasonsResult;
+            NewMatch.SeasonId = NewMatch.SeasonList.FirstOrDefault()?.Id ?? 0;
 
-        NewMatch.SeasonList = seasonsResult;
+            var roundsResult = await matchOrganizerService.GetRounds();
+            AllRounds = roundsResult;
+            NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == NewMatch.SeasonId).ToList();
+            NewMatch.RoundId = NewMatch.RoundList.FirstOrDefault()?.Id ?? 0;
 
-        var roundsResult = await matchOrganizerService.GetRounds();
-        AllRounds = roundsResult;
-        NewMatch.RoundList = AllRounds.ToList();
+            var leaguesResult = await matchOrganizerService.GetLeagues();
+            NewMatch.LeagueList = leaguesResult;
+            NewMatch.LeagueId = NewMatch.LeagueList.FirstOrDefault()?.Id ?? 0;
 
-        var leaguesResult = await matchOrganizerService.GetLeagues();
-        NewMatch.LeagueList = leaguesResult;
-        NewMatch.LeagueId = NewMatch.LeagueList.First().Id;
+            var refereesResult = await matchOrganizerService.GetReferees();
+            NewMatch.RefereeList = refereesResult;
 
-        var refereesResult = await matchOrganizerService.GetReferees();
-        NewMatch.RefereeList = refereesResult;
+            var teamsResult = await teamService.GetAllTeams();
+            AllTeams = teamsResult;
+            NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
+            NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
 
-        var teamsResult = await teamService.GetAllTeams();
-        var venueResult = await matchOrganizerService.GetVenues();
-        NewMatch.VenueList = venueResult;
+            NewMatch.GuestTeamList = NewMatch.HomeTeamList.Where(t => t.Id != NewMatch.HomeTeamId).ToList();
+            NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
 
-        NewMatch.AllTeamList = teamsResult;
-        var guestTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
-        NewMatch.GuestTeamList = guestTeamList;
-        NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
-        NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
-        NewMatch.GuestTeamId = NewMatch.GuestTeamList.ElementAtOrDefault(1)?.Id ?? 0;
-        pageReady = true;
+            var venueResult = await matchOrganizerService.GetVenues();
+            NewMatch.VenueList = venueResult;
+            NewMatch.VenueId = NewMatch.VenueList.FirstOrDefault()?.Id ?? 0;
+
+            pageReady = true;
+        }
+        catch (Exception ex)
+        {
+            loadingError = $"Błąd podczas ładowania danych: {ex.Message}";
+        }
     }
 
     public async Task OnSubmit()
@@ -176,55 +184,58 @@
 
         var submitResult = await matchOrganizerService.CreateMatch(NewMatchDto);
 
-        // NavigationManager.NavigateTo("/matches");
+        if (submitResult)
+        {
+            NavigationManager.NavigateTo("/matches");
+        }
+        else
+        {
+            submitError = "Wystąpił błąd podczas tworzenia meczu.";
+        }
 
         submitLoading = false;
     }
 
-    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnSeasonChanged(ChangeEventArgs e)
     {
         NewMatch.SeasonId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.SeasonId = Convert.ToInt32(e.Value.ToString());
-    });
+        NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == NewMatch.SeasonId).ToList();
+        NewMatch.RoundId = NewMatch.RoundList.FirstOrDefault()?.Id ?? 0;
+    }
 
-    private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnLeagueChanged(ChangeEventArgs e)
     {
         NewMatch.LeagueId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.LeagueId = Convert.ToInt32(e.Value.ToString());
-    });
+        NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
+        NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
+        NewMatch.GuestTeamList = NewMatch.HomeTeamList.Where(t => t.Id != NewMatch.HomeTeamId).ToList();
+        NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+    }
 
-    private EventCallback<ChangeEventArgs> OnGuestTeamChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnGuestTeamChanged(ChangeEventArgs e)
     {
         NewMatch.GuestTeamId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.GuestTeamId = Convert.ToInt32(e.Value.ToString());
-    });
+    }
 
-    private EventCallback<ChangeEventArgs> OnHomeTeamChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnHomeTeamChanged(ChangeEventArgs e)
     {
         NewMatch.HomeTeamId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.HomeTeamId = Convert.ToInt32(e.Value.ToString());
-    });
+        NewMatch.GuestTeamList = NewMatch.HomeTeamList.Where(t => t.Id != NewMatch.HomeTeamId).ToList();
+        NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+    }
 
-    private EventCallback<ChangeEventArgs> OnRoundChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnRoundChanged(ChangeEventArgs e)
     {
         NewMatch.RoundId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.RoundId = Convert.ToInt32(e.Value.ToString());
-    });
+    }
 
-    private EventCallback<ChangeEventArgs> OnRefereeChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnRefereeChange(ChangeEventArgs e)
     {
         NewMatch.RefereeId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.RefereeId = Convert.ToInt32(e.Value.ToString());
-    });
+    }
 
-    private EventCallback<ChangeEventArgs> OnVenueChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
+    private async Task OnVenueChange(ChangeEventArgs e)
     {
         NewMatch.VenueId = Convert.ToInt32(e.Value.ToString());
-        NewMatchDto.VenueId = Convert.ToInt32(e.Value.ToString());
-    });
-
-    private EventCallback<ChangeEventArgs> OnDateChange => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
-    {
-        NewMatch.Schedule = DateTime.Parse(e.Value.ToString());
-    });
+    }
 }
