@@ -41,5 +41,26 @@ namespace VolleyLeague.API.Controllers
             await _seasonService.UpdateSeason(updatedSeason);
             return Ok();
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSeason(int id)
+        {
+            try
+            {
+                await _seasonService.DeleteSeason(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting season");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 }

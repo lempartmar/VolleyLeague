@@ -14,13 +14,16 @@ namespace VolleyLeague.Services.Services
         private readonly ILogger<SeasonService> _logger;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Season> _seasonRepository;
+
         public SeasonService(
             IMapper mapper,
-            IBaseRepository<Season> seasonRepository
-            )
+            IBaseRepository<Season> seasonRepository,
+            ILogger<SeasonService> logger
+        )
         {
             _mapper = mapper;
             _seasonRepository = seasonRepository;
+            _logger = logger;
         }
 
         public async Task<List<SeasonDto>> GetAllSeasons()
@@ -48,6 +51,17 @@ namespace VolleyLeague.Services.Services
             }
             seasonToUpdate.Name = season.Name;
             await _seasonRepository.UpdateAsync(seasonToUpdate);
+            await _seasonRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteSeason(int seasonId)
+        {
+            var seasonToDelete = await _seasonRepository.GetById(seasonId);
+            if (seasonToDelete == null)
+            {
+                throw new KeyNotFoundException(ServicesConsts.League_not_found);
+            }
+            await _seasonRepository.Delete(seasonToDelete);
         }
     }
 }

@@ -9,5 +9,7 @@ namespace VolleyLeague.Services.Interfaces
         Task CreateSeason(SeasonDto season);
 
         Task UpdateSeason(SeasonDto season);
+
+        Task DeleteSeason(int seasonId);
     }
 }
