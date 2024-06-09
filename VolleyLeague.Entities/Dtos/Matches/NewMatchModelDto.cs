@@ -1,4 +1,5 @@
-﻿using VolleyLeague.Entities.Dtos.Teams;
+﻿using System.ComponentModel.DataAnnotations;
+using VolleyLeague.Entities.Dtos.Teams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace VolleyLeague.Entities.Dtos.Matches
         private int leagueId;
         private int seasonId;
 
+        [Required(ErrorMessage = "Sezon jest wymagany.")]
         public int SeasonId
         {
             get => seasonId;
@@ -31,12 +33,14 @@ namespace VolleyLeague.Entities.Dtos.Matches
             }
         }
 
+        [Required(ErrorMessage = "Runda jest wymagana.")]
         public int RoundId
         {
             get => roundId;
             set => roundId = value;
         }
 
+        [Required(ErrorMessage = "Liga jest wymagana.")]
         public int LeagueId
         {
             get => leagueId;
@@ -50,7 +54,20 @@ namespace VolleyLeague.Entities.Dtos.Matches
             }
         }
 
+        [Required(ErrorMessage = "Data i czas są wymagane.")]
         public DateTime Schedule { get; set; } = DateTime.Now;
+
+        [Required(ErrorMessage = "Miejsce meczu jest wymagane.")]
+        public int VenueId { get; set; }
+
+        [Required(ErrorMessage = "Sędzia jest wymagany.")]
+        public int RefereeId { get; set; }
+
+        [Required(ErrorMessage = "Drużyna gospodarzy jest wymagana.")]
+        public int HomeTeamId { get; set; }
+
+        [Required(ErrorMessage = "Drużyna gości jest wymagana.")]
+        public int GuestTeamId { get; set; }
 
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
         public List<VenueDto> VenueList { get; set; } = new List<VenueDto>();

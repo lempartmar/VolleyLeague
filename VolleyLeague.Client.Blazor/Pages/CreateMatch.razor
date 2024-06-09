@@ -17,80 +17,92 @@
 
                 @if (pageReady)
                 {
-                    <EditForm Model="NewMatch" OnSubmit="OnSubmit">
+                    <EditForm Model="NewMatch" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
                         <div class="form-group">
                             <label for="seasonSelect">Sezon:</label>
-                            <Select value="@NewMatch.SeasonId" @onchange="OnSeasonChanged" class="form-control">
+                            <Select id="seasonSelect" value="@NewMatch.SeasonId" @onchange="OnSeasonChanged" class="form-control">
                                 @foreach (var season in NewMatch.SeasonList)
                                 {
                                     <option value="@season.Id">@season.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.SeasonId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="RoundSelect">Runda:</label>
-                            <Select value="@NewMatch.RoundId" @onchange="OnRoundChanged" class="form-control">
+                            <Select id="RoundSelect" value="@NewMatch.RoundId" @onchange="OnRoundChanged" class="form-control">
                                 @foreach (var round in NewMatch.RoundList)
                                 {
                                     <option value="@round.Id">@round.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.RoundId)" />
                         </div>
+
                         <div class="form-group">
                             <label for="leagueSelect">Liga:</label>
-                            <Select value="@NewMatch.LeagueId" @onchange="OnLeagueChanged" class="form-control">
+                            <Select id="leagueSelect" value="@NewMatch.LeagueId" @onchange="OnLeagueChanged" class="form-control">
                                 @foreach (var league in NewMatch.LeagueList)
                                 {
                                     <option value="@league.Id">@league.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.LeagueId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="HomeTeam">Drużyna gospodarzy</label>
-                            <Select value="@NewMatch.HomeTeamId" @onchange="OnHomeTeamChanged" class="form-control">
+                            <Select id="HomeTeam" value="@NewMatch.HomeTeamId" @onchange="OnHomeTeamChanged" class="form-control">
                                 @foreach (var team in NewMatch.HomeTeamList)
                                 {
                                     <option value="@team.Id">@team.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.HomeTeamId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="GuestTeam">Drużyna gości</label>
-                            <Select value="@NewMatch.GuestTeamId" @onchange="OnGuestTeamChanged" class="form-control">
+                            <Select id="GuestTeam" value="@NewMatch.GuestTeamId" @onchange="OnGuestTeamChanged" class="form-control">
                                 @foreach (var team in NewMatch.GuestTeamList)
                                 {
                                     <option value="@team.Id">@team.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.GuestTeamId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="Referees">Sędzia</label>
-                            <Select value="@NewMatch.RefereeId" @onchange="OnRefereeChange" class="form-control">
+                            <Select id="Referees" value="@NewMatch.RefereeId" @onchange="OnRefereeChange" class="form-control">
                                 @foreach (var referee in NewMatch.RefereeList)
                                 {
                                     <option value="@referee.Id">@referee.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.RefereeId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="Venues">Miejsce Meczu</label>
-                            <Select value="@NewMatch.VenueId" @onchange="OnVenueChange" class="form-control">
+                            <Select id="Venues" value="@NewMatch.VenueId" @onchange="OnVenueChange" class="form-control">
                                 @foreach (var venue in NewMatch.VenueList)
                                 {
                                     <option value="@venue.Id">@venue.Name</option>
                                 }
                             </Select>
+                            <ValidationMessage For="@(() => NewMatch.VenueId)" />
                         </div>
 
                         <div class="form-group">
                             <label for="scheduleDateTime">Data i czas:</label>
                             <input type="datetime-local" id="scheduleDateTime" class="form-control"
                                    @bind="NewMatch.Schedule" />
+                            <ValidationMessage For="@(() => NewMatch.Schedule)" />
                         </div>
 
                         <div style="display: flex; justify-content: center;">
@@ -168,7 +180,7 @@
         }
     }
 
-    public async Task OnSubmit()
+    private async Task HandleValidSubmit()
     {
         submitLoading = true;
 
@@ -186,7 +198,7 @@
 
         if (submitResult)
         {
-            NavigationManager.NavigateTo("/matches");
+            NavigationManager.NavigateTo("/createMatch");
         }
         else
         {
@@ -194,6 +206,11 @@
         }
 
         submitLoading = false;
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        // Handle invalid form submission
     }
 
     private async Task OnSeasonChanged(ChangeEventArgs e)
