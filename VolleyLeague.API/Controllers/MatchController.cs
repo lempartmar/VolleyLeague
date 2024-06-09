@@ -74,6 +74,17 @@ namespace VolleyLeague.API.Controllers
             return  Ok(result);
         }
 
+        [HttpGet("GetTeamsInRound/{roundId}")]
+        public async Task<IActionResult> GetTeamsInRound(int roundId)
+        {
+            var matches = await _matchService.GetMatchesByRoundId(roundId);
+            var teamsInRound = matches
+                .SelectMany(m => new[] { m.HomeTeamId, m.GuestTeamId })
+                .Distinct()
+                .ToList();
+            return Ok(teamsInRound);
+        }
+
         [HttpGet("GetReferees")]
         public async Task<IActionResult> GetReferees()
         {

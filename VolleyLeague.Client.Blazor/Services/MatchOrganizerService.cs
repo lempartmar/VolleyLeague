@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Dtos.Teams;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace VolleyLeague.Client.Blazor.Services
 {
@@ -17,6 +18,7 @@ namespace VolleyLeague.Client.Blazor.Services
         Task<MatchDto> GetMatch(int matchId);
         Task<bool> CreateMatch(NewMatchDto match);
         Task<bool> UpdateMatch(ManageMatchDto match);
+        Task<List<int>> GetTeamsInRound(int roundId);
     }
 
     public class MatchOrganizerService : IMatchOrganizerService
@@ -69,5 +71,14 @@ namespace VolleyLeague.Client.Blazor.Services
             var response = await httpClient.PutAsJsonAsync("api/match", match);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<List<int>> GetTeamsInRound(int roundId)
+        {
+            var response = await httpClient.GetAsync($"api/match/GetTeamsInRound/{roundId}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<int>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
     }
 }

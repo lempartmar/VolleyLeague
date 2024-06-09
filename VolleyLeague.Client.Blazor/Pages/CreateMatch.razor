@@ -162,11 +162,7 @@
 
             var teamsResult = await teamService.GetAllTeams();
             AllTeams = teamsResult;
-            NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
-            NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
-
-            NewMatch.GuestTeamList = NewMatch.HomeTeamList.Where(t => t.Id != NewMatch.HomeTeamId).ToList();
-            NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+            await LoadTeamsForRound();
 
             var venueResult = await matchOrganizerService.GetVenues();
             NewMatch.VenueList = venueResult;
@@ -208,6 +204,20 @@
         submitLoading = false;
     }
 
+    private async Task LoadTeamsForRound()
+    {
+        var teamsInRound = await matchOrganizerService.GetTeamsInRound(NewMatch.RoundId);
+        var teamsInRoundSet = new HashSet<int>(teamsInRound);
+        NewMatch.HomeTeamList = AllTeams
+            .Where(t => t.LeagueId == NewMatch.LeagueId && !teamsInRoundSet.Contains(t.Id))
+            .ToList();
+        NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
+        NewMatch.GuestTeamList = NewMatch.HomeTeamList
+            .Where(t => t.Id != NewMatch.HomeTeamId)
+            .ToList();
+        NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+    }
+
     private void HandleInvalidSubmit()
     {
         // Handle invalid form submission
@@ -218,15 +228,13 @@
         NewMatch.SeasonId = Convert.ToInt32(e.Value.ToString());
         NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == NewMatch.SeasonId).ToList();
         NewMatch.RoundId = NewMatch.RoundList.FirstOrDefault()?.Id ?? 0;
+        await LoadTeamsForRound();
     }
 
     private async Task OnLeagueChanged(ChangeEventArgs e)
     {
         NewMatch.LeagueId = Convert.ToInt32(e.Value.ToString());
-        NewMatch.HomeTeamList = AllTeams.Where(t => t.LeagueId == NewMatch.LeagueId).ToList();
-        NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
-        NewMatch.GuestTeamList = NewMatch.HomeTeamList.Where(t => t.Id != NewMatch.HomeTeamId).ToList();
-        NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
+        await LoadTeamsForRound();
     }
 
     private async Task OnGuestTeamChanged(ChangeEventArgs e)
@@ -244,6 +252,7 @@
     private async Task OnRoundChanged(ChangeEventArgs e)
     {
         NewMatch.RoundId = Convert.ToInt32(e.Value.ToString());
+        await LoadTeamsForRound();
     }
 
     private async Task OnRefereeChange(ChangeEventArgs e)

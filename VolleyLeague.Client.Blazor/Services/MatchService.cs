@@ -1,6 +1,7 @@
 ﻿using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Dtos.Teams;
 using System.Text.Json;
+using VolleyLeague.Entities.Models;
 
 namespace VolleyLeague.Client.Blazor.Services
 {
@@ -19,7 +20,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int leagueId, int roundId);
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int teamId);
         public Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
-
+        Task<List<int>> GetTeamsInRound(int roundId);
         Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId);
     }
     public class MatchService : IMatchService
@@ -200,6 +201,14 @@ namespace VolleyLeague.Client.Blazor.Services
             var standings = JsonSerializer.Deserialize<List<StandingsDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return standings;
+        }
+
+        public async Task<List<int>> GetTeamsInRound(int roundId)
+        {
+            var response = await _httpClient.GetAsync($"api/match/GetTeamsInRound/{roundId}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<int>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

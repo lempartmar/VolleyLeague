@@ -1,5 +1,6 @@
 ﻿using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Dtos.Teams;
+using VolleyLeague.Entities.Models;
 
 namespace VolleyLeague.Services.Interfaces
 {
@@ -30,6 +31,8 @@ namespace VolleyLeague.Services.Interfaces
         Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
 
         Task<List<MatchSummaryDto>> GetLast10Matches();
+
+        Task<List<Match>> GetMatchesByRoundId(int roundId);
 
         Task<bool> AddReferee(int userId);
 

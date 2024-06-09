@@ -62,6 +62,13 @@ namespace VolleyLeague.Services.Services
             return true;
         }
 
+        public async Task<List<Match>> GetMatchesByRoundId(int roundId)
+        {
+            return await _matchRepository.GetAll()
+                .Where(m => m.RoundId == roundId)
+                .ToListAsync();
+        }
+
         public async Task<MatchDto> GetMatchByIdAsync(int id)
         {
             var match = await _matchRepository.GetAll()
