@@ -499,6 +499,7 @@ namespace VolleyLeague.Services.Services
         public async Task AddMatch(NewMatchDto match)
         {
             var newMatchEntity = _mapper.Map<Match>(match);
+            newMatchEntity.CreationDate = DateTime.Now;
             await _matchRepository.InsertAsync(newMatchEntity);
             await _matchRepository.SaveChangesAsync();
             var homeTeam = _teamRepository.GetAll().Where(x => x.Id == match.HomeTeamId).FirstOrDefault();
