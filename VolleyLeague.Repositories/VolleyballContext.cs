@@ -43,8 +43,6 @@ public partial class VolleyballContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-   
-
     public virtual DbSet<League> Leagues { get; set; }
 
     public virtual DbSet<Log> Logs { get; set; }
@@ -55,28 +53,19 @@ public partial class VolleyballContext : DbContext
 
     public virtual DbSet<CommentLocation> CommentLocations { get; set; }
 
-
-
     public virtual DbSet<SportsVenue> SportsVenues { get; set; }
 
     public virtual DbSet<Position> Positions { get; set; }
 
-
-
     public virtual DbSet<Season> Seasons { get; set; }
-
 
     public virtual DbSet<ForumTopic> ForumTopics { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-
-
     public virtual DbSet<TypedResult> TypedResults { get; set; }
 
     public virtual DbSet<Invitation> Invitations { get; set; }
-
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -254,6 +243,5 @@ public partial class VolleyballContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
