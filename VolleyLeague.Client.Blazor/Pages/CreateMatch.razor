@@ -12,11 +12,11 @@
 <section class="category_section" style="margin-top: 60px;">
     <div class="container" style="display:flex; justify-content: center">
         <div class="row" style="width: 75%;">
-            <div class="">
-                <h1 style="text-align: center;">Tworzenie meczu</h1>
+
 
                 @if (pageReady)
                 {
+                    <h1 style="text-align: center;">Tworzenie meczu</h1>
                     <EditForm Model="NewMatch" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
@@ -120,12 +120,13 @@
                     }
                     else
                     {
-                        <p>Ładowanie...</p>
+                        <div class="d-flex justify-content-center">
+                            <div id="spinner"></div>
+                        </div>
                     }
                 }
             </div>
         </div>
-    </div>
 </section>
 
 @code {
