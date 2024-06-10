@@ -1,0 +1,236 @@
+﻿@using VolleyLeague.Client.Blazor.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using VolleyLeague.Client.Blazor.Authentication
+@using VolleyLeague.Client.Blazor.Shared.Dtos
+@using static VolleyLeague.Client.Blazor.Services.AccountService
+@using System.Net.Http.Headers
+@using System.Globalization
+@using VolleyLeague.Entities.Dtos.Teams
+@inject AuthenticationStateProvider authStateProvider
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject IUserService userService
+@inject ITeamService teamService
+
+<section id="header_section_wrapper" class="header_section_wrapper">
+    <div class="container">
+        <div class="header-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="left_section">
+                        <span class="date">
+                            @GetDayName(DateTime.Now) .
+                        </span>
+                        <!-- Date -->
+                        <span class="time">
+                            @GetFormattedDate(DateTime.Now)
+                        </span>
+                        <!-- Top Social Section -->
+                    </div>
+                    <!-- Left Header Section -->
+                </div>
+                <div class="col-md-4">
+                    <div class="logo">
+                        <a href="/"><img src="assets/img/LigaSiatkowkiNew.png" alt="Tech NewsLogo"></a>
+                    </div>
+                    <!-- Logo Section -->
+                </div>
+                <div class="col-md-4">
+                    <div class="right_section">
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <ul class="nav navbar-nav">
+                                    <li><a href="/login">Zaloguj się</a></li>
+                                    <li><a href="/register">Zarejestruj się</a></li>
+                                </ul>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView>
+                            <Authorized>
+                                <ul class="nav navbar-nav">
+                                    <li><a>Zalogowany </a></li>
+                                    <li><button class="btn btn-link nav-link" @onclick="Logout">Wyloguj</button></li>
+                                </ul>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                    <!-- Right Header Section -->
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-section">
+            <nav class="navbar m-menu navbar-default">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav main-nav">
+                            <li>
+                                <NavLink class="active" href="/">Strona Główna</NavLink>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Wyniki <span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                    <li><NavLink href="/standings" style="color: inherit; font-weight: bold; background: none; border: none;">Tabele</NavLink></li>
+                                    <li><NavLink href="/mvp" style="color: inherit; background: none; font-weight: bold; border: none;">MVP</NavLink></li>
+                                    <li><NavLink href="/typedResults" style="color: inherit; background: none; font-weight: bold; border: none;">Typowane wyniki</NavLink></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/schedule">Terminarz</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/teams-list">Zespoły</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/policy">Liga</NavLink>
+                            </li>
+                            <li>
+                                <NavLink class="active" href="/contact">Kontakt</NavLink>
+                            </li>
+                            <ul class="nav navbar-nav" style="width: 100%;margin-left: auto;margin-right: auto;display: flex;justify-content: center;">
+                            <AuthorizeView Roles="Player">
+                                <Authorized>
+                                        @if (!IsAdmin)
+                                        {
+                                            <li><NavLink href=@{"/user-profile/" + @playerSummary.Id}>Profil</NavLink></li>
+                                            <li><NavLink href=@{
+                                                "/edit-profile/" + @playerSummary.Id
+                                                            }>Edytuj profil</NavLink></li>
+
+                                            @if (HasTeam)
+                                            {
+                                                <li><NavLink href="/manageTeam">Zarządzaj drużyną</NavLink></li>
+                                            }
+                                            else
+                                            {
+                                                <li><NavLink href="/createteam">Stwórz drużynę</NavLink></li>
+                                            }
+                                            <li><NavLink href="/change-password">Zmiana hasła</NavLink></li>
+                                        }else{
+                                                               <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Użytkownikiem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                        <li><NavLink href="/createteam" style="color: inherit; font-weight: bold; background: none; border: none;">Stwórz drużynę</NavLink></li>
+                                        <li><NavLink href="/change-password" style="color: inherit; font-weight: bold; background: none; border: none;">Zmiana hasła</NavLink></li>
+                                        <li><NavLink href=@{
+                                        "/user-profile/" + playerSummary.Id
+                                        } style="color: inherit; font-weight: bold; background: none; border: none;">Profil Użytkownika</NavLink></li>
+                                        </ul>
+                                        </li>
+                                        }
+                                </Authorized>
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Admin">
+                                <Authorized>
+@*                                     <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Użytkownikiem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/createteam" style="color: inherit; font-weight: bold; background: none; border: none;">Stwórz drużynę</NavLink></li>
+                                            <li><NavLink href="/change-password" style="color: inherit; font-weight: bold; background: none; border: none;">Zmiana hasła</NavLink></li>
+                                            <li><NavLink href=@{
+                                                    "/user-profile/" + playerSummary.Id
+} style="color: inherit; font-weight: bold; background: none; border: none;">Profil Użytkownika</NavLink></li>
+                                        </ul>
+                                    </li> *@
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Meczem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/referees" style="color: inherit; font-weight: bold; background: none; border: none;">Zarządzaj Sędziami</NavLink></li>
+                                            <li><NavLink href="/handleseason" style="color: inherit; font-weight: bold; background: none; border: none;">Zarządzaj Sezonami</NavLink></li>
+                                            <li><NavLink href="/createMatch" style="color: inherit; font-weight: bold; background: none; border: none;">Dodaj mecz</NavLink></li>
+                                            <li><NavLink href="/manageTeams" style="color: inherit; font-weight: bold; background: none; border: none;">Zarządzaj drużynami</NavLink></li>                 
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #333; background: none; border: none; box-shadow: none;">Zarządzanie Portalem <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" style="border: none; box-shadow: none; color: #333;">
+                                            <li><NavLink href="/addArticle" style="color: inherit; font-weight: bold; background: none; border: none;">Dodaj Artykuł</NavLink></li>
+                                        </ul>
+                                    </li>
+                                </Authorized>
+                            </AuthorizeView>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+                <!-- .container -->
+            </nav>
+            <!-- .nav -->
+        </div>
+        <!-- .navigation-section -->
+    </div>
+    <!-- .container -->
+</section>
+
+<style>
+    .nav-item.nav-user {
+        color: #7d7d7d;
+        text-decoration: none;
+        font-size: 9px;
+    }
+</style>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private bool HasTeam { get; set; } = false;
+    PlayerSummaryDto playerSummary = new PlayerSummaryDto();
+    private bool IsPlayer { get; set; }
+    private bool IsAdmin { get; set; }
+
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        Console.WriteLine(user);
+
+        if (user.Identity.IsAuthenticated)
+        {
+
+            IsPlayer = user.IsInRole("Player");
+            IsAdmin = user.IsInRole("Admin");
+
+            Console.WriteLine($"User: {user.Identity.Name}");
+            var roles = user.FindAll("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(c => c.Value);
+            foreach (var role in roles)
+            {
+                Console.WriteLine($"Role: {role}");
+            }
+            playerSummary = await userService.GetUserSummary();
+            HasTeam = await userService.IsTeamCaptain();
+        }
+    }
+
+    public async void Logout()
+    {
+        await localStorage.RemoveItemAsync("token");
+        ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+        NavigationManager.NavigateTo("/");
+    }
+
+    private string GetDayName(DateTime date)
+    {
+        return date.ToString("dddd", new CultureInfo("pl-PL"));
+    }
+
+    private string GetFormattedDate(DateTime date)
+    {
+        return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
+    }
+}

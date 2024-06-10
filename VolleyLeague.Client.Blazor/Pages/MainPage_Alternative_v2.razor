@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/main-page-alternative2"
 @using Blazored.LocalStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.IdentityModel.Tokens.Jwt
@@ -31,6 +31,35 @@ else
                     <div class="category_section mobile">
                         <div class="article_title header_purple">
                             <h2><a href="category.html" target="_self">Informacje</a></h2>
+                        </div>
+                        <div class="category_article_wrapper">
+                            <div class="row">
+                                @if (_articles != null && _articles.Any())
+                                {
+                                    var article = _articles.First();
+                                    string imageBase64 = Convert.ToBase64String(article.Image);
+                                    string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
+
+                                    <div class="col-md-6">
+                                        <div class="top_article_img">
+                                            <a href="single.html" target="_self">
+                                                <img src="@imageSrc" alt="feature-top" style="width: 700px; height: 250px;" class="img-responsive">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <span class="tag purple">Informacje</span>
+                                        <div class="category_article_title">
+                                            <h2><a href="single.html" target="_self">@article.Title</a></h2>
+                                        </div>
+                                        <div class="category_article_date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, by: <a href="#">Author Name</a></div>
+                                        <div class="category_article_content">
+                                            @article.Content
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                         <div class="category_article_wrapper">
                             <div class="row">
