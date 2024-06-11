@@ -167,7 +167,7 @@
                 <div class="d-flex flex-column justify-content-center flex-wrap">
 
                     <div class="card m-2" style="margin-top: 30px;">
-                        <div class="card-header"><h2>Podstawowe informacje</h2></div>
+                        <div class="card-header" style="display:flex; justify-content: center;"><h2>Podstawowe informacje</h2></div>
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
@@ -234,20 +234,23 @@
                 </div>
                 <div class="order-2">
                     <div class="card m-1 text-center">
-                        <div class="card-header text-center">Dodaj wynik</div>
+                       
                         <div class="card-body table-responsive">
-                            <h2>Liga Typerów</h2>
+                            <h2>Typermania</h2>
+                            <div class="card-header text-center">Dodaj wynik</div>
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
                                     <input type="hidden" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" />
-                                    <div class="form-group">
-                                        <label for="score1">Wynik drużyny 1</label>
-                                        <InputNumber class="form-control" id="score1" @bind-Value="typedResult.Score1" placeholder="Wynik drużyny 1" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="score2">Wynik drużyny 2</label>
-                                        <InputNumber class="form-control" id="score2" @bind-Value="typedResult.Score2" placeholder="Wynik drużyny 2" />
+                                    <div class="form-group d-flex justify-content-around" style="display: flex;justify-content: space-between;margin-left: 200px;margin-right: 200px;">
+                                        <div class="p-2">
+                                            <label style="color: black" for="score1">Wynik @MatchData.HomeTeam.Name</label>
+                                            <InputNumber class="form-control" id="score1" @bind-Value="typedResult.Score1" Min="0" Max="3" />
+                                        </div>
+                                        <div class="p-2">
+                                            <label style="color: black" for="score2">Wynik @MatchData.GuestTeam.Name</label>
+                                            <InputNumber class="form-control" id="score2" @bind-Value="typedResult.Score2" Min="0" Max="3" />
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Dodaj wynik</button>
                                 </EditForm>
@@ -263,8 +266,10 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="d-flex justify-content-center m-3">
-                        <button @onclick="EditMatch" class="btn btn-primary">Edytuj mecz</button>
+                    <div class="d-flex justify-content-center m-3" style="display: flex;justify-content: center;">
+                        <button @onclick="EditMatch" style="width: 25%;margin-top: 100px;" class="btn btn-primary">
+                            Edytuj mecz
+                        </button>
                     </div>
                 }
             }
