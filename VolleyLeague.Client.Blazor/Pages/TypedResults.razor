@@ -6,6 +6,18 @@
 @using VolleyLeague.Entities.Dtos.Teams
 @using VolleyLeague.Entities.Dtos.Users
 
+<section class="rules_section">
+    <div class="container">
+        <h2>Zasady</h2>
+        <ol>
+            <li>Obstawiamy spotkania ze wszystkich lig</li>
+            <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1pkt, w przeciwnym przypadku: 0 pkt.</li>
+            <li>W przypadku takiej samej ilości punktów o wyższym miejscu decyduje ilość idealnie wytypowanych wyników.</li>
+            <li>Koniec przyjmowania zgłoszeń następuje o północy, na dzień przed rozpoczęciem kolejki.</li>
+        </ol>
+    </div>
+</section>
+
 @if (!pageReady)
 {
     <section id="loading_section" style="margin-top: 150px" class="loading_section">
@@ -22,7 +34,7 @@ else
                 <div class="col-md-12">
                     <div class="mobile">
                         <div class="article_title">
-                            <h2>Typowane wyniki</h2>
+                            <h2>Typermania</h2>
                         </div>
                         <div class="card m-2 p-2">
                             <EditForm Model="Filter">
@@ -93,6 +105,15 @@ else
 }
 
 <style>
+    .rules_section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .rules_section ol {
+            padding-left: 20px;
+        }
+
     .btn-label {
         background: none;
         border: none;
