@@ -1,6 +1,7 @@
 ﻿@page "/articles"
 @using VolleyLeague.Entities.Dtos.Discussion
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
 <PageTitle>Articles</PageTitle>
 
@@ -16,7 +17,9 @@
         <div class="blog-list clearfix">
             @foreach (var article in _articles)
             {
-                <div>@article.Title</div>
+                <div>
+                    <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
+                </div>
                 <hr class="invis">
             }
         </div><!-- end blog-list -->
@@ -76,5 +79,10 @@ else
             _currentPage--;
             await LoadArticles();
         }
+    }
+
+    private void NavigateToArticle(int articleId)
+    {
+        Navigation.NavigateTo($"/article/{articleId}");
     }
 }

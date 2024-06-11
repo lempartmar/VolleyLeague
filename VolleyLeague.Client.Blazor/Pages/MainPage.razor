@@ -14,6 +14,17 @@
 @inject AuthenticationStateProvider _authStateProvider
 @inject AuthenticationStateProvider authStateProvider
 
+@if (!cookiesAccepted)
+{
+    <div class="cookie-consent-banner">
+        <p>
+            Ta strona używa ciasteczek (cookies), dzięki którym nasz serwis może działać lepiej.
+            <a href="/cookie-policy" class="btn btn-link">Dowiedz się więcej</a>
+            <button class="btn btn-primary" @onclick="AcceptCookies">Akceptuję</button>
+        </p>
+    </div>
+}
+
 @if (!pageReady)
 {
     <section id="category_section" style="margin-top: 150px" class="category_section">
@@ -45,13 +56,13 @@ else
                                         <div class="col-md-6" style="margin-bottom: 20px;">
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <a href="single.html" target="_self">
+                                                    <a href="/article/@article.Id" target="_self">
                                                         <img class="media-object img-fixed-size" src="@imageSrc" alt="article image">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
                                                     <span class="tag purple">Informacje</span>
-                                                    <h3 class="media-heading"><a href="single.html" target="_self">@article.Title</a></h3>
+                                                    <h3 class="media-heading"><a href="/article/@article.Id" target="_self">@article.Title</a></h3>
                                                     <span class="media-date"><a href="#">@article.CreationDate.ToString("ddMMM- yyyy")</a>, </span>
                                                 </div>
                                             </div>
@@ -96,6 +107,17 @@ else
 }
 
 <style>
+    .cookie-consent-banner {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 1000;
+    }
+
     .tables-container {
         display: flex;
         justify-content: space-around;
@@ -125,7 +147,6 @@ else
             padding: 4px;
             color: black; /* Ustawia kolor tekstu na czarny dla wszystkich komórek tabeli */
         }
-
 </style>
 
 <script>
@@ -147,6 +168,7 @@ else
     public bool standingsLoad = false;
     public bool articlesLoad = false;
     public bool matchResultsLoad = false;
+    private bool cookiesAccepted = false;
 
     private class ScheduleFilter
     {
@@ -172,6 +194,8 @@ else
                 Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
         }
+
+        cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
 
         await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings());
     }
@@ -224,5 +248,11 @@ else
             _currentPage--;
             await LoadArticles();
         }
+    }
+
+    private async Task AcceptCookies()
+    {
+        cookiesAccepted = true;
+        await _localStorageService.SetItemAsync("cookiesAccepted", true);
     }
 }
