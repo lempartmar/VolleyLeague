@@ -38,6 +38,7 @@ builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddTransient(typeof(IMatchService), typeof(MatchService));
 builder.Services.AddTransient(typeof(ILogService), typeof(LogService));
 builder.Services.AddTransient(typeof(IPositionService), typeof(PositionService));
+builder.Services.AddTransient(typeof(IEmailService), typeof(EmailService));
 builder.Services.AddTransient(typeof(IRoundService), typeof(RoundService));
 builder.Services.AddTransient(typeof(IVenueService), typeof(VenueService));
 builder.Services.AddTransient(typeof(ITypedResultService), typeof(TypedResultService));

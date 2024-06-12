@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
@@ -11,16 +12,18 @@ namespace VolleyLeague.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
+        private readonly IEmailService _emailService;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
 
-        public TeamService(IMapper mapper, ILogService logService, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
+        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
             _logService = logService;
+            _emailService = emailService;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
@@ -160,10 +163,9 @@ namespace VolleyLeague.Services.Services
                 throw;
             }
 
-            // Send invitations to new users
             foreach (var newUser in newUsersToSendInvitation)
             {
-              //  SendEmailAddedToTeam(newUser);
+                await SendEmailAddedToTeam(newUser, newTeam.Name);
             }
         }
 
@@ -492,6 +494,18 @@ namespace VolleyLeague.Services.Services
                                              .OrderBy(m => m.CreationDate);
 
             return allMatches.FirstOrDefault();
+        }
+
+        private async Task SendEmailAddedToTeam(TeamPlayerDto newUser, string teamName)
+        {
+            var message = new MailMessage("noreply@volleyleague.com", newUser.Email)
+            {
+                Subject = "Welcome to the Team",
+                Body = $"Hi {newUser.FirstName} {newUser.LastName},\n\nYou have been added to the team {teamName}. We are excited to have you on board!",
+                IsBodyHtml = false,
+            };
+
+            await _emailService.Send(newUser.Email, message);
         }
     }
 }
