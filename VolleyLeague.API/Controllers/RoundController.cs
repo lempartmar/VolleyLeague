@@ -47,13 +47,15 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRound(int id)
         {
             var result = await _roundService.DeletePosition(id);
-            if (result)
-                return Ok();
-            else return BadRequest();
+            if (result == "Round deleted successfully")
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
     }
 }

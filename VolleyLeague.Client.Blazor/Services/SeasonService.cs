@@ -16,7 +16,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task DeleteSeason(int seasonId);
         public Task CreateRound(RoundDto round); // Dodano metodę
         public Task UpdateRound(RoundDto round); // Dodano metodę
-        public Task DeleteRound(int roundId); // Dodano metodę
+        Task<HttpResponseMessage> DeleteRound(int roundId);
     }
 
     public class SeasonService : ISeasonService
@@ -114,10 +114,10 @@ namespace VolleyLeague.Client.Blazor.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteRound(int roundId)
+        public async Task<HttpResponseMessage> DeleteRound(int roundId)
         {
             var response = await httpClient.DeleteAsync($"api/round/{roundId}");
-            response.EnsureSuccessStatusCode();
+            return response;
         }
     }
 }

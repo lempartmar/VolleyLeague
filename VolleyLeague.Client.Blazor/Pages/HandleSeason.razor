@@ -330,8 +330,16 @@ else
     {
         try
         {
-            await seasonService.DeleteRound(roundId);
-            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+            var response = await seasonService.DeleteRound(roundId);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                seasonsErrorMessage = $"Błąd podczas usuwania rundy: {errorMessage}";
+            }
+            else
+            {
+                await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+            }
         }
         catch (Exception ex)
         {

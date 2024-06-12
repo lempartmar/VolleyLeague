@@ -14,13 +14,18 @@ namespace VolleyLeague.Services.Services
         private readonly ILogger<RoundService> _logger;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Round> _roundRepository;
+        private readonly IBaseRepository<Match> _matchRepository;
+
         public RoundService(
             IMapper mapper,
-            IBaseRepository<Round> roundRepository
+            IBaseRepository<Round> roundRepository,
+            IBaseRepository<Match> matchRepository
             )
         {   
             _mapper = mapper;
             _roundRepository = roundRepository;
+            _matchRepository = matchRepository;
+
         }
 
         public async Task<List<RoundDto>> GetAllRounds()
@@ -64,27 +69,34 @@ namespace VolleyLeague.Services.Services
             await _roundRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> DeletePosition(int id)
+        public async Task<string> DeletePosition(int id)
         {
-            var result = true;
             var round = await _roundRepository.GetById(id);
 
-            if (round != null)
+            if (round == null)
             {
-                try
-                {
-                    await _roundRepository.Delete(round);
-                }
-                catch (Exception ex)
-                {
-                    result = false;
-                    _logger.LogError(ex.Message, "Error when deleting round");
-                }
-
-                return result;
+                return "Runda nie znaleziona";
             }
 
-            return false;
+            var matches = await _matchRepository.GetAll().Where(m => m.RoundId == id).ToListAsync();
+            if (matches.Any())
+            {
+                return "Nie można usunąć rundy, ponieważ ma przypisane mecze";
+            }
+
+            try
+            {
+                await _roundRepository.Delete(round);
+                await _roundRepository.SaveChangesAsync();
+                return "Runda została pomyślnie usunięta";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Wystąpił błąd podczas usuwania rundy o id {id}");
+                return "Wystąpił błąd podczas usuwania rundy";
+            }
         }
+
+
     }
 }

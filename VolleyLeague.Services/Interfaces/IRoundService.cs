@@ -10,7 +10,7 @@ namespace VolleyLeague.Services.Interfaces
 
         Task UpdateRound(RoundDto round);
 
-        Task<bool> DeletePosition(int id);
+        Task<string> DeletePosition(int id);
 
         Task<List<RoundDto>> GetRoundsBySeasonId(int? seasonId);
     }
