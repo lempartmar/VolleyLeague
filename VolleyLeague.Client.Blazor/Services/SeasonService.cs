@@ -13,7 +13,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<SeasonDto>> GetSeasons();
         public Task CreateSeason(SeasonDto season);
         public Task UpdateSeason(SeasonDto season);
-        public Task DeleteSeason(int seasonId);
+        public Task<HttpResponseMessage> DeleteSeason(int seasonId);
         public Task CreateRound(RoundDto round); // Dodano metodę
         public Task UpdateRound(RoundDto round); // Dodano metodę
         Task<HttpResponseMessage> DeleteRound(int roundId);
@@ -90,10 +90,10 @@ namespace VolleyLeague.Client.Blazor.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteSeason(int seasonId)
+        public async Task<HttpResponseMessage> DeleteSeason(int seasonId)
         {
             var response = await httpClient.DeleteAsync($"api/Season/{seasonId}");
-            response.EnsureSuccessStatusCode();
+            return response;
         }
 
         public async Task CreateRound(RoundDto round)

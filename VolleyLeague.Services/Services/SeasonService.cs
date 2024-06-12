@@ -14,15 +14,18 @@ namespace VolleyLeague.Services.Services
         private readonly ILogger<SeasonService> _logger;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Season> _seasonRepository;
+        private readonly IBaseRepository<Round> _roundRepository;
 
         public SeasonService(
             IMapper mapper,
             IBaseRepository<Season> seasonRepository,
+            IBaseRepository<Round> roundRepository,
             ILogger<SeasonService> logger
         )
         {
             _mapper = mapper;
             _seasonRepository = seasonRepository;
+            _roundRepository = roundRepository;
             _logger = logger;
         }
 
@@ -61,7 +64,24 @@ namespace VolleyLeague.Services.Services
             {
                 throw new KeyNotFoundException(ServicesConsts.League_not_found);
             }
-            await _seasonRepository.Delete(seasonToDelete);
+
+            var rounds = await _roundRepository.GetAll().Where(r => r.SeasonId == seasonId).ToListAsync();
+            if (rounds.Any())
+            {
+                throw new InvalidOperationException("Nie można usunąć sezonu, ponieważ posiada powiązane kolejki!");
+            }
+
+            try
+            {
+                await _seasonRepository.Delete(seasonToDelete);
+                await _seasonRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+               // _logger.LogError(ex, $"Error occurred while deleting season with id {seasonId}");
+                throw new Exception("Błąd w trakcie usuwania sezonu!");
+            }
+
         }
     }
 }

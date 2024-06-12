@@ -55,9 +55,13 @@ namespace VolleyLeague.API.Controllers
             {
                 return NotFound(ex.Message);
             }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting season");
+                //_logger.LogError(ex, "Error deleting season");
                 return StatusCode(500, "Internal server error");
             }
         }

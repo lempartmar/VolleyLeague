@@ -232,8 +232,16 @@ else
     {
         try
         {
-            await seasonService.DeleteSeason(seasonId);
-            await LoadSeasons(); // Odśwież listę sezonów
+            var response = await seasonService.DeleteSeason(seasonId);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                seasonsErrorMessage = $"Błąd podczas usuwania sezonu: {errorMessage}";
+            }
+            else
+            {
+                await LoadSeasons(); // Odśwież listę sezonów
+            }
         }
         catch (Exception ex)
         {
