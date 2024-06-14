@@ -7,6 +7,7 @@ namespace VolleyLeague.Client.Blazor.Services
     public interface ITeamService
     {
         public Task<List<TeamSummaryDto>> GetAllTeams();
+        public Task<List<TeamDto>> GetAllTeamsDto();
         public Task<TeamDto> GetTeam(int id);
         public Task<bool> CreateTeam(NewTeamDto team);
         public Task<bool> UpdateTeam(ManageTeamDto team);
@@ -28,7 +29,14 @@ namespace VolleyLeague.Client.Blazor.Services
             _httpClient = httpClient;
         }
 
+        public async Task<List<TeamDto>> GetAllTeamsDto()
+        {
+            var response = await _httpClient.GetAsync("api/team/getallteams");
+            response.EnsureSuccessStatusCode();
 
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<TeamDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
 
         public async Task<List<TeamSummaryDto>> GetAllTeams()
         {

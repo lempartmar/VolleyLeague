@@ -1,0 +1,183 @@
+﻿@page "/teams-images"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Dtos.Teams
+@inject ITeamService TeamService
+@inject HttpClient Http
+
+@if (!PageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="category_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile">
+                        <div class="article_title header_purple">
+                            <h2>Teams</h2>
+                        </div>
+                        <p class="text-danger">@ErrorMessage</p>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Team Name</th>
+                                        <th>Image</th>
+                                        <th>Load Image</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var team in Teams)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @team.Name
+                                                @if (ImageAvailability.ContainsKey(team.Id))
+                                                {
+                                                    @if (ImageAvailability[team.Id])
+                                                    {
+                                                        <i class="fa fa-check" style="color: green;"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-times" style="color: red;"></i>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>Loading...</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (LoadedImages.ContainsKey(team.Id))
+                                                {
+                                                    <img src="@LoadedImages[team.Id]" style="width:70px; height: 70px;" />
+                                                }
+                                                else
+                                                {
+                                                    <span>No Image</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button @onclick="() => LoadImage(team.Id)">Load Image</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    .nav-item.nav-user {
+        color: #7d7d7d;
+        text-decoration: none;
+        font-size: 9px;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .fa {
+        margin-left: 10px;
+    }
+</style>
+
+@code {
+    public bool PageReady = false;
+    public string ErrorMessage = "";
+    public List<TeamDto>? Teams;
+    private Dictionary<int, string> LoadedImages = new Dictionary<int, string>();
+    private Dictionary<int, bool> ImageAvailability = new Dictionary<int, bool>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTeams();
+        await CheckImageAvailability();
+        PageReady = true;
+    }
+
+    private async Task LoadTeams()
+    {
+        try
+        {
+            Teams = await TeamService.GetAllTeamsDto();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"An error occurred while loading teams: {ex.Message}";
+        }
+    }
+
+    private async Task CheckImageAvailability()
+    {
+        if (Teams != null)
+        {
+            foreach (var team in Teams)
+            {
+                ImageAvailability[team.Id] = await CheckTeamImageAvailability(team.Id);
+                StateHasChanged(); // Update UI after each check
+            }
+        }
+    }
+
+    private async Task<bool> CheckTeamImageAvailability(int teamId)
+    {
+        var filePath = $"assets/images/teams/{teamId}.jpg";
+        try
+        {
+            var response = await Http.GetAsync(filePath);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private async Task LoadImage(int teamId)
+    {
+        var filePath = $"assets/images/teams/{teamId}.jpg";
+        try
+        {
+            var response = await Http.GetAsync(filePath);
+            if (response.IsSuccessStatusCode)
+            {
+                LoadedImages[teamId] = filePath;
+            }
+            else
+            {
+                LoadedImages[teamId] = "/images/no-image.png"; // Fallback image if not available
+            }
+        }
+        catch
+        {
+            LoadedImages[teamId] = "/images/no-image.png"; // Fallback image if an error occurs
+        }
+
+        StateHasChanged();
+    }
+}
