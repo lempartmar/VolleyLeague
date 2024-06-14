@@ -1,0 +1,135 @@
+﻿@page "/teams-images2"
+@using System.Net.Http.Headers
+@using VolleyLeague.Entities.Dtos.Files
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Upload Files</PageTitle>
+
+<h1>Upload Files!</h1>
+
+<InputFile OnChange="@OnInputFileChange" multiple />
+
+@if (fileNames.Count > 0)
+{
+    <ul>
+        @foreach (var fileName in fileNames)
+        {
+            <li>
+                File: @fileName
+                <br>
+                <span>
+                    Stored File Name: @GetStoredFileName(fileName)
+                </span>
+                <button @onclick="@(() => DownloadFile(GetStoredFileName(fileName), fileName))">Download file</button>
+            </li>
+        }
+    </ul>
+}
+
+<h2>Uploaded Images</h2>
+<div class="uploaded-images">
+    @if (uploadedImages.Count > 0)
+    {
+        @foreach (var image in uploadedImages)
+        {
+            <div class="image-item">
+                <img src="@image" alt="Uploaded Image" style="width:200px; height:200px;" />
+            </div>
+        }
+    }
+    else
+    {
+        <p>No images uploaded.</p>
+    }
+</div>
+
+@code {
+    private int maxAllowedFiles = int.MaxValue;
+    private long maxFileSize = long.MaxValue;
+    private List<string> fileNames = new();
+    private List<UploadResultDto> uploadResults = new();
+    private List<string> uploadedImages = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUploadedImages();
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        using var content = new MultipartFormDataContent();
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+            fileNames.Add(file.Name);
+
+            content.Add(
+                content: fileContent,
+                name: "\"files\"",
+                fileName: file.Name);
+        }
+
+        var response = await Http.PostAsync("/api/File/uploadFile", content);
+        var newUploadResults = await response.Content.ReadFromJsonAsync<List<UploadResultDto>>();
+
+        if (newUploadResults is not null)
+        {
+            uploadResults = uploadResults.Concat(newUploadResults).ToList();
+            await LoadUploadedImages(); // Refresh the list of uploaded images
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Failed to upload files.");
+        }
+    }
+
+    private string? GetStoredFileName(string fileName)
+    {
+        var uploadResult = uploadResults.SingleOrDefault(f => f.FileName == fileName);
+        if (uploadResult is not null)
+            return uploadResult.StoredFileName;
+
+        return "File not found.";
+    }
+
+    private async Task DownloadFile(string storedFileName, string originalFileName)
+    {
+        var response = await Http.GetAsync($"/api/File/DownloadFile/{storedFileName}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", "File not found.");
+        }
+        else
+        {
+            var fileStream = await response.Content.ReadAsStreamAsync();
+            using var streamRef = new DotNetStreamReference(stream: fileStream);
+            await JS.InvokeVoidAsync("downloadFileFromStream", originalFileName, streamRef);
+        }
+    }
+
+    private async Task LoadUploadedImages()
+    {
+        var response = await Http.GetAsync("/api/File/GetUploadedFiles");
+        if (response.IsSuccessStatusCode)
+        {
+            var files = await response.Content.ReadFromJsonAsync<List<string>>();
+            if (files is not null)
+            {
+                uploadedImages = files.Select(f => $"/uploads/{f}").ToList();
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("alert", "No files found in the uploads directory.");
+            }
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Failed to load uploaded files.");
+        }
+    }
+}

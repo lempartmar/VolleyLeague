@@ -2,6 +2,7 @@ using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using VolleyLeague.Client.Blazor;
 using VolleyLeague.Client.Blazor.Authentication;
