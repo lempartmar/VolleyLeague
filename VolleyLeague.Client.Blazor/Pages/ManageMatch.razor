@@ -1,4 +1,5 @@
 ﻿@page "/ManageMatch/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
@@ -6,6 +7,7 @@
 @inject IMatchOrganizerService matchOrganizerService
 @inject NavigationManager NavigationManager
 
+@attribute [Authorize(Roles = "Admin")]
 
 <section class="category_section">
     <div class="container">

@@ -1,11 +1,14 @@
 ﻿@page "/createMatch"
 @using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
 @inject IMatchOrganizerService matchOrganizerService
 @inject ITeamService teamService
 @inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "Admin")]
 
 <section class="category_section" style="margin-top: 60px;">
     <div class="container" style="display:flex; justify-content: center">

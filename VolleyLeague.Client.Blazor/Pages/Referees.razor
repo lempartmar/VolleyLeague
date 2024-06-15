@@ -1,8 +1,11 @@
 ﻿@page "/referees"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 @inject HttpClient Http
 @inject IMatchService matchService
+
+@attribute [Authorize(Roles = "Admin")]
 
 <section class="category_section" style="margin-top: 60px;">
     <div class="container">

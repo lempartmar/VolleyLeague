@@ -1,8 +1,11 @@
 ﻿@page "/handleseason"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
 @inject ISeasonService seasonService
+
+@attribute [Authorize(Roles = "Admin")]
 
 @if (!pageReady)
 {

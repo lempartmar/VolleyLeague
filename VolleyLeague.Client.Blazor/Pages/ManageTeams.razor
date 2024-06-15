@@ -4,6 +4,8 @@
 @inject ITeamService teamService
 @inject IMatchService matchService
 
+@attribute [Authorize(Roles = "Admin")]
+
 <section class="category_section">
     <div class="container">
         <div class="row">
