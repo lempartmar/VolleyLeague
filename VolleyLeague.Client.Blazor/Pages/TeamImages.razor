@@ -44,25 +44,27 @@ else
                                             <tr>
                                                 <td>@team.Name</td>
                                                 <td>
-                                                    @if (team.HasImage)
-                                                    {
-                                                        <span>&#10003;</span> <!-- checkmark icon -->
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>&#10007;</span> <!-- cross icon -->
-                                                    }
+                                                    <span style="color: @(team.HasImage ? "green" : "red");">
+                                                        @(team.HasImage ? "&#10003;" : "&#10007;")
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
                                                 </td>
                                                 <td>
-                                                    @if (team.HasImage)
-                                                    {
-                                                        <button @onclick="@(() => LoadAndShowImage(team.Id))">View</button>
-                                                    }
+                                                    <button @onclick="@(() => ToggleImageDisplay(team.Id))" class="btn btn-primary">
+                                                        @(DisplayedImageTeamId == team.Id ? "Hide" : "View")
+                                                    </button>
                                                 </td>
                                             </tr>
+                                            @if (DisplayedImageTeamId == team.Id && !string.IsNullOrEmpty(SelectedImage))
+                                            {
+                                                <tr>
+                                                    <td colspan="4" class="text-center">
+                                                        <img src="@SelectedImage" style="max-width:100%; max-height:400px;" />
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     }
                                 </tbody>
@@ -72,20 +74,36 @@ else
                 </div>
             </div>
         </div>
-        @if (!string.IsNullOrEmpty(SelectedImage))
-        {
-            <div>
-                <img src="@SelectedImage" style="max-width:100%; max-height:400px;" />
-            </div>
-        }
     </section>
 }
 
 <style>
-    .nav-item.nav-user {
-        color: #7d7d7d;
-        text-decoration: none;
-        font-size: 9px;
+    .btn-label {
+        background: none;
+        border: none;
+        padding: 6px 12px;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+    }
+
+    .dropdown-toggle {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .card {
+        margin-bottom: 50px;
+    }
+
+    .btn.btn-default.dropdown-toggle {
+        background: #e5e7eb;
+        font-size: 12px;
+        color: black;
+        font-weight: bold;
+        text-align: left;
     }
 
     #spinner {
@@ -100,7 +118,13 @@ else
 
     .table {
         margin-top: 20px;
+        color: black;
     }
+
+        .table th, .table td {
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
 </style>
 
 @code {
@@ -108,6 +132,7 @@ else
     public string ErrorMessage = "";
     public List<TeamImageDto> Teams = new List<TeamImageDto>();
     private string SelectedImage;
+    private int? DisplayedImageTeamId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -166,7 +191,6 @@ else
                 var content = await response.Content.ReadAsByteArrayAsync();
                 var base64 = Convert.ToBase64String(content);
                 SelectedImage = $"data:image/jpeg;base64,{base64}";
-                Console.WriteLine($"Image data: {SelectedImage}"); // Log the image data
             }
             else
             {
@@ -176,6 +200,20 @@ else
         catch (Exception ex)
         {
             ErrorMessage = $"An error occurred while loading image: {ex.Message}";
+        }
+    }
+
+    private async Task ToggleImageDisplay(int teamId)
+    {
+        if (DisplayedImageTeamId == teamId)
+        {
+            DisplayedImageTeamId = null;
+            SelectedImage = null;
+        }
+        else
+        {
+            DisplayedImageTeamId = teamId;
+            await LoadAndShowImage(teamId);
         }
     }
 }
