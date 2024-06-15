@@ -12,63 +12,55 @@
     <div class="container">
         <div class="row">
             <h2>Dodaj artykuł</h2>
-<div class="m-2">
-    @if (!IsSubmitted)
-    {
+            <div class="m-2">
+                @if (!IsSubmitted)
+                {
+                    <EditForm Model="@articleDto" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
 
-        <EditForm Model="@articleDto" OnValidSubmit="HandleValidSubmit">
-            <DataAnnotationsValidator />
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="Title">Tytuł:</label>
+                            <div class="col-sm-10">
+                                <InputText class="form-control" id="Title" @bind-Value="articleDto.Title" />
+                                <ValidationMessage class="text-danger" For="@(() => articleDto.Title)" />
+                            </div>
+                        </div>
 
-            <!-- Tytuł artykułu -->
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="Title">Tytuł:</label>
-                <div class="col-sm-10">
-                    <InputText class="form-control" id="Title" @bind-Value="articleDto.Title" />
-                    <ValidationMessage class="text-danger" For="@(() => articleDto.Title)" />
-                </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="Content">Zawartość:</label>
+                            <div class="col-sm-10">
+                                <InputTextArea class="form-control" id="Content" @bind-Value="articleDto.Content" rows="5" />
+                                <ValidationMessage class="text-danger" For="@(() => articleDto.Content)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="Image">Zdjęcie:</label>
+                            <div class="col-sm-10">
+                                <label class="btn btn-primary">
+                                    Wybierz plik
+                                    <InputFile OnChange="HandleFileChange" style="display:none;" />
+                                </label>
+                                <ValidationMessage For="@(() => articleDto.Image)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Zapisz artykuł</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    <h3>Zarejestrowano pomyślnie!</h3>
+                    <p><a href="/login">Zaloguj się</a></p>
+                }
             </div>
-
-            <!-- Zawartość artykułu -->
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="Content">Zawartość:</label>
-                <div class="col-sm-10">
-                    <InputTextArea class="form-control" id="Content" @bind-Value="articleDto.Content" rows="5" />
-                    <ValidationMessage class="text-danger" For="@(() => articleDto.Content)" />
-                </div>
-            </div>
-
-            <!-- Zdjęcie -->
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="Image">Zdjęcie:</label>
-                <div class="col-sm-10">
-                    <InputFile class="form-control" id="Image" OnChange="HandleFileChange" />
-                    <ValidationMessage For="@(() => articleDto.Image)" />
-                </div>
-            </div>
-            <!-- Brakujący tag </div> nie jest tutaj; cała struktura jest poprawna pod względem parowania tagów <div>. -->
-
-            <!-- Przycisk do zatwierdzania formularza -->
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Zapisz artykuł</button>
-                </div>
-            </div>
-        </EditForm>
-
-    }
-    else
-    {
-        <h3>Zarejestrowano pomyślnie!</h3>
-        <p><a href="/login">Zaloguj się</a></p>
-    }
-</div>
         </div>
     </div>
 </section>
-
-
-
-
 
 @code {
     private ArticleDto articleDto = new ArticleDto();
@@ -81,23 +73,8 @@
 
     private string ErrorMessage = "";
 
-    // [Inject]
-    // public NavigationManager NavigationManager { get; set; } = null!;
-
-
     protected override async Task OnInitializedAsync()
     {
-        // else
-        // {
-        //     Positions = new List<PositionDto>() { new PositionDto { Id = 1, Name = positionResult.Message } };
-        // }
-
-        // var token = await localStorage.GetItemAsync<string>("token");
-        // if (token != null)
-        // {
-        //     NavigationManager.NavigateTo("/");
-
-        // }
     }
 
     private async Task HandleValidSubmit()
@@ -107,6 +84,7 @@
         await Task.Delay(1000);
         await ArticleService.AddArticle(articleDto);
         IsLoading = false;
+        IsSubmitted = true;
     }
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
