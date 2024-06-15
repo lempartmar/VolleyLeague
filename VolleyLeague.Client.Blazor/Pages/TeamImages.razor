@@ -1,97 +1,117 @@
 ﻿@page "/teams-images"
 @using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 @inject ITeamService TeamService
 @inject HttpClient Http
 @inject IJSRuntime JS
 
-@if (!PageReady)
-{
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
-        <div class="container">
-            <div id="spinner"></div>
-        </div>
-    </section>
-}
-else
-{
-    <section class="category_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mobile">
-                        <div class="article_title">
-                            <h2>Panel zarządzania zdjęciami</h2>
-                        </div>
-                        <p class="text-danger">@ErrorMessage</p>
+@attribute [Authorize(Roles = "Admin")]
 
-                        <div class="table-responsive">
-                            <table class="table table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <th>Nazwa zespołu</th>
-                                        <th>Czy ma obraz</th>
-                                        <th>Prześlij obraz</th>
-                                        <th>Wyświetl obraz</th>
-                                        <th>Usuń obraz</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Teams != null)
-                                    {
-                                        @foreach (var team in Teams)
-                                        {
-                                            <tr style="background-color: white">
-                                                <td>@team.Name</td>
-                                                <td style="color: @(team.HasImage ? "green" : "red");">
-                                                    @(team.HasImage ? "Tak" : "Nie")
-                                                </td>
-                                                <td>
-                                                    @if (!team.HasImage)
-                                                    {
-                                                        <label class="btn btn-primary">
-                                                            Prześlij
-                                                            <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" style="display:none;" />
-                                                        </label>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @if (team.HasImage)
-                                                    {
-                                                        <button @onclick="@(() => ToggleImageDisplay(team.Id))" class="btn btn-primary">
-                                                            @(DisplayedImageTeamId == team.Id ? "Ukryj" : "Wyświetl")
-                                                        </button>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @if (team.HasImage)
-                                                    {
-                                                        <button @onclick="@(() => DeleteTeamImage(team.Id))" class="btn btn-danger">
-                                                            Usuń
-                                                        </button>
-                                                    }
-                                                </td>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        @if (!PageReady)
+        {
+            <section id="loading_section" style="margin-top: 150px" class="loading_section">
+                <div class="container">
+                    <div id="spinner"></div>
+                </div>
+            </section>
+        }
+        else
+        {
+            <section class="category_section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mobile">
+                                <div class="article_title">
+                                    <h2>Panel zarządzania zdjęciami</h2>
+                                </div>
+                                <p class="text-danger">@ErrorMessage</p>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Nazwa zespołu</th>
+                                                <th>Czy ma obraz</th>
+                                                <th>Prześlij obraz</th>
+                                                <th>Wyświetl obraz</th>
+                                                <th>Usuń obraz</th>
                                             </tr>
-                                            @if (DisplayedImageTeamId == team.Id && !string.IsNullOrEmpty(SelectedImage))
+                                        </thead>
+                                        <tbody>
+                                            @if (Teams != null)
                                             {
-                                                <tr>
-                                                    <td colspan="5" class="text-center">
-                                                        <img src="@SelectedImage" style="max-width:100%; max-height:400px;" />
-                                                    </td>
-                                                </tr>
+                                                @foreach (var team in Teams)
+                                                {
+                                                    <tr style="background-color: white">
+                                                        <td>@team.Name</td>
+                                                        <td style="color: @(team.HasImage ? "green" : "red");">
+                                                            @(team.HasImage ? "Tak" : "Nie")
+                                                        </td>
+                                                        <td>
+                                                            @if (!team.HasImage)
+                                                            {
+                                                                <label class="btn btn-primary">
+                                                                    Prześlij
+                                                                    <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" style="display:none;" />
+                                                                </label>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @if (team.HasImage)
+                                                            {
+                                                                <button @onclick="@(() => ToggleImageDisplay(team.Id))" class="btn btn-primary">
+                                                                    @(DisplayedImageTeamId == team.Id ? "Ukryj" : "Wyświetl")
+                                                                </button>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @if (team.HasImage)
+                                                            {
+                                                                <button @onclick="@(() => DeleteTeamImage(team.Id))" class="btn btn-danger">
+                                                                    Usuń
+                                                                </button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    @if (DisplayedImageTeamId == team.Id && !string.IsNullOrEmpty(SelectedImage))
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">
+                                                                <img src="@SelectedImage" style="max-width:100%; max-height:400px;" />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
                                             }
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <section class="category_section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            Nie masz dostępu do tej strony!
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-}
+        </section>
+    </NotAuthorized>
+</AuthorizeView>
 
 <style>
     .btn-label {
@@ -137,10 +157,10 @@ else
         color: black;
     }
 
-        .table th, .table td {
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
+    .table th, .table td {
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
 </style>
 
 @code {
