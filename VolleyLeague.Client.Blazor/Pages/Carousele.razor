@@ -12,7 +12,6 @@
                 var homeTeamName = matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Name;
                 var guestTeamName = matchResults[(i + activeIndex) % matchResults.Count].GuestTeam.Name;
 
-                // Ograniczenie nazw drużyn do 17 znaków
                 var displayHomeTeamName = homeTeamName.Length > 12 ? homeTeamName.Substring(0, 12) : homeTeamName;
                 var displayGuestTeamName = guestTeamName.Length > 12 ? guestTeamName.Substring(0, 12) : guestTeamName;
 
@@ -20,13 +19,8 @@
                     <div class="card h-100 text-center" style="background-color: white; color: black;">
                         <div class="card-body">
                             <div class="row" style="border-right:1px solid #eee; height: 100px">
-                                <!-- Tytuł karty z datą meczu -->
-@*                                 <div class="col-xs-7" style="text-align: left;">
-                                    <strong>Wynik</strong>
-                                    </div>
-                                <div class="col-xs-4" style="text-align:right"> *@
                                 <p style="color: #7d7d7d" class="card-title">@matchResults[(i + activeIndex) % matchResults.Count].Schedule.ToString("MM-dd")</p>
-@*                                 </div> *@
+
                                 <div class="col-xs-2" >
                                                                         <p class="card-text" style="text-align:right">
                                     <img src="@GetLogoSrc(matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Logo)" class="team-logo" alt="@matchResults[(i + activeIndex) % matchResults.Count].HomeTeam.Name" style="height: 20px; width: 20px; margin-right: 5px;">
@@ -36,7 +30,6 @@
                                     </p>
                                 </div>
                                 <div class="col-xs-7">
-                                    <!-- Pierwsza kolumna (nazwy drużyn i loga) -->
                                     <p class="card-text" style="text-align:left">
 
                                     <p style="color:#0268d6">@displayHomeTeamName</p>
@@ -48,7 +41,6 @@
                                 </div>
                                 <div class="col-xs-1">
                                     
-                                    <!-- Druga kolumna (wyniki) -->
                                     <p class="card-text">@matchResults[(i + activeIndex) % matchResults.Count].Team1Score</p>
                                     <p class="card-text">@matchResults[(i + activeIndex) % matchResults.Count].Team2Score</p>
                                 </div>
@@ -100,7 +92,6 @@
         }
         else
         {
-            // Zwróć ścieżkę do obrazka zastępczego, jeśli logo jest null
             return "/assets/img/Logo_alternative.png";
         }
     }

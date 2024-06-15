@@ -207,7 +207,7 @@ else
         try
         {
             _seasons = await seasonService.GetSeasons();
-            _seasons = _seasons.OrderByDescending(s => s.Id).ToList(); // Sortowanie sezonów od najnowszego do najstarszego
+            _seasons = _seasons.OrderByDescending(s => s.Id).ToList();
             seasonsErrorMessage = "";
         }
         catch (Exception ex)
@@ -222,8 +222,8 @@ else
         try
         {
             await seasonService.CreateSeason(newSeason);
-            newSeason = new SeasonDto(); // Resetuj formularz
-            await LoadSeasons(); // Odśwież listę sezonów
+            newSeason = new SeasonDto(); 
+            await LoadSeasons(); 
         }
         catch (Exception ex)
         {
@@ -243,7 +243,7 @@ else
             }
             else
             {
-                await LoadSeasons(); // Odśwież listę sezonów
+                await LoadSeasons();
             }
         }
         catch (Exception ex)
@@ -263,7 +263,7 @@ else
         {
             await seasonService.UpdateSeason(season);
             _editingSeasonId = null;
-            await LoadSeasons(); // Odśwież listę sezonów
+            await LoadSeasons();
         }
         catch (Exception ex)
         {
@@ -309,8 +309,8 @@ else
         {
             newRound.SeasonId = selectedSeasonId.Value;
             await seasonService.CreateRound(newRound);
-            newRound = new RoundDto(); // Resetuj formularz
-            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+            newRound = new RoundDto();
+            await ShowRounds(selectedSeasonId.Value);
         }
         catch (Exception ex)
         {
@@ -329,7 +329,7 @@ else
         {
             await seasonService.UpdateRound(round);
             _editingRoundId = null;
-            await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+            await ShowRounds(selectedSeasonId.Value);
         }
         catch (Exception ex)
         {
@@ -349,7 +349,7 @@ else
             }
             else
             {
-                await ShowRounds(selectedSeasonId.Value); // Odśwież listę rund
+                await ShowRounds(selectedSeasonId.Value);
             }
         }
         catch (Exception ex)

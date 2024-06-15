@@ -175,7 +175,7 @@
         if (user.Identity.IsAuthenticated)
         {
             var email = user.FindFirstValue(ClaimTypes.Name);
-            Console.WriteLine($"Retrieved email: {email}"); // Debugging log
+            Console.WriteLine($"Retrieved email: {email}"); 
 
             var currentUser = await userService.GetCurrentUserProfile();
             var captain = new TeamPlayerDto
@@ -183,7 +183,6 @@
                 FirstName = currentUser.FirstName,
                 LastName = currentUser.LastName,
                 Email = email,
-                // Add other necessary properties here
             };
 
             AddPlayer(captain);
@@ -222,7 +221,6 @@
         else
         {
             ShowErrorMessage = true;
-            // ErrorMessage = response.Message;
             StateHasChanged();
         }
     }
