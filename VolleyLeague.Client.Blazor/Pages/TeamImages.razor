@@ -21,13 +21,13 @@ else
             <div class="row">
                 <div class="col-md-12">
                     <div class="mobile">
-                        <div class="article_title header_purple">
-                            <h2>Zespoły</h2>
+                        <div class="article_title">
+                            <h2>Zdjęcia zespołów</h2>
                         </div>
                         <p class="text-danger">@ErrorMessage</p>
 
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped text-center">
                                 <thead>
                                     <tr>
                                         <th>Nazwa zespołu</th>
@@ -50,7 +50,10 @@ else
                                                 <td>
                                                     @if (!team.HasImage)
                                                     {
-                                                        <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
+                                                        <label class="btn btn-primary">
+                                                            Prześlij
+                                                            <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" style="display:none;" />
+                                                        </label>
                                                     }
                                                 </td>
                                                 <td>
