@@ -21,7 +21,17 @@
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
+                <section class="category_section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">
+                                    Taka strona nie istnieje!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </LayoutView>
         </NotFound>
     </Router>
