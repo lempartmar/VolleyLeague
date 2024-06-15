@@ -181,7 +181,7 @@
         try
         {
             var additionalTeams = await TeamService.GetAllTeamsImageStatus();
-            Teams = additionalTeams; // Update the entire list to reflect changes
+            Teams = additionalTeams;
         }
         catch (Exception ex)
         {

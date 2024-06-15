@@ -117,7 +117,6 @@ else
                         <p class="widget_divider"><a href="#" target="_self">Więcej&nbsp;&raquo;</a></p>
                     </div>
                 </div>
-                <!-- Right Section -->
             </div>
         </div>
     </section>
@@ -139,19 +138,19 @@ else
     }
 
     .table-responsive {
-        flex: 1; /* Każda tabela będzie miała równą szerokość */
-        max-width: 50%; /* Opcjonalnie ogranicza szerokość każdej tabeli do 50% kontenera */
-        overflow-x: auto; /* Zapewnia przewijanie, jeśli tabela jest za szeroka */
+        flex: 1;
+        max-width: 50%; 
+        overflow-x: auto; 
     }
 
     table {
-        width: 100%; /* Szerokość tabeli na cały kontener */
+        width: 100%; 
     }
 
         table th, table td, table tr {
             border: none;
             padding: 4px;
-            color: black; /* Ustawia kolor tekstu na czarny dla wszystkich komórek tabeli */
+            color: black; 
         }
 
 </style>
@@ -162,7 +161,7 @@ else
     setInterval(function () {
         angle += 20; // Zwiększ kąt o 20 stopni
         spinner.style.transform = 'rotate(' + angle + 'deg)';
-    }, 100); // Aktualizuj co 100 milisekund
+    }, 100);
 </script>
 
 @code {
@@ -237,7 +236,7 @@ else
     }
 
     private int _currentPage = 1;
-    private int _articlesPerPage = 5; // Zmienna używana w przyszłości dla funkcji paginacji
+    private int _articlesPerPage = 5; 
 
     private async Task LoadNextPage()
     {

@@ -10,7 +10,7 @@
 <section id="category_section" class="category_section">
     <div class="container">
         <div class="row">
-            <!-- Brakujący tag otwierający 'row' dla całej sekcji -->
+
             <div class="col-md-8">
                 <div class="row">
                     <Carousele matchResults="@matchResults" />
@@ -153,50 +153,9 @@
 
                 </div>
 
-               @*  <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" style="text-align: center; color: black;">Lp</th>
-                                <th rowspan="2" style="text-align: center; color: black;">Drużyna</th>
-                                <th rowspan="2" style="text-align: center; color: black;">Mecze Rozegrane</th>
-                                <th rowspan="2" style="text-align: center; color: black;">Punkty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                int rank = 1;
-                            }
-                            @foreach (var team in StandingsList)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle; text-align: center;">@rank</td>
-                                    <td>
-                                        @{
-                                            var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/img/Logo_alternative.png";
-                                        }
-                                        <div style="display: flex; align-items: center;">
-                                            <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
-                                            <span>@team.Team.Name</span>
-                                        </div>
-                                    </td>
-                                    <td style="vertical-align: middle; text-align: center;">@team.MatchesPlayed</td>
-                                    <td style="vertical-align: middle; text-align: center;">@team.Points</td>
-                                </tr>
-                                rank++;
-                            }
-                        </tbody>
-                    </table>
-                </div>
- *@
-
-
-
             </div>
-            <!-- Left Section -->
 
             <div class="col-md-4">
-                <!-- Brakujący tag zamykający 'col-md-4', przeniesiony do odpowiedniego miejsca -->
                 <div class="widget">
                     <div class="widget_title widget_black">
                         <h2><a href="#">Aktualności</a></h2>

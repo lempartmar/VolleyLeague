@@ -174,7 +174,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await LoadInitialDataAsync();
-        await ApplyFilter(); // Immediately apply the filter with default season and league
+        await ApplyFilter();
     }
 
     private async Task LoadInitialDataAsync()
@@ -202,7 +202,7 @@ else
     private async Task ApplyFilter()
     {
         mvpLoading = true;
-        mvpErrorMessage = string.Empty; // Reset the error message
+        mvpErrorMessage = string.Empty;
         MvpList = await matchService.GetMvpBySeasonAndLeague(Filter.SeasonId, Filter.LeagueId);
         if (MvpList == null || MvpList.Count == 0)
         {

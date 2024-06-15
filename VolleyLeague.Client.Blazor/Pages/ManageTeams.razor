@@ -173,15 +173,12 @@
 
     private async Task UpdateTeam(ExtendedTeamDto team)
     {
-        // Here you would call the service to update the team
         await teamService.UpdateExtendedTeamByAdmin(team);
         team.IsEditing = false;
-        // Refresh the team list or individual team data as needed
     }
 
     private void CancelEdit(ExtendedTeamDto team)
     {
         team.IsEditing = false;
-        // Optionally reset the fields to their original values if needed
     }
 }
