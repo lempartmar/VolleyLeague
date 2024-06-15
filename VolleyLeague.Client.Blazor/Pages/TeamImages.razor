@@ -34,6 +34,7 @@ else
                                         <th>Czy ma obraz</th>
                                         <th>Prześlij obraz</th>
                                         <th>Wyświetl obraz</th>
+                                        <th>Usuń obraz</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,11 +58,19 @@ else
                                                         </button>
                                                     }
                                                 </td>
+                                                <td>
+                                                    @if (team.HasImage)
+                                                    {
+                                                        <button @onclick="@(() => DeleteTeamImage(team.Id))" class="btn btn-danger">
+                                                            Usuń
+                                                        </button>
+                                                    }
+                                                </td>
                                             </tr>
                                             @if (DisplayedImageTeamId == team.Id && !string.IsNullOrEmpty(SelectedImage))
                                             {
                                                 <tr>
-                                                    <td colspan="4" class="text-center">
+                                                    <td colspan="5" class="text-center">
                                                         <img src="@SelectedImage" style="max-width:100%; max-height:400px;" />
                                                     </td>
                                                 </tr>
@@ -201,6 +210,27 @@ else
         catch (Exception ex)
         {
             ErrorMessage = $"Wystąpił błąd podczas ładowania obrazu: {ex.Message}";
+        }
+    }
+
+    private async Task DeleteTeamImage(int teamId)
+    {
+        try
+        {
+            var response = await Http.DeleteAsync($"api/File/DeleteTeamImage/{teamId}");
+            if (response.IsSuccessStatusCode)
+            {
+                // Odśwież listę, aby pokazać nowy stan obrazu
+                await LoadTeams();
+            }
+            else
+            {
+                ErrorMessage = $"Nie udało się usunąć obrazu dla zespołu {teamId}.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Wystąpił błąd podczas usuwania obrazu: {ex.Message}";
         }
     }
 

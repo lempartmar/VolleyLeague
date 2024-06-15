@@ -36,7 +36,6 @@
     <None Remove="Images\teams\1134.jpg" />
     <None Remove="Images\teams\1135.jpg" />
     <None Remove="Images\teams\1136.jpg" />
-    <None Remove="Images\teams\23.jpg" />
     <None Remove="Images\teams\24.jpg" />
     <None Remove="Images\teams\25.jpg" />
     <None Remove="Images\teams\26.jpg" />
@@ -186,10 +185,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="Images\teams\23.jpg">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="Images\teams\24.jpg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -317,7 +312,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\Teams\" />
+    <None Update="Images\Teams\23.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

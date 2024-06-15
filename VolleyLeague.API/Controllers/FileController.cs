@@ -110,6 +110,43 @@ namespace VolleyLeague.API.Controllers
             }
         }
 
+        [HttpDelete("DeleteTeamImage/{teamId}")]
+        public async Task<ActionResult> DeleteTeamImage(int teamId)
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+            }
+            var filePath = Path.Combine(servicesPath, $"{teamId}.jpg");
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // Resetowanie atrybutów pliku
+               // System.IO.File.SetAttributes(filePath, FileAttributes.Normal);
+
+                System.IO.File.Delete(filePath);
+                return Ok();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogError(ex, $"Access denied while deleting image for team {teamId}");
+                return StatusCode(403, "Access denied. Check file permissions.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error deleting image for team {teamId}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
+
         [HttpGet("DownloadTeamImage/{teamId}")]
         public async Task<IActionResult> DownloadTeamImage(int teamId)
         {
