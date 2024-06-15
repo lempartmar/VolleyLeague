@@ -1,10 +1,13 @@
 ﻿@page "/user-profile/0"
 @page "/user-profile/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Discussion
 @using VolleyLeague.Shared.Dtos.Teams
 
 @inject IUserService userService
+
+@attribute [Authorize(Roles = "Admin,Player")]
 
 <section class="category_section">
     <div class="container">

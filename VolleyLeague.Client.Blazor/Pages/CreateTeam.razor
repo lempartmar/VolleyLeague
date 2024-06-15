@@ -1,4 +1,5 @@
 ﻿@page "/CreateTeam"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
@@ -7,6 +8,8 @@
 @inject ITeamService teamService
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authenticationStateProvider
+
+@attribute [Authorize(Roles = "Admin,Player")]
 
 <section class="category_section" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
     <div class="container" style="max-width: 800px; width: 100%;">
