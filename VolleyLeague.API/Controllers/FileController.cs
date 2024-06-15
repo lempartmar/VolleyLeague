@@ -54,6 +54,16 @@ namespace VolleyLeague.API.Controllers
             return File(memory, GetContentType(filePath), fileName);
         }
 
+        [HttpPost("UploadTeamImage/{teamId}")]
+        public async Task<ActionResult> UploadTeamImage(int teamId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            await _fileService.UploadTeamImage(teamId, file);
+            return Ok();
+        }
+
         [HttpGet("GetAllTeamsImagesStatus")]
         public async Task<IActionResult> GetAllTeamsImagesStatus()
         {

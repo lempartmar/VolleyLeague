@@ -2,6 +2,8 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 @inject ITeamService TeamService
+@inject HttpClient Http
+@inject IJSRuntime JS
 
 @if (!PageReady)
 {
@@ -29,6 +31,8 @@ else
                                     <tr>
                                         <th>Team Name</th>
                                         <th>Has Image</th>
+                                        <th>Upload Image</th>
+                                        <th>View Image</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,11 +45,20 @@ else
                                                 <td>
                                                     @if (team.HasImage)
                                                     {
-                                                        <span>Yes</span>
+                                                        <span>&#10003;</span> <!-- checkmark icon -->
                                                     }
                                                     else
                                                     {
-                                                        <span>No</span>
+                                                        <span>&#10007;</span> <!-- cross icon -->
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
+                                                </td>
+                                                <td>
+                                                    @if (team.HasImage)
+                                                    {
+                                                        <button @onclick="@(() => ViewImage(team.Id))">View</button>
                                                     }
                                                 </td>
                                             </tr>
@@ -105,5 +118,39 @@ else
         {
             ErrorMessage = $"An error occurred while loading teams: {ex.Message}";
         }
+    }
+
+    private async Task UploadTeamImage(int teamId, InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            if (file != null)
+            {
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(file.OpenReadStream()), "file", file.Name);
+
+                var response = await Http.PostAsync($"api/File/UploadTeamImage/{teamId}", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Refresh the list to show the new image status
+                    await LoadTeams();
+                }
+                else
+                {
+                    ErrorMessage = $"Failed to upload image for team {teamId}.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"An error occurred while uploading image: {ex.Message}";
+        }
+    }
+
+    private void ViewImage(int teamId)
+    {
+        var imageUrl = $"VolleyLeague.Shared/Images/Teams/{teamId}.jpg";
+        JS.InvokeVoidAsync("open", imageUrl, "_blank");
     }
 }

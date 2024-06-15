@@ -7,6 +7,8 @@ namespace VolleyLeague.Services.Services
         Task UploadFiles(List<IFormFile> files);
 
         bool TeamHasImage(int teamId);
+
+        Task UploadTeamImage(int teamId, IFormFile file);
     }
 
 }
