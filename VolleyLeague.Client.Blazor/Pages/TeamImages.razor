@@ -48,7 +48,10 @@ else
                                                     @(team.HasImage ? "Tak" : "Nie")
                                                 </td>
                                                 <td>
-                                                    <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
+                                                    @if (!team.HasImage)
+                                                    {
+                                                        <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
+                                                    }
                                                 </td>
                                                 <td>
                                                     @if (team.HasImage)
