@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
-using VolleyLeague.Entities.Dtos.Discussion;
 using VolleyLeague.Entities.Dtos.Files;
-using VolleyLeague.Entities.Models;
-using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 namespace VolleyLeague.Services.Services
 {
@@ -35,28 +35,30 @@ namespace VolleyLeague.Services.Services
                 uploadResult.FileName = untrustedFileName;
                 var trustedFileNameForDisplay = WebUtility.HtmlEncode(untrustedFileName);
 
-                var uploadsPath = Path.Combine(_env.ContentRootPath, "uploads");
-                var filePath = Path.Combine(uploadsPath, untrustedFileName);
+                var servicesPath = Path.Combine(_env.ContentRootPath, "uploads");
+                if (servicesPath.Contains("VolleyLeague.API"))
+                {
+                    servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Services");
+                }
+
+                var filePath = Path.Combine(servicesPath, untrustedFileName);
 
                 try
                 {
-                    // Ensure the uploads directory exists
-                    if (!Directory.Exists(uploadsPath))
+                    if (!Directory.Exists(servicesPath))
                     {
-                        Directory.CreateDirectory(uploadsPath);
+                        Directory.CreateDirectory(servicesPath);
                     }
 
-                    // Check if the file already exists and create a unique name if it does
                     int count = 1;
                     string fileNameOnly = Path.GetFileNameWithoutExtension(untrustedFileName);
                     string extension = Path.GetExtension(untrustedFileName);
                     while (File.Exists(filePath))
                     {
                         string tempFileName = $"{fileNameOnly}({count++}){extension}";
-                        filePath = Path.Combine(uploadsPath, tempFileName);
+                        filePath = Path.Combine(servicesPath, tempFileName);
                     }
 
-                    // Create the file on the server
                     await using FileStream fs = new(filePath, FileMode.Create);
                     await file.CopyToAsync(fs);
 
@@ -65,7 +67,6 @@ namespace VolleyLeague.Services.Services
                 }
                 catch (Exception ex)
                 {
-                    // Log the error (you can replace this with your logging mechanism)
                     Console.WriteLine($"Error uploading file {untrustedFileName}: {ex.Message}");
                     uploadResults.Add(uploadResult);
                 }
@@ -75,4 +76,3 @@ namespace VolleyLeague.Services.Services
 
     }
 }
-
