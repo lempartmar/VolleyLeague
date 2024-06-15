@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using VolleyLeague.Entities.Dtos.Discussion;
 using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.Services.Mapping
 {

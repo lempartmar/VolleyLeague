@@ -1,4 +1,4 @@
-﻿using VolleyLeague.Entities.Dtos.Matches;
+﻿using VolleyLeague.Shared.Dtos.Matches;
 
 namespace VolleyLeague.Services.Interfaces
 {

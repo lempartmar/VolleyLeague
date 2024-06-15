@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VolleyLeague.Entities\VolleyLeague.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

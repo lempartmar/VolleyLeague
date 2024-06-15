@@ -2,12 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Net;
-using VolleyLeague.Entities.Dtos.Files;
 using VolleyLeague.Services.Interfaces;
-using System.IO;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
+using VolleyLeague.Shared.Dtos.Files;
 
 namespace VolleyLeague.Services.Services
 {

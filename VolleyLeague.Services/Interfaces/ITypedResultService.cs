@@ -1,6 +1,6 @@
-﻿using VolleyLeague.Entities.Dtos.Matches;
-using VolleyLeague.Entities.Dtos.Users;
-using VolleyLeague.Entities.Models;
+﻿using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Matches;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Interfaces
 {

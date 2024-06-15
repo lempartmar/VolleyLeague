@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VolleyLeague.Repositories\VolleyLeague.Repositories.csproj" />
+    <ProjectReference Include="..\VolleyLeague.Shared\VolleyLeague.Shared.csproj" />
   </ItemGroup>
 
 </Project>

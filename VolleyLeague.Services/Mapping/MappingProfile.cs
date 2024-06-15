@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using VolleyLeague.Entities.Dtos.Discussion;
-using VolleyLeague.Entities.Dtos.Matches;
-using VolleyLeague.Entities.Dtos.Teams;
-using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Discussion;
+using VolleyLeague.Shared.Dtos.Matches;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Mapping
 {

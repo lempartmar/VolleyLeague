@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Mapping
 {

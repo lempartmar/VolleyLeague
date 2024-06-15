@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Mail;
 using System.Net;
-using VolleyLeague.Entities.Dtos.Discussion;
-using VolleyLeague.Entities.Models;
-using VolleyLeague.Repositories.Interfaces;
+using System.Net.Mail;
 using VolleyLeague.Services.Interfaces;
 
 namespace VolleyLeague.Services.Services

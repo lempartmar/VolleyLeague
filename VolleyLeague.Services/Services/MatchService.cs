@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
-using VolleyLeague.Entities.Dtos.Matches;
-using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
-using VolleyLeague.Repositories.Repositories;
 using VolleyLeague.Services.Helpers;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Matches;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {

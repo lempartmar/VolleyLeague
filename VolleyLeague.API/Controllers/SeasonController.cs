@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Services.Interfaces;
-using VolleyLeague.Services.Services;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.API.Controllers
 {

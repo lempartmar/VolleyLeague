@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using VolleyLeague.Entities.Dtos.Matches;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Matches;
 
 namespace VolleyLeague.Services.Services
 {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
-using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {

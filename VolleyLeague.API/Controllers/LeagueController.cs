@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VolleyLeague.Entities.Dtos.Teams;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.API.Controllers
 {

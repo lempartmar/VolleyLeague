@@ -1,4 +1,4 @@
-﻿using VolleyLeague.Entities.Dtos.Discussion;
+﻿using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.Services.Services
 {

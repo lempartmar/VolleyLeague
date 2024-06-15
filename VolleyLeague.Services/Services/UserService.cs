@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
-using VolleyLeague.Entities.Dtos.Teams;
-using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Helpers;
-using Microsoft.Extensions.Configuration;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {

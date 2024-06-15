@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using VolleyLeague.Entities.Dtos.Discussion;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.Services.Services
 {

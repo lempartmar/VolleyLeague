@@ -1,10 +1,7 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using VolleyLeague.Entities.Dtos.Matches;
-using VolleyLeague.Entities.Dtos.Teams;
-using System.Collections.Generic;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
+using VolleyLeague.Shared.Dtos.Matches;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Client.Blazor.Services
 {

@@ -1,14 +1,11 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using VolleyLeague.Client.Blazor.Services;
-using VolleyLeague.Entities.Dtos.Users;
 using VolleyLeague.Entities.Models;
-using VolleyLeague.Services.Services;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.API.Controllers
 {

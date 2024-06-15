@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using VolleyLeague.Entities.Dtos.Discussion;
-using VolleyLeague.Entities.Dtos.Teams;
+using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.Client.Blazor.Services
 {

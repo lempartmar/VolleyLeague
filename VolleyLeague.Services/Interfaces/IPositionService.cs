@@ -1,4 +1,5 @@
-﻿using VolleyLeague.Entities.Dtos.Teams;
+﻿
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {

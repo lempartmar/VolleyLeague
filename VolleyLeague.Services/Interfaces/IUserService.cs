@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VolleyLeague.Entities.Dtos.Teams;
-using VolleyLeague.Entities.Dtos.Users;
-using VolleyLeague.Entities.Models;
+﻿using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {
