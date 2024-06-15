@@ -110,6 +110,31 @@ namespace VolleyLeague.API.Controllers
             }
         }
 
+        [HttpGet("DownloadTeamImage/{teamId}")]
+        public async Task<IActionResult> DownloadTeamImage(int teamId)
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+            }
+            var filePath = Path.Combine(servicesPath, $"{teamId}.jpg");
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var file = File(memory, GetContentType(filePath), $"{teamId}.jpg");
+            return file;
+        }
+
 
 
         private string GetContentType(string path)
