@@ -22,7 +22,7 @@ else
                 <div class="col-md-12">
                     <div class="mobile">
                         <div class="article_title header_purple">
-                            <h2>Teams</h2>
+                            <h2>Zespoły</h2>
                         </div>
                         <p class="text-danger">@ErrorMessage</p>
 
@@ -30,10 +30,10 @@ else
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Team Name</th>
-                                        <th>Has Image</th>
-                                        <th>Upload Image</th>
-                                        <th>View Image</th>
+                                        <th>Nazwa zespołu</th>
+                                        <th>Czy ma obraz</th>
+                                        <th>Prześlij obraz</th>
+                                        <th>Wyświetl obraz</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,18 +43,19 @@ else
                                         {
                                             <tr>
                                                 <td>@team.Name</td>
-                                                <td>
-                                                    <span style="color: @(team.HasImage ? "green" : "red");">
-                                                        @(team.HasImage ? "&#10003;" : "&#10007;")
-                                                    </span>
+                                                <td style="color: @(team.HasImage ? "green" : "red");">
+                                                    @(team.HasImage ? "Tak" : "Nie")
                                                 </td>
                                                 <td>
                                                     <InputFile OnChange="@((e) => UploadTeamImage(team.Id, e))" />
                                                 </td>
                                                 <td>
-                                                    <button @onclick="@(() => ToggleImageDisplay(team.Id))" class="btn btn-primary">
-                                                        @(DisplayedImageTeamId == team.Id ? "Hide" : "View")
-                                                    </button>
+                                                    @if (team.HasImage)
+                                                    {
+                                                        <button @onclick="@(() => ToggleImageDisplay(team.Id))" class="btn btn-primary">
+                                                            @(DisplayedImageTeamId == team.Id ? "Ukryj" : "Wyświetl")
+                                                        </button>
+                                                    }
                                                 </td>
                                             </tr>
                                             @if (DisplayedImageTeamId == team.Id && !string.IsNullOrEmpty(SelectedImage))
@@ -149,7 +150,7 @@ else
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"An error occurred while loading teams: {ex.Message}";
+            ErrorMessage = $"Wystąpił błąd podczas ładowania zespołów: {ex.Message}";
         }
     }
 
@@ -166,18 +167,18 @@ else
                 var response = await Http.PostAsync($"api/File/UploadTeamImage/{teamId}", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    // Refresh the list to show the new image status
+                    // Odśwież listę, aby pokazać nowy stan obrazu
                     await LoadTeams();
                 }
                 else
                 {
-                    ErrorMessage = $"Failed to upload image for team {teamId}.";
+                    ErrorMessage = $"Nie udało się przesłać obrazu dla zespołu {teamId}.";
                 }
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"An error occurred while uploading image: {ex.Message}";
+            ErrorMessage = $"Wystąpił błąd podczas przesyłania obrazu: {ex.Message}";
         }
     }
 
@@ -194,12 +195,12 @@ else
             }
             else
             {
-                ErrorMessage = $"Failed to load image for team {teamId}.";
+                ErrorMessage = $"Nie udało się załadować obrazu dla zespołu {teamId}.";
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"An error occurred while loading image: {ex.Message}";
+            ErrorMessage = $"Wystąpił błąd podczas ładowania obrazu: {ex.Message}";
         }
     }
 
