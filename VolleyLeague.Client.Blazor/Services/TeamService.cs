@@ -18,6 +18,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<bool> UpdateCaptain(int playerId);
         public Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit();
         public Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team);
+        public Task<List<TeamImageDto>> GetAllTeamsImageStatus();
     }
 
     public class TeamService : ITeamService
@@ -36,6 +37,15 @@ namespace VolleyLeague.Client.Blazor.Services
 
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<List<TeamDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<List<TeamImageDto>> GetAllTeamsImageStatus()
+        {
+            var response = await _httpClient.GetAsync("api/file/getallteamsimagesstatus");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<TeamImageDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<List<TeamSummaryDto>> GetAllTeams()

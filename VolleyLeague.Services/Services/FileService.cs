@@ -20,6 +20,19 @@ namespace VolleyLeague.Services.Services
             _logService = logService;
         }
 
+        public bool TeamHasImage(int teamId)
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+            }
+
+            var filePath = Path.Combine(servicesPath, $"{teamId}.jpg");
+
+            return File.Exists(filePath);
+        }
+
         public async Task UploadFiles(List<IFormFile> files)
         {
             List<UploadResultDto> uploadResults = new List<UploadResultDto>();

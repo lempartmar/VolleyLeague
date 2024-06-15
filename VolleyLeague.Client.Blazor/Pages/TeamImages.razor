@@ -28,14 +28,28 @@ else
                                 <thead>
                                     <tr>
                                         <th>Team Name</th>
+                                        <th>Has Image</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var team in Teams)
+                                    @if (Teams != null)
                                     {
-                                        <tr>
-                                            <td>@team.Name</td>
-                                        </tr>
+                                        @foreach (var team in Teams)
+                                        {
+                                            <tr>
+                                                <td>@team.Name</td>
+                                                <td>
+                                                    @if (team.HasImage)
+                                                    {
+                                                        <span>Yes</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -72,7 +86,7 @@ else
 @code {
     public bool PageReady = false;
     public string ErrorMessage = "";
-    public List<TeamDto>? Teams;
+    public List<TeamImageDto> Teams = new List<TeamImageDto>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +98,8 @@ else
     {
         try
         {
-            Teams = await TeamService.GetAllTeamsDto();
+            var additionalTeams = await TeamService.GetAllTeamsImageStatus();
+            Teams.AddRange(additionalTeams);
         }
         catch (Exception ex)
         {

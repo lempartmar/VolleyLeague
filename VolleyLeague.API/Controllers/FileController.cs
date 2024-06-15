@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Services.Services;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.API.Controllers
 {
@@ -17,13 +18,15 @@ namespace VolleyLeague.API.Controllers
     {
         private readonly ILogger<FileController> _logger;
         private readonly IFileService _fileService;
+        private readonly ITeamService _teamService;
         private readonly IWebHostEnvironment _env;
 
-        public FileController(ILogger<FileController> logger, IWebHostEnvironment env, IFileService fileService)
+        public FileController(ILogger<FileController> logger, IWebHostEnvironment env, IFileService fileService, ITeamService teamService)
         {
             _logger = logger;
             _fileService = fileService;
             _env = env;
+            _teamService = teamService;
         }
 
         [HttpPost("UploadFile")]
@@ -49,6 +52,20 @@ namespace VolleyLeague.API.Controllers
             }
             memory.Position = 0;
             return File(memory, GetContentType(filePath), fileName);
+        }
+
+        [HttpGet("GetAllTeamsImagesStatus")]
+        public async Task<IActionResult> GetAllTeamsImagesStatus()
+        {
+            var teams = await _teamService.GetAllTeams();
+            var teamImageDtos = teams.Select(team => new TeamImageDto
+            {
+                Id = team.Id,
+                Name = team.Name,
+                HasImage = _fileService.TeamHasImage(team.Id)
+            }).ToList();
+
+            return Ok(teamImageDtos);
         }
 
         [HttpGet("GetUploadedFiles")]
