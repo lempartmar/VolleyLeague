@@ -31,10 +31,10 @@ namespace VolleyLeague.Services.Services
                 uploadResult.FileName = untrustedFileName;
                 var trustedFileNameForDisplay = WebUtility.HtmlEncode(untrustedFileName);
 
-                var servicesPath = Path.Combine(_env.ContentRootPath, "uploads");
+                var servicesPath = Path.Combine(_env.ContentRootPath);
                 if (servicesPath.Contains("VolleyLeague.API"))
                 {
-                    servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Services");
+                    servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
                 }
 
                 var filePath = Path.Combine(servicesPath, untrustedFileName);
