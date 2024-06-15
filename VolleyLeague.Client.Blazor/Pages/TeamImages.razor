@@ -22,7 +22,7 @@ else
                 <div class="col-md-12">
                     <div class="mobile">
                         <div class="article_title">
-                            <h2>Zdjęcia zespołów</h2>
+                            <h2>Panel zarządzania zdjęciami</h2>
                         </div>
                         <p class="text-danger">@ErrorMessage</p>
 
@@ -161,7 +161,7 @@ else
         try
         {
             var additionalTeams = await TeamService.GetAllTeamsImageStatus();
-            Teams.AddRange(additionalTeams);
+            Teams = additionalTeams; // Update the entire list to reflect changes
         }
         catch (Exception ex)
         {
@@ -182,7 +182,6 @@ else
                 var response = await Http.PostAsync($"api/File/UploadTeamImage/{teamId}", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    // Odśwież listę, aby pokazać nowy stan obrazu
                     await LoadTeams();
                 }
                 else
@@ -226,7 +225,6 @@ else
             var response = await Http.DeleteAsync($"api/File/DeleteTeamImage/{teamId}");
             if (response.IsSuccessStatusCode)
             {
-                // Odśwież listę, aby pokazać nowy stan obrazu
                 await LoadTeams();
             }
             else
