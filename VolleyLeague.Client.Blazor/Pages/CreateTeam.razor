@@ -56,7 +56,7 @@
 
                         <div class="card-body" style="padding: 16px;">
                             <h3 style="text-align: center;">Zawodnicy</h3>
-                            <p class="text-danger"><ValidationMessage For="@(() => NewTeam.Players)"></ValidationMessage></p>
+                            <p class="text-danger">@ErrorMessage</p>
                             <table class="table table-responsive table-sm" style="width: 100%; border-collapse: collapse;">
                                 <thead>
                                     <tr>
@@ -80,11 +80,17 @@
                                         <td>@(++i)</td>
                                         <td>
                                             <InputText style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.FirstName" readonly="@(i == 1)" />
-                                            <p class="text-danger"><ValidationMessage For="@(() => player.FirstName)" /></p>
+                                            <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
                                         </td>
-                                        <td><InputText style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.LastName" readonly="@(i == 1)" /></td>
-                                        <td><InputNumber style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.JerseyNumber" disabled="@(i == 1)" /></td>
-                                        <td><InputNumber style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Height" disabled="@(i == 1)" /></td>
+                                        <td><InputText style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.LastName" readonly="@(i == 1)" />
+                                            <ValidationMessage For="@(() => player.LastName)" class="text-danger" />
+                                        </td>
+                                        <td><InputNumber style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.JerseyNumber" disabled="@(i == 1)" />
+                                            <ValidationMessage For="@(() => player.JerseyNumber)" class="text-danger" />
+                                        </td>
+                                        <td><InputNumber style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Height" disabled="@(i == 1)" />
+                                            <ValidationMessage For="@(() => player.Height)" class="text-danger" />
+                                        </td>
                                         <td>
                                             <InputSelect style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.PositionId" disabled="@(i == 1)">
                                                 @foreach (var position in Positions)
@@ -92,6 +98,7 @@
                                                     <option value="@position.Id">@position.Name</option>
                                                 }
                                             </InputSelect>
+                                            <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
                                         </td>
                                         <td style="display: flex; align-items: center;">
                                             <InputRadioGroup @bind-Value="player.Gender" disabled="@(i == 1)" style="display: flex; gap: 8px;">
@@ -100,8 +107,11 @@
                                                 <InputRadio Value="true" class="m-1"></InputRadio>
                                                 <label class="m-1">K</label>
                                             </InputRadioGroup>
+                                            <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
                                         </td>
-                                        <td><InputText style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Email" readonly="@(i == 1)" /></td>
+                                        <td><InputText style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Email" readonly="@(i == 1)" />
+                                            <ValidationMessage For="@(() => player.Email)" class="text-danger" />
+                                        </td>
                                         <td>
                                             @if (i > 1)
                                             {
@@ -183,6 +193,7 @@
                 FirstName = currentUser.FirstName,
                 LastName = currentUser.LastName,
                 Email = email,
+                PositionId = Positions.First().Id // Assuming the first position in the list is a default position
             };
 
             AddPlayer(captain);
@@ -193,13 +204,29 @@
 
     public void AddPlayer(TeamPlayerDto player = null)
     {
-        i = 0;
+        // Check if the last player has required fields filled
+        if (NewTeam.Players.Any())
+        {
+            var lastPlayer = NewTeam.Players.Last();
+            if (string.IsNullOrWhiteSpace(lastPlayer.FirstName) ||
+                string.IsNullOrWhiteSpace(lastPlayer.LastName) ||
+                string.IsNullOrWhiteSpace(lastPlayer.Email) ||
+                lastPlayer.PositionId == 0)
+            {
+                ErrorMessage = "Imię, nazwisko, email oraz pozycja są wymagane dla każdego zawodnika.";
+                return;
+            }
+        }
+
         NewTeam.Players.Add(player ?? new TeamPlayerDto());
+        ErrorMessage = "";
+        i = 0;
     }
 
     public void RemovePlayer(TeamPlayerDto player)
     {
         NewTeam.Players.Remove(player);
+        i = 0;
     }
 
     public async Task HandleValidSubmit()
