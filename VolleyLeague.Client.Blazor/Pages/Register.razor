@@ -55,7 +55,7 @@
 
                                 <div class="form-group mb-3">
                                     <label for="ConfirmPassword" class="control-label">Powtórz hasło:</label>
-                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" @oninput="ValidateConfirmPassword" />
+                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.ConfirmPassword)" />
                                     @if (!string.IsNullOrEmpty(confirmPasswordValidationMessage))
                                     {
@@ -191,18 +191,27 @@
     {
         ShowErrorMessage = false;
         IsLoading = true;
-        await Task.Delay(1000);
-        var result = await UserService.Register(registerModel);
-        IsLoading = false;
+        ValidateConfirmPassword();
 
-        if (result)
+        if (string.IsNullOrEmpty(confirmPasswordValidationMessage))
         {
-            IsSubmitted = true;
+            await Task.Delay(1000);
+            var result = await UserService.Register(registerModel);
+            IsLoading = false;
+
+            if (result)
+            {
+                IsSubmitted = true;
+            }
+            else
+            {
+                ShowErrorMessage = true;
+                // ErrorMessage = result.Message;
+            }
         }
         else
         {
-            ShowErrorMessage = true;
-            // ErrorMessage = result.Message;
+            IsLoading = false;
         }
     }
 
@@ -219,9 +228,12 @@
         PasswordLowercaseValid = password.Any(char.IsLower);
         PasswordNumberValid = password.Any(char.IsDigit);
         PasswordPunctuationValid = password.Any(ch => char.IsPunctuation(ch) || char.IsSymbol(ch));
+
+        // Remove this line to only validate on submit
+        // ValidateConfirmPassword();
     }
 
-    private void ValidateConfirmPassword(ChangeEventArgs e)
+    private void ValidateConfirmPassword()
     {
         if (registerModel.Password != registerModel.ConfirmPassword)
         {
@@ -235,6 +247,6 @@
 
     private string GetValidationClass(bool isValid)
     {
-        return isValid ? "valid" : "invalidZero";
+        return isValid ? "valid" : "invalid";
     }
 }
