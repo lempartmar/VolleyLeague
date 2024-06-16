@@ -70,15 +70,29 @@
                         </div>
                     </EditForm>
                 }
-                else
-                {
-                    <h3>Zarejestrowano pomyślnie!</h3>
-                    <p><a href="/login">Zaloguj się</a></p>
-                }
             </div>
         </div>
     </div>
 </div>
+
+@if (IsSubmitted)
+{
+    <div class="modal" style="display:block">
+        <div class="modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dziękujemy za rejestrację!</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Twoje konto zostało pomyślnie zarejestrowane.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="NavigateToLogin">Przejdź do logowania</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <style>
     .password-requirements {
@@ -107,6 +121,32 @@
                 content: '✔';
                 color: green;
             }
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 1em;
+        max-width: 500px;
+        width: 100%;
+    }
 </style>
 
 @code {
@@ -152,8 +192,23 @@
         ShowErrorMessage = false;
         IsLoading = true;
         await Task.Delay(1000);
-        await UserService.Register(registerModel);
+        var result = await UserService.Register(registerModel);
         IsLoading = false;
+
+        if (result)
+        {
+            IsSubmitted = true;
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            // ErrorMessage = result.Message;
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
     }
 
     private void ValidatePassword(ChangeEventArgs e)

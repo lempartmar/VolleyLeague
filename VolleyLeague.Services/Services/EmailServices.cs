@@ -46,12 +46,10 @@ namespace VolleyLeague.Services.Services
             }
             catch (SmtpException smtpEx)
             {
-                // Obsługa specyficznych wyjątków SMTP
                 Console.WriteLine($"SMTP Error: {smtpEx.Message}");
             }
             catch (Exception ex)
             {
-                // Obsługa innych wyjątków
                 Console.WriteLine($"General Error: {ex.Message}");
             }
         }
