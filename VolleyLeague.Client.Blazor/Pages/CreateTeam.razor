@@ -8,6 +8,7 @@
 @inject ITeamService teamService
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authenticationStateProvider
+@inject IJSRuntime JSRuntime
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
@@ -243,11 +244,12 @@
         IsLoading = false;
         if (response)
         {
-            navigationManager.NavigateTo("/ManageTeam");
+            await JSRuntime.InvokeVoidAsync("location.assign", "/");
         }
         else
         {
             ShowErrorMessage = true;
+            ErrorMessage = "Wystąpił błąd podczas tworzenia drużyny.";
             StateHasChanged();
         }
     }
