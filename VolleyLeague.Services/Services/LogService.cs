@@ -19,7 +19,7 @@ namespace VolleyLeague.Services.Services
             _logRepository = logRepository;
             _personalLogRepository = personalLogRepository;
         }
-    
+
         public async Task<List<LogDto>> GetLastTenLogs()
         {
             var result = await _logRepository.GetAll().OrderByDescending(x => x.Id).Take(10).ToListAsync();

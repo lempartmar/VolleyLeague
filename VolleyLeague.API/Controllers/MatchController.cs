@@ -70,7 +70,7 @@ namespace VolleyLeague.API.Controllers
                 return Unauthorized();
             }
             var result = await _matchService.DeleteMatch(id);
-            return  Ok(result);
+            return Ok(result);
         }
 
         [HttpGet("GetTeamsInRound/{roundId}")]
@@ -137,7 +137,7 @@ namespace VolleyLeague.API.Controllers
             }
 
             if (seasonId != 0 && teamId != 0)
-            {   
+            {
                 return Ok(await _matchService.GetMatches(seasonId, teamId));
             }
 

@@ -21,7 +21,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<bool> AddArticle(ArticleDto article)
         {
-            article.CreationDate = DateTime.Now;    
+            article.CreationDate = DateTime.Now;
             var response = await _httpClient.PostAsJsonAsync("api/article/addArticle", article);
             return response.IsSuccessStatusCode;
         }

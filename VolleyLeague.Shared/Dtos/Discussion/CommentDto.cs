@@ -1,6 +1,4 @@
-﻿using VolleyLeague.Shared.Dtos.Discussion;
-
-namespace VolleyLeague.Shared.Dtos.Discussion
+﻿namespace VolleyLeague.Shared.Dtos.Discussion
 {
     public class CommentDto
     {

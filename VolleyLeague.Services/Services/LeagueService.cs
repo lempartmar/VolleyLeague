@@ -11,14 +11,14 @@ namespace VolleyLeague.Services.Services
 {
     public class LeagueService : ILeagueService
     {
-        private readonly ILogger<LeagueService> _logger;    
+        private readonly ILogger<LeagueService> _logger;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<League> _leagueRepository;
         public LeagueService(
             IMapper mapper,
             IBaseRepository<League> leagueRepository
-            ) 
-        { 
+            )
+        {
             _mapper = mapper;
             _leagueRepository = leagueRepository;
         }
@@ -34,7 +34,7 @@ namespace VolleyLeague.Services.Services
         {
             var newLeague = _mapper.Map<League>(league);
             Console.WriteLine(newLeague.Name);
-            
+
             await _leagueRepository.InsertAsync(newLeague);
             await _leagueRepository.SaveChangesAsync();
         }
@@ -47,7 +47,7 @@ namespace VolleyLeague.Services.Services
                 throw new KeyNotFoundException(ServicesConsts.League_not_found);
             }
             leagueToUpdate.Name = league.Name;
-            await _leagueRepository.UpdateAsync(leagueToUpdate);   
+            await _leagueRepository.UpdateAsync(leagueToUpdate);
         }
 
         public async Task<bool> DeleteLeague(int id)

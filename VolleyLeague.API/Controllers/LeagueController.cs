@@ -19,8 +19,8 @@ namespace VolleyLeague.API.Controllers
         }
 
         [HttpGet("GetAllLeagues")]
-        public async Task<IActionResult> GetAllLeagues() 
-        { 
+        public async Task<IActionResult> GetAllLeagues()
+        {
             var result = await _leagueService.GetAllLeagues();
             return Ok(result);
         }

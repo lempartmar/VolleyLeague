@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using VolleyLeague.Entities.Models;
 
 namespace VolleyLeague.Shared.Dtos.Teams
 {

@@ -45,8 +45,8 @@ namespace VolleyLeague.Services.Services
 
             ExtendedTeamWithLeagueDto extendedTeam = new ExtendedTeamWithLeagueDto();
             extendedTeam.ExtendedTeamListDto = extendedTeams;
-            extendedTeam.leagueDtos = allLeaguesDtoList; 
-            
+            extendedTeam.leagueDtos = allLeaguesDtoList;
+
             return extendedTeam;
         }
 

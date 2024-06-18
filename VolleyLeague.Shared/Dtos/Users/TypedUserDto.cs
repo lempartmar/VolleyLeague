@@ -1,6 +1,4 @@
-﻿using VolleyLeague.Entities.Models;
-
-namespace VolleyLeague.Shared.Dtos.Teams
+﻿namespace VolleyLeague.Shared.Dtos.Teams
 {
     public class TypedUserDto
     {

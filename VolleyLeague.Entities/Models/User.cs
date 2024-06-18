@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace VolleyLeague.Entities.Models
+﻿namespace VolleyLeague.Entities.Models
 {
     public partial class User : BaseEntity
     {

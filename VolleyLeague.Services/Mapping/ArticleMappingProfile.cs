@@ -6,8 +6,8 @@ namespace VolleyLeague.Services.Mapping
 {
     public class ArticleMappingProfile : Profile
     {
-        public ArticleMappingProfile() 
-            : base() 
+        public ArticleMappingProfile()
+            : base()
         {
             CreateMap<Article, ArticleDto>()
                 .ReverseMap();

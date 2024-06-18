@@ -19,8 +19,8 @@ namespace VolleyLeague.API.Controllers
         }
 
         [HttpGet("GetAllPositions")]
-        public async Task<IActionResult> GetAllPositions() 
-        { 
+        public async Task<IActionResult> GetAllPositions()
+        {
             var result = await _positionService.GetAllPositions();
             return Ok(result);
         }
@@ -43,8 +43,8 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> DeletePosition(int id)
         {
             var result = await _positionService.DeletePosition(id);
-            if(result)
-            return Ok();    
+            if (result)
+                return Ok();
             else return BadRequest();
         }
     }

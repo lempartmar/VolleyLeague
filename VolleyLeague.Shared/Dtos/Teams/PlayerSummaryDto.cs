@@ -1,5 +1,5 @@
 ﻿namespace VolleyLeague.Shared.Dtos.Teams
-{ 
+{
     public class PlayerSummaryDto
     {
         public int Id { get; set; }
@@ -29,4 +29,4 @@
         public int TotalMvpCount { get; set; }
 
     }
-    }
+}

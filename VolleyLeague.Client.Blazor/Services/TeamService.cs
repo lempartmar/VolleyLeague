@@ -3,7 +3,7 @@ using System.Text.Json;
 using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Client.Blazor.Services
-{ 
+{
     public interface ITeamService
     {
         public Task<List<TeamSummaryDto>> GetAllTeams();

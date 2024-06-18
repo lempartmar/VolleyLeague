@@ -13,7 +13,7 @@ namespace VolleyLeague.Services.Services
         private readonly ILogger<PositionService> _logger;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Position> _positionRepository;
-        
+
         public PositionService(
             IMapper mapper,
             IBaseRepository<Position> positionRepository
@@ -27,12 +27,12 @@ namespace VolleyLeague.Services.Services
         {
             try
             {
-                var positionsAll =  await _positionRepository.GetAll().ToListAsync();
-                var positionsAllDto = _mapper.Map<List<PositionDto>>( positionsAll );    
+                var positionsAll = await _positionRepository.GetAll().ToListAsync();
+                var positionsAllDto = _mapper.Map<List<PositionDto>>(positionsAll);
 
                 return positionsAllDto;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
 
             }

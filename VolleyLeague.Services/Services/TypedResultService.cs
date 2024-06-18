@@ -13,11 +13,11 @@ namespace VolleyLeague.Services.Services
         private readonly IMapper _mapper;
         private readonly IBaseRepository<TypedResult> _typedResultsRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
-        public TypedResultService(IBaseRepository<TypedResult> typedResult, IMapper mapper, IBaseRepository<Credentials> credentials) 
+        public TypedResultService(IBaseRepository<TypedResult> typedResult, IMapper mapper, IBaseRepository<Credentials> credentials)
         {
             _typedResultsRepository = typedResult;
             _credentialsRepository = credentials;
-            _mapper = mapper;   
+            _mapper = mapper;
         }
 
         public async Task CreateTypedResult(TypedResultDto typedResult)
@@ -36,20 +36,21 @@ namespace VolleyLeague.Services.Services
             await _typedResultsRepository.InsertAsync(newScore);
             await _typedResultsRepository.SaveChangesAsync();
         }
-    
-    public async Task<List<TypedUserDto>> GetTypedResults(int seasonId)
+
+        public async Task<List<TypedUserDto>> GetTypedResults(int seasonId)
         {
-                var typedResults = _typedResultsRepository.GetAll()
-                    .Include(w => w.Match)
-                    .Include(w => w.User)
-                    .Where(x => x.Score1 + x.Score2 + x.Match.Team1Score + x.Match.Team2Score != 0 && x.Match.Round.SeasonId == seasonId);
+            var typedResults = _typedResultsRepository.GetAll()
+                .Include(w => w.Match)
+                .Include(w => w.User)
+                .Where(x => x.Score1 + x.Score2 + x.Match.Team1Score + x.Match.Team2Score != 0 && x.Match.Round.SeasonId == seasonId);
 
             var perfectResults = typedResults
                 .Where(w => w.Score1 == w.Match.Team1Score && w.Score2 == w.Match.Team2Score);
 
             var perfectTypers = perfectResults
                 .GroupBy(w => w.User.Id)
-                .Select(x => new {
+                .Select(x => new
+                {
                     id = x.Key,
                     points = x.Count() * 2,
                     countPerfectResults = x.Count(),
@@ -63,7 +64,8 @@ namespace VolleyLeague.Services.Services
 
             var correctTypers = correctResults
                 .GroupBy(w => w.User.Id)
-                .Select(x => new {
+                .Select(x => new
+                {
                     id = x.Key,
                     points = x.Count(),
                     countPerfectResults = 0,
@@ -75,7 +77,8 @@ namespace VolleyLeague.Services.Services
             var bestTypers = await correctTypers
                 .Concat(perfectTypers)
                 .GroupBy(x => x.id)
-                .Select(x => new {
+                .Select(x => new
+                {
                     id = x.Key,
                     points = x.Sum(y => y.points),
                     countPerfectResults = x.Sum(y => y.countPerfectResults),
@@ -91,7 +94,7 @@ namespace VolleyLeague.Services.Services
             {
                 typers.Add(new TypedUserDto()
                 {
-                    UserId = typer.id, 
+                    UserId = typer.id,
                     TemporaryVote = typer.points.ToString(),
                     CorrectResultsCount = typer.countCorrectResults,
                     PerfectResultsCount = typer.countPerfectResults,

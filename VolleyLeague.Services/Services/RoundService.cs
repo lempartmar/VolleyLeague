@@ -21,7 +21,7 @@ namespace VolleyLeague.Services.Services
             IBaseRepository<Round> roundRepository,
             IBaseRepository<Match> matchRepository
             )
-        {   
+        {
             _mapper = mapper;
             _roundRepository = roundRepository;
             _matchRepository = matchRepository;
@@ -37,7 +37,8 @@ namespace VolleyLeague.Services.Services
 
         public async Task<List<RoundDto>> GetRoundsBySeasonId(int? seasonId)
         {
-            if (seasonId == null) {
+            if (seasonId == null)
+            {
                 var rounds = await _roundRepository.GetAllDescending().Where(r => r.Season.Id == seasonId).ToListAsync();
                 var roundsAllList = rounds.Select(r => (RoundDto)r).ToList();
                 var result = _mapper.Map<List<RoundDto>>(roundsAllList);

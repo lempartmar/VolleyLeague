@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text.Json;
-using VolleyLeague.Entities.Models;
+﻿using System.Text.Json;
 using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.Client.Blazor.Services
@@ -28,5 +26,5 @@ namespace VolleyLeague.Client.Blazor.Services
 
             return logs;
         }
-}
+    }
 }

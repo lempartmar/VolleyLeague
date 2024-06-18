@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Routing.Constraints;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Shared.Dtos.Teams;
 
@@ -43,7 +42,7 @@ namespace VolleyLeague.Services.Mapping
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdditionalEmail))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
-                
+
             CreateMap<TeamPlayer, TeamPlayerDto>()
                 .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Player.Position.Name))
                 .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.Position.Id))
@@ -105,8 +104,8 @@ namespace VolleyLeague.Services.Mapping
              .ForMember(dest => dest.Website, opt => opt.MapFrom(src => src.Website))
              .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
              .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo))
-             .ForMember(dest => dest.TeamPlayers, opt => opt.Ignore()) 
-             .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.Now))                                                                                  
+             .ForMember(dest => dest.TeamPlayers, opt => opt.Ignore())
+             .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.Now))
              .ForMember(dest => dest.LeagueId, opt => opt.Ignore())
              .ForMember(dest => dest.Accepted, opt => opt.Ignore())
              .ForMember(dest => dest.CaptainId, opt => opt.Ignore())

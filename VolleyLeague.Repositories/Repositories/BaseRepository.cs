@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using VolleyLeague.Entities;
 using VolleyLeague.Repositories.Interfaces;
 
@@ -22,7 +21,7 @@ namespace VolleyLeague.Repositories.Repositories
             return await Table.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public TEntity Insert(TEntity entity)   
+        public TEntity Insert(TEntity entity)
         {
             return Table.Add(entity).Entity;
         }
@@ -36,7 +35,7 @@ namespace VolleyLeague.Repositories.Repositories
         {
             TEntity existingEntity = await _dbContextProvider.FindAsync<TEntity>(entity.Id);
 
-            if(existingEntity == null) 
+            if (existingEntity == null)
             {
                 var e = _dbContextProvider.Add(entity);
                 await SaveChangesAsync();
@@ -54,7 +53,7 @@ namespace VolleyLeague.Repositories.Repositories
 
         public Task<TEntity> UpdateAsync(TEntity entity)
         {
-            return Task.FromResult(Update(entity)); 
+            return Task.FromResult(Update(entity));
         }
 
         public TEntity Update(TEntity entity)
@@ -97,7 +96,7 @@ namespace VolleyLeague.Repositories.Repositories
             var entry = _dbContextProvider.ChangeTracker.Entries()
                 .FirstOrDefault(ent => ent.Entity == entity);
 
-            if(entry != null)
+            if (entry != null)
             {
                 return;
             }

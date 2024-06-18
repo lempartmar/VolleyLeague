@@ -9,31 +9,31 @@ namespace VolleyLeague.Services.Services
 {
     public class ArticleService : IArticleService
     {
-            private readonly IMapper _mapper;
-            private readonly IBaseRepository<Article> _articleRepository;
-            private readonly ILogService _logService;
+        private readonly IMapper _mapper;
+        private readonly IBaseRepository<Article> _articleRepository;
+        private readonly ILogService _logService;
 
         public ArticleService(IBaseRepository<Article> articleRepository, ILogService logService, IMapper mapper)
-            {
-                _mapper = mapper;
-                _articleRepository = articleRepository;
-                _logService = logService;
-            }
+        {
+            _mapper = mapper;
+            _articleRepository = articleRepository;
+            _logService = logService;
+        }
 
-            public async Task<List<ArticleDto>> GetAllArticles()
-            {
-                var result = await _articleRepository.GetAll().Include(a => a.Author).OrderByDescending(a => a.CreationDate).ToListAsync();
+        public async Task<List<ArticleDto>> GetAllArticles()
+        {
+            var result = await _articleRepository.GetAll().Include(a => a.Author).OrderByDescending(a => a.CreationDate).ToListAsync();
 
-                var allArticles = _mapper.Map<List<ArticleDto>>(result);
-                return allArticles;
-            }
+            var allArticles = _mapper.Map<List<ArticleDto>>(result);
+            return allArticles;
+        }
 
 
 
         public async Task<ArticleDto> GetArticleById(int id)
         {
             var result = await _articleRepository.GetAll().Include(a => a.Author).FirstOrDefaultAsync(a => a.Id == id);
-            var articleDto = _mapper.Map<ArticleDto> (result);
+            var articleDto = _mapper.Map<ArticleDto>(result);
 
             return articleDto;
         }

@@ -13,8 +13,8 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<SportsVenue> _sportsVenueRepository;
         private readonly ILogger<VenueService> _logger;
         private readonly IMapper _mapper;
-        
-        public VenueService(IBaseRepository<SportsVenue> sportsVenueRepository,  ILogger<VenueService> logger, IMapper mapper)
+
+        public VenueService(IBaseRepository<SportsVenue> sportsVenueRepository, ILogger<VenueService> logger, IMapper mapper)
         {
             _sportsVenueRepository = sportsVenueRepository;
             _logger = logger;

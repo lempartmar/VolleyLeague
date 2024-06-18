@@ -7,14 +7,14 @@ namespace VolleyLeague.Services.Services
 {
     public class EmailService : IEmailService
     {
-            private readonly IMapper _mapper;
-            private readonly ILogService _logService;
+        private readonly IMapper _mapper;
+        private readonly ILogService _logService;
 
         public EmailService(ILogService logService, IMapper mapper)
-            {
-                _mapper = mapper;
-                _logService = logService;
-            }
+        {
+            _mapper = mapper;
+            _logService = logService;
+        }
 
         public async Task SendEmail(string email, string? additionalInformation)
         {

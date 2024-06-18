@@ -1,6 +1,4 @@
-﻿using VolleyLeague.Entities.Models;
-
-namespace VolleyLeague.Shared.Dtos.Matches
+﻿namespace VolleyLeague.Shared.Dtos.Matches
 {
     public class VenueDto
     {

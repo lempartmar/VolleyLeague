@@ -78,7 +78,7 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception ex)
             {
-               // _logger.LogError(ex, $"Error occurred while deleting season with id {seasonId}");
+                // _logger.LogError(ex, $"Error occurred while deleting season with id {seasonId}");
                 throw new Exception("Błąd w trakcie usuwania sezonu!");
             }
 

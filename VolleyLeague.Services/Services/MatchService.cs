@@ -38,7 +38,7 @@ namespace VolleyLeague.Services.Services
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _teamPlayerRepository = teamPlayerRepository;
-         }
+        }
 
         public async Task<List<MatchSummaryDto>> GetAllMatchesAsync()
         {
@@ -48,7 +48,7 @@ namespace VolleyLeague.Services.Services
                 .Include(m => m.Mvp)
                 .ToListAsync());
 
-            var matchesDto = _mapper.Map<List<MatchSummaryDto>>( matches );
+            var matchesDto = _mapper.Map<List<MatchSummaryDto>>(matches);
 
             return matchesDto;
         }
@@ -85,7 +85,7 @@ namespace VolleyLeague.Services.Services
                 return null;
             }
 
-            var result = _mapper.Map<MatchDto>( match );
+            var result = _mapper.Map<MatchDto>(match);
             return result;
         }
 
@@ -159,7 +159,7 @@ namespace VolleyLeague.Services.Services
                 var hasArbiterRole = user.Credentials.Roles.Any(r => r.Name == Roles.Arbiter);
                 if (!hasArbiterRole)
                 {
-                    var arbiterRoles = await _roleRepository.GetRoles(); 
+                    var arbiterRoles = await _roleRepository.GetRoles();
                     var arbiterRole = arbiterRoles.FirstOrDefault(r => r.Name == Roles.Arbiter);
                     if (arbiterRole != null)
                     {
@@ -181,7 +181,7 @@ namespace VolleyLeague.Services.Services
                 .Include(p => p.Credentials)
                 .ThenInclude(c => c!.Roles)
                 .ToListAsync();
-            
+
             var response = _mapper.Map<List<PlayerSummaryDto>>(other);
 
             return response;
@@ -196,7 +196,7 @@ namespace VolleyLeague.Services.Services
                                .Where(m => m.LeagueId == id)
                                .ToListAsync());
 
-            var response = _mapper.Map<List<MatchSummaryDto>>( matches );
+            var response = _mapper.Map<List<MatchSummaryDto>>(matches);
             return response;
         }
 
@@ -212,7 +212,7 @@ namespace VolleyLeague.Services.Services
                 .Where(m => m.Round.SeasonId == seasonId && (m.HomeTeamId == teamId || m.GuestTeamId == teamId))
                 .ToListAsync();
 
-            var result = _mapper.Map<List<MatchSummaryDto>>( matches );
+            var result = _mapper.Map<List<MatchSummaryDto>>(matches);
             return result;
         }
 

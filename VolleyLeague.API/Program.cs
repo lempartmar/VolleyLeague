@@ -10,7 +10,6 @@ using VolleyLeague.Repositories.Repositories;
 using VolleyLeague.Services.Helpers;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Services.Services;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 

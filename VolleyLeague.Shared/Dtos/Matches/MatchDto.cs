@@ -59,6 +59,6 @@ namespace VolleyLeague.Shared.Dtos.Matches
 
         public TeamDto GuestTeam { get; set; } = null!;
 
-        }
     }
+}
 

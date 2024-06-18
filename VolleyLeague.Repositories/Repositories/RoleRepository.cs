@@ -17,6 +17,6 @@ namespace VolleyLeague.Repositories.Repositories
         {
             var result = await _context.Roles.ToListAsync();
             return result;
-        }   
+        }
     }
 }

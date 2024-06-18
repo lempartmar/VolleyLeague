@@ -36,7 +36,7 @@ namespace VolleyLeague.API.Controllers
 
         [Authorize]
         [HttpPost("AddTeam")]
-        public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team) 
+        public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team)
         {
             string? email = User.Identity?.Name;
             await _teamService.AddTeam(team, email);
