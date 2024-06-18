@@ -243,7 +243,7 @@
                             }
                             else
                             {
-                                @if (ShowErrorMessage)
+                                @if (ShowErrorMessage && !IsDeleting)
                                 {
                                     <p class="text-danger">@ErrorMessage </p> <br />
                                 }
@@ -251,19 +251,19 @@
                                 <button class="btn btn-primary col-sm-3 mb-2" type="submit">Aktualizuj dane drużyny</button>
                             }
                         </div>
-                                                <div class="d-flex flex-column align-items-center mt-3">
+                        <div class="d-flex flex-column align-items-center mt-3">
                             @if (IsLoading)
                             {
                                 <LoadingIcon></LoadingIcon>
                             }
                             else
                             {
-                                @if (ShowErrorMessage)
+                                @if (ShowErrorMessage && IsDeleting)
                                 {
                                     <p class="text-danger">@ErrorMessage </p> <br />
                                 }
 
-                                <button class="btn btn-danger col-sm-3 mb-2" @onclick="DeleteTeam">Usuń drużynę</button>
+                                <button class="btn btn-danger col-sm-3 mb-2" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
                             }
                         </div>
                         </div>
@@ -316,6 +316,24 @@
     </div>
 </section>
 
+<!-- Modal for deletion confirmation -->
+<div class="modal" tabindex="-1" role="dialog" style="@(ShowModal ? "display:block" : "display:none")">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potwierdzenie usunięcia drużyny</h5>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć drużynę?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="HideDeleteConfirmationModal">Anuluj</button>
+                <button class="btn btn-danger" @onclick="ConfirmDeleteTeam">Usuń</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     ManageTeamListsDto ManagedTeam { get; set; } = new ManageTeamListsDto();
     List<PositionDto> Positions { get; set; } = new List<PositionDto>();
@@ -327,8 +345,11 @@
     string ErrorMessageCaptain { get; set; } = "";
     bool IsLoading { get; set; } = false;
     bool ShowErrorMessage { get; set; } = false;
+    bool DeleteErrorMessageFlag { get; set; } = false;
     string ErrorMessage { get; set; } = "";
     bool PageReady { get; set; } = false;
+    bool ShowModal { get; set; } = false;
+    bool IsDeleting { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -338,7 +359,7 @@
         if (!userHasTeam)
         {
             ShowErrorMessage = true;
-            ErrorMessage = "You do not have a team.";
+            ErrorMessage = "Nie masz drużyny.";
             return;
         }
 
@@ -393,24 +414,28 @@
 
     public async Task HandleValidSubmit()
     {
-        if (!ValidateTeam())
+        if (!IsDeleting)
         {
-            ShowErrorMessage = true;
-            return;
-        }
+            if (!ValidateTeam())
+            {
+                ShowErrorMessage = true;
+                ErrorMessage = "Błąd w trakcie aktualizacji danych zespołu.";
+                return;
+            }
 
-        IsLoading = true;
-        var response = await teamService.UpdateTeam(ManagedTeam);
-        IsLoading = false;
-        if (response)
-        {
-            navigationManager.NavigateTo("/ManageTeam", forceLoad: true);
-        }
-        else
-        {
-            ShowErrorMessage = true;
-            ErrorMessage = "Błąd w trakcie aktualizacji danych zespołu.";
-            StateHasChanged();
+            IsLoading = true;
+            var response = await teamService.UpdateTeam(ManagedTeam);
+            IsLoading = false;
+            if (response)
+            {
+                navigationManager.NavigateTo("/ManageTeam", forceLoad: true);
+            }
+            else
+            {
+                ShowErrorMessage = true;
+                ErrorMessage = "Błąd w trakcie aktualizacji danych zespołu.";
+                StateHasChanged();
+            }
         }
     }
 
@@ -425,29 +450,41 @@
         }
         else
         {
-            ErrorMessageCaptain = "An error occurred while updating the captain.";
+            ErrorMessageCaptain = "Błąd w trakcie aktualizacji kapitana.";
             StateHasChanged();
         }
     }
 
-    public async Task DeleteTeam()
+    public void ShowDeleteConfirmationModal()
     {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Czy na pewno chcesz usunąć drużynę?");
-        if (confirmed)
+        ShowModal = true;
+        ShowErrorMessage = false;
+        ErrorMessage = "";
+        IsDeleting = true;
+    }
+
+    public void HideDeleteConfirmationModal()
+    {
+        ShowModal = false;
+    }
+
+    public async Task ConfirmDeleteTeam()
+    {
+        ShowModal = false;
+        IsLoading = true;
+        ShowErrorMessage = false;
+        ErrorMessage = "";
+        var response = await teamService.DeleteTeam(Team.Id);
+        IsLoading = false;
+        if (response)
         {
-            IsLoading = true;
-            var response = await teamService.DeleteTeam(Team.Id);
-            IsLoading = false;
-            if (response)
-            {
-                navigationManager.NavigateTo("/teams");
-            }
-            else
-            {
-                ShowErrorMessage = true;
-                ErrorMessage = "An error occurred while deleting the team.";
-                StateHasChanged();
-            }
+            await JSRuntime.InvokeVoidAsync("location.assign", "/");
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = "Wystąpił błąd podczas usuwania drużyny.";
+            StateHasChanged();
         }
     }
 
