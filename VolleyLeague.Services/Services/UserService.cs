@@ -7,6 +7,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 using VolleyLeague.Entities.Models;
@@ -22,6 +23,7 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Credentials> _credentialsRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IEmailService _emailService;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
         private readonly PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
         private readonly IConfiguration _config;
@@ -30,11 +32,13 @@ namespace VolleyLeague.Services.Services
                            IBaseRepository<Credentials> credentialsRepository,
                            IRoleRepository roleRepository,
                            IEmailService emailService,
+                           IFileService fileService,
                            IMapper mapper,
                            IConfiguration config)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _fileService = fileService;
             _credentialsRepository = credentialsRepository;
             _emailService = emailService;
             _mapper = mapper;
@@ -174,12 +178,25 @@ namespace VolleyLeague.Services.Services
             await _credentialsRepository.InsertAsync(credentials);
             try
             {
+                var logoPath = _fileService.GetLogoPath();
                 var message = new MailMessage("noreply@yourwebsite.com", registerDto.Email)
                 {
                     Subject = "Witawy w ligasiatkowki.pl",
-                    Body = $"Użytkownik został zarejestrowany",
+                    Body = @"<html>
+                        <body>
+                            <p>Użytkownik został zarejestrowany</p>
+                            <img src='cid:LigaSiatkowkiLogo' />
+                        </body>
+                     </html>",
                     IsBodyHtml = true,
                 };
+
+                if (File.Exists(logoPath))
+                {
+                    Attachment logoAttachment = new Attachment(logoPath, MediaTypeNames.Image.Jpeg);
+                    logoAttachment.ContentId = "LigaSiatkowkiLogo";
+                    message.Attachments.Add(logoAttachment);
+                }
 
                 await _emailService.Send(registerDto.Email, message);
                 await _credentialsRepository.SaveChangesAsync();

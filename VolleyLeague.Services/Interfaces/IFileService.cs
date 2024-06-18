@@ -9,6 +9,10 @@ namespace VolleyLeague.Services.Services
         bool TeamHasImage(int teamId);
 
         Task UploadTeamImage(int teamId, IFormFile file);
+
+        Task<(Stream FileStream, string ContentType, string FileName)> GetLogoAsync();
+
+        string GetLogoPath();
     }
 
 }

@@ -60,6 +60,35 @@ namespace VolleyLeague.Services.Services
             }
         }
 
+        public async Task<(Stream FileStream, string ContentType, string FileName)> GetLogoAsync()
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+            }
+            var filePath = Path.Combine(servicesPath, "LigaSiatkowkiNew.png");
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+
+            return (memory, GetContentType(filePath), "LigaSiatkowkiNew.png");
+        }
+
+        public string GetLogoPath()
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Logos");
+            }
+            return Path.Combine(servicesPath, "LigaSiatkowkiNew.png");
+        }
+
 
         public async Task UploadFiles(List<IFormFile> files)
         {
@@ -110,6 +139,29 @@ namespace VolleyLeague.Services.Services
             }
 
         }
+        private string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
+        }
 
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".gif", "image/gif"},
+                {".csv", "text/csv"}
+            };
+        }
     }
 }
