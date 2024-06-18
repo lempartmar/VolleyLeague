@@ -285,19 +285,50 @@ namespace VolleyLeague.Services.Services
             return (true, "Drużyna została pomyślnie dodana.");
         }
 
+        //public async Task<bool> DeleteTeam(int teamId)
+        //{
+        //    var teamToDelete = await _teamRepository.GetAll().FirstOrDefaultAsync(t => t.Id == teamId);
+
+        //    if (teamToDelete == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    try
+        //    {
+        //        await _teamRepository.Delete(teamToDelete);
+        //        await _teamRepository.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
+
         public async Task<bool> DeleteTeam(int teamId)
         {
-            var teamToDelete = await _teamRepository.GetAll().FirstOrDefaultAsync(t => t.Id == teamId);
+            var teamToDelete = await _teamRepository.GetAll().Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).FirstOrDefaultAsync(t => t.Id == teamId);
 
             if (teamToDelete == null)
             {
                 return false;
             }
 
+            var usersToDelete = teamToDelete.GetAllPlayers().Where(u => !_credentialsRepository.GetAll().Any(c => c.UserId == u.Id)).ToList();
+
             try
             {
+                foreach (var user in usersToDelete)
+                {
+                    await _userRepository.Delete(user);
+                }
+
+                await _userRepository.SaveChangesAsync();
+
                 await _teamRepository.Delete(teamToDelete);
                 await _teamRepository.SaveChangesAsync();
+
                 return true;
             }
             catch (Exception)

@@ -113,7 +113,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<bool> DeleteTeam(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/team/id/{id}");
+            var response = await _httpClient.DeleteAsync($"api/team/deleteteam/{id}");
             return response.IsSuccessStatusCode;
         }
 
