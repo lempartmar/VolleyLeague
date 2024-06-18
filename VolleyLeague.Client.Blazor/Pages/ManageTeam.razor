@@ -12,6 +12,15 @@
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
+@if (!PageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else{
 <section class="category_section">
     <div class="container">
         <div class="row">
@@ -236,35 +245,14 @@
                         }
                         <ValidationSummary class="text-danger" />
                         <div style="display: flex; flex-direction: column; gap: 20px">
-                        <div class="d-flex flex-column align-items-center mt-3">
-                            @if (IsLoading)
-                            {
-                                <LoadingIcon></LoadingIcon>
-                            }
-                            else
-                            {
-                                @if (ShowErrorMessage && !IsDeleting)
-                                {
-                                    <p class="text-danger">@ErrorMessage </p> <br />
-                                }
+                             <div class="d-flex flex-column align-items-center mt-3">
 
                                 <button class="btn btn-primary col-sm-3 mb-2" type="submit">Aktualizuj dane drużyny</button>
-                            }
+                            
                         </div>
                         <div class="d-flex flex-column align-items-center mt-3">
-                            @if (IsLoading)
-                            {
-                                <LoadingIcon></LoadingIcon>
-                            }
-                            else
-                            {
-                                @if (ShowErrorMessage && IsDeleting)
-                                {
-                                    <p class="text-danger">@ErrorMessage </p> <br />
-                                }
-
                                 <button class="btn btn-danger col-sm-3 mb-2" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
-                            }
+                            
                         </div>
                         </div>
                     </div>
@@ -298,23 +286,10 @@
                     </div>
                 </EditForm>
             }
-            else
-            {
-                <div class="d-flex flex-column align-items-center mt-4">
-                    @if (ShowErrorMessage)
-                    {
-                        <p class="text-danger">Wystąpił błąd: @ErrorMessage </p>
-                        <br />
-                    }
-                    else
-                    {
-                        <LoadingIcon></LoadingIcon>
-                    }
-                </div>
-            }
         </div>
     </div>
 </section>
+}
 
 <!-- Modal for deletion confirmation -->
 <div class="modal" tabindex="-1" role="dialog" style="@(ShowModal ? "display:block" : "display:none")">
@@ -470,6 +445,7 @@
 
     public async Task ConfirmDeleteTeam()
     {
+        PageReady = false;
         ShowModal = false;
         IsLoading = true;
         ShowErrorMessage = false;

@@ -12,11 +12,20 @@
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
+
+@if (!PageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
 <section class="category_section" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
     <div class="container" style="max-width: 1000px; width: 100%;">
         <div class="row" style="display: flex; justify-content: center; width: 100%">
-            @if (PageReady)
-            {
                 <EditForm Model="@NewTeam" OnValidSubmit="HandleValidSubmit" style="width: 100%">
                     <DataAnnotationsValidator />
                     <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; width: 100%;">
@@ -165,6 +174,7 @@
         </div>
     </div>
 </section>
+}
 
 @code {
     NewTeamDto NewTeam { get; set; } = new NewTeamDto();
@@ -239,6 +249,7 @@
             StateHasChanged(); 
             return;
         }
+        PageReady = false;
         IsLoading = true;
         var response = await teamService.CreateTeam(NewTeam);
         IsLoading = false;
@@ -248,6 +259,7 @@
         }
         else
         {
+            PageReady = true;
             ShowErrorMessage = true;
             ErrorMessage = "Wystąpił błąd podczas tworzenia drużyny.";
             StateHasChanged();
