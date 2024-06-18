@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Routing.Constraints;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Shared.Dtos.Teams;
 
@@ -38,8 +39,11 @@ namespace VolleyLeague.Services.Mapping
              .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.TeamPlayers.Select(tp => tp.Player)))
              .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Image));
 
-            CreateMap<User, TeamPlayerDto>();
-
+            CreateMap<User, TeamPlayerDto>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdditionalEmail))
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
+                
             CreateMap<TeamPlayer, TeamPlayerDto>()
                 .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Player.Position.Name))
                 .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.Position.Id))
@@ -78,6 +82,16 @@ namespace VolleyLeague.Services.Mapping
             CreateMap<User, TeamPlayer>()
              .ForMember(dest => dest.Player, opt => opt.MapFrom(src => src))
              .ForMember(dest => dest.JoinDate, opt => opt.MapFrom(src => DateTime.Now));
+
+            CreateMap<TeamPlayer, TeamPlayerDto>()
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Player.AdditionalEmail))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Player.FirstName))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Player.LastName))
+            .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.PositionId))
+            .ForMember(dest => dest.JerseyNumber, opt => opt.MapFrom(src => src.Player.JerseyNumber))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Player.Gender))
+            .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Player.Height));
+
 
             CreateMap<Team, ManagedTeamDataDto>()
                 .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.TeamPlayers));

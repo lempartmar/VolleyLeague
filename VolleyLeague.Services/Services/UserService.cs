@@ -157,6 +157,7 @@ namespace VolleyLeague.Services.Services
             {
                 user.FirstName = registerDto.FirstName;
                 user.LastName = registerDto.LastName;
+                user.AdditionalEmail = registerDto.Email;
             }
             else
             {

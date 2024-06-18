@@ -4,7 +4,7 @@ namespace VolleyLeague.Services.Interfaces
 {
     public interface ITeamService
     {
-        Task AddTeam(NewTeamDto team, string email);
+        Task<(bool Success, string Message)> AddTeam(NewTeamDto team, string email);
 
         Task<TeamDto> GetTeamById(int Id);
 

@@ -75,22 +75,121 @@ namespace VolleyLeague.Services.Services
             return teamDto;
         }
 
-        public async Task AddTeam(NewTeamDto team, string email)
+        //public async Task AddTeam(NewTeamDto team, string email)
+        //{
+        //    var teamPlayers = new List<TeamPlayer>();
+        //    var newUsersToSendInvitation = new List<TeamPlayerDto>();
+
+        //    foreach (var player in team.Players)
+        //    {
+        //        if (!string.IsNullOrEmpty(player.Email))
+        //        {
+        //            var existingUser = await _userRepository.GetAll()
+        //                                                    .Include(u => u.Credentials)
+        //                                                    .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
+
+        //            if (existingUser != null)
+        //            {
+        //                teamPlayers.Add(new TeamPlayer
+        //                {
+        //                    Player = existingUser,
+        //                    JoinDate = DateTime.UtcNow
+        //                });
+        //                continue;
+        //            }
+        //        }
+
+        //        // Add new user to the list to send an invitation
+        //        newUsersToSendInvitation.Add(player);
+        //        teamPlayers.Add(new TeamPlayer
+        //        {
+        //            Player = new User
+        //            {
+        //                FirstName = player.FirstName,
+        //                LastName = player.LastName,
+        //                Height = (byte?)player.Height,
+        //                JerseyNumber = (byte?)player.JerseyNumber,
+        //                AdditionalEmail = player.Email,
+        //                PositionId = 2,
+        //                Credentials = null 
+        //            },
+        //            JoinDate = DateTime.UtcNow
+        //        });
+        //    }
+
+        //    // Find the captain by email
+        //    var captainCredentials = await _credentialsRepository.GetAll()
+        //                                   .Include(c => c.User)
+        //                                   .FirstOrDefaultAsync(c => c.Email == email);
+
+        //    if (captainCredentials?.User == null)
+        //    {
+        //        throw new Exception("Captain not found.");
+        //    }
+
+        //    // Create new team
+        //    var newTeam = new Team
+        //    {
+        //        Name = team.Name,
+        //        CreationDate = DateTime.UtcNow,
+        //        Image = team.Image,
+        //        LeagueId = 7,
+        //        //    LeagueId = team.LeagueId, // Ensure this is a valid LeagueId
+        //        CaptainId = captainCredentials.User.Id,
+        //        TeamPlayers = teamPlayers,
+        //        Email = team.Email,
+        //        Logo = team.Logo,
+        //        Phone = team.Phone,
+        //        TeamDescription = team.TeamDescription,
+        //        Website = team.Website,
+        //        IsReportedToPlay = false
+        //    };
+
+        //    try
+        //    {
+        //        await _teamRepository.InsertAsync(newTeam);
+        //        await _teamRepository.SaveChangesAsync();
+
+        //        foreach (var player in teamPlayers)
+        //        {
+        //            player.Team = newTeam;
+        //            await _teamRepository.SaveChangesAsync();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception
+        //        Console.WriteLine($"An error occurred while inserting the team: {ex}");
+        //        throw;
+        //    }
+
+        //    foreach (var newUser in newUsersToSendInvitation)
+        //    {
+        //        await SendEmailAddedToTeam(newUser, newTeam.Name);
+        //    }
+        //}
+
+        public async Task<(bool Success, string Message)> AddTeam(NewTeamDto team, string email)
         {
             var teamPlayers = new List<TeamPlayer>();
             var newUsersToSendInvitation = new List<TeamPlayerDto>();
 
-            // Match players to existing users or create new ones
             foreach (var player in team.Players)
             {
                 if (!string.IsNullOrEmpty(player.Email))
                 {
                     var existingUser = await _userRepository.GetAll()
                                                             .Include(u => u.Credentials)
+                                                            .Include(u => u.TeamPlayers)
                                                             .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
 
                     if (existingUser != null)
                     {
+                        if (existingUser.TeamPlayers.Any())
+                        {
+                            return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
+                        }
+
                         teamPlayers.Add(new TeamPlayer
                         {
                             Player = existingUser,
@@ -98,9 +197,27 @@ namespace VolleyLeague.Services.Services
                         });
                         continue;
                     }
+
+                    var userInUsersOnly = await _userRepository.GetAll()
+                                                               .Include(u => u.TeamPlayers)
+                                                               .FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
+
+                    if (userInUsersOnly != null)
+                    {
+                        if (userInUsersOnly.TeamPlayers.Any())
+                        {
+                            return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
+                        }
+
+                        teamPlayers.Add(new TeamPlayer
+                        {
+                            Player = userInUsersOnly,
+                            JoinDate = DateTime.UtcNow
+                        });
+                        continue;
+                    }
                 }
 
-                // Add new user to the list to send an invitation
                 newUsersToSendInvitation.Add(player);
                 teamPlayers.Add(new TeamPlayer
                 {
@@ -110,14 +227,14 @@ namespace VolleyLeague.Services.Services
                         LastName = player.LastName,
                         Height = (byte?)player.Height,
                         JerseyNumber = (byte?)player.JerseyNumber,
+                        AdditionalEmail = player.Email,
                         PositionId = 2,
-                        Credentials = null // New user without credentials yet
+                        Credentials = null
                     },
                     JoinDate = DateTime.UtcNow
                 });
             }
 
-            // Find the captain by email
             var captainCredentials = await _credentialsRepository.GetAll()
                                            .Include(c => c.User)
                                            .FirstOrDefaultAsync(c => c.Email == email);
@@ -127,14 +244,12 @@ namespace VolleyLeague.Services.Services
                 throw new Exception("Captain not found.");
             }
 
-            // Create new team
             var newTeam = new Team
             {
                 Name = team.Name,
                 CreationDate = DateTime.UtcNow,
                 Image = team.Image,
                 LeagueId = 7,
-                //    LeagueId = team.LeagueId, // Ensure this is a valid LeagueId
                 CaptainId = captainCredentials.User.Id,
                 TeamPlayers = teamPlayers,
                 Email = team.Email,
@@ -158,7 +273,6 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine($"An error occurred while inserting the team: {ex}");
                 throw;
             }
@@ -167,8 +281,9 @@ namespace VolleyLeague.Services.Services
             {
                 await SendEmailAddedToTeam(newUser, newTeam.Name);
             }
-        }
 
+            return (true, "Drużyna została pomyślnie dodana.");
+        }
 
         public async Task<bool> DeleteTeam(int teamId)
         {
