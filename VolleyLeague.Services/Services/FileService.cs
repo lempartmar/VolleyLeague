@@ -89,6 +89,15 @@ namespace VolleyLeague.Services.Services
             return Path.Combine(servicesPath, "LigaSiatkowkiNew.png");
         }
 
+        public string GetPathForEmail(string fileName)
+        {
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Logos");
+            }
+            return Path.Combine(servicesPath, $"{fileName}.png");
+        }
 
         public async Task UploadFiles(List<IFormFile> files)
         {

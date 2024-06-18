@@ -13,7 +13,8 @@ namespace VolleyLeague.Services.Services
         Task<(Stream FileStream, string ContentType, string FileName)> GetLogoAsync();
 
         string GetLogoPath();
-    }
 
+        string GetPathForEmail(string fileName);
+    }
 }
 

@@ -179,13 +179,24 @@ namespace VolleyLeague.Services.Services
             try
             {
                 var logoPath = _fileService.GetLogoPath();
+                var createTeamImage = _fileService.GetPathForEmail("create_team");
+                var typermaniaImage = _fileService.GetPathForEmail("Typermania");
+
                 var message = new MailMessage("noreply@yourwebsite.com", registerDto.Email)
                 {
-                    Subject = "Witawy w ligasiatkowki.pl",
+                    Subject = "Witamy w ligasiatkowki.pl",
                     Body = @"<html>
-                        <body>
-                            <p>Użytkownik został zarejestrowany</p>
-                            <img src='cid:LigaSiatkowkiLogo' />
+                        <body style='font-family: Roboto, serif; font-size: 13px; color: #333; text-align: center;'>
+                            <img src='cid:LigaSiatkowkiLogo' alt='Liga Siatkówki' style='width:100%; max-width:500px'/>
+                            <p>Drogi użytkowniku,</p>
+                            <p>Zostałeś pomyślnie zarejestrowany w portalu ligasiatkowki.pl. Portal ligasiatkowki.pl umożliwia tworzenie drużyn oraz wzięcie udziału w naszej ekscytującej typermanii!</p>
+                            <h2>Twórz Drużyny</h2>
+                            <p>Dołącz do drużyny lub stwórz własną, aby rywalizować z innymi w naszej lidze siatkówki.</p>
+                            <img src='cid:CreateTeamImage' alt='Twórz Drużyny' style='width:100%; max-width:600px;' />
+                            <h2>Weź Udział w Typermanii</h2>
+                            <p>Typuj wyniki meczów i zdobywaj punkty, rywalizując z innymi użytkownikami w typermanii.</p>
+                            <img src='cid:TypermaniaImage' alt='Typermania' style='width:100%; max-width:600px;' />
+                            <p>Serdecznie zapraszamy do aktywnego udziału!</p>
                         </body>
                      </html>",
                     IsBodyHtml = true,
@@ -195,7 +206,27 @@ namespace VolleyLeague.Services.Services
                 {
                     Attachment logoAttachment = new Attachment(logoPath, MediaTypeNames.Image.Jpeg);
                     logoAttachment.ContentId = "LigaSiatkowkiLogo";
+                    logoAttachment.ContentDisposition.Inline = true;
+                    logoAttachment.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
                     message.Attachments.Add(logoAttachment);
+                }
+
+                if (File.Exists(createTeamImage))
+                {
+                    Attachment createTeamAttachment = new Attachment(createTeamImage, MediaTypeNames.Image.Jpeg);
+                    createTeamAttachment.ContentId = "CreateTeamImage";
+                    createTeamAttachment.ContentDisposition.Inline = true;
+                    createTeamAttachment.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
+                    message.Attachments.Add(createTeamAttachment);
+                }
+
+                if (File.Exists(typermaniaImage))
+                {
+                    Attachment typermaniaAttachment = new Attachment(typermaniaImage, MediaTypeNames.Image.Jpeg);
+                    typermaniaAttachment.ContentId = "TypermaniaImage";
+                    typermaniaAttachment.ContentDisposition.Inline = true;
+                    typermaniaAttachment.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
+                    message.Attachments.Add(typermaniaAttachment);
                 }
 
                 await _emailService.Send(registerDto.Email, message);
@@ -208,7 +239,6 @@ namespace VolleyLeague.Services.Services
             }
             return (true, "Registration successful");
         }
-
 
         public async Task<bool> IsTeamCaptain(string playerEmail)
         {

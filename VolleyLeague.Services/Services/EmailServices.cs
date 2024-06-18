@@ -16,7 +16,6 @@ namespace VolleyLeague.Services.Services
                 _logService = logService;
             }
 
-
         public async Task SendEmail(string email, string? additionalInformation)
         {
             var resetLink = $"https://localhost:7068/reset-password?token={additionalInformation}";
@@ -30,7 +29,6 @@ namespace VolleyLeague.Services.Services
             await Send(email, message);
 
         }
-
 
         public async Task Send(string email, MailMessage message)
         {
