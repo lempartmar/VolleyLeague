@@ -18,28 +18,24 @@
                         <DataAnnotationsValidator />
                         <div class="card">
                             <div class="card-body login">
-
                                 <div class="form-group mb-3">
                                     <label for="FirstName" class="control-label">Imię:</label>
                                     <InputText class="form-control" id="FirstName" @bind-Value="registerModel.FirstName" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
                                     <small class="form-text text-muted">Twoje dane będą weryfikowane przez sędziów w lidze.</small>
                                 </div>
-
                                 <div class="form-group mb-3">
                                     <label for="LastName" class="control-label">Nazwisko:</label>
                                     <InputText class="form-control" id="LastName" @bind-Value="registerModel.LastName" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.LastName)" />
                                     <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
                                 </div>
-
                                 <div class="form-group mb-3">
                                     <label for="Email" class="control-label">Adres e-mail:</label>
                                     <InputText class="form-control" id="Email" @bind-Value="registerModel.Email" />
                                     <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
                                     <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
                                 </div>
-
                                 <div class="form-group mb-3">
                                     <label for="Password" class="control-label">Hasło:</label>
                                     <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" @oninput="ValidatePassword" />
@@ -52,7 +48,6 @@
                                         <li class="@GetValidationClass(PasswordPunctuationValid)">Zawiera znaki interpunkcyjne</li>
                                     </ul>
                                 </div>
-
                                 <div class="form-group mb-3">
                                     <label for="ConfirmPassword" class="control-label">Powtórz hasło:</label>
                                     <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" />
@@ -62,7 +57,10 @@
                                         <div class="text-danger mt-2">@confirmPasswordValidationMessage</div>
                                     }
                                 </div>
-
+                                @if (ShowErrorMessage)
+                                {
+                                    <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom:20px;">@ErrorMessage</div>
+                                }
                             </div>
                             <div class="card-footer text-center">
                                 <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">Zarejestruj</button>
@@ -199,14 +197,14 @@
             var result = await UserService.Register(registerModel);
             IsLoading = false;
 
-            if (result)
+            if (result.Success)
             {
                 IsSubmitted = true;
             }
             else
             {
                 ShowErrorMessage = true;
-                // ErrorMessage = result.Message;
+                ErrorMessage = result.Message;
             }
         }
         else

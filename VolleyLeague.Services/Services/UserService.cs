@@ -135,13 +135,13 @@ namespace VolleyLeague.Services.Services
             return password + pepper;
         }
 
-        public async Task<bool> Register(RegisterDto registerDto)
+        public async Task<(bool Success, string Message)> Register(RegisterDto registerDto)
         {
             var existingUser = _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefault(u => u.Credentials != null && u.Credentials.Email == registerDto.Email);
 
             if (existingUser != null)
             {
-                return false;
+                return (false, "Użytkownik z takim adresem e-mail już istnieje.");
             }
 
             var user = _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefault(u => u.AdditionalEmail == registerDto.Email);
@@ -176,10 +176,11 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception)
             {
-                return false;
+                return (false, "Registration failed due to a server error.");
             }
-            return true;
+            return (true, "Registration successful");
         }
+
 
         public async Task<bool> IsTeamCaptain(string playerEmail)
         {

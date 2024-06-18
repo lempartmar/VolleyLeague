@@ -80,9 +80,9 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             var result = await _userService.Register(registerDto);
-            if (!result)
+            if (!result.Success)
             {
-                return BadRequest("Registration failed");
+                return BadRequest(result.Message);
             }
             return Ok("Registration successful");
         }

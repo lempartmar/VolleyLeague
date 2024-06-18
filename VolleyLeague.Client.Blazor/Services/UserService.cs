@@ -6,7 +6,8 @@ namespace VolleyLeague.Client.Blazor.Services
 {
     public interface IUserService
     {
-        Task<bool> Register(RegisterDto registerDto);
+        Task<(bool Success, string Message)> Register(RegisterDto registerDto);
+
         //Task<string> Login(LoginDto loginDto);
         //Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto);
         Task<List<PositionDto>> GetPositions();
@@ -37,10 +38,18 @@ namespace VolleyLeague.Client.Blazor.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> Register(RegisterDto registerDto)
+        public async Task<(bool Success, string Message)> Register(RegisterDto registerDto)
         {
             var response = await _httpClient.PostAsJsonAsync("api/user/register", registerDto);
-            return response.IsSuccessStatusCode;
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, string.Empty);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return (false, errorMessage);
+            }
         }
 
         //public async Task<string> Login(LoginDto loginDto)
