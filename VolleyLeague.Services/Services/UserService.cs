@@ -21,6 +21,7 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
         private readonly IConfiguration _config;
@@ -28,12 +29,14 @@ namespace VolleyLeague.Services.Services
         public UserService(IBaseRepository<User> userRepository,
                            IBaseRepository<Credentials> credentialsRepository,
                            IRoleRepository roleRepository,
+                           IEmailService emailService,
                            IMapper mapper,
                            IConfiguration config)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _credentialsRepository = credentialsRepository;
+            _emailService = emailService;
             _mapper = mapper;
             _config = config;
         }
@@ -171,6 +174,14 @@ namespace VolleyLeague.Services.Services
             await _credentialsRepository.InsertAsync(credentials);
             try
             {
+                var message = new MailMessage("noreply@yourwebsite.com", registerDto.Email)
+                {
+                    Subject = "Witawy w ligasiatkowki.pl",
+                    Body = $"Użytkownik został zarejestrowany",
+                    IsBodyHtml = true,
+                };
+
+                await _emailService.Send(registerDto.Email, message);
                 await _credentialsRepository.SaveChangesAsync();
                 await _userRepository.SaveChangesAsync();
             }
