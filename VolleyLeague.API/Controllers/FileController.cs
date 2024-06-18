@@ -1,11 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Services.Services;
 using VolleyLeague.Shared.Dtos.Teams;
@@ -84,7 +77,6 @@ namespace VolleyLeague.API.Controllers
             try
             {
                 var uploadsPath = Path.Combine(_env.ContentRootPath, "uploads");
-                // Logowanie œcie¿ki dla sprawdzenia
                 _logger.LogInformation($"Uploads path: {uploadsPath}");
 
                 if (!Directory.Exists(uploadsPath))
@@ -104,7 +96,6 @@ namespace VolleyLeague.API.Controllers
             }
             catch (Exception ex)
             {
-                // Logowanie b³êdów
                 _logger.LogError(ex, "Error occurred while getting uploaded files.");
                 return StatusCode(500, "Internal server error");
             }
@@ -127,9 +118,6 @@ namespace VolleyLeague.API.Controllers
 
             try
             {
-                // Resetowanie atrybutów pliku
-               // System.IO.File.SetAttributes(filePath, FileAttributes.Normal);
-
                 System.IO.File.Delete(filePath);
                 return Ok();
             }
@@ -171,8 +159,6 @@ namespace VolleyLeague.API.Controllers
             var file = File(memory, GetContentType(filePath), $"{teamId}.jpg");
             return file;
         }
-
-
 
         private string GetContentType(string path)
         {

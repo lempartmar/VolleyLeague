@@ -54,10 +54,10 @@ namespace VolleyLeague.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
-    {
-        new Claim(ClaimTypes.Name, credentials.Email),
-        new Claim(ClaimTypes.NameIdentifier, credentials.Email),
-    }),
+                {
+                    new Claim(ClaimTypes.Name, credentials.Email),
+                    new Claim(ClaimTypes.NameIdentifier, credentials.Email),
+                }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 Issuer = issuer,
                 Audience = audience,
@@ -75,6 +75,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(stringToken);
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
