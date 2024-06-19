@@ -174,65 +174,99 @@ namespace VolleyLeague.Services.Services
             var teamPlayers = new List<TeamPlayer>();
             var newUsersToSendInvitation = new List<TeamPlayerDto>();
 
-            foreach (var player in team.Players)
+            for (int i = 0; i < team.Players.Count; i++)
             {
-                if (!string.IsNullOrEmpty(player.Email))
+                var player = team.Players[i];
+
+                if (i == 0)
                 {
                     var existingUser = await _userRepository.GetAll()
-                                                            .Include(u => u.Credentials)
-                                                            .Include(u => u.TeamPlayers)
-                                                            .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
-
-                    if (existingUser != null)
+                                                                .Include(u => u.Credentials)
+                                                                .Include(u => u.TeamPlayers)
+                                                                .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
+                    teamPlayers.Add(new TeamPlayer
                     {
-                        if (existingUser.TeamPlayers.Any())
-                        {
-                            return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
-                        }
-
-                        teamPlayers.Add(new TeamPlayer
-                        {
-                            Player = existingUser,
-                            JoinDate = DateTime.UtcNow
-                        });
-                        continue;
-                    }
-
-                    var userInUsersOnly = await _userRepository.GetAll()
-                                                               .Include(u => u.TeamPlayers)
-                                                               .FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
-
-                    if (userInUsersOnly != null)
-                    {
-                        if (userInUsersOnly.TeamPlayers.Any())
-                        {
-                            return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
-                        }
-
-                        teamPlayers.Add(new TeamPlayer
-                        {
-                            Player = userInUsersOnly,
-                            JoinDate = DateTime.UtcNow
-                        });
-                        continue;
-                    }
+                        Player = existingUser,
+                        JoinDate = DateTime.UtcNow
+                    });
                 }
-
-                newUsersToSendInvitation.Add(player);
-                teamPlayers.Add(new TeamPlayer
+                else
                 {
-                    Player = new User
+
+                    if (!string.IsNullOrEmpty(player.Email))
                     {
-                        FirstName = player.FirstName,
-                        LastName = player.LastName,
-                        Height = (byte?)player.Height,
-                        JerseyNumber = (byte?)player.JerseyNumber,
-                        AdditionalEmail = player.Email,
-                        PositionId = 2,
-                        Credentials = null
-                    },
-                    JoinDate = DateTime.UtcNow
-                });
+                        var existingUser = await _userRepository.GetAll()
+                                                                .Include(u => u.Credentials)
+                                                                .Include(u => u.TeamPlayers)
+                                                                .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
+
+                        if (existingUser != null)
+                        {
+                            if (existingUser.TeamPlayers.Any())
+                            {
+                                return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
+                            }
+
+                            teamPlayers.Add(new TeamPlayer
+                            {
+                                Player = new User
+                                {
+                                    FirstName = player.FirstName,
+                                    LastName = player.LastName,
+                                    Height = (byte?)player.Height,
+                                    JerseyNumber = (byte?)player.JerseyNumber,
+                                    AdditionalEmail = player.Email,
+                                    PositionId = 2,
+                                    Credentials = null
+                                },
+                                JoinDate = DateTime.UtcNow
+                            });
+
+                            //teamPlayers.Add(new TeamPlayer
+                            //{
+                            //    Player = existingUser,
+                            //    JoinDate = DateTime.UtcNow
+                            //});
+                            continue;
+                        }
+
+                        var userInUsersOnly = await _userRepository.GetAll()
+                                                                   .Include(u => u.TeamPlayers)
+                                                                   .FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
+
+                        if (userInUsersOnly != null)
+                        {
+                            if (userInUsersOnly.TeamPlayers.Any())
+                            {
+                                return (false, $"Użytkownik z adresem e-mail {player.Email} już istnieje i jest przypisany do drużyny.");
+                            }
+
+                            teamPlayers.Add(new TeamPlayer
+                            {
+                                Player = userInUsersOnly,
+                                JoinDate = DateTime.UtcNow
+                            });
+                            continue;
+                        }
+                    }
+
+
+                    newUsersToSendInvitation.Add(player);
+                    teamPlayers.Add(new TeamPlayer
+                    {
+                        Player = new User
+                        {
+                            FirstName = player.FirstName,
+                            LastName = player.LastName,
+                            Height = (byte?)player.Height,
+                            JerseyNumber = (byte?)player.JerseyNumber,
+                            AdditionalEmail = player.Email,
+                            PositionId = 2,
+                            Credentials = null
+                        },
+                        JoinDate = DateTime.UtcNow
+                    });
+                }
             }
 
             var captainCredentials = await _credentialsRepository.GetAll()

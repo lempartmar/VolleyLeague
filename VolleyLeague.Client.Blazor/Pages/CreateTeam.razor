@@ -262,8 +262,17 @@ else
         }
         PageReady = false;
         IsLoading = true;
-        var response = await teamService.CreateTeam(NewTeam);
-        IsLoading = false;
+        bool response = false;
+        try
+        {
+            response = await teamService.CreateTeam(NewTeam);
+        }catch(Exception ex)
+        {
+            Console.WriteLine(ex);   
+        }
+
+           IsLoading = false;
+        PageReady = true;
         if (response)
         {
             await JSRuntime.InvokeVoidAsync("location.assign", "/");

@@ -33,6 +33,7 @@ builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>
 builder.Services.AddTransient(typeof(IDefaultRepository), typeof(DefaultRepository));
 builder.Services.AddTransient(typeof(IRoleRepository), typeof(RoleRepository));
 builder.Services.AddTransient(typeof(IArticleService), typeof(ArticleService));
+builder.Services.AddTransient(typeof(IAccountMergingService), typeof(AccountMergingService));
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddTransient(typeof(IMatchService), typeof(MatchService));
 builder.Services.AddTransient(typeof(ILogService), typeof(LogService));

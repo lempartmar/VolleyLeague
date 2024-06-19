@@ -407,6 +407,7 @@ namespace VolleyLeague.Services.Services
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 AccountId = null,
+                AdditionalEmail = registerDto.Email,//
                 //BirthYear = registerDto.BirthYear,
                 //City = registerDto.City,
                 //PersonalInfo = registerDto.PersonalInfo,
