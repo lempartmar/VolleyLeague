@@ -12,299 +12,275 @@
 <section class="category_section">
     <div class="container">
         <div class="row">
-@if (MatchData != null)
-{
-    <EditForm Model="ManageModel" OnValidSubmit="UpdateMatch">
-        <div class="order-2">
-            <div class="card m-1 text-center">
-                <div class="card-header text-center">Wynik</div>
-                <div class="card-body table-responsive">
-                    <table class="table text-center">
-                        <thead>
-                            <tr>
-                                <th class="col-1">@MatchData.HomeTeam.Name</th>
-                                <th class="col-1">@MatchData.GuestTeam.Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><h2><InputNumber style="max-width:50px" @bind-Value="ManageModel.Team1Score"></InputNumber></h2></td>
-                                <td><h2><InputNumber style="max-width:50px" @bind-Value="ManageModel.Team2Score"></InputNumber></h2></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            @if (MatchData != null)
+            {
+                <EditForm Model="ManageModel" OnValidSubmit="UpdateMatch">
+                    <div class="order-2">
+                        <div class="card m-1 text-center">
+                            <h2 style="margin-top:20px; margin-bottom: 30px;">Wynik Meczu</h2>
+                            <div class="card-body table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1 text-center align-middle" style="font-weight: bold; color:black; font-size: 1.25rem;">@MatchData.HomeTeam.Name</th>
+                                            <th class="col-1 text-center align-middle" style="font-weight: bold; color:black; font-size: 1.25rem;">@MatchData.GuestTeam.Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-middle"><h2><InputNumber style="max-width:50px" @bind-Value="ManageModel.Team1Score"></InputNumber></h2></td>
+                                            <td class="align-middle"><h2><InputNumber style="max-width:50px" @bind-Value="ManageModel.Team2Score"></InputNumber></h2></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Set I</th>
-                                <th>Set II</th>
-                                <th>Set III</th>
-                                <th>Set IV</th>
-                                <th>Set V</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="text-nowrap">
-                                <td><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set1Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set1Team2Score"></InputNumber></td>
-                                <td><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set2Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set2Team2Score"></InputNumber></td>
-                                <td><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set3Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set3Team2Score"></InputNumber></td>
-                                <td><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set4Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set4Team2Score"></InputNumber></td>
-                                <td><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set5Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set5Team2Score"></InputNumber></td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex flex-row flex-nowrap justify-content-around">
-
-            <div class="card m-2 text-center team order-1">
-                <div class="card-header text-center">@MatchData.HomeTeam.Name</div>
-                <div class="card-body">
-                    <div class="card-text d-flex align-content-center justify-content-center">
-                        @if (MatchData.HomeTeam.Logo != null)
-                        {
-                            <TeamLogo Image="@MatchData.HomeTeam.Logo" />
-                        }
-                        else
-                        {
-                            <TeamLogo ImageUrl="/images/user.png"></TeamLogo>
-                        }
-
-                    </div>
-                    <div class="card-text text-center mb-2">
-                        <NavLink href="@{
-                        "/team/" + MatchData.HomeTeam.Id
-                    }">@MatchData.HomeTeam.Name</NavLink>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="bold-header">Set I</th>
+                                            <th class="bold-header">Set II</th>
+                                            <th class="bold-header">Set III</th>
+                                            <th class="bold-header">Set IV</th>
+                                            <th class="bold-header">Set V</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="score-cell"><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set1Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set1Team2Score"></InputNumber></td>
+                                            <td class="score-cell"><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set2Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set2Team2Score"></InputNumber></td>
+                                            <td class="score-cell"><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set3Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set3Team2Score"></InputNumber></td>
+                                            <td class="score-cell"><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set4Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set4Team2Score"></InputNumber></td>
+                                            <td class="score-cell"><InputNumber style="max-width:50px" @bind-Value="ManageModel.Set5Team1Score"></InputNumber> : <InputNumber style="max-width:50px" @bind-Value="ManageModel.Set5Team2Score"></InputNumber></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
-                    <table class=" table-sm table text-left">
-                        <thead>
-                            <tr>
-                                <th>Lp</th>
-                                <th>Zawodnik</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                i1 = 1;
-                            }
-                            @foreach (var player in MatchData.HomeTeam.Players)
-                            {
-                                <tr>
-                                    <td>@(i1++)</td>
-                                    <td>
-                                        <NavLink href="@{
-                                        "/user-profile/" + player.Id
-                                    }">@player.FirstName @player.LastName</NavLink>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card m-2 team order-3">
-                <div class="card-header text-center">@MatchData.GuestTeam.Name</div>
-                <div class="card-body">
-                    <div class="card-text d-flex align-content-center justify-content-center">
-                        @if (MatchData.GuestTeam.Logo != null)
-                        {
-                            <TeamLogo Image="@MatchData.GuestTeam.Logo" />
-                        }
-                        else
-                        {
-                            <TeamLogo ImageUrl="/images/user.png"></TeamLogo>
-                        }
-
-                    </div>
-                    <div class="card-text text-center mb-2">
-                        <NavLink href="@{
-                        "/team/" + MatchData.GuestTeam.Id
-                    }">@MatchData.GuestTeam.Name</NavLink>
-                    </div>
-
-                    <table class="table table-sm text-left">
-                        <thead>
-                            <tr>
-                                <th>Lp</th>
-                                <th>Zawodnik</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                i2 = 1;
-                            }
-                            @foreach (var player in MatchData.GuestTeam.Players)
-                            {
-                                <tr>
-                                    <td>@(i2++)</td>
-                                    <td class="wrap">
-                                        <NavLink href="@{
-                                        "/user-profile/" + player.Id
-                                    }">@player.FirstName @player.LastName</NavLink>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex flex-column justify-content-center flex-wrap">
-
-            <div class="card m-2">
-                <div class="card-header">Podstawowe informacje</div>
-                <div class="card-body">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>Data</td>
-                                <td>@MatchData.Schedule</td>
-                            </tr>
-                            <tr>
-                                <td>@MatchData.MatchLeague</td>
-                                <td>@MatchData.RoundName</td>
-                            </tr>
-                            <tr>
-                                <td>Miejsce</td>
-                                <td>
-                                    <InputSelect class="form-control" @bind-Value="ManageModel.VenueId">
-                                        @foreach (var venue in Venues)
-                                        {
-                                            <option value="@venue.Id">@venue.Name</option>
-                                        }"
-                                    </InputSelect>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Sędzia</td>
-                                <td>
-                                    @if (!String.IsNullOrEmpty(MatchData.UnknownRefereeName))
-                                    {
-                                        @MatchData.UnknownRefereeName
-                                    }
-                                    else
-                                    {
-                                        <NavLink href="@{
-                                        "/user-profile/" + MatchData.Referee.Id
-                                    }">
-                                            @MatchData.Referee.FirstName @MatchData.Referee.LastName
-                                        </NavLink>
-                                    }
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>MVP</td>
-                                <td>
-                                    <InputSelect class="form-control" @bind-Value="ManageModel.MvpId">
-                                        <option value="">Brak</option>
+                    <div class="d-flex flex-row flex-nowrap justify-content-around" style="display: flex; justify-content: space-around;">
+                        <div class="card m-2 text-center team order-1">
+                            <div class="card-body">
+                                <div class="card-text d-flex align-content-center justify-content-center">
+                                @if (MatchData.HomeTeam.Logo != null)
+                                {
+                                    <img src="@GetLogoSrc(MatchData.HomeTeam.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                                }
+                                else
+                                {
+                                    <TeamLogo ImageUrl="/images/user.png"></TeamLogo>
+                                }
+                                </div>
+                                <div class="card-text text-center mb-2">
+                                    <NavLink href="@{"/team/" + MatchData.HomeTeam.Id}">@MatchData.HomeTeam.Name</NavLink>
+                                </div>
+                                <table class="table table-sm text-left">
+                                    <thead>
+                                        <tr style="background-color: #f8f9fa;">
+                                            <th style="border-bottom: 2px solid #eceeef;">Lp</th>
+                                            <th style="border-bottom: 2px solid #eceeef;">Zawodnik</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var i1 = 1;
+                                        }
                                         @foreach (var player in MatchData.HomeTeam.Players)
                                         {
-                                            <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #eceeef;">@(i1++)</td>
+                                                <td class="wrap" style="border-bottom: 1px solid #eceeef;">
+                                                    <NavLink href="@{"/user-profile/" + player.Id}">@player.FirstName @player.LastName</NavLink>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card m-2 team order-3" style="display: flex; flex-direction: column">
+                            <div class="card-body">
+                                <div class="card-text d-flex align-content-center justify-content-center" style="margin-bottom: 15px;">
+                                @if (MatchData.GuestTeam.Logo != null)
+                                {
+                                    <img src="@GetLogoSrc(MatchData.GuestTeam.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                                }
+                                else
+                                {
+                                    <TeamLogo ImageUrl="/images/user.png"></TeamLogo>
+                                }
+                                </div>
+                                <div class="card-text text-center mb-2">
+                                    <NavLink href="@{"/team/" + MatchData.GuestTeam.Id}">@MatchData.GuestTeam.Name</NavLink>
+                                </div>
+                                <table class="table table-sm text-left" style="margin-bottom: 0;">
+                                    <thead>
+                                        <tr style="background-color: #f8f9fa;">
+                                            <th style="border-bottom: 2px solid #eceeef;">Lp</th>
+                                            <th style="border-bottom: 2px solid #eceeef;">Zawodnik</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var i2 = 1;
                                         }
                                         @foreach (var player in MatchData.GuestTeam.Players)
                                         {
-                                            <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #eceeef;">@(i2++)</td>
+                                                <td class="wrap" style="border-bottom: 1px solid #eceeef;">
+                                                    <NavLink href="@{"/user-profile/" + player.Id}">@player.FirstName @player.LastName</NavLink>
+                                                </td>
+                                            </tr>
                                         }
-                                    </InputSelect>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card m-2">
-                <div class="card-header">Dodatkowe informacje</div>
-                <div class="card-body">
-                    <div class="card-text">
-                        <InputTextArea class="form-control" @bind-Value="ManageModel.MatchInfo" />
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-        </div>
-        <div class="d-flex justify-content-center m-3">
+                    <div class="d-flex flex-column justify-content-center flex-wrap">
+                        <div class="card m-2" style="margin-top: 30px;">
+                            <div class="card-header" style="display:flex; justify-content: center;"><h2>Podstawowe informacje</h2></div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Data</td>
+                                            <td>@MatchData.Schedule</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@MatchData.MatchLeague</td>
+                                            <td>@MatchData.RoundName</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Miejsce</td>
+                                            <td>
+                                                <InputSelect class="form-control" @bind-Value="ManageModel.VenueId">
+                                                    @foreach (var venue in Venues)
+                                                    {
+                                                        <option value="@venue.Id">@venue.Name</option>
+                                                    }
+                                                </InputSelect>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sędzia</td>
+                                            <td>
+                                                @if (!String.IsNullOrEmpty(MatchData.UnknownRefereeName))
+                                                {
+                                                    @MatchData.UnknownRefereeName
+                                                }
+                                                else
+                                                {
+                                                    <NavLink href="@{"/user-profile/" + MatchData.Referee.Id}">
+                                                        @MatchData.Referee.FirstName @MatchData.Referee.LastName
+                                                    </NavLink>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>MVP</td>
+                                            <td>
+                                                <InputSelect class="form-control" @bind-Value="ManageModel.MvpId">
+                                                    <option value="">Brak</option>
+                                                    @foreach (var player in MatchData.HomeTeam.Players)
+                                                    {
+                                                        <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                                    }
+                                                    @foreach (var player in MatchData.GuestTeam.Players)
+                                                    {
+                                                        <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                                    }
+                                                </InputSelect>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-            @if (isLoading)
-            {
-                <LoadingIcon />
+                        <div class="card m-2">
+                            <div class="card-header" style="display:flex; justify-content: center;"><h2>Dodatkowe informacje</h2></div>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <InputTextArea class="form-control" @bind-Value="ManageModel.MatchInfo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center m-3">
+                        @if (isLoading)
+                        {
+                            <LoadingIcon />
+                        }
+                        else
+                        {
+                            @if (errorMessage != "")
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @errorMessage
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-primary">Aktualizuj</button>
+                        }
+                    </div>
+                </EditForm>
             }
             else
             {
-                @if (errorMessage != "")
-                {
-                    <div class="alert alert-danger" role="alert">
-                        @errorMessage
-                    </div>
-                }
-                <button type="submit" class="btn btn-primary">Aktualizuj</button>
+                <div class="d-flex justify-content-center">
+                    <LoadingIcon />
+                </div>
             }
         </div>
-
-    </EditForm>
-}
-else
-{
-    <div class="d-flex justify-content-center">
-        <LoadingIcon />
     </div>
-}
-
-</div>
-</div>
 </section>
 
+<style>
+    .bold-header {
+        font-weight: bold; 
+        text-align: center; 
+    }
+
+    .score-cell {
+        text-align: center; 
+        vertical-align: middle;
+        font-size: 1rem;
+    }
+</style>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
     private int i1 = 1;
     private int i2 = 1;
 
     private bool isLoading = false;
     private string errorMessage = "";
 
-    [Parameter]
-    public int Id { get; set; }
-
     public MatchDto? MatchData { get; set; }
 
     public ManageMatchDto ManageModel { get; set; } = new ManageMatchDto();
 
-    public List<SeasonDto>? Seasons { get; set; }
-
-    public List<MatchDto>? Games { get; set; }
-
     public List<VenueDto> Venues { get; set; } = new List<VenueDto>();
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         await GetMatchData();
     }
-
-    protected override async void OnParametersSet()
-    {
-        await GetMatchData();
-    }
-
 
     public async Task GetMatchData()
     {
-
         var matchResult = await matchService.GetMatch(Id);
-            MatchData = matchResult;
-            ManageModel = (ManageMatchDto)MatchData;
-            StateHasChanged();
-        
+        MatchData = matchResult;
+        ManageModel = (ManageMatchDto)MatchData;
 
         var venuesResult = await matchOrganizerService.GetVenues();
-
-            Venues = venuesResult;
-            StateHasChanged();
+        Venues = venuesResult;
     }
 
     public async Task UpdateMatch()
@@ -318,6 +294,18 @@ else
         else
         {
             isLoading = false;
+        }
+    }
+
+    private string GetLogoSrc(byte[] logo)
+    {
+        if (logo != null && logo.Length > 0)
+        {
+            return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
+        }
+        else
+        {
+            return "/assets/img/Logo_alternative.png";
         }
     }
 }
