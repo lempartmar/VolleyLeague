@@ -159,16 +159,16 @@
     {
         UserProfileData = await GetUserProfile();
 
+        commentModel = new NewCommentDto()
+        {
+            ContentLocationId = Id,
+        };
+
         HasTeamInvitations = await CheckTeamInvitations(UserProfileData?.AdditionalEmail);
 
         StateHasChanged();
         base.OnParametersSet();
     }
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     HasTeamInvitations = await CheckTeamInvitations(UserProfileData?.AdditionalEmail);
-    // }
 
     public async Task<UserProfileDto?> GetUserProfile()
     {
