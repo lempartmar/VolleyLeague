@@ -31,6 +31,18 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetInfoAboutTeamsToMerge")]
+        public async Task<IActionResult> GetInfoAboutTeamsToMerge([FromQuery] string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email parameter is required.");
+            }
+
+            var result = await _accountMergingService.GetInfoAboutTheMergedTeam(email);
+            return Ok(result);
+        }
+
         [HttpDelete("AccountMerging")]
         public async Task<IActionResult> AccountMerging([FromQuery] string email)
         {

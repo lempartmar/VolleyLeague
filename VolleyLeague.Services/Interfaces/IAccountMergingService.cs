@@ -5,6 +5,8 @@
         Task<bool> GetHasAccountsForMerging(string email);
 
         Task<bool> AccountMerging(string email);
+
+        Task<string> GetInfoAboutTheMergedTeam(string email);
     }
 }
 

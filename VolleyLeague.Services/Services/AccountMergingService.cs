@@ -44,6 +44,18 @@ namespace VolleyLeague.Services.Services
             return hasCredentialsUser && hasTeamPlayerUser;
         }
 
+        public async Task<string> GetInfoAboutTheMergedTeam(string email)
+        {
+            var usersByEmailFromTeam = await _teamPlayerRepository
+                .GetAll()
+                .Include(u => u.Team)
+                .Include(u => u.Player)
+                .Where(u => u.Player.AdditionalEmail == email)
+                .FirstOrDefaultAsync();
+
+            return usersByEmailFromTeam.Team.Name;
+        }
+
         public async Task<bool> AccountMerging(string email)
         {
             var usersWithSameEmail = await _usersRepository.GetAll()

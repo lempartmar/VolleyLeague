@@ -226,6 +226,7 @@ else
                                                 </td>
                                                     <td>
                                                         <InputText style="max-width:110px" @bind-Value="removedPlayer.Email" class="form-control" />
+                                                        <ValidationMessage For="@(() => removedPlayer.Email)" class="text-danger" />
                                                     </td>
                                                 <td>
                                                     <button type="button" class="btn btn-danger" @onclick="@(() => UndoRemove(removedPlayer))"><b>-</b></button>

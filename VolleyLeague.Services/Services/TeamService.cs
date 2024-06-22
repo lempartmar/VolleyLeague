@@ -600,8 +600,6 @@ namespace VolleyLeague.Services.Services
 
             var result = _mapper.Map<ManagedTeamDataDto>(team);
 
-
-
             result.Logo = team?.Logo;
             return result;
         }
