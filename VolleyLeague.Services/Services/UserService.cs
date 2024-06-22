@@ -58,12 +58,15 @@ namespace VolleyLeague.Services.Services
         public List<Role> Login(LoginDto loginDto, out Credentials? credentials)
         {
             var response = new List<Role>();
-            credentials = _credentialsRepository.GetAll().Include(c => c.Roles).FirstOrDefault(c => c.Email == loginDto.Email);
+            credentials = _credentialsRepository.GetAll().Include(c => c.Roles).Include(c => c.User).FirstOrDefault(c => c.Email == loginDto.Email);
 
             if (credentials == null || !VerifyPassword(loginDto.Email, loginDto.Password, credentials.Password))
             {
                 return null;
             }
+
+            // Add AdditionalEmail if missing
+            AddAdditionalEmailIfMissing(credentials);
 
             response = credentials.Roles.ToList();
 
@@ -441,7 +444,15 @@ namespace VolleyLeague.Services.Services
             return hash;
         }
 
-
+        private void AddAdditionalEmailIfMissing(Credentials credentials)
+        {
+            if (credentials.User != null && string.IsNullOrEmpty(credentials.User.AdditionalEmail))
+            {
+                credentials.User.AdditionalEmail = credentials.Email;
+                _userRepository.Update(credentials.User);
+                _userRepository.SaveChangesAsync();
+            }
+        }
 
         private string GeneratePasswordResetToken(string email)
         {

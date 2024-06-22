@@ -6,6 +6,7 @@
 @using VolleyLeague.Shared.Dtos.Teams
 
 @inject IUserService userService
+@inject NavigationManager NavigationManager
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
@@ -77,6 +78,8 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <button class="btn btn-primary" @onclick="NavigateToEditProfile">Edytuj Profil</button>
                             </div>
                         </div>
                     </div>
@@ -145,5 +148,10 @@
         {
             return "/assets/img/Logo_alternative.png";
         }
+    }
+
+    private void NavigateToEditProfile()
+    {
+        NavigationManager.NavigateTo($"/edit-profile/{Id}");
     }
 }
