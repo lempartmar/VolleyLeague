@@ -19,7 +19,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit();
         public Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team);
         public Task<List<TeamImageDto>> GetAllTeamsImageStatus();
-        public Task<bool> GetHasAccountsForMerging(string email);
+        public Task<TeamsToMergeDto> GetHasAccountsForMerging(string email);
         public Task<bool> AccountMerging(string email);
         public Task<string> GetInfoAboutTeamsToMerge(string email);
     }
@@ -141,13 +141,13 @@ namespace VolleyLeague.Client.Blazor.Services
             }
         }
 
-        public async Task<bool> GetHasAccountsForMerging(string email)
+        public async Task<TeamsToMergeDto> GetHasAccountsForMerging(string email)
         {
             var response = await _httpClient.GetAsync($"api/AccountMerging/GetHasAccountsForMerging?email={email}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return JsonSerializer.Deserialize<TeamsToMergeDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<bool> AccountMerging(string email)
@@ -162,7 +162,8 @@ namespace VolleyLeague.Client.Blazor.Services
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<string>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var teamName = JsonSerializer.Deserialize<string>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return teamName;
         }
     }
 }

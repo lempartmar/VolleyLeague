@@ -101,10 +101,10 @@
                             </div>
                             <div class="p-2" style="margin-top: 25px">
                                 <h2>Zaproszenia do drużyny</h2>
-                                @if (HasTeamInvitations)
+                                @if (HasTeamInvitations.Status)
                                 {
                                     <div class="alert alert-info" role="alert">
-                                        Użytkownik ma zaproszenia do drużyny.
+                                        Użytkownik ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
                                     </div>
                                 }
                                 else
@@ -153,18 +153,20 @@
 
     public string NewCommentError { get; set; } = "";
 
-    public bool HasTeamInvitations { get; set; } = false;
+    public TeamsToMergeDto HasTeamInvitations { get; set; } = null!;
+
+    public string TeamNameForInvitation { get; set; } = "";
 
     protected override async void OnParametersSet()
     {
         UserProfileData = await GetUserProfile();
 
-        commentModel = new NewCommentDto()
+        if (UserProfileData?.AdditionalEmail != null)
         {
-            ContentLocationId = Id,
-        };
+            HasTeamInvitations = await CheckTeamInvitations(UserProfileData.AdditionalEmail);
 
-        HasTeamInvitations = await CheckTeamInvitations(UserProfileData?.AdditionalEmail);
+            TeamNameForInvitation = await GetTeamNameForInvitation(UserProfileData.AdditionalEmail);
+        }
 
         StateHasChanged();
         base.OnParametersSet();
@@ -176,13 +178,33 @@
         return response;
     }
 
-    private async Task<bool> CheckTeamInvitations(string? email)
+    private async Task<TeamsToMergeDto> CheckTeamInvitations(string email)
     {
-        if (!string.IsNullOrEmpty(email))
+        try
         {
             return await teamService.GetHasAccountsForMerging(email);
         }
-        return false;
+        catch (Exception ex)
+        {
+            Error = $"An error occurred while checking team invitations: {ex.Message}";
+            Console.WriteLine(Error);
+            return null;
+        }
+    }
+
+    private async Task<string> GetTeamNameForInvitation(string email)
+    {
+        try
+        {
+            string name = await teamService.GetInfoAboutTeamsToMerge(email);
+            return name;
+        }
+        catch (Exception ex)
+        {
+            Error = $"An error occurred while getting team name for invitation: {ex.Message}";
+            Console.WriteLine(Error);
+            return "";
+        }
     }
 
     private string GetLogoSrc(byte[] logo)

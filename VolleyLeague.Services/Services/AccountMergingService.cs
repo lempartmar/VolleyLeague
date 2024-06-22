@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Services
 {
@@ -25,8 +26,9 @@ namespace VolleyLeague.Services.Services
             _logService = logService;
         }
 
-        public async Task<bool> GetHasAccountsForMerging(string email)
+        public async Task<TeamsToMergeDto> GetHasAccountsForMerging(string email)
         {
+            TeamsToMergeDto dto = new TeamsToMergeDto();
             var usersWithSameEmail = await _usersRepository.GetAll()
                 .Include(u => u.Credentials)
                 .Include(u => u.TeamPlayers)
@@ -35,13 +37,24 @@ namespace VolleyLeague.Services.Services
 
             if (usersWithSameEmail.Count < 2)
             {
-                return false;
+                dto.Status = false;
+                return dto;
             }
 
             var hasCredentialsUser = usersWithSameEmail.Any(u => u.Credentials != null);
             var hasTeamPlayerUser = usersWithSameEmail.Any(u => u.TeamPlayers.Any());
 
-            return hasCredentialsUser && hasTeamPlayerUser;
+            dto.Status = hasCredentialsUser && hasTeamPlayerUser;
+
+            var usersByEmailFromTeam = await _teamPlayerRepository
+                .GetAll()
+                .Include(u => u.Team)
+                .Include(u => u.Player)
+                .Where(u => u.Player.AdditionalEmail == email)
+                .FirstOrDefaultAsync();
+
+            dto.TeamName = usersByEmailFromTeam.Team.Name;
+            return dto;
         }
 
         public async Task<string> GetInfoAboutTheMergedTeam(string email)

@@ -1,8 +1,10 @@
-﻿namespace VolleyLeague.Services.Services
+﻿using VolleyLeague.Shared.Dtos.Teams;
+
+namespace VolleyLeague.Services.Services
 {
     public interface IAccountMergingService
     {
-        Task<bool> GetHasAccountsForMerging(string email);
+        Task<TeamsToMergeDto> GetHasAccountsForMerging(string email);
 
         Task<bool> AccountMerging(string email);
 
