@@ -12,11 +12,10 @@
     <div class="container">
         <div class="row">
             <div class="d-flex flex-row justify-content-center" style="margin-top: 30px; margin-left:auto; margin-right:auto; width: 500px">
-            @if (isLoading)
+                @if (isLoading)
                 {
                     <LoadingIcon />
                 }
-                
                 else if (UserProfileData != null)
                 {
                     <div class="text-center" style="max-width: 750px; width: 75%;">
@@ -48,7 +47,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="BirthYear">Rok urodzenia</label>
-                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear"  />
+                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" />
                                 <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
                             </div>
                             <div class="form-group">
@@ -82,6 +81,14 @@
                             <div class="form-group">
                                 <label for="PersonalInfo">Informacje dodatkowe</label>
                                 <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Photo">Zdjęcie:</label>
+                                <label class="btn btn-primary">
+                                    Wybierz plik
+                                    <InputFile OnChange="HandleFileChange" style="display:none;" />
+                                </label>
+                                <ValidationMessage For="@(() => UserProfileData.Photo)" />
                             </div>
 
                             <button type="submit" class="btn btn-primary">Zapisz</button>
@@ -141,6 +148,23 @@
     {
         await userService.UpdateUser(UserProfileData);
         Navigation.NavigateTo($"/user-profile/{Id}");
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+
+        if (imageFile != null)
+        {
+            using (var stream = imageFile.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    UserProfileData.Photo = memoryStream.ToArray();
+                }
+            }
+        }
     }
 
     private void Cancel()
