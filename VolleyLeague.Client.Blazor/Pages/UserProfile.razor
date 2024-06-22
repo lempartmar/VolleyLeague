@@ -22,10 +22,7 @@
                             <div class="mr-5"></div>
                             <div class="p-2">
                                 <h2>Profil Użytkownika</h2>
-                                @if (UserProfileData.Photo != null && UserProfileData.Photo.Length > 0)
-                                {
                                     <img src="@GetLogoSrc(UserProfileData.Photo)" style="width: 300px; height: 400px; margin-bottom: 30px">
-                                }
                                 <table class="table">
                                     <tbody>
                                         <tr>
@@ -151,7 +148,9 @@
         {
             return $"data:image/png;base64,{Convert.ToBase64String(logo)}";
         }
-
-        return "";
+        else
+        {
+            return "/assets/img/Logo_alternative.png";
+        }
     }
 }
