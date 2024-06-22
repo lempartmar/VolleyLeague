@@ -509,6 +509,8 @@ namespace VolleyLeague.Services.Services
                     JoinDate = DateTime.Now
                 };
 
+                await SendEmailAddedToTeam(player, player.FirstName);
+                
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
