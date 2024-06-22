@@ -19,6 +19,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit();
         public Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team);
         public Task<List<TeamImageDto>> GetAllTeamsImageStatus();
+        public Task<bool> GetHasAccountsForMerging(string email);
+        public Task<bool> AccountMerging(string email);
     }
 
     public class TeamService : ITeamService
@@ -134,9 +136,23 @@ namespace VolleyLeague.Client.Blazor.Services
             }
             catch
             {
-                // Log error, throw exception, or handle error as needed
                 throw new Exception("An error occurred while fetching leagues.");
             }
+        }
+
+        public async Task<bool> GetHasAccountsForMerging(string email)
+        {
+            var response = await _httpClient.GetAsync($"api/AccountMerging/GetHasAccountsForMerging?email={email}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<bool> AccountMerging(string email)
+        {
+            var response = await _httpClient.DeleteAsync($"api/AccountMerging/AccountMerging?email={email}");
+            return response.IsSuccessStatusCode;
         }
     }
 }

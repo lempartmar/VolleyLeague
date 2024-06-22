@@ -16,6 +16,8 @@
 
         public string LastName { get; set; } = null!;
 
+        public string AdditionalEmail { get; set; } = null!;
+
         public byte[]? Photo { get; set; }
 
         public int? Height { get; set; }

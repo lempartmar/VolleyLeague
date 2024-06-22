@@ -6,6 +6,7 @@
 @using VolleyLeague.Shared.Dtos.Teams
 
 @inject IUserService userService
+@inject ITeamService teamService
 @inject NavigationManager NavigationManager
 
 @attribute [Authorize(Roles = "Admin,Player")]
@@ -17,7 +18,7 @@
                 @if (UserProfileData != null)
                 {
                     <div class="text-center" style="max-width: 750px; display: contents;">
-                        <div class="d-flex flex-row justify-content-center" style="display: flex;justify-content: center;flex-direction: column;;">
+                        <div class="d-flex flex-row justify-content-center" style="display: flex;justify-content: center;flex-direction: column;">
                             <div class="mr-5"></div>
                             <div class="p-2">
                                 <h2>Profil Użytkownika</h2>
@@ -91,7 +92,27 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
+                                @if (string.IsNullOrWhiteSpace(UserProfileData.TeamName))
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        Użytkownik nie należy do żadnej drużyny.
+                                    </div>
+                                }
+                            </div>
+                            <div class="p-2" style="margin-top: 25px">
+                                <h2>Zaproszenia do drużyny</h2>
+                                @if (HasTeamInvitations)
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        Użytkownik ma zaproszenia do drużyny.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        Użytkownik nie ma zaproszeń do drużyny.
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -132,22 +153,36 @@
 
     public string NewCommentError { get; set; } = "";
 
+    public bool HasTeamInvitations { get; set; } = false;
+
     protected override async void OnParametersSet()
     {
         UserProfileData = await GetUserProfile();
 
-        commentModel = new NewCommentDto()
-        {
-            ContentLocationId = Id,
-        };
+        HasTeamInvitations = await CheckTeamInvitations(UserProfileData?.AdditionalEmail);
+
         StateHasChanged();
         base.OnParametersSet();
     }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     HasTeamInvitations = await CheckTeamInvitations(UserProfileData?.AdditionalEmail);
+    // }
 
     public async Task<UserProfileDto?> GetUserProfile()
     {
         var response = await userService.GetUserProfile(Id);
         return response;
+    }
+
+    private async Task<bool> CheckTeamInvitations(string? email)
+    {
+        if (!string.IsNullOrEmpty(email))
+        {
+            return await teamService.GetHasAccountsForMerging(email);
+        }
+        return false;
     }
 
     private string GetLogoSrc(byte[] logo)

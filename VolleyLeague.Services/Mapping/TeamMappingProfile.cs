@@ -58,6 +58,7 @@ namespace VolleyLeague.Services.Mapping
             CreateMap<PlayerSummaryDto, User>()
              .ForMember(dest => dest.JerseyNumber, opt => opt.MapFrom(src => (byte?)src.JerseyNumber))
              .ForMember(dest => dest.Height, opt => opt.MapFrom(src => (byte?)src.Height))
+             .ForMember(dest => dest.AdditionalEmail, opt => opt.MapFrom(src => src.AdditionalEmail))
              .ForMember(dest => dest.Position, opt => opt.Ignore());
 
             CreateMap<TeamPlayerDto, User>()
@@ -90,6 +91,7 @@ namespace VolleyLeague.Services.Mapping
             .ForMember(dest => dest.JerseyNumber, opt => opt.MapFrom(src => src.Player.JerseyNumber))
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Player.Gender))
             .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Player.Height));
+
 
 
             CreateMap<Team, ManagedTeamDataDto>()
