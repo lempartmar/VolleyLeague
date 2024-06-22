@@ -90,7 +90,12 @@
                                 </label>
                                 <ValidationMessage For="@(() => UserProfileData.Photo)" />
                             </div>
-
+                            @if (!string.IsNullOrEmpty(FileName))
+                            {
+                                <div class="form-group">
+                                    <small class="form-text text-muted">Załadowano plik: @FileName</small>
+                                </div>
+                            }
                             <button type="submit" class="btn btn-primary">Zapisz</button>
                             <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
                         </EditForm>
@@ -114,6 +119,7 @@
     public UpdateUserDto UserProfileData { get; set; } = new UpdateUserDto();
     public List<PositionDto> Positions { get; set; } = new List<PositionDto>();
     private bool isLoading = true;
+    private string FileName { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -164,6 +170,7 @@
                     UserProfileData.Photo = memoryStream.ToArray();
                 }
             }
+            FileName = imageFile.Name;
         }
     }
 
