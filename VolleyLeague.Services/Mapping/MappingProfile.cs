@@ -36,7 +36,9 @@ namespace VolleyLeague.Services.Mapping
             CreateMap<NewMatchDto, Match>()
                  .ReverseMap();
 
-            CreateMap<User, UserProfileDto>();
+            CreateMap<User, UserProfileDto>()
+            .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.Name : null))
+            .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position != null ? src.Position.Name : null));
 
             CreateMap<Team, StandingsDto>()
                 .AfterMap((team, dto, context) =>

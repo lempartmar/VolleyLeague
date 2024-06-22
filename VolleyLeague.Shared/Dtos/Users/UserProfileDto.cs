@@ -17,6 +17,7 @@ namespace VolleyLeague.Shared.Dtos.Teams
         public int? JerseyNumber { get; set; }
         public int? BlockRange { get; set; }
         public int? AttackRange { get; set; }
+        public string? TeamName { get; set; }
         public string? VolleyballIdol { get; set; }
         public string? Hobby { get; set; }
         public string? PositionName { get; set; }

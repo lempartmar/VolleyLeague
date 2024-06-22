@@ -50,6 +50,7 @@ namespace VolleyLeague.Services.Services
             var user = await _userRepository
                 .GetAll()
                 .Include(u => u.Position)
+                .Include(u => u.Team)
                 .FirstOrDefaultAsync(u => u.Id == id);
             return _mapper.Map<UserProfileDto>(user);
         }

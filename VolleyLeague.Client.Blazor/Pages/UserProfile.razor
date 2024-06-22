@@ -16,8 +16,8 @@
             <div class="d-flex flex-row justify-content-center" style="margin-top: 30px;">
                 @if (UserProfileData != null)
                 {
-                    <div class="text-center" style="max-width: 750px">
-                        <div class="d-flex flex-row justify-content-center" style="display: flex; justify-content: space-around;">
+                    <div class="text-center" style="max-width: 750px; display: contents;">
+                        <div class="d-flex flex-row justify-content-center" style="display: flex;justify-content: center;flex-direction: column;;">
                             <div class="mr-5"></div>
                             <div class="p-2">
                                 <h2>Profil Użytkownika</h2>
@@ -80,6 +80,18 @@
                                 </table>
 
                                 <button class="btn btn-primary" @onclick="NavigateToEditProfile">Edytuj Profil</button>
+                            </div>
+                            <div class="p-2" style="margin-top: 25px">
+                                <h2>Drużyna użytkownika</h2>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Nazwa drużyny</th>
+                                            <td>@(string.IsNullOrWhiteSpace(UserProfileData.TeamName) ? "-" : UserProfileData.TeamName)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
