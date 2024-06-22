@@ -20,7 +20,8 @@
         </div>
     </section>
 }
-else{
+else
+{
 <section class="category_section">
     <div class="container">
         <div class="row">
@@ -223,7 +224,9 @@ else{
                                                         </div>
                                                     </InputRadioGroup>
                                                 </td>
-                                                <td></td>
+                                                    <td>
+                                                        <InputText style="max-width:110px" @bind-Value="removedPlayer.Email" class="form-control" />
+                                                    </td>
                                                 <td>
                                                     <button type="button" class="btn btn-danger" @onclick="@(() => UndoRemove(removedPlayer))"><b>-</b></button>
                                                 </td>
@@ -318,6 +321,7 @@ else{
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
 </style>
 
 @code {
@@ -384,6 +388,7 @@ else{
         }
         ManagedTeam.Players.Remove(player);
         ManagedTeam.RemovedPlayers.Add(player);
+        transfers++;
     }
 
     public void UndoAdd(TeamPlayerDto player)
@@ -396,6 +401,7 @@ else{
     {
         ManagedTeam.RemovedPlayers.Remove(player);
         ManagedTeam.Players.Add(player);
+        transfers--;
     }
 
     public async Task HandleValidSubmit()

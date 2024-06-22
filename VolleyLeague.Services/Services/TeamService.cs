@@ -514,6 +514,16 @@ namespace VolleyLeague.Services.Services
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
+            foreach (var player in team.RemovedPlayers)
+            {
+                var pl1 = player;
+                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == pl1.Id);
+                if (playerToRemove != null)
+                {
+                    teamToUpdate.TeamPlayers.Remove(playerToRemove);
+                }
+            }
+
             // Zapisz zmiany w bazie danych, aby uzyskać ID nowych graczy
             await _teamRepository.SaveChangesAsync();
 
