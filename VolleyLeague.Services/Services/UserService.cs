@@ -47,7 +47,10 @@ namespace VolleyLeague.Services.Services
 
         public async Task<UserProfileDto> GetUserProfile(int id)
         {
-            var user = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userRepository
+                .GetAll()
+                .Include(u => u.Position)
+                .FirstOrDefaultAsync(u => u.Id == id);
             return _mapper.Map<UserProfileDto>(user);
         }
 

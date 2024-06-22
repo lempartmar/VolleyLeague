@@ -94,6 +94,7 @@ namespace VolleyLeague.API.Controllers
         }
 
         [HttpPut("UpdateTeam")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateTeam([FromBody] ManageTeamDto team)
         {
             string? id = User.Identity?.Name;
