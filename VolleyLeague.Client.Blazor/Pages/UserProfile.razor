@@ -94,7 +94,7 @@
                                 </table>
                                 @if (!string.IsNullOrWhiteSpace(UserProfileData.TeamName))
                                 {
-                                    <button class="btn btn-danger" @onclick="LeaveTeam">Opuść drużynę</button>
+                                    <button class="btn btn-danger" @onclick="ShowLeaveTeamConfirmation">Opuść drużynę</button>
                                 }
                                 else
                                 {
@@ -140,6 +140,24 @@
     </div>
 </section>
 
+<!-- Modal for leave team confirmation -->
+<div class="modal" tabindex="-1" role="dialog" style="@(ShowLeaveModal ? "display:block" : "display:none")">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potwierdzenie opuszczenia drużyny</h5>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz opuścić drużynę?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="HideLeaveTeamConfirmation">Anuluj</button>
+                <button class="btn btn-danger" @onclick="ConfirmLeaveTeam">Opuść</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     [Parameter]
     public int Id { get; set; }
@@ -161,6 +179,10 @@
     public TeamsToMergeDto HasTeamInvitations { get; set; } = new TeamsToMergeDto();
 
     public string TeamNameForInvitation { get; set; } = "";
+
+    public bool IsLoading { get; set; } = false;
+
+    public bool ShowLeaveModal { get; set; } = false;
 
     protected override async void OnParametersSet()
     {
@@ -221,7 +243,9 @@
         {
             try
             {
+                IsLoading = true;
                 var result = await teamService.AccountMerging(email);
+                IsLoading = false;
                 if (result)
                 {
                     // Handle success (e.g., display a success message, reload data, etc.)
@@ -235,6 +259,7 @@
             }
             catch (Exception ex)
             {
+                IsLoading = false;
                 Error = $"An error occurred while merging accounts: {ex.Message}";
                 Console.WriteLine(Error);
             }
@@ -247,7 +272,9 @@
         {
             try
             {
+                IsLoading = true;
                 var result = await teamService.LeaveTeamByEmail(UserProfileData.AdditionalEmail);
+                IsLoading = false;
                 if (result.Success)
                 {
                     // Handle success (e.g., display a success message, reload data, etc.)
@@ -261,10 +288,27 @@
             }
             catch (Exception ex)
             {
+                IsLoading = false;
                 Error = $"An error occurred while leaving the team: {ex.Message}";
                 Console.WriteLine(Error);
             }
         }
+    }
+
+    private void ShowLeaveTeamConfirmation()
+    {
+        ShowLeaveModal = true;
+    }
+
+    private void HideLeaveTeamConfirmation()
+    {
+        ShowLeaveModal = false;
+    }
+
+    private async Task ConfirmLeaveTeam()
+    {
+        ShowLeaveModal = false;
+        await LeaveTeam();
     }
 
     private string GetLogoSrc(byte[] logo)
