@@ -41,7 +41,7 @@
                 </EditForm>
                 @if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    <div class="alert alert-danger mt-3 text-center" style="margin-top: 30px;">@errorMessage</div>
+                    <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@errorMessage</div>
                 }
                 <div class="text-center mt-3" style="margin-top: 30px">
                     <a @onclick="NavigateToResetPassword">Zapomniałeś hasła?</a>
