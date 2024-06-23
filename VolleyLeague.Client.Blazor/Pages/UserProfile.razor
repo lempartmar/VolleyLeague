@@ -101,11 +101,12 @@
                             </div>
                             <div class="p-2" style="margin-top: 25px">
                                 <h2>Zaproszenia do drużyny</h2>
-                                @if (HasTeamInvitations.Status)
+                                @if (HasTeamInvitations != null && HasTeamInvitations.Status)
                                 {
-                                    <div class="alert alert-info" role="alert">
-                                        Użytkownik ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
+                                    <div>
+                                        Ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
                                     </div>
+                                    <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
                                 }
                                 else
                                 {
@@ -153,7 +154,7 @@
 
     public string NewCommentError { get; set; } = "";
 
-    public TeamsToMergeDto HasTeamInvitations { get; set; } = null!;
+    public TeamsToMergeDto HasTeamInvitations { get; set; } = new TeamsToMergeDto();
 
     public string TeamNameForInvitation { get; set; } = "";
 
@@ -165,7 +166,10 @@
         {
             HasTeamInvitations = await CheckTeamInvitations(UserProfileData.AdditionalEmail);
 
-            TeamNameForInvitation = await GetTeamNameForInvitation(UserProfileData.AdditionalEmail);
+            if (HasTeamInvitations.Status)
+            {
+                TeamNameForInvitation = await GetTeamNameForInvitation(UserProfileData.AdditionalEmail);
+            }
         }
 
         StateHasChanged();
@@ -188,7 +192,7 @@
         {
             Error = $"An error occurred while checking team invitations: {ex.Message}";
             Console.WriteLine(Error);
-            return null;
+            return new TeamsToMergeDto();
         }
     }
 
@@ -204,6 +208,32 @@
             Error = $"An error occurred while getting team name for invitation: {ex.Message}";
             Console.WriteLine(Error);
             return "";
+        }
+    }
+
+    private async Task MergeAccount(string? email)
+    {
+        if (!string.IsNullOrEmpty(email))
+        {
+            try
+            {
+                var result = await teamService.AccountMerging(email);
+                if (result)
+                {
+                    // Handle success (e.g., display a success message, reload data, etc.)
+                    NavigationManager.NavigateTo("/user-profile/{Id}", forceLoad: true);
+                }
+                else
+                {
+                    // Handle failure (e.g., display an error message)
+                    Error = "Failed to merge accounts.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Error = $"An error occurred while merging accounts: {ex.Message}";
+                Console.WriteLine(Error);
+            }
         }
     }
 
