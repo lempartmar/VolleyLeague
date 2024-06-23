@@ -50,6 +50,15 @@ builder.Services.AddTransient(typeof(ILeagueService), typeof(LeagueService));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+if (builder.Environment.IsStaging())
+{
+    builder.WebHost.UseStaticWebAssets();
+}
+
+builder.WebHost.UseStaticWebAssets();
+
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

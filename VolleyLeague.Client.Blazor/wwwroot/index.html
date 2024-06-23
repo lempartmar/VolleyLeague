@@ -10,6 +10,8 @@
     <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />-->
     <link rel="icon" type="image/png" href="assets/img/zawodnik.png" />
     <link href="BlazorTrainingApplication.styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
     <link href="assets/img/zawodnik.png" rel=icon>
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/app.css" />
@@ -40,6 +42,7 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>-->
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>

@@ -3,6 +3,7 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Radzen;
 using VolleyLeague.Client.Blazor;
 using VolleyLeague.Client.Blazor.Authentication;
 using VolleyLeague.Client.Blazor.Services;
@@ -23,15 +24,19 @@ builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IMatchOrganizerService, MatchOrganizerService>();
 builder.Services.AddScoped<ITypedResultService, TypedResultService>();
 
+builder.Services.AddRadzenComponents();
+
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7068") });
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
 
-//options =>
-//{
-//    options.AddPolicy("IsAdmin", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin"));
-//});
-
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
+
+
+
 
 await builder.Build().RunAsync();
