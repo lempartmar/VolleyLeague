@@ -37,16 +37,16 @@ else
                         </div>
                         <div class="card m-2 p-2">
                             <h3>Lista sezonów</h3>
+                            @if (!string.IsNullOrEmpty(seasonsErrorMessage))
+                            {
+                                <div class="alert alert-danger">
+                                    @seasonsErrorMessage
+                                </div>
+                            }
                             @if (seasonsLoading)
                             {
                                 <div class="d-flex justify-content-center">
                                     <div id="spinner"></div>
-                                </div>
-                            }
-                            else if (!string.IsNullOrEmpty(seasonsErrorMessage))
-                            {
-                                <div class="alert alert-danger">
-                                    @seasonsErrorMessage
                                 </div>
                             }
                             else if (_seasons != null && _seasons.Any())
@@ -79,7 +79,7 @@ else
                                             @if (selectedSeasonId == season.Id && rounds != null)
                                             {
                                                 <div class="card card-body mt-2">
-                                                    <h4>Kolejki sezonu</h4>
+                                                    <div>Kolejki sezonu</div>
                                                     <EditForm Model="@newRound" OnValidSubmit="CreateRound">
                                                         <div class="form-group">
                                                             <label for="newRoundName">Nazwa kolejki:</label>
@@ -222,8 +222,8 @@ else
         try
         {
             await seasonService.CreateSeason(newSeason);
-            newSeason = new SeasonDto(); 
-            await LoadSeasons(); 
+            newSeason = new SeasonDto();
+            await LoadSeasons();
         }
         catch (Exception ex)
         {
