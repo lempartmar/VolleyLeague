@@ -10,7 +10,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<TeamDto>> GetAllTeamsDto();
         public Task<TeamDto> GetTeam(int id);
         public Task<bool> CreateTeam(NewTeamDto team);
-        public Task<bool> UpdateTeam(ManageTeamDto team);
+        Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team);
+
         public Task<bool> DeleteTeam(int id);
         public Task<List<TeamDto>> GetTeamsByLeague(int leagueId);
         public Task<ManagedTeamDataDto> GetManagedTeam();
@@ -104,10 +105,19 @@ namespace VolleyLeague.Client.Blazor.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateTeam(ManageTeamDto team)
+        public async Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team)
         {
             var response = await _httpClient.PutAsJsonAsync("api/team/UpdateTeam", team);
-            return response.IsSuccessStatusCode;
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, content);
+            }
+            else
+            {
+                return (false, content);
+            }
         }
 
         public async Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team)

@@ -105,8 +105,13 @@ namespace VolleyLeague.API.Controllers
             //}
             var result = await _teamService.UpdateTeam(team, id);
 
-            return Ok();
+            if (result.Success)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Message);
         }
+
 
         [HttpPut("UpdateExtendedTeam")]
         public async Task<IActionResult> UpdateExtendedTeam([FromBody] ExtendedTeamDto team)

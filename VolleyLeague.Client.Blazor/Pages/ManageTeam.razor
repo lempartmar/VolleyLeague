@@ -22,137 +22,80 @@
 }
 else
 {
-<section class="category_section">
-    <div class="container">
-        <div class="row">
-            @if (PageReady)
-            {
-                <EditForm Model="@ManagedTeam" OnValidSubmit="HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <div class="card">
-                        <h2 class="card-header">Zarządzanie drużyną: @(Team?.Name ?? "Unknown")</h2>
-                        <div class="card-body">
-                            <div class="form-group mb-3">
-                                <label for="Email">Email drużynowy</label>
-                                <InputText class="form-control" id="Email" @bind-Value="ManagedTeam.Email" />
-                                <ValidationMessage For="@(() => ManagedTeam.Email)" />
-                            </div>
+    <section class="category_section">
+        <div class="container">
+            <div class="row">
+                @if (PageReady)
+                {
+                    <EditForm Model="@ManagedTeam" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <div class="card">
+                            <h2 class="card-header">Zarządzanie drużyną: @(Team?.Name ?? "Unknown")</h2>
+                            <div class="card-body">
+                                <div class="form-group mb-3">
+                                    <label for="Email">Email drużynowy</label>
+                                    <InputText class="form-control" id="Email" @bind-Value="ManagedTeam.Email" />
+                                    <ValidationMessage For="@(() => ManagedTeam.Email)" />
+                                </div>
 
-                            <div class="form-group mb-3">
-                                <label for="Phone">Telefon komórkowy</label>
-                                <InputText class="form-control" id="Phone" @bind-Value="ManagedTeam.Phone" />
-                                <ValidationMessage For="@(() => ManagedTeam.Phone)" />
-                            </div>
+                                <div class="form-group mb-3">
+                                    <label for="Phone">Telefon komórkowy</label>
+                                    <InputText class="form-control" id="Phone" @bind-Value="ManagedTeam.Phone" />
+                                    <ValidationMessage For="@(() => ManagedTeam.Phone)" />
+                                </div>
 
-                            <div class="form-group mb-3">
-                                <label for="TeamDescription">Opis drużyny</label>
-                                <InputText class="form-control" id="TeamDescription" @bind-Value="ManagedTeam.TeamDescription" />
-                                <ValidationMessage For="@(() => ManagedTeam.TeamDescription)" />
-                            </div>
+                                <div class="form-group mb-3">
+                                    <label for="TeamDescription">Opis drużyny</label>
+                                    <InputText class="form-control" id="TeamDescription" @bind-Value="ManagedTeam.TeamDescription" />
+                                    <ValidationMessage For="@(() => ManagedTeam.TeamDescription)" />
+                                </div>
 
-                            <div class="form-group mb-3">
-                                <label for="Website">Strona internetowa</label>
-                                <InputText class="form-control" id="Website" @bind-Value="ManagedTeam.Website" />
-                                <ValidationMessage For="@(() => ManagedTeam.Website)" />
-                            </div>
+                                <div class="form-group mb-3">
+                                    <label for="Website">Strona internetowa</label>
+                                    <InputText class="form-control" id="Website" @bind-Value="ManagedTeam.Website" />
+                                    <ValidationMessage For="@(() => ManagedTeam.Website)" />
+                                </div>
 
-                            <h5>Zawodnicy</h5>
-                            <small class="text-info">Możesz edytować adres email niezarejestrowanych graczy. Jeśli założą konto na podany email, to automatycznie ich konto stanie się członkiem drużyny.</small>
-                            <ValidationMessage For="@(() => ManagedTeam.Players)" class="text-danger mb-3" />
-                            <table class="table table-responsive table-sm mt-3">
-                                <thead>
-                                    <tr>
-                                        <th>Lp</th>
-                                        <th>Imię</th>
-                                        <th>Nazwisko</th>
-                                        <th>Numer</th>
-                                        <th>Wzrost</th>
-                                        <th>Pozycja</th>
-                                        <th>Płeć</th>
-                                        <th>Email</th>
-                                        <th>Usuń</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int i = 0;
-                                    }
-                                    @foreach (var player in ManagedTeam.Players)
-                                    {
+                                <h5>Zawodnicy</h5>
+                                <small class="text-info">Możesz edytować adres email niezarejestrowanych graczy. Jeśli założą konto na podany email, to automatycznie ich konto stanie się członkiem drużyny.</small>
+                                <ValidationMessage For="@(() => ManagedTeam.Players)" class="text-danger mb-3" />
+                                <table class="table table-responsive table-sm mt-3">
+                                    <thead>
                                         <tr>
-                                            <td>@(++i)</td>
-                                            <td>
-                                                <InputText style="max-width:110px" @bind-Value="player.FirstName" readonly class="form-control" />
-                                                <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
-                                            </td>
-                                            <td>
-                                                <InputText style="max-width:110px" @bind-Value="player.LastName" readonly class="form-control" />
-                                            </td>
-                                            <td>
-                                                <InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" class="form-control" />
-                                            </td>
-                                            <td>
-                                                <InputNumber style="max-width:55px" @bind-Value="player.Height" class="form-control" />
-                                            </td>
-                                            <td>
-                                                <InputSelect style="max-width:100px" @bind-Value="player.PositionId" class="form-control">
-                                                    @foreach (var position in Positions)
-                                                    {
-                                                        <option value="@position.Id">@position.Name</option>
-                                                    }
-                                                </InputSelect>
-                                            </td>
-                                            <td class="d-flex flex-nowrap align-items-center">
-                                                <InputRadioGroup @bind-Value="player.Gender">
-                                                    <div class="form-check form-check-inline">
-                                                        <InputRadio Value="false" class="form-check-input" />
-                                                        <label class="form-check-label">M</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <InputRadio Value="true" class="form-check-input" />
-                                                        <label class="form-check-label">K</label>
-                                                    </div>
-                                                </InputRadioGroup>
-                                            </td>
-                                            <td>
-                                                @if (!player.IsRegisteredUser)
-                                                {
-                                                    <InputText style="max-width:110px" @bind-Value="player.Email" class="form-control" />
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (player.Id != Team?.Captain.Id)
-                                                {
-                                                    <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
-                                                }
-                                            </td>
+                                            <th>Lp</th>
+                                            <th>Imię</th>
+                                            <th>Nazwisko</th>
+                                            <th>Numer</th>
+                                            <th>Wzrost</th>
+                                            <th>Pozycja</th>
+                                            <th>Płeć</th>
+                                            <th>Email</th>
+                                            <th>Usuń</th>
                                         </tr>
-                                    }
-
-                                    @if (ManagedTeam.NewPlayers != null && ManagedTeam.NewPlayers.Count > 0)
-                                    {
-                                        <tr>
-                                            <td colspan="9"><h6>Nowi zawodnicy</h6></td>
-                                        </tr>
-                                        @foreach (var newPlayer in ManagedTeam.NewPlayers)
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int i = 0;
+                                        }
+                                        @foreach (var player in ManagedTeam.Players)
                                         {
                                             <tr>
                                                 <td>@(++i)</td>
                                                 <td>
-                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.FirstName" class="form-control" />
-                                                    <ValidationMessage For="@(() => newPlayer.FirstName)" class="text-danger" />
+                                                    <InputText style="max-width:110px" @bind-Value="player.FirstName" readonly class="form-control" />
+                                                    <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
                                                 </td>
                                                 <td>
-                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.LastName" class="form-control" />
+                                                    <InputText style="max-width:110px" @bind-Value="player.LastName" readonly class="form-control" />
                                                 </td>
                                                 <td>
-                                                    <InputNumber style="max-width:55px" @bind-Value="newPlayer.JerseyNumber" class="form-control" />
+                                                    <InputNumber style="max-width:55px" @bind-Value="player.JerseyNumber" class="form-control" />
                                                 </td>
                                                 <td>
-                                                    <InputNumber style="max-width:55px" @bind-Value="newPlayer.Height" class="form-control" />
+                                                    <InputNumber style="max-width:55px" @bind-Value="player.Height" class="form-control" />
                                                 </td>
                                                 <td>
-                                                    <InputSelect style="max-width:100px" @bind-Value="newPlayer.PositionId" class="form-control">
+                                                    <InputSelect style="max-width:100px" @bind-Value="player.PositionId" class="form-control">
                                                         @foreach (var position in Positions)
                                                         {
                                                             <option value="@position.Id">@position.Name</option>
@@ -160,7 +103,7 @@ else
                                                     </InputSelect>
                                                 </td>
                                                 <td class="d-flex flex-nowrap align-items-center">
-                                                    <InputRadioGroup @bind-Value="newPlayer.Gender">
+                                                    <InputRadioGroup @bind-Value="player.Gender">
                                                         <div class="form-check form-check-inline">
                                                             <InputRadio Value="false" class="form-check-input" />
                                                             <label class="form-check-label">M</label>
@@ -172,127 +115,188 @@ else
                                                     </InputRadioGroup>
                                                 </td>
                                                 <td>
-                                                    <InputText style="max-width:110px" @bind-Value="newPlayer.Email" class="form-control" />
-                                                    <ValidationMessage For="@(() => newPlayer.Email)" class="text-danger" />
+                                                    @if (!player.IsRegisteredUser)
+                                                    {
+                                                        <InputText style="max-width:110px" @bind-Value="player.Email" class="form-control" />
+                                                    }
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger" @onclick="@(() => UndoAdd(newPlayer))"><b>-</b></button>
+                                                    @if (player.Id != Team?.Captain.Id)
+                                                    {
+                                                        <button type="button" class="btn btn-danger" @onclick="@(() => RemovePlayer(player))"><b>-</b></button>
+                                                    }
                                                 </td>
                                             </tr>
                                         }
-                                    }
 
-                                    @if (ManagedTeam.RemovedPlayers != null && ManagedTeam.RemovedPlayers.Count > 0)
-                                    {
-                                        <tr>
-                                            <td colspan="9"><h6>Usuwani zawodnicy</h6></td>
-                                        </tr>
-                                        @foreach (var removedPlayer in ManagedTeam.RemovedPlayers)
+                                        @if (ManagedTeam.NewPlayers != null && ManagedTeam.NewPlayers.Count > 0)
                                         {
                                             <tr>
-                                                <td>@(++i)</td>
-                                                <td>
-                                                    <InputText style="max-width:110px" @bind-Value="removedPlayer.FirstName" readonly class="form-control" />
-                                                    <ValidationMessage For="@(() => removedPlayer.FirstName)" class="text-danger" />
-                                                </td>
-                                                <td>
-                                                    <InputText style="max-width:120px" @bind-Value="removedPlayer.LastName" readonly class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputNumber style="max-width:60px" @bind-Value="removedPlayer.JerseyNumber" readonly class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputNumber style="max-width:60px" @bind-Value="removedPlayer.Height" readonly class="form-control" />
-                                                </td>
-                                                <td>
-                                                    <InputSelect @bind-Value="removedPlayer.PositionId" readonly class="form-control">
-                                                        @foreach (var position in Positions)
-                                                        {
-                                                            <option value="@position.Id">@position.Name</option>
-                                                        }
-                                                    </InputSelect>
-                                                </td>
-                                                <td class="d-flex flex-nowrap align-items-center">
-                                                    <InputRadioGroup @bind-Value="removedPlayer.Gender">
-                                                        <div class="form-check form-check-inline">
-                                                            <InputRadio readonly Value="false" class="form-check-input" />
-                                                            <label class="form-check-label">M</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <InputRadio readonly Value="true" class="form-check-input" />
-                                                            <label class="form-check-label">K</label>
-                                                        </div>
-                                                    </InputRadioGroup>
-                                                </td>
+                                                <td colspan="9"><h6>Nowi zawodnicy</h6></td>
+                                            </tr>
+                                            @foreach (var newPlayer in ManagedTeam.NewPlayers)
+                                            {
+                                                <tr>
+                                                    <td>@(++i)</td>
+                                                    <td>
+                                                        <InputText style="max-width:110px" @bind-Value="newPlayer.FirstName" class="form-control" />
+                                                        <ValidationMessage For="@(() => newPlayer.FirstName)" class="text-danger" />
+                                                    </td>
+                                                    <td>
+                                                        <InputText style="max-width:110px" @bind-Value="newPlayer.LastName" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputNumber style="max-width:55px" @bind-Value="newPlayer.JerseyNumber" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputNumber style="max-width:55px" @bind-Value="newPlayer.Height" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputSelect style="max-width:100px" @bind-Value="newPlayer.PositionId" class="form-control">
+                                                            @foreach (var position in Positions)
+                                                            {
+                                                                <option value="@position.Id">@position.Name</option>
+                                                            }
+                                                        </InputSelect>
+                                                    </td>
+                                                    <td class="d-flex flex-nowrap align-items-center">
+                                                        <InputRadioGroup @bind-Value="newPlayer.Gender">
+                                                            <div class="form-check form-check-inline">
+                                                                <InputRadio Value="false" class="form-check-input" />
+                                                                <label class="form-check-label">M</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <InputRadio Value="true" class="form-check-input" />
+                                                                <label class="form-check-label">K</label>
+                                                            </div>
+                                                        </InputRadioGroup>
+                                                    </td>
+                                                    <td>
+                                                        <InputText style="max-width:110px" @bind-Value="newPlayer.Email" class="form-control" />
+                                                        <ValidationMessage For="@(() => newPlayer.Email)" class="text-danger" />
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger" @onclick="@(() => UndoAdd(newPlayer))"><b>-</b></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                        @if (ManagedTeam.RemovedPlayers != null && ManagedTeam.RemovedPlayers.Count > 0)
+                                        {
+                                            <tr>
+                                                <td colspan="9"><h6>Usuwani zawodnicy</h6></td>
+                                            </tr>
+                                            @foreach (var removedPlayer in ManagedTeam.RemovedPlayers)
+                                            {
+                                                <tr>
+                                                    <td>@(++i)</td>
+                                                    <td>
+                                                        <InputText style="max-width:110px" @bind-Value="removedPlayer.FirstName" readonly class="form-control" />
+                                                        <ValidationMessage For="@(() => removedPlayer.FirstName)" class="text-danger" />
+                                                    </td>
+                                                    <td>
+                                                        <InputText style="max-width:120px" @bind-Value="removedPlayer.LastName" readonly class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputNumber style="max-width:60px" @bind-Value="removedPlayer.JerseyNumber" readonly class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputNumber style="max-width:60px" @bind-Value="removedPlayer.Height" readonly class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <InputSelect @bind-Value="removedPlayer.PositionId" readonly class="form-control">
+                                                            @foreach (var position in Positions)
+                                                            {
+                                                                <option value="@position.Id">@position.Name</option>
+                                                            }
+                                                        </InputSelect>
+                                                    </td>
+                                                    <td class="d-flex flex-nowrap align-items-center">
+                                                        <InputRadioGroup @bind-Value="removedPlayer.Gender">
+                                                            <div class="form-check form-check-inline">
+                                                                <InputRadio readonly Value="false" class="form-check-input" />
+                                                                <label class="form-check-label">M</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <InputRadio readonly Value="true" class="form-check-input" />
+                                                                <label class="form-check-label">K</label>
+                                                            </div>
+                                                        </InputRadioGroup>
+                                                    </td>
                                                     <td>
                                                         <InputText style="max-width:110px" @bind-Value="removedPlayer.Email" class="form-control" />
                                                         <ValidationMessage For="@(() => removedPlayer.Email)" class="text-danger" />
                                                     </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger" @onclick="@(() => UndoRemove(removedPlayer))"><b>-</b></button>
-                                                </td>
-                                            </tr>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger" @onclick="@(() => UndoRemove(removedPlayer))"><b>-</b></button>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-success" @onclick="AddPlayer"><b>+</b></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if (ShowErrorMessage)
+                            {
+                                <div><h3 style ="color: red">@ErrorMessage</h3></div>
+                            }
+                            @if (transfers > 0)
+                            {
+                                <p class="text-warning">Tymi operacjami wykorzystasz następującą liczbę transferów: @transfers. Posiadasz jeszcze: @(Team?.AvailableTransfers ?? 0) transferów</p>
+                            }
+
+                            <ValidationSummary class="text-danger" />
+                            <div style="display: flex; flex-direction: column; gap: 20px">
+                                 <div class="d-flex flex-column align-items-center mt-3">
+
+                                    <button class="btn btn-primary col-sm-3 mb-2" type="submit">Aktualizuj dane drużyny</button>
+                                
+                            </div>
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                    <button class="btn btn-danger col-sm-3 mb-2" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
+                                
+                            </div>
+                            </div>
+                        </div>
+                    </EditForm>
+
+                    <EditForm Model="CaptainId" class="form mt-4" OnValidSubmit="UpdateCaptain">
+                        <div class="d-flex flex-column">
+                            <h4>Zmień kapitana</h4>
+                            <p>Obecny kapitan: @(Team?.Captain.FirstName ?? "Unknown") @(Team?.Captain.LastName ?? "Unknown")</p>
+                            <div class="form-group mb-3">
+                                <label for="CaptainId">Nowy kapitan:</label>
+                                <InputSelect @bind-Value="CaptainId" class="form-control">
+                                    @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser && p.Id != ManagedTeam.Captain.Id) ?? Enumerable.Empty<TeamPlayerDto>()))
+                                    {
+                                        <option value="@player.Id">@player.FirstName @player.LastName</option>
                                     }
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn btn-success" @onclick="AddPlayer"><b>+</b></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        @if (transfers > 0)
-                        {
-                            <p class="text-warning">Tymi operacjami wykorzystasz następującą liczbę transferów: @transfers. Posiadasz jeszcze: @(Team?.AvailableTransfers ?? 0) transferów</p>
-                        }
-                        <ValidationSummary class="text-danger" />
-                        <div style="display: flex; flex-direction: column; gap: 20px">
-                             <div class="d-flex flex-column align-items-center mt-3">
-
-                                <button class="btn btn-primary col-sm-3 mb-2" type="submit">Aktualizuj dane drużyny</button>
-                            
-                        </div>
-                        <div class="d-flex flex-column align-items-center mt-3">
-                                <button class="btn btn-danger col-sm-3 mb-2" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
-                            
-                        </div>
-                        </div>
-                    </div>
-                </EditForm>
-
-                <EditForm Model="CaptainId" class="form mt-4" OnValidSubmit="UpdateCaptain">
-                    <div class="d-flex flex-column">
-                        <h4>Zmień kapitana</h4>
-                        <p>Obecny kapitan: @(Team?.Captain.FirstName ?? "Unknown") @(Team?.Captain.LastName ?? "Unknown")</p>
-                        <div class="form-group mb-3">
-                            <label for="CaptainId">Nowy kapitan:</label>
-                            <InputSelect @bind-Value="CaptainId" class="form-control">
-                                @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser && p.Id != ManagedTeam.Captain.Id) ?? Enumerable.Empty<TeamPlayerDto>()))
+                                </InputSelect>
+                            </div>
+                            <p class="text-primary">Uwaga: Zmieniając kapitana stracisz dostęp do zarządzania drużyną. Nowy kapitan musi posiadać własne konto.</p>
+                            <div class="d-flex flex-column align-items-center">
+                                @if (IsLoadingCaptain)
                                 {
-                                    <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                    <LoadingIcon></LoadingIcon>
                                 }
-                            </InputSelect>
+                                else
+                                {
+                                    <p class="text-danger">@ErrorMessageCaptain </p> <br />
+                                    <button class="btn btn-primary col-sm-3 mb-2" disabled="@(CaptainId == 0)" type="submit">Aktualizuj</button>
+                                }
+                            </div>
                         </div>
-                        <p class="text-primary">Uwaga: Zmieniając kapitana stracisz dostęp do zarządzania drużyną. Nowy kapitan musi posiadać własne konto.</p>
-                        <div class="d-flex flex-column align-items-center">
-                            @if (IsLoadingCaptain)
-                            {
-                                <LoadingIcon></LoadingIcon>
-                            }
-                            else
-                            {
-                                <p class="text-danger">@ErrorMessageCaptain </p> <br />
-                                <button class="btn btn-primary col-sm-3 mb-2" disabled="@(CaptainId == 0)" type="submit">Aktualizuj</button>
-                            }
-                        </div>
-                    </div>
-                </EditForm>
-            }
+                    </EditForm>
+                }
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 }
 
 <!-- Modal for deletion confirmation -->
@@ -375,10 +379,10 @@ else
 
     public void RemovePlayer(TeamPlayerDto player)
     {
-        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count <= 5)
+        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count <= 6)
         {
             ShowErrorMessage = true;
-            ErrorMessage = "Nie można mieć mniej niż 5 zawodników.";
+            ErrorMessage = "Nie można mieć mniej niż 6 zawodników.";
             return;
         }
         if (player.Id == Team?.Captain.Id)
@@ -409,24 +413,24 @@ else
     {
         if (!IsDeleting)
         {
-            if (!ValidateTeam())
+            if (!ValidateTeam(out var validationError))
             {
                 ShowErrorMessage = true;
-                ErrorMessage = "Błąd w trakcie aktualizacji danych zespołu.";
+                ErrorMessage = validationError;
                 return;
             }
 
             IsLoading = true;
             var response = await teamService.UpdateTeam(ManagedTeam);
             IsLoading = false;
-            if (response)
+            if (response.Success)
             {
                 navigationManager.NavigateTo("/ManageTeam", forceLoad: true);
             }
             else
             {
                 ShowErrorMessage = true;
-                ErrorMessage = "Błąd w trakcie aktualizacji danych zespołu.";
+                ErrorMessage = response.Message; // Pokaż komunikat zwrócony z backendu
                 StateHasChanged();
             }
         }
@@ -482,19 +486,21 @@ else
         }
     }
 
-    private bool ValidateTeam()
+    private bool ValidateTeam(out string validationError)
     {
-        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count < 5)
+        validationError = string.Empty;
+
+        if (ManagedTeam.Players.Count + ManagedTeam.NewPlayers.Count - ManagedTeam.RemovedPlayers.Count < 6)
         {
-            ErrorMessage = "Musi być co najmniej 6 zawodników (kapitana nie można usunąć).";
+            validationError = "Musi być co najmniej 6 zawodników (kapitana nie można usunąć).";
             return false;
         }
 
         foreach (var player in ManagedTeam.NewPlayers)
         {
-            if (string.IsNullOrEmpty(player.FirstName) || string.IsNullOrEmpty(player.LastName) || player.PositionId == 0)
+            if (string.IsNullOrEmpty(player.FirstName) || string.IsNullOrEmpty(player.LastName) || player.PositionId == 0 || string.IsNullOrEmpty(player.Email))
             {
-                ErrorMessage = "Nowi zawodnicy muszą mieć imię, nazwisko oraz pozycję.";
+                validationError = "Nowi zawodnicy muszą mieć imię, nazwisko, pozycję oraz adres email.";
                 return false;
             }
         }

@@ -452,7 +452,7 @@ namespace VolleyLeague.Services.Services
         //    }
         //}
 
-        public async Task<bool> UpdateTeam(ManageTeamDto team, string email)
+        public async Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team, string email)
         {
             var teamToUpdate = await _teamRepository.GetAll()
                 .Include(u => u.Captain)
@@ -461,9 +461,17 @@ namespace VolleyLeague.Services.Services
 
             if (teamToUpdate == null)
             {
-                return false;
+                return (false, "Nie znaleziono drużyny.");
             }
 
+            // Sprawdź, czy liczba zawodników będzie mniejsza niż 6 po usunięciu
+            var remainingPlayersCount = team.Players.Count + team.NewPlayers.Count - team.RemovedPlayers.Count;
+            if (remainingPlayersCount < 6)
+            {
+                return (false, "Drużyna musi mieć co najmniej 6 zawodników.");
+            }
+
+            // Zaktualizuj dane drużyny
             teamToUpdate.Image = team.Photo;
             teamToUpdate.Email = team.Email;
             teamToUpdate.Logo = team.Logo;
@@ -471,14 +479,15 @@ namespace VolleyLeague.Services.Services
             teamToUpdate.TeamDescription = team.TeamDescription;
             teamToUpdate.Website = team.Website;
 
+            // Zaktualizuj dane kapitana
             teamToUpdate.Captain.JerseyNumber = (byte?)team.Captain.JerseyNumber;
             teamToUpdate.Captain.Height = (byte?)team.Captain.Height;
             teamToUpdate.Captain.PositionId = team.Captain.PositionId;
             teamToUpdate.Captain.Gender = team.Captain.Gender;
 
+            // Zaktualizuj istniejących zawodników
             foreach (var player in team.Players)
             {
-                var playerId = player.Id;
                 var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
                 if (playerToUpdate != null)
                 {
@@ -493,9 +502,15 @@ namespace VolleyLeague.Services.Services
                 }
             }
 
-            // Dodaj nowych graczy do drużyny
+            // Dodaj nowych zawodników do drużyny
             foreach (var player in team.NewPlayers)
             {
+                var existingPlayer = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
+                if (existingPlayer != null)
+                {
+                    return (false, $"Zawodnik z adresem email {player.Email} posiada już drużynę.");
+                }
+
                 var newTeamPlayer = new TeamPlayer
                 {
                     Player = new User
@@ -512,21 +527,21 @@ namespace VolleyLeague.Services.Services
                 };
 
                 await SendEmailAddedToTeam(player, player.FirstName);
-                
+
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
+            // Usuń zawodników z drużyny
             foreach (var player in team.RemovedPlayers)
             {
-                var pl1 = player;
-                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == pl1.Id);
+                var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
                 if (playerToRemove != null)
                 {
                     teamToUpdate.TeamPlayers.Remove(playerToRemove);
                 }
             }
 
-            // Zapisz zmiany w bazie danych, aby uzyskać ID nowych graczy
+            // Zapisz zmiany w bazie danych
             await _teamRepository.SaveChangesAsync();
 
             // Dodaj logi po zapisaniu do bazy danych
@@ -539,7 +554,7 @@ namespace VolleyLeague.Services.Services
 
                     if (newTeamPlayer != null)
                     {
-                        await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, newTeamPlayer.Team.GetAllPlayers());
+                        await _logService.AddLog(player.FirstName + " " + player.LastName + " dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, newTeamPlayer.Team.GetAllPlayers());
                     }
                 }
                 else
@@ -553,12 +568,12 @@ namespace VolleyLeague.Services.Services
                             // SendEmailAddedToTeam(player);
                         }
 
-                        await _logService.AddLog(player.FirstName + " " + player.LastName + " " + "dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
+                        await _logService.AddLog(player.FirstName + " " + player.LastName + " dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
                     }
                 }
             }
 
-            return true;
+            return (true, "Dane drużyny zostały pomyślnie zaktualizowane.");
         }
 
         public async Task<bool> UpdateTeamPlayer(PlayerSummaryDto userSummary)
