@@ -688,11 +688,21 @@ namespace VolleyLeague.Services.Services
             // Znajdź użytkownika na podstawie adresu email
             var user = await _userRepository.GetAll()
                                             .Include(u => u.TeamPlayers)
+                                            .Include(u => u.Team)
                                             .FirstOrDefaultAsync(u => u.Credentials.Email == email);
 
             if (user == null)
             {
                 return (false, "Użytkownik nie znaleziony.");
+            }
+
+            // Sprawdź, czy użytkownik jest kapitanem drużyny
+            var isCaptain = await _teamRepository.GetAll()
+                                                 .AnyAsync(t => t.CaptainId == user.Id);
+
+            if (isCaptain)
+            {
+                return (false, "Kapitan nie może opuścić drużyny. Przekaż drużynę innemu kapitanowi i wtedy opuść drużynę.");
             }
 
             // Znajdź powiązania użytkownika z drużyną
@@ -714,7 +724,6 @@ namespace VolleyLeague.Services.Services
                 return (false, $"Wystąpił błąd podczas opuszczania drużyny: {ex.Message}");
             }
         }
-
 
         public async Task<Match?> GetClosestMatch(int teamId)
         {

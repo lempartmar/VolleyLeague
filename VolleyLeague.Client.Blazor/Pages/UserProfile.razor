@@ -129,27 +129,26 @@ else
                                         </div>
                                     }
                                 </div>
+
+                                @if (!string.IsNullOrEmpty(ErrorMessage))
+                                {
+                                    <div class="alert alert-danger" style="margin-top: 30px;" role="alert">
+                                        @ErrorMessage
+                                    </div>
+                                }
                             </div>
                         </div>
                     }
                     else
                     {
-                        @if (!string.IsNullOrEmpty(Error))
-                        {
-                            <div class="alert alert-danger" role="alert">
-                                @Error
-                            </div>
-                        }
-                        else
-                        {
-                            <LoadingIcon />
-                        }
+                        <LoadingIcon />
                     }
                 </div>
             </div>
         </div>
     </section>
 }
+
 
 <!-- Modal for leave team confirmation -->
 <div class="modal" tabindex="-1" role="dialog" style="@(ShowLeaveModal ? "display:block" : "display:none")">
@@ -191,7 +190,7 @@ else
 
     public NewCommentDto commentModel { get; set; } = null!;
 
-    public string Error { get; set; } = "";
+    public string ErrorMessage { get; set; } = "";
 
     public string CommentsError { get; set; } = "";
 
@@ -241,8 +240,8 @@ else
         }
         catch (Exception ex)
         {
-            Error = $"An error occurred while checking team invitations: {ex.Message}";
-            Console.WriteLine(Error);
+            ErrorMessage = $"Wystąpił błąd podczas sprawdzania zaproszeń do drużyny: {ex.Message}";
+            Console.WriteLine(ErrorMessage);
             return new TeamsToMergeDto();
         }
     }
@@ -256,8 +255,8 @@ else
         }
         catch (Exception ex)
         {
-            Error = $"An error occurred while getting team name for invitation: {ex.Message}";
-            Console.WriteLine(Error);
+            ErrorMessage = $"Wystąpił błąd podczas pobierania nazwy drużyny dla zaproszenia: {ex.Message}";
+            Console.WriteLine(ErrorMessage);
             return "";
         }
     }
@@ -272,19 +271,18 @@ else
                 var result = await teamService.AccountMerging(email);
                 if (result)
                 {
-                    // Handle success (e.g., display a success message, reload data, etc.)
+                    // Sukces, przeładuj dane profilu
                     NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
                 }
                 else
                 {
-                    // Handle failure (e.g., display an error message)
-                    Error = "Failed to merge accounts.";
+                    ErrorMessage = "Nie udało się połączyć kont.";
                 }
             }
             catch (Exception ex)
             {
-                Error = $"An error occurred while merging accounts: {ex.Message}";
-                Console.WriteLine(Error);
+                ErrorMessage = $"Wystąpił błąd podczas łączenia kont: {ex.Message}";
+                Console.WriteLine(ErrorMessage);
             }
             finally
             {
@@ -303,19 +301,19 @@ else
                 var result = await teamService.LeaveTeamByEmail(UserProfileData.AdditionalEmail);
                 if (result.Success)
                 {
-                    // Handle success (e.g., display a success message, reload data, etc.)
+                    // Sukces, przeładuj dane profilu
                     NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
                 }
                 else
                 {
-                    // Handle failure (e.g., display an error message)
-                    Error = result.Message;
+                    ErrorMessage = result.Message;
+                    StateHasChanged();
                 }
             }
             catch (Exception ex)
             {
-                Error = $"An error occurred while leaving the team: {ex.Message}";
-                Console.WriteLine(Error);
+                ErrorMessage = $"Wystąpił błąd podczas opuszczania drużyny: {ex.Message}";
+                Console.WriteLine(ErrorMessage);
             }
             finally
             {

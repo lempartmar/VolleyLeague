@@ -154,20 +154,19 @@ namespace VolleyLeague.API.Controllers
         }
 
         [HttpDelete("LeaveTeamByEmail")]
-        public async Task<IActionResult> LeaveTeam([FromQuery] string email)
+        public async Task<IActionResult> LeaveTeamByEmail([FromQuery] string email)
         {
-            // string? email = User.Identity?.Name;
             if (string.IsNullOrWhiteSpace(email))
             {
-                return Unauthorized("Email is required.");
+                return BadRequest(new { Success = false, Message = "Email is required." });
             }
 
             var result = await _teamService.LeaveTeamByEmail(email);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(new { result.Success, result.Message });
             }
-            return BadRequest(result.Message);
+            return BadRequest(new { result.Success, result.Message });
         }
 
     }

@@ -181,10 +181,15 @@ namespace VolleyLeague.Client.Blazor.Services
         public async Task<(bool Success, string Message)> LeaveTeamByEmail(string email)
         {
             var response = await _httpClient.DeleteAsync($"api/team/LeaveTeamByEmail?email={email}");
-            response.EnsureSuccessStatusCode();
-
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<(bool Success, string Message)>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var result = JsonSerializer.Deserialize<JsonResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return (result.Success, result.Message);
+        }
+
+        private class JsonResponse
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
         }
     }
 }
