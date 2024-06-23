@@ -25,5 +25,7 @@ namespace VolleyLeague.Services.Interfaces
         Task<bool> UpdateCaptain(int newCaptainId, string email);
 
         Task<bool> UpdateExtendedTeam(ExtendedTeamDto extendedTeamDto);
+
+        Task<(bool Success, string Message)> LeaveTeamByEmail(string email);
     }
 }

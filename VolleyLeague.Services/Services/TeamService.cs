@@ -14,17 +14,19 @@ namespace VolleyLeague.Services.Services
         private readonly ILogService _logService;
         private readonly IEmailService _emailService;
         private readonly IBaseRepository<Team> _teamRepository;
+        private readonly IBaseRepository<TeamPlayer> _teamPlayerRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
 
-        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
+        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<TeamPlayer> teamPlayerRepository, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
             _logService = logService;
             _emailService = emailService;
             _teamRepository = teamRepository;
+            _teamPlayerRepository = teamPlayerRepository;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
             _credentialsRepository = credentialsRepository;
@@ -666,6 +668,38 @@ namespace VolleyLeague.Services.Services
 
             return true;
         }
+        public async Task<(bool Success, string Message)> LeaveTeamByEmail(string email)
+        {
+            // Znajdź użytkownika na podstawie adresu email
+            var user = await _userRepository.GetAll()
+                                            .Include(u => u.TeamPlayers)
+                                            .FirstOrDefaultAsync(u => u.Credentials.Email == email);
+
+            if (user == null)
+            {
+                return (false, "Użytkownik nie znaleziony.");
+            }
+
+            // Znajdź powiązania użytkownika z drużyną
+            var teamPlayer = user.TeamPlayers.FirstOrDefault();
+            if (teamPlayer == null)
+            {
+                return (false, "Użytkownik nie należy do żadnej drużyny.");
+            }
+
+            await _teamPlayerRepository.Delete(teamPlayer);
+
+            try
+            {
+                await _teamPlayerRepository.SaveChangesAsync();
+                return (true, "Pomyślnie opuściłeś drużynę.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Wystąpił błąd podczas opuszczania drużyny: {ex.Message}");
+            }
+        }
+
 
         public async Task<Match?> GetClosestMatch(int teamId)
         {

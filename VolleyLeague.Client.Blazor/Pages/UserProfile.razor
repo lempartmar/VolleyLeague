@@ -92,7 +92,11 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                @if (string.IsNullOrWhiteSpace(UserProfileData.TeamName))
+                                @if (!string.IsNullOrWhiteSpace(UserProfileData.TeamName))
+                                {
+                                    <button class="btn btn-danger" @onclick="LeaveTeam">Opuść drużynę</button>
+                                }
+                                else
                                 {
                                     <div class="alert alert-info" role="alert">
                                         Użytkownik nie należy do żadnej drużyny.
@@ -221,7 +225,7 @@
                 if (result)
                 {
                     // Handle success (e.g., display a success message, reload data, etc.)
-                    NavigationManager.NavigateTo("/user-profile/{Id}", forceLoad: true);
+                    NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
                 }
                 else
                 {
@@ -232,6 +236,32 @@
             catch (Exception ex)
             {
                 Error = $"An error occurred while merging accounts: {ex.Message}";
+                Console.WriteLine(Error);
+            }
+        }
+    }
+
+    private async Task LeaveTeam()
+    {
+        if (UserProfileData?.AdditionalEmail != null)
+        {
+            try
+            {
+                var result = await teamService.LeaveTeamByEmail(UserProfileData.AdditionalEmail);
+                if (result.Success)
+                {
+                    // Handle success (e.g., display a success message, reload data, etc.)
+                    NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
+                }
+                else
+                {
+                    // Handle failure (e.g., display an error message)
+                    Error = result.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error = $"An error occurred while leaving the team: {ex.Message}";
                 Console.WriteLine(Error);
             }
         }

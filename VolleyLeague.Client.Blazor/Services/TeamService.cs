@@ -22,6 +22,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<TeamsToMergeDto> GetHasAccountsForMerging(string email);
         public Task<bool> AccountMerging(string email);
         public Task<string> GetInfoAboutTeamsToMerge(string email);
+
+        public Task<(bool Success, string Message)> LeaveTeamByEmail(string email);
     }
 
     public class TeamService : ITeamService
@@ -164,6 +166,15 @@ namespace VolleyLeague.Client.Blazor.Services
             var content = await response.Content.ReadAsStringAsync();
             var teamName = JsonSerializer.Deserialize<string>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return teamName;
+        }
+
+        public async Task<(bool Success, string Message)> LeaveTeamByEmail(string email)
+        {
+            var response = await _httpClient.DeleteAsync($"api/team/LeaveTeamByEmail?email={email}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<(bool Success, string Message)>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

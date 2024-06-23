@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Teams;
 
@@ -146,5 +147,23 @@ namespace VolleyLeague.API.Controllers
             }
             return BadRequest("Failed to delete the team.");
         }
+
+        [HttpDelete("LeaveTeamByEmail")]
+        public async Task<IActionResult> LeaveTeam([FromQuery] string email)
+        {
+            // string? email = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return Unauthorized("Email is required.");
+            }
+
+            var result = await _teamService.LeaveTeamByEmail(email);
+            if (result.Success)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result.Message);
+        }
+
     }
 }
