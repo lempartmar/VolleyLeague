@@ -101,21 +101,21 @@
                                     <div class="alert alert-info" role="alert">
                                         Użytkownik nie należy do żadnej drużyny.
                                     </div>
-                                }
-                            </div>
-                            <div class="p-2" style="margin-top: 25px">
-                                <h2>Zaproszenia do drużyny</h2>
-                                @if (HasTeamInvitations != null && HasTeamInvitations.Status)
-                                {
-                                    <div>
-                                        Ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
-                                    </div>
-                                    <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
-                                }
-                                else
-                                {
-                                    <div class="alert alert-info" role="alert">
-                                        Użytkownik nie ma zaproszeń do drużyny.
+                                    <div class="p-2" style="margin-top: 25px">
+                                        <h2>Zaproszenia do drużyny</h2>
+                                        @if (HasTeamInvitations != null && HasTeamInvitations.Status)
+                                        {
+                                            <div>
+                                                Ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
+                                            </div>
+                                            <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-info" role="alert">
+                                                Użytkownik nie ma zaproszeń do drużyny.
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
