@@ -21,17 +21,17 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Team ID</th>
-                            <th>Name</th>
-                            <th>Reported to Play</th>
-                            <th>Accepted</th>
-                            <th>League Name</th>
+                            <th>Id drużyny</th>
+                            <th>Nazwa</th>
+                            <th>Zgłoszony?</th>
+                            <th>Zaakceptowany</th>
+                            <th>Nazwa ligi</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Change Count</th>
-                            <th>Point Correction</th>
-                            <th>Creation Date</th>
-                            <th>Actions</th>
+                            <th>Telefon</th>
+                            <th>Liczba zmian</th>
+                            <th>Korekta punktów</th>
+                            <th>Data utworzenia</th>
+                            <th>Edytuj</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +56,7 @@
                                     }
                                     else
                                     {
-                                        @(team.IsReportedToPlay ? "Yes" : "No")
+                                        @(team.IsReportedToPlay ? "Tak" : "Nie")
                                     }
                                 </td>
                                 <td>
@@ -66,7 +66,7 @@
                                     }
                                     else
                                     {
-                                        @(team.Accepted ? "Yes" : "No")
+                                        @(team.Accepted ? "Tak" : "Nie")
                                     }
                                 </td>
                                 <td>
