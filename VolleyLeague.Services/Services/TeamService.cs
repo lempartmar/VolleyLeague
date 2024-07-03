@@ -268,6 +268,8 @@ namespace VolleyLeague.Services.Services
                         },
                         JoinDate = DateTime.UtcNow
                     });
+
+                    await SendEmailAddedToTeam(player, team.TeamDescription);
                 }
             }
 
@@ -505,29 +507,33 @@ namespace VolleyLeague.Services.Services
             // Dodaj nowych zawodników do drużyny
             foreach (var player in team.NewPlayers)
             {
-                var existingPlayer = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
-                if (existingPlayer != null)
+                var newTeamPlayer = new TeamPlayer();
+                var existingPlayer = await _userRepository.GetAll()
+                    .Include(u => u.TeamPlayers)  
+                    .FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
+
+                if (existingPlayer != null && existingPlayer.TeamPlayers.Any())
                 {
                     return (false, $"Zawodnik z adresem email {player.Email} posiada już drużynę.");
                 }
 
-                var newTeamPlayer = new TeamPlayer
-                {
-                    Player = new User
+                    newTeamPlayer = new TeamPlayer
                     {
-                        FirstName = player.FirstName,
-                        LastName = player.LastName,
-                        Height = (byte?)player.Height,
-                        JerseyNumber = (byte?)player.JerseyNumber,
-                        PositionId = player.PositionId,
-                        Credentials = null,
-                        AdditionalEmail = player.Email
-                    },
-                    JoinDate = DateTime.Now
-                };
+                        Player = new User
+                        {
+                            FirstName = player.FirstName,
+                            LastName = player.LastName,
+                            Height = (byte?)player.Height,
+                            JerseyNumber = (byte?)player.JerseyNumber,
+                            PositionId = player.PositionId,
+                            Credentials = null,
+                            AdditionalEmail = player.Email
+                        },
+                        JoinDate = DateTime.Now
+                    };
 
-                await SendEmailAddedToTeam(player, player.FirstName);
-
+                    await SendEmailAddedToTeam(player, player.FirstName);
+                
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
@@ -565,7 +571,7 @@ namespace VolleyLeague.Services.Services
                     {
                         if (player.Email != null)
                         {
-                            // SendEmailAddedToTeam(player);
+                            await SendEmailAddedToTeam(player, team.TeamDescription);
                         }
 
                         await _logService.AddLog(player.FirstName + " " + player.LastName + " dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
@@ -748,8 +754,8 @@ namespace VolleyLeague.Services.Services
         {
             var message = new MailMessage("noreply@volleyleague.com", newUser.Email)
             {
-                Subject = "Welcome to the Team",
-                Body = $"Hi {newUser.FirstName} {newUser.LastName},\n\nYou have been added to the team {teamName}. We are excited to have you on board!",
+                Subject = "Witaj w drużynie w ligasiatkowki.pl",
+                Body = $"Hi {newUser.FirstName} {newUser.LastName},\n\\Dodalismy Cię do drużyny {teamName}. W celu synchronizacji konta z drużyną utwórz konto i wejdź do zakładki Profil!",
                 IsBodyHtml = false,
             };
 

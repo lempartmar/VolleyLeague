@@ -116,7 +116,7 @@ else
                                             @if (HasTeamInvitations != null && HasTeamInvitations.Status)
                                             {
                                                 <div>
-                                                    Ma zaproszenie do drużyny: @HasTeamInvitations.TeamName;
+                                                    Masz zaproszenie do drużyny: @HasTeamInvitations.TeamName;
                                                 </div>
                                                 <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
                                             }
@@ -255,8 +255,8 @@ else
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Wystąpił błąd podczas pobierania nazwy drużyny dla zaproszenia: {ex.Message}";
-            Console.WriteLine(ErrorMessage);
+            // ErrorMessage = $"Wystąpił błąd podczas pobierania nazwy drużyny dla zaproszenia: {ex.Message}";
+            // Console.WriteLine(ErrorMessage);
             return "";
         }
     }
