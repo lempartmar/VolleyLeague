@@ -129,13 +129,15 @@
     <div class="container">
         <div class="section-inner">
             <div class="row">
+
+
                 <div class="col-lg-8">
                     <div class="left-side-content">
                         <div class="content-area">
                             <div class="stat-table">
                                 <div class="table-area">
+                                    <h3 class="top">Pierwsza Liga BLS</h3>
                                     <table class="table table-bordered">
-                                        <h3 class="top">Primary League Standings</h3>
                                         <thead>
                                             <tr class="head-tr">
                                                 <th scope="col">POS</th>
@@ -152,84 +154,36 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><span class="position-number">1</span></td>
-                                                <td><span class="player"><img src="assets/images/icons/club-19.svg" alt=""> DRAGONS</span></td>
-                                                <td><span class="win-count">9</span></td>
-                                                <td><span class="win-count">2</span></td>
-                                                <td><span class="win-count">0.912</span></td>
-                                                <td><span class="win-count">5</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="position-number">2</span></td>
-                                                <td><span class="player"><img src="assets/images/icons/club-20.svg" alt=""> WESTON</span></td>
-                                                <td><span class="win-count">8</span></td>
-                                                <td><span class="win-count">2</span></td>
-                                                <td><span class="win-count">0.892</span></td>
-                                                <td><span class="win-count">6</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="position-number">3</span></td>
-                                                <td><span class="player"><img src="assets/images/icons/club-21.svg" alt=""> BULLS</span></td>
-                                                <td><span class="win-count">6</span></td>
-                                                <td><span class="win-count">3</span></td>
-                                                <td><span class="win-count">0.800</span></td>
-                                                <td><span class="win-count">6</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="position-number">4</span></td>
-                                                <td><span class=""><img src="assets/images/icons/club-22.svg" alt=""> MANHUT</span></td>
-                                                <td><span class="win-count">5</span></td>
-                                                <td><span class="win-count">4</span></td>
-                                                <td><span class="win-count">0.710</span></td>
-                                                <td><span class="win-count">7</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="position-number">5</span></td>
-                                                <td><span class="player"><img src="assets/images/icons/club-23.svg" alt=""> MILAND</span></td>
-                                                <td><span class="win-count">4</span></td>
-                                                <td><span class="win-count">4</span></td>
-                                                <td><span class="win-count">0.698</span></td>
-                                                <td><span class="win-count">8</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="position-number">6</span></td>
-                                                <td><span class="player"><img src="assets/images/icons/club-24.svg" alt=""> INTERKO</span></td>
-                                                <td><span class="win-count">2</span></td>
-                                                <td><span class="win-count">5</span></td>
-                                                <td><span class="win-count">0.400</span></td>
-                                                <td><span class="win-count">10</span></td>
-                                                <td><span class="win-count">50</span></td>
-                                                <td><span class="win-count">20</span></td>
-                                                <td><span class="win-count">6-0</span></td>
-                                                <td><span class="win-count">2-1</span></td>
-                                                <td><span class="win-count">W3</span></td>
-                                            </tr>
+                                            @if (StandingsListShort != null)
+                                            {
+                                                for (int i = 0; i < StandingsListShort.Count; i++)
+                                                {
+                                                    var team = StandingsListShort[i];
+                                                    <tr>
+                                                        <td><span class="position-number">@{
+                                                                    var position = i + 1;
+                                                                }@position</span></td>
+                                                        <td>
+                                                            @{
+                                                                var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
+                                                            }
+                                                            <div style="display: flex; align-items: center;">
+                                                                <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                                <a href="/team/@team.Team.Id/" class="team-link" style="color: #0268d6;">@team.Team.Name</a>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="win-count">@team.MatchesWon</span></td>
+                                                        <td><span class="win-count">@team.MatchesLost</span></td>
+                                                        <td><span class="win-count">@String.Format("{0:F3}", (double)team.MatchesWon / team.MatchesPlayed)</span></td>
+                                                        <td><span class="win-count">N/A</span></td>
+                                                        <td><span class="win-count">@team.SetsWon</span></td>
+                                                        <td><span class="win-count">@team.SetsLost</span></td>
+                                                        <td><span class="win-count">N/A</span></td>
+                                                        <td><span class="win-count">N/A</span></td>
+                                                        <td><span class="win-count">N/A</span></td>
+                                                    </tr>
+                                                }
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -237,6 +191,19 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="col-lg-4">
                     <div class="right-side-content">
                         <div class="inner">
@@ -439,6 +406,7 @@ else
 @code {
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
+    private List<StandingsDto> StandingsListShort = new List<StandingsDto>();
     private ScheduleFilter Filter = new ScheduleFilter();
     private List<ArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
@@ -456,6 +424,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        StandingsListShort = await matchService.GetStandings(37, 1);
         var token = await _localStorageService.GetItemAsStringAsync("token");
         if (!string.IsNullOrWhiteSpace(token))
         {
@@ -532,5 +501,10 @@ else
     {
         cookiesAccepted = true;
         await _localStorageService.SetItemAsync("cookiesAccepted", true);
+    }
+
+    private string GetTeamLogoSrc(byte[] logo)
+    {
+        return logo != null ? $"data:image/png;base64,{Convert.ToBase64String(logo)}" : "/assets/images/Logo_alternative.png.";
     }
 }
