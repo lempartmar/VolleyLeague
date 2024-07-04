@@ -13,9 +13,6 @@
 @inject AuthenticationStateProvider _authStateProvider
 @inject AuthenticationStateProvider authStateProvider
 
-<!--================= Slide Bar Start Here =================-->
-<!--================= Slide Bar Start Here =================-->
-<!--================= Banner Section Start Here =================-->
 <div class="banner banner1 volleyball">
     <div class="swiper bannerSlide2">
         <div class="swiper-wrapper">
@@ -64,61 +61,214 @@
         </div>
     </div>
 </div>
+
 <section class="rts-trending-news-section volleyball">
     <div class="container">
         <div class="section-inner">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="item">
-                        <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
-                        <div class="bottom-content">
-                            <span class="blog-catagory-tag">Aug 02, 2023 <span></span> Beach Men Senior</span>
-                            <div class="gallery-title">
-                                <a href="blog-details.html">Italy and Brazil take Pool B second round</a>
+                @if (_articles != null && _articles.Count() > 1)
+                {
+                    var secondArticle = _articles[1];
+                    var thirdArticle = _articles[2];
+                    var firstArticle = _articles.First();
+                    <div class="col-lg-6">
+                        <div class="item">
+                            <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
+                            <div class="bottom-content">
+                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                <div class="gallery-title">
+                                    <a href="blog-details.html">@_articles.First().Title</a>
+                                </div>
+                                <div class="author-info">
+                                    <div class="content">
+                                        <a href="blog-details.html" class="read-more">Więcej</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="author-info">
-                                <div class="content">
-                                    <a href="blog-details.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-side-items">
+                            <div class="rts-post-small">
+                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+                                <div class="bottom-content">
+                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                    <div class="gallery-title">
+                                        <a href="blog-details.html">@secondArticle.Title</a>
+                                    </div>
+                                    <div class="author-info">
+                                        <div class="content">
+                                            <a href="blog-details.html" class="read-more">Więcej</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rts-post-small">
+                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
+                                <div class="bottom-content">
+                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
+                                    <div class="gallery-title">
+                                        <a href="blog-details.html">@thirdArticle.Title</a>
+                                    </div>
+                                    <div class="author-info">
+                                        <div class="content">
+                                            <a href="blog-details.html" class="read-more">Więcej</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="rts-player-static baseball volleyball">
+    <div class="container">
+        <div class="section-inner">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="left-side-content">
+                        <div class="content-area">
+                            <div class="stat-table">
+                                <div class="table-area">
+                                    <table class="table table-bordered">
+                                        <h3 class="top">Primary League Standings</h3>
+                                        <thead>
+                                            <tr class="head-tr">
+                                                <th scope="col">POS</th>
+                                                <th scope="col">TEAM</th>
+                                                <th scope="col">W</th>
+                                                <th scope="col">L</th>
+                                                <th scope="col">PCT</th>
+                                                <th scope="col">GB</th>
+                                                <th scope="col">RS</th>
+                                                <th scope="col">RA</th>
+                                                <th scope="col">HOME</th>
+                                                <th scope="col">ROAD</th>
+                                                <th scope="col">STRK</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="position-number">1</span></td>
+                                                <td><span class="player"><img src="assets/images/icons/club-19.svg" alt=""> DRAGONS</span></td>
+                                                <td><span class="win-count">9</span></td>
+                                                <td><span class="win-count">2</span></td>
+                                                <td><span class="win-count">0.912</span></td>
+                                                <td><span class="win-count">5</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="position-number">2</span></td>
+                                                <td><span class="player"><img src="assets/images/icons/club-20.svg" alt=""> WESTON</span></td>
+                                                <td><span class="win-count">8</span></td>
+                                                <td><span class="win-count">2</span></td>
+                                                <td><span class="win-count">0.892</span></td>
+                                                <td><span class="win-count">6</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="position-number">3</span></td>
+                                                <td><span class="player"><img src="assets/images/icons/club-21.svg" alt=""> BULLS</span></td>
+                                                <td><span class="win-count">6</span></td>
+                                                <td><span class="win-count">3</span></td>
+                                                <td><span class="win-count">0.800</span></td>
+                                                <td><span class="win-count">6</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="position-number">4</span></td>
+                                                <td><span class=""><img src="assets/images/icons/club-22.svg" alt=""> MANHUT</span></td>
+                                                <td><span class="win-count">5</span></td>
+                                                <td><span class="win-count">4</span></td>
+                                                <td><span class="win-count">0.710</span></td>
+                                                <td><span class="win-count">7</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="position-number">5</span></td>
+                                                <td><span class="player"><img src="assets/images/icons/club-23.svg" alt=""> MILAND</span></td>
+                                                <td><span class="win-count">4</span></td>
+                                                <td><span class="win-count">4</span></td>
+                                                <td><span class="win-count">0.698</span></td>
+                                                <td><span class="win-count">8</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="position-number">6</span></td>
+                                                <td><span class="player"><img src="assets/images/icons/club-24.svg" alt=""> INTERKO</span></td>
+                                                <td><span class="win-count">2</span></td>
+                                                <td><span class="win-count">5</span></td>
+                                                <td><span class="win-count">0.400</span></td>
+                                                <td><span class="win-count">10</span></td>
+                                                <td><span class="win-count">50</span></td>
+                                                <td><span class="win-count">20</span></td>
+                                                <td><span class="win-count">6-0</span></td>
+                                                <td><span class="win-count">2-1</span></td>
+                                                <td><span class="win-count">W3</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="right-side-items">
-                        <div class="rts-post-small">
-                            <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
-                            <div class="bottom-content">
-                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span> Beach Men Senior</span>
-                                <div class="gallery-title">
-                                    <a href="blog-details.html">
-                                        Thailand and USA set for
-                                        Duel dream in Lodz
-                                    </a>
-                                </div>
-                                <div class="author-info">
-                                    <div class="content">
-                                        <a href="blog-details.html" class="read-more">Read More</a>
+                <div class="col-lg-4">
+                    <div class="right-side-content">
+                        <div class="inner">
+                            <h3 class="top">Fixtures</h3>
+                            <ul>
+                                <li class="match-wrapper">
+                                    <div class="logo">
+                                        <img src="assets/images/icons/club-25.svg" alt="">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rts-post-small">
-                            <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
-                            <div class="bottom-content">
-                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span> Beach Men Senior</span>
-                                <div class="gallery-title">
-                                    <a href="blog-details.html">
-                                        Thailand and USA set for
-                                        Duel dream in Lodz
-                                    </a>
-                                </div>
-                                <div class="author-info">
                                     <div class="content">
-                                        <a href="blog-details.html" class="read-more">Read More</a>
+                                        <p class="date">August 11, 2023</p>
+                                        <p class="result">5:45 Pm</p>
+                                        <h3 class="team">Dragons <span>VS</span>  Manhut</h3>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="logo">
+                                        <img src="assets/images/icons/club-26.svg" alt="">
+                                    </div>
+                                </li>
+                                <li class="match-wrapper">
+                                    <div class="logo">
+                                        <img src="assets/images/icons/club-27.svg" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <p class="date">August 11, 2023</p>
+                                        <p class="result">5:45 Pm</p>
+                                        <h3 class="team">Dragons <span>VS</span>  Manhut</h3>
+                                    </div>
+                                    <div class="logo">
+                                        <img src="assets/images/icons/club-28.svg" alt="">
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -126,8 +276,6 @@
         </div>
     </div>
 </section>
-
-
 
 @if (!cookiesAccepted)
 {
@@ -246,27 +394,44 @@ else
     }
 
     .table-responsive {
-        flex: 1; 
-        max-width: 50%; 
-        overflow-x: auto; 
+        flex: 1;
+        max-width: 50%;
+        overflow-x: auto;
     }
 
     table {
-        width: 100%; 
+        width: 100%;
     }
 
         table th, table td, table tr {
             border: none;
             padding: 4px;
-            color: black; 
+            color: black;
         }
 </style>
 
 <script>
+    var swiper = new Swiper('.bannerSlide2', {
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+    });
+
     var spinner = document.getElementById('spinner');
     var angle = 0;
     setInterval(function () {
-        angle += 20; 
+        angle += 20;
         spinner.style.transform = 'rotate(' + angle + 'deg)';
     }, 100);
 </script>
@@ -275,7 +440,7 @@ else
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private ScheduleFilter Filter = new ScheduleFilter();
-    private IEnumerable<ArticleDto> _articles;
+    private List<ArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
     public bool pageReady = false;
     public bool standingsLoad = false;
@@ -325,7 +490,7 @@ else
         var result = await Http.GetAsync($"/api/Article/GetArticlesPerPage/{_currentPage}");
         if (result.IsSuccessStatusCode)
         {
-            _articles = await result.Content.ReadFromJsonAsync<IEnumerable<ArticleDto>>();
+            _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
             articlesLoad = true;
             UpdatePageReadiness();
         }
