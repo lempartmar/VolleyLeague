@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16" width="22" height="16">
+	<title>shop</title>
+	<defs>
+		<image  width="22" height="16" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAQCAMAAAAlM38UAAAAAXNSR0IB2cksfwAAAHVQTFRF5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5Bsj5BsjiLjenAAAACd0Uk5TtfLu9MGr0M6vBRoZGwwADQ4C4t62tOblwBcWCBUUB6PLycqpuezD+jqzSQAAAFRJREFUeJytzkkSQDAARNEOYg4SxDwP9z+iA7SNKm/5Vx8QDnE9SD8gfogoTkiqkL36mnNFCg1pSmIq1LYhtoXuetIN/wzqcSLjjGXdyH7gdC4i7gcyXRgAZ8I6OAAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<g id="shop">
+		<g id="filter">
+			<use id="-e-list" href="#img1" x="0" y="0"/>
+		</g>
+	</g>
+</svg>

@@ -1,0 +1,220 @@
+.rts-wishlist-section {
+    padding: 100px 0;
+
+    @media(max-width:900px) {
+        padding: 50px 0;
+    }
+
+    @media(max-width:576px) {
+        padding: 25px 0;
+    }
+
+    .table-bordered {
+        .heading {
+            @media(max-width:900px) {
+                display: none;
+            }
+
+            th {
+                border: none;
+                font-size: 18px;
+                padding: 10px 0;
+            }
+        }
+    }
+
+    tr {
+        @media(max-width:900px) {
+            display: block;
+            text-align: center;
+        }
+
+        @media(max-width:900px) {
+            padding: 30px 0;
+        }
+
+        td {
+            @media(max-width: 900px) {
+                display: block;
+                text-align: center;
+                padding: 0 !important;
+            }
+        }
+    }
+
+    .first-child {
+        width: 37%;
+
+
+        @media(max-width:900px) {
+            width: 100%;
+            display: grid;
+            text-align: center;
+        }
+    }
+
+    .first-td {
+        button {
+            margin-right: 15px;
+
+            @media(max-width:900px) {
+                margin: 0 0 15px 0;
+            }
+        }
+    }
+
+    .pretitle {
+        font-size: 14px;
+        color: var(--theme-color);
+        font-weight: 500;
+        padding-left: 40px;
+
+        @media(max-width:991px) {
+            padding-left: 10px;
+        }
+
+        @media(max-width:900px) {
+            margin: 0 0 15px;
+        }
+    }
+
+    .product-title {
+        font-size: 16px;
+        font-weight: 500;
+
+        @media(max-width:900px) {
+            margin: 0 0 10px;
+        }
+    }
+
+    .product-price {
+        color: $text-color1;
+        font-size: 14px;
+
+        @media(max-width:900px) {
+            margin: 0 0 10px;
+        }
+    }
+
+    .stock {
+        color: #99cc33;
+        font-weight: bold;
+
+        @media(max-width:900px) {
+            margin: 0 0 10px;
+        }
+    }
+
+    .stock1 {
+        color: #cc0033;
+        font-weight: bold;
+
+        @media(max-width:900px) {
+            margin: 0 0 10px;
+        }
+    }
+
+    .last-td {
+        width: 15%;
+        text-align: center;
+
+        @media(max-width:900px) {
+            width: 100%;
+            text-align: center;
+        }
+
+        .cart-btn {
+            font-size: 14px;
+            font-weight: 700;
+            width: 150px;
+            height: 45px;
+            border-radius: 7px;
+            border: 1px solid #e7e7e7;
+            transition: all 500ms;
+
+            @media(max-width:1200px) {
+                padding: 0 18px;
+            }
+
+            &:hover {
+                background: #000;
+                color: #fff;
+            }
+
+            i {
+                transition: all 50ms;
+            }
+        }
+
+        .cart-btn1 {
+            font-size: 14px;
+            background-color: #ececec;
+            color: #ccc;
+            font-weight: 700;
+            width: 150px;
+            height: 45px;
+            border-radius: 7px;
+            border: 1px solid #e7e7e7;
+        }
+
+    }
+
+    .wishlist-social {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+
+        @media(max-width:900px) {
+            justify-content: center;
+        }
+
+        @media(max-width:576px) {
+            margin: 0;
+
+
+        }
+
+        .text {
+            margin-right: 10px;
+
+            a {
+                font-size: 16px;
+                font-weight: 700;
+                text-decoration: underline;
+            }
+        }
+
+        .icon {
+            ul {
+                display: flex;
+                align-items: center;
+
+                li {
+                    margin: 0 10px;
+                    padding: 2px 5px;
+                    transition: all 500ms;
+
+                    @media(max-width:400px) {
+                        margin: 0 5px;
+                    }
+
+                    &:hover {
+                        background: #000;
+
+                        a {
+                            color: #fff;
+                        }
+                    }
+
+                    a {
+                        font-size: 16px;
+                        color: #999999;
+                        font-weight: bold;
+                        transition: color 0ms;
+                    }
+                }
+            }
+        }
+    }
+
+}

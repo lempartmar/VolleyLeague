@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,iCAAe;EACb,QAAQ,EAAE,QAAQ;;AAItB,0BAA2B;EACzB,OAAO,EAAE,EAAE;EAEX,iCAAO;IACL,IAAI,EAAE,IAAI;IACV,MAAM,EAAE,MAAM;EAGhB,iCAAO;IACL,KAAK,EAAE,IAAI;IACX,GAAG,EAAE,KAAK;EAGZ,iCAAO;IACL,KAAK,EAAE,IAAI;IACX,MAAM,EAAE,KAAK",
+"sources": ["../../sass/components/floating.scss"],
+"names": [],
+"file": "floating.css"
+}

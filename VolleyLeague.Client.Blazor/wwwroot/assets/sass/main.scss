@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+/*-----------------------------------------------------------------------------------
+
+    Template Name:  Kester -Soccer & Sports HTML5 Template
+    Author: Reacthemes
+    Version: 1.0
+
+-----------------------------------------------------------------------------------
+
+    CSS INDEX
+    ===================
+
+    01. Variables
+	02. Base CSS
+    03. Animation
+    04. Functions
+    05. Main Menu
+    06. Mixins
+    07. Fonts
+    08. breadcrumb 
+    09. Mobile-menu
+    10. Fonts
+    11. Typography
+    12. Preloader
+    13. Reset
+    14. btn
+    15. Header
+    16. Banner
+    17. Sections
+    18. Footer
+    19. Buttons
+    20. feature
+    21. testimonial
+    22. blog
+    23. contact
+    24. case
+    25. counter
+    26. price
+    27. team
+    28. history
+    29. chose
+    30. widget
+    31. faq
+    32. video
+
+-----------------------------------------------------------------------------------*/
+
+// 1. Configuration and helpers
+@import 'abstracts/variables',
+'base/base',
+'abstracts/animation',
+'abstracts/functions',
+// Main Menu Start -----------------------------------------
+'abstracts/mainMenu',
+// Main Menu End -----------------------------------------
+'abstracts/mixins';
+
+// 3. Base stuff
+@import 'base/fonts',
+'base/typography',
+'base/helpers',
+'base/preloader',
+'base/reset';
+
+// 4. Layout-related sections
+@import 'layout/header',
+'layout/banner',
+'layout/section',
+'layout/footer',
+'layout/news',
+'layout/about',
+'layout/contact',
+'layout/faq',
+'layout/error',
+'layout/product-details',
+'layout/checkout',
+'layout/cart',
+'layout/shop',
+'layout/account',
+'layout/wishlist',
+'layout/basketball',
+'layout/baseball',
+'layout/cricket',
+'layout/nfl',
+'layout/volleyball';
+
+// 5. Components
+@import 'components/button';
+@import 'components/floating';

@@ -1,0 +1,569 @@
+.rts-trending-news-section2.cricket{
+    padding: 100px 0 0 0;
+    .section-inner{
+        .section-title-area{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .section-title{
+                margin-bottom: 0;
+            }
+            .read-more-btn{
+                text-transform: uppercase;
+            }
+        }
+        .post-inner{
+            @media(max-width:991px){
+                margin-bottom: 30px;
+            }
+            .item{
+                .gallery-picture{
+                    background: url(../images/blog/news23.jpg);
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+                .contents-wrapper{
+                    .contents{
+                        .heading{
+                            align-items: center;
+                            .tag{
+                                text-transform: uppercase;
+                                padding: 3px 12px 2px 12px;
+                                color: #FFF;
+                                font-size: 14px;
+                                font-weight: 500;
+                                line-height: 24px;
+                                @media(max-width:768px){
+                                    padding: 3px 8px 2px 8px;
+                                }
+                            }
+                            .blog-date{
+                                color: #FFF;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 600;
+                                line-height: 24px;
+                                font-family: 'Oswald', sans-serif;
+                                text-transform: uppercase;
+                            }
+                        }
+                        .gallery-title{
+                            a{
+                                font-size: 36px;
+                                font-style: normal;
+                                font-weight: 700;
+                                line-height: 46px;
+                                text-transform: uppercase;
+                                @media(max-width:768px){
+                                    font-size: 20px;
+                                    line-height: 30px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .left-post-inner{
+            .item.small-post{
+                .gallery-picture{
+                    background: url(../images/blog/news24.jpg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+                .contents-wrapper{
+                    .contents{
+                        .gallery-title{
+                            a{
+                                font-size: 20px;
+                                line-height: 30px;
+                                @media(max-width:500px){
+                                    font-size: 16px;
+                                    line-height: 26px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.two{
+                    .gallery-picture{
+                        background: url(../images/blog/news25.jpg);
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    } 
+                }
+            }
+        }
+    }
+    .rts-trending-news-section2{
+        background: none;
+        .section-inner{
+            .left-side-content{
+                &.one{
+                    background: #111111;
+                    padding: 50px;
+                    @media(max-width:768px){
+                        padding: 15px;
+                    }
+                    .rts-post-small{
+                        background: none;
+                        padding: 0;
+                        @media(max-width:768px){
+                            display: block;
+                        }
+                        .gallery-picture{
+                            width: auto;
+                            flex-basis: 40%;
+                        }
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                        .contents-wrapper{
+                            flex-basis: 60%;
+                            @media(max-width:768px){
+                                margin-left: 0;
+                                margin-top: 15px;
+                            }
+                            .contents{
+                                .heading{
+                                    .tag{
+                                        color: #FFF;
+                                        text-align: center;
+                                        font-size: 14px;
+                                        font-weight: 500;
+                                        line-height: 1;
+                                        text-transform: uppercase;
+                                        background: var(--theme-color);
+                                        padding: 8px 23px;
+                                        font-family: 'Oswald', sans-serif;
+                                    }
+                                    .blog-date{
+                                        color: #FFF;
+                                        font-size: 14px;
+                                        font-family: 'Oswald', sans-serif;
+                                        font-weight: 600;
+                                        line-height: 1;
+                                        text-transform: uppercase;
+                                    }
+                                }
+                                .gallery-title{
+                                    a{
+                                        font-size: 24px;
+                                        font-weight: 700;
+                                        line-height: 34px;
+                                        text-transform: uppercase;
+                                        @media(max-width:500px){
+                                            font-size: 16px;
+                                            line-height: 26px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &.two{
+                    display: flex;
+                    gap: 30px;
+                    @media(max-width:991px){
+                        display: block;
+                    }
+                    .post-inner{
+                        width: 100%;
+                        height: 340px;
+                        margin: 30px 0 0 0;
+                        .item{
+                            .gallery-picture{
+                                background: none;
+                            }
+                            .contents-wrapper{
+                                width: 85%;
+                                .contents{
+                                    .gallery-title{
+                                        a{
+                                            font-size: 20px;
+                                            line-height: 30px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .left-side{
+                        @media(max-width:991px){
+                            display: flex;
+                            gap: 30px;
+                        }
+                        @media(max-width:576px){
+                            display: block;
+                        }
+                    }
+                    .post-inner.small{
+                        width: 300px;
+                        height: 340px;
+                        margin: 30px 0 0 0;
+                        @media(max-width:991px){
+                            width: 100%;
+                            height: auto;
+                        }
+                        .item{
+                            width: 100%;
+                            height: 100%;
+                            .gallery-picture{
+                                background: none;
+                                width: 100%;
+                            }
+                            .contents-wrapper{
+                                width: 75%;
+                                .contents{
+                                   .gallery-title{
+                                    a{
+                                        font-family: 'Oswald', sans-serif;
+                                        font-size: 20px;
+                                        font-weight: 700;
+                                        line-height: 30px;
+                                        text-transform: uppercase;
+                                    }
+                                   } 
+                                }
+                            }
+                        }
+                    }
+                    .right-side{
+                        width: 100%;
+                    }
+                    .rts-latest-match.cricket{
+                        margin-top: 30px;
+                        padding: 35px 0;
+                        .section-title-area{
+                            .section-title{
+                                color: #FFFFFF;
+                                margin-bottom: 0;
+                                @media(max-width:1200px)and (min-width:991px) {
+                                    font-size: 28px;
+                                }
+                            }
+                        }
+                        .latest-match-inner{
+                            gap: 18px;
+                            padding: 0;
+                            .club-area{
+                                @media(max-width:768px){
+                                    margin-bottom: 0;
+                                }
+                                .club-logo{
+                                    width: 75px;
+                                }
+                                .content{
+                                    .date{
+                                        color: #FFF;
+                                        font-size: 14px;
+                                        font-weight: 400;
+                                    }
+                                    .time{
+                                        color: #FFF;
+                                        font-size: 16px;
+                                        font-weight: 500;
+                                        margin: 10px 0;
+                                    }
+                                    .club-text{
+                                        font-size: 16px;
+                                        font-weight: 600;
+                                        margin-bottom: 0;
+                                        span{
+                                            font-size: 12px;
+                                        }    
+                                    }
+                                }
+                            } 
+                        }
+                        .bottom-wrapper{
+                            .match-countdown-area{
+                                .countdown{
+                                    .countdown-el{
+                                        border: none;
+                                        height: auto;
+                                        width: auto;
+                                        line-height: unset;
+                                        display: block;
+                                        .value{
+                                            width: 50px;
+                                            height: 50px;
+                                            line-height: 50px;
+                                            font-size: 32px;
+                                            border: 1px solid rgba(246, 246, 246, 0.2);
+                                        }
+                                        .letter{
+                                            line-height: 1;
+                                            margin-top: 10px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &.three{
+                    .section-inner{
+                        display: flex;
+                        gap: 30px;
+                        @media(max-width:991px){
+                            display: block;
+                        }
+                        .inner{
+                            position: relative;
+                            z-index: 1;
+                            margin-top: 30px;
+                            &.top{
+                                margin-top: 60px;
+                                @media(max-width:768px){
+                                    margin-top: 30px;
+                                }
+                                ul{
+                                    li{
+                                        background: #111111 !important;
+                                        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                                        width: max-content;
+                                        @media(max-width:991px){
+                                            width: auto;
+                                        }
+                                        .content{
+                                            .result{
+                                                color: #FFFFFF;
+                                                background: var(--theme-color);
+                                                width: max-content;
+                                                margin: 0 auto 15px auto;
+                                                font-size: 16px;
+                                                padding: 5px 10px 3px 10px;
+
+                                            }
+                                            .date{
+                                                color: #FFFFFF;
+                                            }
+                                            .result{
+                                                color: #FFFFFF;
+                                            }
+                                            .team{
+                                                color: #FFFFFF;
+                                                span{
+                                                    color: #FFFFFF;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .top{
+                                background: var(--theme-color);
+                                color: #FFF;
+                                text-align: center;
+                                font-size: 18px;
+                                padding: 10px 0;
+                            }
+                            ul{
+                                padding: 0;
+                                margin: 0;
+                                li{
+                                    display: flex;
+                                    list-style: none;
+                                }
+                                .match-wrapper{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    padding: 33px 20px;
+                                    background: #F2F2F2;
+                                    position: relative;
+                                    z-index: 1;
+                                    .logo{
+                                        width: 60px;
+                                        height: 60px;
+                                        img{
+                                            width: 100%;
+                                        }
+                                    }
+                                    &:last-child{
+                                        background: #E7E7E7;
+                                    }
+                                    .content{
+                                        text-align: center;
+                                        .date{
+                                            color: #111111;
+                                            font-size: 14px;
+                                            font-weight: 400;
+                                            line-height: 1.1;
+                                            margin-bottom: 10px;
+                                        }
+                                        .result{
+                                            color: #111111;
+                                            font-size: 16px;
+                                            font-weight: 700;
+                                            font-family: 'Oswald', sans-serif;
+                                            line-height: 1.1;
+                                            margin-bottom: 15px;
+                                        }
+                                        .team{
+                                            color: #111111;
+                                            font-size: 16px;
+                                            font-weight: 600;
+                                            line-height: 1.1;
+                                            text-transform: uppercase;
+                                            span{
+                                                font-size: 12px;
+                                                color: #111111;
+                                                margin: 0 3px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .video-area{
+                            margin-top: 60px;
+                            @media(max-width:768px){
+                                margin-top: 30px;
+                            }
+                            .item{
+                                height: auto;
+                                video{
+                                    width: 100%;
+                                }
+                            }
+                            .left-side-content.one{
+                                background: none;
+                                padding: 0;
+                                .rts-post-small{
+                                    margin-bottom: 25px;
+                                    @media(max-width:576px){
+                                        display: block;
+                                    }
+                                    .video-section-inner{
+                                        position: relative;
+                                        &::before{
+                                            content: '';
+                                            position: absolute;
+                                            width: 100%;
+                                            height: 100%;
+                                            background: rgba(17, 17, 17, 0.40);
+                                            left: 0;
+                                            bottom: 0;
+                                            transition: all .3s;
+                                        }
+                                        .gallery-picture{
+                                            display: block;
+                                            width: 100%;
+                                        }
+                                        .play-video{
+                                            position: absolute;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                            .popup-video{
+                                                width: 30px;
+                                                height: 30px;
+                                                line-height: 25px;
+                                                text-align: center;
+                                                border-radius: 50%;
+                                                border: 1px solid #FFFFFF;
+                                                i{
+                                                    font-size: 12px;
+                                                    color: #FFFFFF;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .contents-wrapper{
+                                        @media(max-width:768px){
+                                            margin-left: 0;
+                                            margin-top: 15px;
+                                        }
+                                        .contents{
+                                            .heading{
+                                                .tag{
+                                                    padding: 5px 23px;
+                                                }
+                                            }
+                                            .gallery-title{
+                                                margin: 7px 0 5px 0;
+                                                a{
+                                                    color: #111111;
+                                                    font-size: 16px;
+                                                    line-height: 26px;
+                                                }
+                                            }
+                                            .date{
+                                                .blog-date{
+                                                    color: #6F7073;
+                                                    font-size: 14px;
+                                                    font-weight: 500;
+                                                    text-transform: uppercase;
+                                                    margin-left: 0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+            .right-side-content{
+               .left-post-inner{
+                   .post-inner.small{
+                        margin-top: 30px;
+                        height: 270px;
+                        .item{
+                            .gallery-picture{
+                                background: url(../images/blog/news26.jpg);
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                background-size: cover;
+                            }
+                        }
+                    }
+                    .post-inner.small{
+                        background-position: center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                    }
+                } 
+                .right-side-ad{
+                    img{
+                        width: 100%;
+                    }
+                    &.bottom{
+                        a{
+                            display: block;
+                        }
+                    }
+                }
+            }
+            .rts-ad-section-area{
+                padding: 0;
+                margin-top: 60px;
+                @media(max-width:768px){
+                    margin-top: 30px;
+                }
+                .section-inner{
+                    a{
+                        display: block;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rts-ad-section-area{
+    padding: 70px 0 100px 0;
+    @media(max-width:768px){
+        padding: 0 0 30px 0;
+    }
+}

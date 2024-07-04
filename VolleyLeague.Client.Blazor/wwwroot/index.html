@@ -1,51 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="darkmode" data-tHEme="light">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Amatorska Liga siatkówki</title>
-    <link href="VolleyLeague.Client.Blazor.styles.css" rel="stylesheet" />
-    <base href="/" />
-    <!--<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />-->
-    <link rel="icon" type="image/png" href="assets/img/zawodnik.png" />
-    <link href="BlazorTrainingApplication.styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
-    <link href="assets/img/zawodnik.png" rel=icon>
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/app.css" />
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome/font-awesome.min.css" rel="stylesheet">
-    <link href="css/mobile-menu.css" rel="stylesheet">
-    <link href="css/owl.carousel.css" rel="stylesheet">
-    <link href="css/owl.theme.default.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <!--<link href="BlazorTrainingApplication.styles.css" rel="stylesheet" />-->
-
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kester - E-Sport HTML Template</title>
+    <!--================= Favicon =================-->
+    <link rel="apple-touch-icon" href="assets/images/fav.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/fav.png">
+    <!--================= Bootstrap V5 CSS =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <!--================= Font Awesome 5 CSS =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/all.min.css">
+    <!--================= RT Icons CSS =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/rt-icons.css">
+    <!--================= Animate css =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.min.css">
+    <!--================= Magnific popup Plugin =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+    <!--================= Swiper Slider Plugin =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/swiper-bundle.min.css">
+    <!--================= Mobile Menu CSS =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/metisMenu.css">
+    <!--================= Main Menu CSS =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/rtsmenu.css">
+    <!--================= Main Stylesheet =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/variables/variable4.css">
+    <!--================= Main Stylesheet =================-->
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
+    <link href="_content/Radzen.Blazor/css/standard-base.css" rel="stylesheet">
+    <link href="_framework/blazor.webassembly.js" rel="stylesheet">
 </head>
+<body>
+    <!-- Preloader Section -->
+    <div id="rts__preloader">
+        <!-- Preloader content -->
+    </div>
 
-<body id="page-top" data-spy="scroll" data-target=".navbar">
     <div id="app">
         <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%"></circle>
+            <circle r="40%" cx="50%" cy="50%"></circle>
         </svg>
         <div class="loading-progress-text"></div>
     </div>
 
-    <!--<div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>-->
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <!-- Include JS scripts from new template -->
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.min.js"></script>
+    <script src="assets/js/vendors/wow.min.js"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/zoom.js"></script>
+    <script src="assets/js/vendors/metisMenu.min.js"></script>
+    <script src="assets/js/vendors/rtsmenu.js"></script>
+    <script src="assets/js/vendors/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
-
 </html>
-

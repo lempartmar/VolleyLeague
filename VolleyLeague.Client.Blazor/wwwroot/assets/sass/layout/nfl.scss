@@ -1,0 +1,612 @@
+.banner1.nfl{
+    .banner-bg{
+        padding: 225px 0;
+        @media(max-width:576px){
+            padding: 100px 0 50px 0;
+        }
+        &::after{
+            display: none;
+        }
+        &::before{
+            background: rgba(0, 0, 0, 0.80);
+        }
+        .banner-hero{
+            position: absolute;
+            z-index: 0;
+            right: 100px;
+            bottom: 0;
+            @media(max-width:991px){
+                z-index: -1;
+                right: 0;
+            }
+        }
+        .banner-content{
+            padding: 0;
+            z-index: 1;
+            @media(max-width:576px){
+                width: auto;
+            }
+            .pretitle{
+                background: none;
+                padding: 0;
+                text-transform: uppercase;
+            }
+            .banner-heading{
+                text-transform: uppercase;
+            }
+            .banner-btn-area{
+                a{
+                    color: #FFFFFF;
+                    border: none;
+                    &::before{
+                        background: var(--theme-color);
+                    }
+                }
+            }
+        }
+    }
+    .banner-single-1{
+        background: url(../images/banner/banner-bg12.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .banner-single-1_2{
+        background: url(../images/banner/banner-bg13.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .banner-single-3{
+        background: url(../images/banner/banner-bg14.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .slider-pagination-area{
+        left: 50% !important;
+        bottom: 50px;
+        top: unset;
+        right: unset;
+        transform: translateX(-50%);
+        .swiper-paginations{
+            display: flex;
+            justify-content: center;
+            width: auto !important;
+            .swiper-pagination-bullet{
+                background-image: none;
+                width: 12px;
+                height: 12px;
+                border: 1px solid #FFFFFF;
+                margin: 0 10px !important;
+                border-radius: 50%;
+                padding: 0;
+                background: none;
+                &::before{
+                    display: none;
+                }
+                &.swiper-pagination-bullet-active{
+                    background: #FFFFFF;
+                }
+            }
+        }
+    }
+}
+.rts-match-result-section.nfl{
+    padding: 100px 0;
+    .section-inner{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        @media(max-width:991px){
+            display: block;
+            text-align: center;
+            .inner-middle{
+                margin: 50px 0;
+            }
+        }
+        .result{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            @media(max-width:991px){
+                width: max-content;
+                margin: 0 auto 20px auto;
+            }
+            @media(max-width:768px){
+                width: auto;
+                margin: 0 auto 20px auto;
+            }
+            .left-side{
+                display: flex;
+                text-align: right;
+                align-items: center;
+                gap: 30px;
+                @media(max-width:768px){
+                    gap: 15px;
+                }
+                @media(max-width:500px){
+                    display: block;
+                }
+                .goal{
+                    background: #001C42;
+                    @media(max-width:500px){
+                        margin-left: auto;
+                    }
+                }
+                .content{
+                    @media(max-width:500px){
+                        margin-bottom: 10px;
+                    }
+                    .tag{
+                        color: #001C42;
+                        text-transform: uppercase;
+                        @media(max-width:500px){
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .right-side{
+                display: flex;
+                text-align: left;
+                align-items: center;
+                gap: 30px;
+                @media(max-width:768px){
+                    gap: 15px;
+                }
+                @media(max-width:500px){
+                    display: block;
+                }
+                .goal{
+                    background: #940F0F;
+                }
+                .content{
+                    @media(max-width:500px){
+                        margin-top: 10px;
+                    }
+                    .tag{
+                        color: #940F0F;
+                        text-transform: uppercase;
+                        @media(max-width:500px){
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .goal{
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+                color: #FFF;
+                font-family: 'Oswald', sans-serif;
+                font-size: 36px;
+                font-weight: 700;
+                text-transform: uppercase;
+                text-align: center;
+                @media(max-width:768px){
+                    width: 60px;
+                    height: 60px;
+                    line-height: 60px;
+                    font-size: 30px;
+                }
+            }
+            .content{
+                .heading{
+                    color: #111;
+                    font-size: 24px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    margin-top: 10px;
+                    @media(max-width:768px){
+                        margin-top: 5px;
+                        font-size: 20px;
+                    }
+                    @media(max-width:576px){
+                        font-size: 16px;
+                        margin-top: 0;
+                    }
+                }
+            }
+        }
+        .desc{
+            padding-top: 10px;
+            border-top: 1px solid #D9D9D9;
+            @media(max-width:991px){
+                width: max-content;
+                margin: auto;
+            }
+            @media(max-width:768px){
+                width: auto;
+                margin: auto;
+            }
+        }
+    }
+}
+.rts-single-news-section.nfl{
+    background: #FFFFFF;
+    margin-bottom: 100px;
+    .section-inner{
+        .rts-featureSlider{
+            overflow: hidden;
+        }
+        .section-title-area{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #D9D9D9;
+            .section-title{
+                margin-bottom: 0;
+                padding-bottom: 30px;
+                text-transform: uppercase;
+                position: relative;
+                @media(max-width:576px){
+                    font-size: 24px !important;
+                }
+                &::after{
+                    position: absolute;
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    left: 0;
+                    bottom: 0;
+                    background: var(--theme-color);
+                }
+            }
+            .slider-btn-area{
+                position: relative;
+                width: 90px;
+                @media(max-width:576px){
+                    display: none;
+                }
+                .swiper-btn{
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: center;
+                    i{
+                        color: #FFFFFF;
+                    }
+                    &::after{
+                        display: none;
+                    }
+                    &.swiper-button-prev{
+                        background: var(--theme-color);
+                        left: 0;
+                        &:hover{
+                            background: #111111;
+                        }
+                    }
+                    &.swiper-button-next{
+                        right: 0;
+                        background: #111111;
+                        &:hover{
+                            background: var(--theme-color);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.rts-player-static.nfl{
+    padding: 100px 0;
+    background: url(../images/background/nfl-court.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &::before{
+        display: none;
+    }
+}
+.rts-player-static.baseball .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(2), .rts-player-static.baseball .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(4), .rts-player-static.nfl .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(6){
+    background: rgba(17, 17, 17, 0.20);
+}
+.rts-player-static.baseball .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(1), .rts-player-static.baseball .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(3), .rts-player-static.nfl .section-inner .left-side-content .content-area .stat-table .table tbody tr:nth-child(5){
+    background: rgba(17, 17, 17, 0.80);
+}
+.rts-player-static.nfl .section-inner .right-side-content .inner ul .match-wrapper{
+    background: rgba(17, 17, 17, 0.6);
+    &:last-child{
+        background: rgba(17, 17, 17, 0.6);
+    }
+}
+.rts-match-highlights-section.nfl{
+    background: none;
+    .section-title-area{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #D9D9D9;
+        .section-title{
+            margin-bottom: 0;
+            padding-bottom: 30px;
+            text-transform: uppercase;
+            position: relative;
+            color: #111111;
+            @media(max-width:576px){
+                font-size: 24px !important;
+            }
+            &::after{
+                position: absolute;
+                content: '';
+                width: 100%;
+                height: 2px;
+                left: 0;
+                bottom: 0;
+                background: var(--theme-color);
+            }
+        }
+        .slider-btn-area{
+            position: relative;
+            width: 90px;
+            @media(max-width:576px){
+                display: none;
+            }
+            .swiper-btn{
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                i{
+                    color: #FFFFFF;
+                }
+                &::after{
+                    display: none;
+                }
+                &.swiper-button-prev{
+                    background: var(--theme-color);
+                    left: 0;
+                    &:hover{
+                        background: #111111;
+                    }
+                }
+                &.swiper-button-next{
+                    right: 0;
+                    background: #111111;
+                    &:hover{
+                        background: var(--theme-color);
+                    }
+                }
+            }
+        }
+    }
+    .rts-featureSlider{
+        overflow: hidden;
+    }
+    .section-wraper{
+        padding: 0;
+        .video-area{
+            &::after{
+                content: '';
+                position: absolute;
+                background: rgba(17, 17, 17, 0.30);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+            }
+            .video-section-inner{
+                z-index: 1;
+                .play-video{
+                    .popup-video{
+                        border: 1px solid #FFFFFF;
+                        background: none;
+                        &:hover{
+                            background: none;
+                        }
+                    }
+                }
+            }
+            .time{
+                right: 0;
+                bottom: 0;
+                left: unset;
+                top: unset;
+                z-index: 1;
+            }
+        }
+        .content{
+            padding: 25px;
+            .title{
+                a{
+                    text-transform: uppercase;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+.rts-gallery-section.home-four.nfl{
+    .top-wrap{
+        @media(max-width:550px){
+            gap: 30px;
+        }
+    }
+
+    .filterd-items .gallery-grid .item{
+        .gallery-picture{
+            background: url(../images/blog/news31.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            &::after{
+                background: rgba(17, 17, 17, 0.50);
+            }
+        }
+        &.small-post{
+            @media(max-width:991px){
+                margin-top: 30px;
+            }
+            .gallery-picture{
+                background: url(../images/blog/news32.jpg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                &::after{
+                    background: none;
+                }
+            } 
+            &.two{
+                .gallery-picture{
+                    background: url(../images/blog/news33.jpg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+            }
+            &.three{
+                .gallery-picture{
+                    background: url(../images/blog/news34.jpg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+            }
+            &.four{
+                .gallery-picture{
+                    background: url(../images/blog/news35.jpg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+            }
+            .post-icon{
+                bottom: 20px;
+                right: 20px;
+                left: unset;
+                top: unset;
+            } 
+        }  
+    }
+}
+.rts-team-section.nfl{
+    .section-title-area{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #D9D9D9;
+        .section-title{
+            margin-bottom: 0;
+            padding-bottom: 30px;
+            text-transform: uppercase;
+            position: relative;
+            color: #111111;
+            @media(max-width:576px){
+                font-size: 24px !important;
+            }
+            &::after{
+                position: absolute;
+                content: '';
+                width: 100%;
+                height: 2px;
+                left: 0;
+                bottom: 0;
+                background: var(--theme-color);
+            }
+        }
+        .slider-btn-area{
+            position: relative;
+            width: 90px;
+            @media(max-width:576px){
+                display: none;
+            }
+            .swiper-btn{
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                i{
+                    color: #FFFFFF;
+                }
+                &::after{
+                    display: none;
+                }
+                &.swiper-button-prev{
+                    background: var(--theme-color);
+                    left: 0;
+                    &:hover{
+                        background: #111111;
+                    }
+                }
+                &.swiper-button-next{
+                    right: 0;
+                    background: #111111;
+                    &:hover{
+                        background: var(--theme-color);
+                    }
+                }
+            }
+        }
+    }
+    .team-section-inner{
+        .team-wraper{
+            .player-card{
+                padding: 0;
+                margin: 0;
+                &::before{
+                    content: '';
+                    position: absolute;
+                    background: #111111;
+                    clip-path: polygon(40% 0, 100% 0, 100% 100%, 0% 100%);
+                    z-index: 1;
+                    width: 210px;
+                    height: 100%;
+                    right: 0;
+                    bottom: 0;
+                }
+                .player-stat{
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 25px;
+                    width: max-content;
+                    text-align: center;
+                    z-index: 1;
+                    .club-logo{
+                        width: 90px;
+                        margin: auto auto 30px auto;
+                    }
+                    .player-social{
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        justify-content: center;
+                        padding: 0;
+                        margin-bottom: 30px;
+                        li{
+                            a{
+                                color: #FFFFFF;
+                            }
+                        }
+                    }
+                    .player-name{
+                        a{
+                            text-transform: uppercase;
+                            color: #FFFFFF;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.rts-shop-section.nfl{
+    .top-wrapper{
+        .section-title-area{
+            .section-title{
+                text-transform: uppercase;
+                @media(max-width:576px){
+                    font-size: 24px !important;
+                }
+            }
+        }
+    }
+}

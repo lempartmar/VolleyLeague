@@ -1,0 +1,726 @@
+.rts-upcoming-match{
+    position: relative;
+    .section-title-area{
+        p{
+            @media(max-width:576px){
+                br{
+                    display: none;
+                }
+            }
+        }
+    }
+    .section-inner{
+        position: relative;
+        padding-bottom: 80px;
+        .rts-matchSlider{
+            .swiper-slide{
+                transform: scale(90%);
+                transition: all .3s;
+            }
+            .swiper-slide-active{
+                transform: scale(110%);
+                transition: all .3s;
+                .match-wrapper{
+                    background: url(../images/background/upcoming01.png);
+                    z-index: 1;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        left: 0;
+                        top: 0;
+                        background: rgba(17, 17, 17, 0.70);
+                        z-index: -1;
+                    }
+                    .content{
+                        .date{
+                            color: #FFFFFF;
+                        }
+                        .time{
+                            color: #FFFFFF;
+                        }
+                        .team{
+                            color: #FFFFFF;
+                            span{
+                                color: #FFFFFF;
+                            }
+                        }
+                    }
+                }
+            }
+            .match-wrapper{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 50px 45px;
+                background: #F6F6F6;
+                position: relative;
+                z-index: 1;
+                @media(max-width:500px){
+                    display: block;
+                    .logo{
+                        margin: 20px auto;
+                    }
+                }
+                .logo{
+                    width: 70px;
+                    height: 70px;
+                    img{
+                        width: 100%;
+                    }
+                }
+                .content{
+                    text-align: center;
+                    .date{
+                        color: #111;
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 1.1;
+                        margin-bottom: 10px;
+                    }
+                    .time{
+                        color: #111;
+                        font-size: 16px;
+                        font-weight: 500;
+                        font-family: 'Oswald', sans-serif;
+                        line-height: 1.1;
+                        margin-bottom: 15px;
+                    }
+                    .team{
+                        color: var(--theme-color);
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 1.1;
+                        text-transform: uppercase;
+                        span{
+                            font-size: 12px;
+                            color: var(--theme-color);
+                            margin: 0 3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .swiper-pag{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        bottom: 0;
+        text-align: center;
+        .swiper-pagination-bullet{
+            width: 12px;
+            height: 12px;
+            margin: 0 8px !important;
+            border-radius: 50%;
+            border: 1px solid var(--theme-color);
+            background: none;
+            opacity: 1;
+            padding: 0 !important;
+            &.swiper-pagination-bullet-active{
+                background: var(--theme-color);
+            }
+        }
+    }
+    .swiper-btn-area{
+        position: absolute;
+        display: flex;
+        width: 110%;
+        bottom: 165px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        @media(max-width:1440px){
+            width: 100%;
+        }
+        @media(max-width:768px){
+            display: none;
+        }
+        .swiper-button-prev,
+        .swiper-button-next{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            background: #AEB0B3;
+            transition: all .3s;
+            &:hover{
+                background: var(--theme-color);
+            }
+            &::after{
+                display: none;
+            }
+            i{
+                color: #FFFFFF;
+            }
+        }
+
+    }
+}
+.rts-gallery-section.home-four.baseball{
+    .section-title-area{
+        p{
+            @media(max-width:576px){
+                br{
+                    display: none;
+                }
+            }
+        }
+    }
+    .gallery-grid{
+        .item.small-post{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 31px;
+            @media(max-width:1200px){
+                margin-bottom: 19px;
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+            .gallery-picture{
+                flex-basis: 36%;
+                img{
+                    width: 100%;
+                }
+            }
+            &::after{
+                display: none;
+            }
+            .contents-wrapper{
+                flex-basis: 64%;
+                position: unset;
+                .contents{
+                    padding-top: 0;
+                    .gallery-title{
+                        a{
+                            @media(max-width:1200px){
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    .content{
+                        .read-more{
+                            color: var(--theme-color);
+                            &::before{
+                                background: var(--theme-color);
+                            }
+                        }
+                    }
+                }
+                .gallery-title{
+                    a{
+                        text-transform: uppercase;
+                        color: #111111;
+                    }
+                }
+            }
+            .post-icon{
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: #FFFFFF;
+                width: 40px;
+                height: 40px;
+                line-height: 35px;
+                z-index: 1;
+                text-align: center;
+            }
+        }
+        .item{
+            height: auto;
+            position: relative;
+            z-index: 1;
+            transition: all .4s;
+            overflow: hidden;
+            &:hover{
+                .gallery-picture{
+                    transform: scale(105%);
+                }
+            }
+            @media(max-width:991px){
+                margin-bottom: 30px;
+            }
+            .gallery-picture{
+                position: relative;
+                z-index: 1;
+                transform: scale(100%);
+                transition: all .4s;
+                &::after{
+                    content: '';
+                    position: absolute;
+                    background: linear-gradient(180deg, rgba(17, 17, 17, 0.00) 0%, #111 100%);
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+                    z-index: 0;
+                }
+            }
+            .video-section-inner{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                z-index: 1;
+                .popup-video{
+                    border: 1px solid #FFFFFF;
+                    border-radius: 50%;
+                    height: 100px;
+                    width: 100px;
+                    line-height: 100px;
+                    color: #FFFFFF;
+                    font-size: 30px;
+                }
+            }
+            .gallery-picture{
+                width: 100%;
+                height: 100%;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .contents-wrapper{
+            transition: opacity .2s ease-in-out,all .3s ease-in-out;
+            transition-delay: .1s;
+            z-index: 1;
+            overflow: hidden;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1;
+            .contents{
+                padding-top: 25px;
+                .heading{
+                    margin-bottom: 10px;
+                    .tag{
+                        background: var(--theme-color);
+                        font-size: 12px !important;
+                        color: $white-color;
+                        padding: 0 5px;
+                    }
+                    .blog-date{
+                        font-size: 12px;
+                        color: $white-color;
+                        font-weight: 400;
+                        margin-left: 20px;
+                        font-family: 'Roboto';
+                    }
+                }
+                .gallery-title{
+                    margin-bottom: 15px;
+                    a{
+                        color: $white-color;
+                        text-transform: uppercase;
+                        font-size: 20px;
+                        font-weight: 600;
+                        display: inline;
+                        background-size: 200% 2px;
+                        background-position: 100% 100%;
+                        background-repeat: no-repeat;
+                        background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, var(--theme-color)), color-stop(50%, transparent));
+                        background-image: linear-gradient(to right, var(--theme-color) 50%, transparent 50%);
+                        -webkit-transition: all 500ms;
+                        transition: all 500ms;
+                        &:hover{
+                            color: var(--theme-color);
+                            background-position: 0% 100%;
+                        }
+                    }
+                }
+                .author-info{
+                    .content{
+                        .read-more{
+                            color: $white-color;
+                            font-size: 14px;
+                            font-weight: 500;
+                            position: relative;
+                            transition: all .4s;
+                            padding-bottom: 5px;
+                            &::before{
+                                position: absolute;
+                                content: '';
+                                width: 50%;
+                                height: 1px;
+                                background: $white-color;
+                                left: 0;
+                                bottom: 0;
+                                transition: all .4s;
+                            }
+                            &:hover{
+                                color: var(--theme-color);
+                                &::before{
+                                    width: 100%;
+                                    background: var(--theme-color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.rts-player-static.baseball{
+    background: url(../images/background/baseball-court.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    padding: 180px 0;
+    @media(max-width:991px){
+        padding: 80px 0;
+    }
+    &::before{
+        content: '';
+        position: absolute;
+        background: rgba(17, 17, 17, 1);
+        opacity: 50%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    .section-title-area{
+        .section-title{
+            color: #F6F6F6;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 46px;
+            text-transform: uppercase;
+        }
+        p{
+            max-width: 100%;
+            @media(max-width:576px){
+                br{
+                    display: none;
+                }
+            }
+        }
+    }
+    .section-inner{
+        .left-side-content{
+            position: relative;
+            z-index: 1;
+            .content-area{
+                display: unset;
+                width: 100%;
+                .image{
+                    flex: 1;
+                    img{
+                        height: 100%;
+                    }
+                }
+                .stat-table{
+                    background: none;
+                    padding: 0;
+                    flex: 1;
+                    .table{
+                        border: none;
+                        margin-bottom: 0 !important;
+                        thead{
+                            .head-tr{
+                                background: var(--theme-color);
+                                th{
+                                    padding: 10px 0 !important;
+                                    color: #FFFFFF;
+                                    text-align: center;
+                                    padding-left: 10px !important;
+                                    width: 8%;
+                                    &:first-child{
+                                        text-align: center;
+                                        border-radius: 0;
+                                    }
+                                    &:last-child{
+                                        border-radius: 0;
+                                    }
+                                    &:nth-child(2){
+                                        text-align: start;
+                                        width: 20%;
+                                    }
+                                }
+                            }
+                        }
+                        tbody{
+                            tr{
+                                border: none;
+                                width: 8%;
+                                &:last-child{
+                                    border-left: none;
+                                    border-right: none;
+                                }
+                                &:nth-child(2),
+                                &:nth-child(4),
+                                &:nth-child(6){
+                                    background: rgba(17, 17, 17, 0.30);
+                                }
+                                &:nth-child(2){
+                                    text-align: start;
+                                    width: 20%;
+                                }
+                                td{
+                                    padding: 10px 0 !important;
+                                    text-align: center;
+                                    padding-left: 10px !important;
+                                    width: 8%;
+                                    span{
+                                        color: #FFF;
+                                        font-size: 16px;
+                                        font-weight: 500;
+                                        line-height: 26px;
+                                        text-transform: uppercase;
+                                    }
+                                    &:first-child{
+                                        text-align: center;
+                                    }
+                                    &:nth-child(2){
+                                        text-align: start;
+                                        width: 20%;
+                                    }
+                                }
+                            }
+                        }
+                        margin-bottom: 40px;
+                    }
+                    .table-btn{
+                        padding: 15px 35px;
+                        color: #FFF;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 26px;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+        .right-side-content{
+            .inner{
+                position: relative;
+                z-index: 1;
+                .top{
+                    background: var(--theme-color);
+                    color: #FFF;
+                    text-align: center;
+                    font-size: 24px;
+                    padding: 7px 0;
+                }
+                ul{
+                    padding: 0;
+                    margin: 0;
+                    li{
+                        display: flex;
+                        list-style: none;
+                    }
+                    .match-wrapper{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 32px 45px;
+                        background: rgba(17, 17, 17, 0.20);
+                        position: relative;
+                        z-index: 1;
+                        .logo{
+                            width: 70px;
+                            height: 70px;
+                            img{
+                                width: 100%;
+                            }
+                        }
+                        &:last-child{
+                            background: rgba(17, 17, 17, 0.30);
+                        }
+                        .content{
+                            text-align: center;
+                            .date{
+                                color: #FFFFFF;
+                                font-size: 14px;
+                                font-weight: 400;
+                                line-height: 1.1;
+                                margin-bottom: 10px;
+                            }
+                            .result{
+                                color: var(--theme-color);
+                                font-size: 24px;
+                                font-weight: 700;
+                                font-family: 'Oswald', sans-serif;
+                                line-height: 1.1;
+                                margin-bottom: 15px;
+                            }
+                            .team{
+                                color: #FFFFFF;
+                                font-size: 16px;
+                                font-weight: 600;
+                                line-height: 1.1;
+                                text-transform: uppercase;
+                                span{
+                                    font-size: 12px;
+                                    color: #FFFFFF;
+                                    margin: 0 3px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .banner-image{
+        position: absolute;
+        right: 15px;
+        bottom: 0;
+    }
+}
+
+.rts-team-section.baseball{
+    padding: 120px 0;
+}
+.rts-latest-match.baseball{
+    background: url('../images/background/baseball-court2.jpg');
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 80px 0 180px 0;
+    z-index: 1;
+    .section-title-area{
+        .section-title{
+            color: #FFFFFF;
+        }
+    }
+    .latest-match-inner{
+        gap: 165px;
+        justify-content: center;
+        padding: 50px 0;
+        @media(max-width:991px){
+            gap: 80px;
+        }
+        &::after{
+            display: none;
+        }
+        .club-area{
+            .club-logo{
+                max-width: max-content;
+                margin-right: 0;
+            }
+            .content{
+                margin: 0;
+                text-align: center;
+                .time{
+                    color: #FFF;
+                    font-family: 'Oswald', sans-serif;
+                    font-size: 20px;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    margin-bottom: 30px;
+                }
+                .club-text{
+                    color: #FFF;
+                    font-size: 36px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    margin-bottom: 35px;
+                    span{
+                        color: #FFF;
+                        font-size: 24px;
+                        margin: 0 10px;
+                    }
+                }
+                .btn{
+                    background: #FFFFFF;
+                    padding: 12px 25px;
+                    &::before{
+                        background: var(--theme-color);
+                    }
+                    &:hover{
+                        color: #111111;
+                    }
+                }
+            }
+        }
+    }
+    .bottom-wrapper{
+        .match-countdown-area{
+            .countdown{
+                justify-content: center;
+                flex-wrap: wrap;
+                .countdown-el{
+                    width: 140px;
+                    height: 140px;
+                    line-height: 140px;
+                    text-align: center;
+                    border: 1px solid rgba(246, 246, 246, 0.20);
+                    display: flex;
+                    flex-wrap: wrap;
+                    text-align: center;
+                    margin: 0 5px;
+                    @media(max-width:768px){
+                        margin-bottom: 20px;
+                    }
+                    .value{
+                        color: #FFF;
+                        text-align: center;
+                        font-size: 60px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        width: 100%;
+                        line-height: 1;
+                        margin-top: 15px;
+                    }
+                    .letter{
+                        color: #FFFFFF;
+                        font-weight: 400;
+                        font-size: 16px;
+                        transform: translate(0);
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rts-shop-section.baseball{
+    .product-item{
+        .product-thumb{
+            border: none;
+            background: #F6F6F6;
+        }
+        .contents{
+            text-align: center;
+        }
+        .social-area{
+            background: none;
+            li{
+                a{
+                    background: #FFFFFF;
+                    color: #111111;
+                    border-radius: 50%;
+                    width: 45px;
+                    height: 45px;
+                    line-height: 45px;
+                    text-align: center;
+                    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.20);
+                    &:hover{
+                        background: var(--theme-color);
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rts-sponsors-section.baseball{
+    background: #F6F6F6;
+}

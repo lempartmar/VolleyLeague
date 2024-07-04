@@ -1,0 +1,16 @@
+.floating-elements .floating-item {
+  position: absolute; }
+
+.banner5.floating-elements {
+  z-index: 10; }
+  .banner5.floating-elements .item1 {
+    left: 20px;
+    bottom: -110px; }
+  .banner5.floating-elements .item2 {
+    right: 50px;
+    top: 100px; }
+  .banner5.floating-elements .item3 {
+    right: 80px;
+    bottom: -20px; }
+
+/*# sourceMappingURL=floating.css.map */

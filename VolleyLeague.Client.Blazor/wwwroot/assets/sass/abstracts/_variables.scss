@@ -1,0 +1,117 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+/// Copy text color
+/// @type Color
+$text-color: #111111 !default;
+$text-color1: #040404 !default;
+/// @type Color
+$text-color-lite: #404040 !default;
+/// @type Color
+$text-color-liter: #868686 !default;
+/// @type Color
+$paragraph-color: #4E4E4E !default;
+/// @type Color
+$fivetwosixc-color: #52565C !default;
+/// @type Color
+$nobel-color: #999999 !default;
+/// @type Color
+$grey-color: #777777 !default;
+/// @type Color
+$gray-color: #7A7A7A !default;
+/// @type Color
+$Gainsboro-color: #E0E0E0 !default;
+/// @type Color
+$Gainsboro-colorE5: #E5E5E5!default;
+/// @type Color
+$whiteSmoke: #F5F5F5 !default;
+/// @type Color
+$whiteSmoke7: #F7F7F7 !default;
+/// @type Color
+$whiteSmokeF8: #F8F8F8 !default;
+/// @type Color
+$whiteSmokeEF: #EFEFEF !default;
+/// @type Color
+$chinese-silver: #CDCDCD !default;
+/// @type Color
+$chinese-silverB: #CBCBCB !default;
+/// @type Color
+$silver-color: #C0C0C0 !default;
+/// @type Color
+$theme-color: #111111 !default;
+/// @type Color
+$black-pearl: #031424!default;
+
+/// Main brand color
+/// @type Color
+$brand-color: #FF1856 !default;
+/// @type Color
+$highlight-color: #1D72FF !default;
+/// @type Color
+$highlight-color-hover: #5295ff !default;
+
+/// Light grey
+/// @type Color
+$light-grey: rgb(237, 237, 237) !default;
+
+/// Medium grey
+/// @type Color
+$mid-grey: rgb(153, 153, 153) !default;
+
+/// Dark grey
+/// @type Color
+$dark-grey: rgb(68, 68, 68) !default;
+
+
+/// Background Color
+/// @type Background
+$white-color: #fff !default;
+/// @type Background
+$black-color: #000 !default;
+/// @type Background
+$themebg-color: #0E1013 !default;
+$bg--base1: #040404 !default;
+/// @type Background
+$dark-bg: #121416 !default;
+/// @type Background
+$border-color: #E7E7E7 !default;
+/// @type Background
+$lite-gray-color: #F4F6F9 !default;
+/// @type Background
+$F-five-color: #F5F5F5 !default;
+/// @type Background
+$desert-storm: #F8F8F8 !default;
+/// @type Background
+$alabaster: #FAFAFA !default;
+/// @type Background
+$whisper: #f2e5e5 !default;
+/// @type Background
+$acapulco: #72A398 !default;
+
+
+
+/// Container's maximum width
+/// @type Length
+$max-width: 1180px !default;
+
+
+$td-500ms: 500ms;
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  'small': 320px,
+  'medium': 768px,
+  'large': 1024px,
+) !default;
+
+
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'https://cdn.example.com/assets/';
+$base-url: '/assets/' !default;

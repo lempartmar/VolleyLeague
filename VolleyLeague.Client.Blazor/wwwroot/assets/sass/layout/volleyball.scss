@@ -1,0 +1,585 @@
+.banner1.volleyball{
+    .banner-single{
+        background: url(../images/banner/banner-bg15.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding: 300px 0 180px 0;
+        @media(max-width:576px){
+            padding: 100px 0;
+        }
+        &::before{
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.30) 0%, #000 100%);
+        }
+        &::after{
+            display: none;
+        }
+        .banner-content{
+            width: 820px;
+            margin-left: auto;
+            margin-right: unset;
+            padding: 0;
+            position: relative;
+            @media(max-width:991px){
+                width: auto;
+            }
+            .pretitle{
+                background: none;
+                text-transform: uppercase;
+            }
+            .banner-heading{
+                text-transform: uppercase;
+            }
+            p.desc{
+                max-width: 500px;
+                color: #FFFFFF;
+            }
+            .shape-area{
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                animation: rotateIt 20s linear infinite;
+            }
+        }
+    }
+    .banner-single-1_2{
+        background: url(../images/banner/banner-bg16.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .slider-pagination-area{
+        bottom: 65px;
+        top: unset;
+        right: 16%;
+        gap: 15px;
+        @media(max-width:991px){
+            right: 50%;
+            transform: translateX(50%);
+        }
+        span{
+            color: #FFFFFF;
+        }
+        .swiper-pagination{
+            background: #FFFFFF;
+            width: 90px !important;
+            height: 2px;
+            .swiper-pagination-progressbar-fill{
+                background: var(--theme-color);
+            }
+        }
+    }
+}
+.rts-trending-news-section.volleyball{
+    background: #FFFFFF;
+    padding-bottom: 120px;
+    padding-top: 30px;
+    .item{
+        position: relative;
+        overflow: visible;
+        margin-top: -95px;
+        @media(max-width:991px){
+            margin-top: 50px;
+        }
+        .bottom-content{
+            position: absolute;
+            background: #FFFFFFFF;
+            width: 410px;
+            right: -20px;
+            bottom: -105px;
+            padding: 30px 0 0 30px;
+            @media(max-width:991px){
+                position: unset;
+                width: auto;
+                padding: 30px 0 0 0;
+            }
+            .blog-catagory-tag{
+                background: none;
+                color: #6F7073;
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 24px;
+                text-transform: capitalize;
+                display: flex;
+                align-items: center;
+                padding: 0;
+                span{
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 50%;
+                    background: var(--theme-color);
+                    margin: 0 10px;
+                }
+            }
+            .gallery-title{
+                margin-top: 10px;
+                a{
+                    color: #111;
+                    font-size: 30px;
+                    font-weight: 700;
+                    line-height: 42px;
+                    text-transform: uppercase;
+                }
+            }
+            .author-info{
+                margin-top: 20px;
+                .content{
+                    a{
+                        color: var(--theme-color);
+                        text-align: center;
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 26px;
+                        text-transform: capitalize;
+                        position: relative;
+                        padding-left: 40px;
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            width: 30px;
+                            height: 1px;
+                            left: 0;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: var(--theme-color);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .right-side-items{
+        .rts-post-small{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            .bottom-content{
+                .blog-catagory-tag{
+                    background: none;
+                    color: #6F7073;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 24px;
+                    text-transform: capitalize;
+                    display: flex;
+                    align-items: center;
+                    padding: 0;
+                    span{
+                        width: 4px;
+                        height: 4px;
+                        border-radius: 50%;
+                        background: var(--theme-color);
+                        margin: 0 10px;
+                    }
+                }
+                .gallery-title{
+                    margin-top: 10px;
+                    a{
+                        color: #111;
+                        font-size: 22px;
+                        font-weight: 700;
+                        line-height: 34px;
+                        text-transform: uppercase;
+                    }
+                }
+                .author-info{
+                    margin-top: 20px;
+                    .content{
+                        a{
+                            color: #6F7073;
+                            text-align: center;
+                            font-size: 16px;
+                            font-weight: 600;
+                            line-height: 26px;
+                            text-transform: capitalize;
+                            position: relative;
+                            padding-left: 40px;
+                            &::before{
+                                content: '';
+                                position: absolute;
+                                width: 30px;
+                                height: 1px;
+                                left: 0;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                background: #6F7073;
+                            }
+                        }
+                    }
+                }
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.rts-player-static.volleyball{
+    background: none;
+    padding: 0;
+    &::before{
+        display: none;
+    }
+    .section-inner{
+        .left-side-content{
+            .content-area{
+                .stat-table{
+                    .table-area{
+                        .top{
+                            text-align: center;
+                            background: var(--theme-color);
+                            color: #FFFFFF;
+                            text-align: center;
+                            font-size: 20px;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            padding: 10px 0;
+                        }
+                        .table{
+                            thead{
+                                .head-tr{
+                                    background: #111;
+                                    th{
+                                        padding: 15px 0 !important;
+                                    }
+                                }
+                            }
+                            tbody{
+                                tr{
+                                    &:nth-child(1),
+                                    &:nth-child(3),
+                                    &:nth-child(5){
+                                        background: none;
+                                    }
+                                    &:nth-child(2),
+                                    &:nth-child(4),
+                                    &:nth-child(6){
+                                        background: #EFEFEF;
+                                    }
+                                    td{
+                                        padding: 15px 0 !important;
+                                        span{
+                                            color: #111;
+                                            font-family: 'Oswald', sans-serif;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .right-side-content{
+            .inner{
+                .top{
+                    font-size: 20px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    padding: 10px 0;
+                }
+                ul{
+                    .match-wrapper{
+                        background: #F9F9F9;
+                        padding: 55px 37px;
+                        &:last-child{
+                            background: #EFEFEF;
+                        }
+                        .content{
+                            .date{
+                                color: #111;
+                                margin-bottom: 15px;
+                            }
+                            .result{
+                                color: #FFFFFF;
+                                background: var(--theme-color);
+                                font-size: 16px;
+                                font-weight: 500;
+                                width: max-content;
+                                margin: auto;
+                                padding: 6px 9px;
+                            }
+                            .team{
+                                color: #111;
+                                margin-top: 18px;
+                                span{
+                                    color: #111111;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.rts-match-result-section.volleyball{
+    .section-title-area{
+        .title-watermark{
+            text-align: center;
+            font-size: 100px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+            background-image: linear-gradient(180deg, #BEC1C6 0%, rgba(190, 193, 198, 0.00) 118.56%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 80px;
+        }
+    }
+    .section-inner{
+        .inner-middle{
+            .result{
+                .left-side{
+                    .goal{
+                        background: #111;
+                    }
+                    .content{
+                        .tag{
+                            color: var(--theme-color);
+                        }
+                    }
+                }
+                .right-side{
+                    .goal{
+                        background: var(--theme-color);
+                    }
+                    .content{
+                        .tag{
+                            color: var(--theme-color);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.rts-gallery-section.home-four.volleyball{
+    .filterd-items{
+        .gallery-grid{
+            .item{
+                .gallery-picture{
+                    background: url(../images/blog/news39.jpg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+                &.small-post{
+                    .gallery-picture{
+                        background: url(../images/blog/news40.jpg);
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    } 
+                    &.two{
+                        .gallery-picture{
+                            background: url(../images/blog/news41.jpg);
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                        }    
+                    }
+                    &.three{
+                        .gallery-picture{
+                            background: url(../images/blog/news42.jpg);
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                        }  
+                    }
+                    &.four{
+                        .gallery-picture{
+                            background: url(../images/blog/news43.jpg);
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                        }   
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rts-team-section.volleyball{
+    @media(max-width:576px){
+        padding: 60px 0 !important;
+    }
+    .section-title-area{
+        border: none;
+        .section-title{
+            font-size: 40px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding-bottom: 0;
+            &::after{
+                display: none;
+            }
+        }
+    }
+    .team-section-inner{
+        .team-wraper{
+            display: flex;
+            width: 100%;
+            gap: 30px;
+            @media(max-width:991px){
+                display: block;
+            }
+            .player-card{
+                background: #f6f6f6;
+                flex: 2;
+                overflow: hidden;
+                @media(max-width:991px){
+                    margin-bottom: 30px;
+                }
+                .image{
+                    width: 100%;
+                }
+                img{
+                    width: 100%;
+                }
+                &::before{
+                    display: none;
+                }
+            }
+            .player-stat{
+                padding: 40px 170px 40px 50px;
+                background: #F6F6F6;
+                flex: 3;
+                @media(max-width:1200px){
+                    padding: 40px 30px;
+                }
+                @media(max-width:576px){
+                    padding: 40px 20px;
+                }
+                .inner{
+                    display: flex;
+                    align-items: center;
+                    gap: 65px;
+                    margin-bottom: 30px;
+                    @media(max-width:576px){
+                        gap: 25px;
+                    }
+                    @media(max-width:500px){
+                        display: block;
+                    }
+                }
+                .identity{
+                    width: 50%;
+                    @media(max-width:500px){
+                        width: 100%;
+                        margin-bottom: 30px;
+                    }
+                    .name{
+                        color: #6F7073;
+                        font-family: 'Oswald', sans-serif;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 26px;
+                        text-transform: uppercase;
+                        margin-bottom: 10px;
+                    }
+                    .title{
+                        color: #111;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 36px;
+                        text-transform: uppercase;
+                        margin-bottom: 40px;
+                        @media(max-width:500px){
+                            margin-bottom: 20px;
+                        }
+                    }
+                    .wrapper{
+                        li{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 14px 16px;
+                            &:nth-child(1),
+                            &:nth-child(3){
+                                background: #ECECEC;
+                            }
+                            .left{
+                                color: var(--theme-color);
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 26px;
+                                text-transform: uppercase;
+                                @media(max-width:576px){
+                                    font-size: 14px;
+                                }
+                            }
+                            .right{
+                                color: #111;
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 26px;
+                                text-transform: uppercase;
+                                @media(max-width:576px){
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .stats{
+                    width: 50%;
+                    @media(max-width:500px){
+                        width: 100%;
+                    }
+                    .title{
+                        color: #111;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 36px;
+                        text-transform: uppercase;
+                        margin-bottom: 40px;
+                        @media(max-width:500px){
+                            margin-bottom: 20px;
+                        }
+                    }
+                    .wrapper{
+                        li{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 14px 16px;
+                            &:nth-child(1),
+                            &:nth-child(3){
+                                background: #ECECEC;
+                            }
+                            .left{
+                                color: var(--theme-color);
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 26px;
+                                text-transform: uppercase;
+                                @media(max-width:576px){
+                                    font-size: 14px;
+                                }
+                            }
+                            .right{
+                                color: #111;
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 26px;
+                                text-transform: uppercase;
+                                @media(max-width:576px){
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

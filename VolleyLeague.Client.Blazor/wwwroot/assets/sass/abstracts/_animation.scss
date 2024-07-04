@@ -1,0 +1,150 @@
+/**------------------------------------------------------------------
+ * Animation Start Here
+ */
+@keyframes zoom-in-out-bg {
+	0% {
+		background-size: 100%;
+	}
+
+	50% {
+		background-size: 150%;
+	}
+
+	100% {
+		background-size: 100%;
+	}
+}
+
+@keyframes slide-down {
+	0% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes slide-up {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+}
+
+@keyframes slideDownn {
+	0% {
+		transform: translateY(-80px);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes pop {
+	0% {
+		transform: scale(0) translateX(-50%);
+	}
+
+	60% {
+		transform: scale(105%) translateX(-50%);
+	}
+
+	100% {
+		transform: scale(1) translateX(-50%);
+	}
+}
+
+@keyframes hero-move {
+	0% {
+		transform: translateX(0);
+	}
+
+	50% {
+		transform: translateX(-150px);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+@keyframes hero-move2 {
+	0% {
+		transform: translateX(0);
+	}
+
+	50% {
+		transform: translateX(-100px);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+@keyframes text-height {
+	0% {
+		max-height: 0;
+	}
+
+	100% {
+		max-height: 400px;
+	}
+}
+@keyframes pulse-border{
+	0%{
+		transform: scale(100%);
+		opacity: 1;
+	}
+	
+	100%{
+		transform: scale(150%);
+		opacity: 0;
+	}
+}
+@keyframes rotateIt{
+	100%{
+		transform: rotate(360deg);
+	}
+}
+
+
+
+.marquee {
+	position: relative;
+	width: 100vw;
+	max-width: 100%;
+	height: 200px;
+	overflow-x: hidden;
+}
+
+.track {
+	position: absolute;
+	white-space: nowrap;
+	will-change: transform;
+	animation: marquee 32s linear infinite;
+}
+
+
+
+/**------------------------------------------------------------------
+ * Animation End Here
+ */

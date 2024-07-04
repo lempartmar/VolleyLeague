@@ -1,0 +1,297 @@
+/**------------------------------------------------------------------
+ * Buttons Start Here
+ */
+button,
+.btn {
+  transition: all $td-500ms;
+}
+
+.btn {
+  transition: all $td-500ms;
+
+  &:hover {
+    i {
+      transform: translateX(5px);
+    }
+  }
+}
+
+.more-btn {
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 60px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $white-color;
+  border: 1px solid #efefef;
+  transition: all 400ms;
+
+  &:hover {
+    background: $theme-color;
+    color: $white-color;
+    border: 1px solid transparent;
+
+    i {
+      transform: translateX(5px);
+    }
+  }
+}
+
+.load-more-btn {
+  margin: 0 auto;
+  width: 180px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background-color: $whiteSmoke;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: $text-color;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 30px;
+
+  &:hover {
+    i {
+      transform: scale(110%);
+    }
+  }
+
+  i {
+    margin-left: 10px;
+    margin-bottom: 2px;
+  }
+}
+
+.shop-now-btn {
+  padding: 10px 25px;
+  background: $white-color;
+  color: $text-color1;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 10px 20px;
+  padding-bottom: 12px;
+  border-radius: 6px;
+  transition: background $td-500ms;
+  border: 1px solid transparent;
+
+
+  i {
+    margin-left: 5px;
+  }
+
+}
+
+.shop-now-btn {
+  &:hover {
+    background: $bg--base1;
+    color: var(--theme-color);
+    border: 1px solid rgb(65, 65, 65);
+  }
+}
+
+
+.arrow-btn-hover {
+  &:hover {
+    color: $white-color;
+    background: transparent;
+    border: 1px solid transparent;
+
+    &::before {
+      transform: translateX(0);
+    }
+
+    &::after {
+      transform: translateX(0);
+    }
+  }
+
+  overflow: hidden;
+
+  i {
+    margin-left: 5px;
+    font-size: 17px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    clip-path: polygon(97% 0, 100% 50%, 97% 100%, 0 100%, 0 0);
+
+    background: $brand-color;
+    transition: all $td-500ms;
+    z-index: -1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10%;
+    height: 100%;
+    transform: translateX(-100%);
+    clip-path: polygon(70% 50%, 0 0, 0 100%);
+    background: $white-color;
+    transition: all 300ms;
+    z-index: -1;
+  }
+}
+
+.rts-post-2-medium {
+  .post-title {
+    max-width: 350px;
+
+    a {
+      font-size: 20px;
+      line-height: 24px;
+      background-size: 200% 1px;
+    }
+  }
+}
+
+.all-products-link {
+  color: $text-color1;
+  font-size: 14px;
+  line-height: 26px;
+  padding: 15px 40px;
+  border: 2px solid $whiteSmokeEF;
+  border-radius: 7px;
+  transition: all $td-500ms;
+
+  &:hover {
+    background: var(--theme-color);
+    border: 2px solid var(--theme-color);
+    color: $white-color;
+  }
+}
+
+
+.newsletter-btn {
+  color: $white-color;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  background: $highlight-color;
+  padding: 12px 25px;
+  transition: background $td-500ms;
+
+  img {
+    margin-right: 2px;
+    margin-top: -1px;
+    filter: hue-rotate(30deg) brightness(5);
+  }
+
+  &:hover {
+    background: $highlight-color-hover;
+    color: $white-color;
+  }
+}
+
+.slider-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: $white-color;
+  color: $text-color1;
+
+  &:hover {
+    background: var(--theme-color);
+    color: $white-color;
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+.catagory-menu-icon {
+  cursor: pointer;
+}
+
+
+.play-btn a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $white-color;
+  transition: all 400ms;
+  color: $text-color; 
+  font-size: 18px;
+  pointer-events: all;
+
+  &:hover {
+    background: var(--theme-color);
+    color: $white-color;
+  }
+}
+
+.btn{
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $white-color;
+  border-radius: 0;
+  background: #000000;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  text-transform: uppercase;
+  position: relative;
+  -webkit-transition-property: color;
+  border: none;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  letter-spacing: 2px;
+  transition-duration: 0.3s;
+  &::before{
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      -webkit-transform: scaleX(1);
+      transform: scaleX(1);
+      -webkit-transform-origin: 50%;
+      transform-origin: 50%;
+      -webkit-transition-property: transform;
+      transition-property: transform;
+      -webkit-transition-duration: 0.3s;
+      transition-duration: 0.3s; 
+      -webkit-transition-timing-function: ease-out;
+      transition-timing-function: ease-out;
+      background: var(--theme-color);
+  }
+  &:hover{
+      color: $white-color;
+      &::before{
+          -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+      }
+  }
+}
+/**------------------------------------------------------------------
+ * Buttons End Here
+ */

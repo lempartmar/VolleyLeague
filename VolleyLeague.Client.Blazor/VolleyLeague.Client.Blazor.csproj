@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Administrator\" />
+    <Folder Include="wwwroot\assets\css\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
