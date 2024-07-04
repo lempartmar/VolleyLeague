@@ -22,98 +22,36 @@
                                 <div class="rts-menu">
                                     <nav class="menus menu-toggle">
                                         <ul class="nav__menu">
-                                            <li class="has-dropdown"><a class="menu-item active1" href="#">Home</a>
-                                                <ul class="dropdown-ul">
-                                                    <li class=""><a class="dropdown-link active" href="index.html">Home One (Soccer)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-two.html">Home Two (Sports News)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-three.html">Home Three (Shop)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-four.html">Home Four (Basketball)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-five.html">Home Five (Baseball)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-six.html">Home Six (Cricket)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-seven.html">Home Seven (NFL)</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="index-eight.html">Home Eight (Volleyball)</a></li>
-                                                </ul>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item active1" href="/">Home</NavLink>
                                             </li>
-                                            <li><a class="menu-item" href="about.html">About</a></li>
-                                            <li class="has-dropdown"><a class="menu-item" href="#">Pages</a>
-                                                <ul class="dropdown-ul mega-dropdown">
-                                                    <li class="mega-dropdown-li">
-                                                        <ul class="mega-dropdown-ul">
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="team.html">Team Details</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="team-details.html">Player Details</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                href="history.html">History</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                href="awards.html">Awards</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="faq.html">FAQ</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="mega-dropdown-li">
-                                                        <ul class="mega-dropdown-ul">
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                href="gallery.html">Gallery</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="event.html">Event</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="event-details.html">Event Details</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="error.html">Error</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="mega-dropdown-li">
-                                                        <ul class="mega-dropdown-ul">
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="match-schedule.html">Match Schedule</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="match-result.html">Match
-                                                                    Result</a>
-                                                            </li>
-                                                            <li class="dropdown-li"><a class="dropdown-link"
-                                                                    href="league-standings.html">Point Table</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="has-dropdown"><a class="menu-item" href="#">Shop</a>
-                                                <ul class="dropdown-ul">
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="shop.html">Shop</a>
-                                                    </li>
-                                                    <li class="dropdown-li"><a class="dropdown-link"
-                                                            href="product-details.html">Product Details</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="cart.html">Cart</a>
-                                                    </li>
-                                                    <li class="dropdown-li"><a class="dropdown-link"
-                                                            href="checkout.html">Checkout</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="account.html">My
-                                                            Account</a></li>
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="thank-you.html">Thank
-                                                            you</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="has-dropdown"><a class="menu-item" href="#">News</a>
-                                                <ul class="dropdown-ul">
-                                                    <li class="dropdown-li"><a class="dropdown-link" href="blog.html">News</a>
-                                                    </li>
-                                                    <li class="dropdown-li"><a class="dropdown-link"
-                                                            href="blog-details.html">News
-                                                            Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a class="menu-item" href="contact.html">Contact</a></li>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item" href="#">Wyniki</NavLink>
+                                            <ul class="dropdown-ul">
+                                                <li class="dropdown-li">
+                                                    <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
+                                                </li>
+                                                <li class="dropdown-li">
+                                                    <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
+                                                </li>
+                                                <li class="dropdown-li">
+                                                    <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item active1" href="/schedule">Terminarz</NavLink>
+                                        </li>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item active1" href="/team-list">Zespoły</NavLink>
+                                        </li>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item active1" href="/policy">Liga</NavLink>
+                                        </li>
+                                        <li class="has-dropdown">
+                                            <NavLink class="menu-item active1" href="/contact">Kontakt</NavLink>
+                                        </li>
+                                           
                                         </ul>
                                     </nav>
                                 </div>
