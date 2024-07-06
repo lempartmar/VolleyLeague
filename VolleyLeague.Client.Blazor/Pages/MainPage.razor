@@ -62,69 +62,6 @@
     </div>
 </div>
 
-<section class="rts-trending-news-section volleyball">
-    <div class="container">
-        <div class="section-inner">
-            <div class="row">
-                @if (_articles != null && _articles.Count() > 1)
-                {
-                    var secondArticle = _articles[1];
-                    var thirdArticle = _articles[2];
-                    var firstArticle = _articles.First();
-                    <div class="col-lg-6">
-                        <div class="item">
-                            <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
-                            <div class="bottom-content">
-                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
-                                <div class="gallery-title">
-                                    <a href="blog-details.html">@firstArticle.Title</a>
-                                </div>
-                                <div class="author-info">
-                                    <div class="content">
-                                        <a href="blog-details.html" class="read-more">Więcej</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="right-side-items">
-                            <div class="rts-post-small">
-                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
-                                <div class="bottom-content">
-                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
-                                    <div class="gallery-title">
-                                        <a href="blog-details.html">@secondArticle.Title</a>
-                                    </div>
-                                    <div class="author-info">
-                                        <div class="content">
-                                            <a href="blog-details.html" class="read-more">Więcej</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rts-post-small">
-                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
-                                <div class="bottom-content">
-                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
-                                    <div class="gallery-title">
-                                        <a href="blog-details.html">@thirdArticle.Title</a>
-                                    </div>
-                                    <div class="author-info">
-                                        <div class="content">
-                                            <a href="blog-details.html" class="read-more">Więcej</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="rts-player-static baseball volleyball">
     <div class="container">
         <div class="section-inner">
@@ -263,244 +200,32 @@
 
 
 <div class="rts-gallery-section home-four nfl volleyball">
-    <div class="container">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
         <div class="top-wrap">
-            <div class="section-title-area section-title-area1">
+            <div class="section-title-area section-title-area1" style="text-align: center; margin-bottom: 40px;">
                 <h1 class="title">MEDIA</h1>
-            </div>
-            <div class="filter-button-group">
-                <button class="filter-btn active" data-show=".home">ALL</button>
-                <button class="filter-btn" data-show=".highlights">HIGHLIGHTS</button>
-                <button class="filter-btn" data-show=".interview">INTERVIEWS</button>
-                <button class="filter-btn" data-show=".video">VIDEO</button>
-                <button class="filter-btn" data-show=".audio">AUDIO</button>
             </div>
         </div>
         <div class="filterd-items home">
-            <div class="gallery-grid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item">
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                            <div class="video-section-inner text-center">
-                                <div class="play-video">
-                                    <a class="popup-video" href="https://www.youtube.com/watch?v=G4t6TqG5LM8">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post three">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two four">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
+            <div class="gallery-grid" style="display: flex; gap: 20px;">
+                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
+                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                        <div class="play-video">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DID8UK3gLj8" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="filterd-items highlights hide">
-            <div class="gallery-grid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item">
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                            <div class="video-section-inner text-center">
-                                <div class="play-video">
-                                    <a class="popup-video" href="https://www.youtube.com/watch?v=G4t6TqG5LM8">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post three">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two four">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
+                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
+                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                        <div class="play-video">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZgunK7Wgfvc" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="filterd-items interview hide">
-            <div class="gallery-grid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item">
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                            <div class="video-section-inner text-center">
-                                <div class="play-video">
-                                    <a class="popup-video" href="https://www.youtube.com/watch?v=G4t6TqG5LM8">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post three">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two four">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="filterd-items video hide">
-            <div class="gallery-grid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item">
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                            <div class="video-section-inner text-center">
-                                <div class="play-video">
-                                    <a class="popup-video" href="https://www.youtube.com/watch?v=G4t6TqG5LM8">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post three">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two four">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="filterd-items audio hide">
-            <div class="gallery-grid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item">
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                            <div class="video-section-inner text-center">
-                                <div class="play-video">
-                                    <a class="popup-video" href="https://www.youtube.com/watch?v=G4t6TqG5LM8">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="item small-post three">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/volume.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
-                        </div>
-                        <div class="item small-post two four">
-                            <span class="post-icon">
-                                <img src="assets/images/icons/camera.svg" alt="">
-                            </span>
-                            <a href="blog-details.html" class="gallery-picture"></a>
+                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
+                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                        <div class="play-video">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/imtHlApQ-EU" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
@@ -508,6 +233,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 @if (!cookiesAccepted)
 {
@@ -537,13 +266,6 @@
             disableOnInteraction: false,
         },
     });
-
-    var spinner = document.getElementById('spinner');
-    var angle = 0;
-    setInterval(function () {
-        angle += 20;
-        spinner.style.transform = 'rotate(' + angle + 'deg)';
-    }, 100);
 </script>
 
 @code {

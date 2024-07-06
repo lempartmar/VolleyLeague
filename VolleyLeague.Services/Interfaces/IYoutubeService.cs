@@ -4,6 +4,6 @@ namespace VolleyLeague.Services.Interfaces
 {
     public interface IYoutubeService
     {
-        Task<List<YouTubeVideoDto>> GetLatestVideosAsync(int maxResults);
+        Task<List<YouTubeVideoDto>> GetLatestVideosAsync();
     }
 }

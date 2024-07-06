@@ -29,6 +29,8 @@ builder.Services.AddDbContext<VolleyballContext>(options =>
     options.UseSqlServer(connectionString);
 }, ServiceLifetime.Scoped);
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddTransient(typeof(IDefaultRepository), typeof(DefaultRepository));
 builder.Services.AddTransient(typeof(IRoleRepository), typeof(RoleRepository));

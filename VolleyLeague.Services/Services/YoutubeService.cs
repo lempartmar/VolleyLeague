@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using VolleyLeague.Entities.Models;
-using VolleyLeague.Repositories.Interfaces;
+﻿using System.Text.Json;
 using VolleyLeague.Services.Interfaces;
-using VolleyLeague.Shared.Dtos.Discussion;
 using VolleyLeague.Shared.Dtos.Files;
 
 namespace VolleyLeague.Services.Services
@@ -15,15 +10,16 @@ namespace VolleyLeague.Services.Services
         private readonly string _apiKey;
         private readonly string _channelId;
 
-        public YoutubeService(HttpClient httpClient, string apiKey, string channelId)
+        public YoutubeService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _apiKey = "AIzaSyAluJFzji0Ef11OWeNhEmesX-bq-BfE_sY\r\n";
-            _channelId = channelId;
+            _apiKey = "";
+            _channelId = "";
         }
 
-        public async Task<List<YouTubeVideoDto>> GetLatestVideosAsync(int maxResults = 5)
+        public async Task<List<YouTubeVideoDto>> GetLatestVideosAsync()
         {
+            int maxResults = 5;
             var url = $"https://www.googleapis.com/youtube/v3/search?key={_apiKey}&channelId={_channelId}&part=snippet,id&order=date&maxResults={maxResults}";
 
             var response = await _httpClient.GetStringAsync(url);
