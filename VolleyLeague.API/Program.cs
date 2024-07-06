@@ -42,6 +42,7 @@ builder.Services.AddTransient(typeof(IEmailService), typeof(EmailService));
 builder.Services.AddTransient(typeof(IFileService), typeof(FileService));
 builder.Services.AddTransient(typeof(IRoundService), typeof(RoundService));
 builder.Services.AddTransient(typeof(IVenueService), typeof(VenueService));
+builder.Services.AddTransient(typeof(IYoutubeService), typeof(YoutubeService));
 builder.Services.AddTransient(typeof(ITypedResultService), typeof(TypedResultService));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient(typeof(ISeasonService), typeof(SeasonService));
