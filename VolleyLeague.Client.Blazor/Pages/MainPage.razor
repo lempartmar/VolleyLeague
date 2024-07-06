@@ -77,7 +77,7 @@
                             <div class="bottom-content">
                                 <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
                                 <div class="gallery-title">
-                                    <a href="blog-details.html">@_articles.First().Title</a>
+                                    <a href="blog-details.html">@firstArticle.Title</a>
                                 </div>
                                 <div class="author-info">
                                     <div class="content">
@@ -218,43 +218,50 @@
     </div>
 </section>
 
-<!--================= Match Result Section Start Here =================-->
+
 <section class="rts-match-result-section nfl volleyball">
     <div class="container">
         <div class="section-title-area text-center">
-            <div class="title-watermark">Ostatnie wyniki</div>
+            <div class="title-watermark">Ostatni mecz</div>
         </div>
         <div class="section-inner">
-            <div class="logo-area">
-                <img src="assets/images/clubs/21.png" alt="club">
-            </div>
-            <div class="inner-middle">
-                <div class="result">
-                    <div class="left-side">
-                        <div class="content">
-                            <span class="tag">Win</span>
-                            <h3 class="heading">Houston Texans</h3>
-                        </div>
-                        <div class="goal">21</div>
-                    </div>
-                    <div class="right-side">
-                        <div class="goal">16</div>
-                        <div class="content">
-                            <span class="tag">Loss</span>
-                            <h3 class="heading">Houston Texans</h3>
-                        </div>
-                    </div>
+            @if (lastMatch != null)
+            {
+                <div class="logo-area">
+                    <img src="@GetTeamLogoSrc(lastMatch.HomeTeam.Logo)" alt="">
                 </div>
-                <p class="desc">Scoring Play: N.Folk 44 yard field goal is GOOD, Center-J.Cardona, Holder-B.Baringer</p>
-            </div>
-            <div class="logo-area">
-                <img src="assets/images/clubs/22.png" alt="club">
-            </div>
+                <div class="inner-middle">
+                    <div class="result">
+                        <div class="left-side">
+                            <div class="content">
+                                <span class="tag">Win</span>
+                                <h3 class="heading">@lastMatch.HomeTeam.Name</h3>
+                            </div>
+                            <div class="goal">@lastMatch.Team1Score</div>
+                        </div>
+                        <div class="right-side">
+                            <div class="goal">@lastMatch.Team2Score</div>
+                            <div class="content">
+                                <span class="tag">Loss</span>
+                                <h3 class="heading">@lastMatch.GuestTeam.Name</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="desc">@lastMatch.MatchInfo</p>
+                </div>
+                <div class="logo-area">
+                    <img src="@GetTeamLogoSrc(lastMatch.GuestTeam.Logo)" alt="">
+                </div>
+            }
+            else
+            {
+                <p>Nie ma meczu w najbliższym czasie</p>
+            }
         </div>
     </div>
 </section>
-<!--================= Match Result Section End Here =================-->
-<!--================= Gallery Section Start Here =================-->
+
+
 <div class="rts-gallery-section home-four nfl volleyball">
     <div class="container">
         <div class="top-wrap">
@@ -540,6 +547,7 @@
 </script>
 
 @code {
+    private MatchSummaryDto lastMatch;
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShort = new List<StandingsDto>();
@@ -581,7 +589,7 @@
 
         cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
 
-        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches());
+        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches(), LoadLastMatch());
     }
 
     private async Task LoadStandings()
@@ -614,6 +622,11 @@
     private async Task LoadNextMatches()
     {
         nextMatches = await matchService.GetNextTwoMatches();
+    }
+
+    private async Task LoadLastMatch()
+    {
+        lastMatch = (await matchService.GetLastMatch()).FirstOrDefault();
     }
 
     private void UpdatePageReadiness()
