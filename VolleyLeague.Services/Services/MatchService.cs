@@ -493,7 +493,35 @@ namespace VolleyLeague.Services.Services
             return totalPoints;
         }
 
+        public async Task<List<MatchSummaryDto>> GetNextTwoMatchesAsync()
+        {
+            var matches = await _matchRepository.GetAll()
+                .Include(m => m.HomeTeam)
+                .Include(m => m.GuestTeam)
+                .OrderBy(m => m.Schedule)
+                .Where(m => m.Schedule > DateTime.Now)
+                .Take(2)
+                .ToListAsync();
 
+            var matchesDto = _mapper.Map<List<MatchSummaryDto>>(matches);
+
+            return matchesDto;
+        }
+
+        public async Task<List<MatchSummaryDto>> GetLastMatchAsync()
+        {
+            var matches = await _matchRepository.GetAll()
+                .Include(m => m.HomeTeam)
+                .Include(m => m.GuestTeam)
+                .OrderByDescending(m => m.Schedule)
+                .Where(m => m.Schedule <= DateTime.Now && m.Set1Team1Score != null)
+                .Take(1)
+                .ToListAsync();
+
+            var matchesDto = _mapper.Map<List<MatchSummaryDto>>(matches);
+
+            return matchesDto;
+        }
 
         public async Task AddMatch(NewMatchDto match)
         {

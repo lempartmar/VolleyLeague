@@ -25,6 +25,20 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetNextTwoMatches")]
+        public async Task<IActionResult> GetNextTwoMatches()
+        {
+            var result = await _matchService.GetNextTwoMatchesAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("GetLastMatch")]
+        public async Task<IActionResult> GetLastMatch()
+        {
+            var result = await _matchService.GetLastMatchAsync();
+            return Ok(result);
+        }
+
         [HttpGet("GetAllMatches")]
         public async Task<IActionResult> GetAllMatches()
         {

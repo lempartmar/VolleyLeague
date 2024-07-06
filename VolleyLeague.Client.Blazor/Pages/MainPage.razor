@@ -129,8 +129,6 @@
     <div class="container">
         <div class="section-inner">
             <div class="row">
-
-
                 <div class="col-lg-8">
                     <div class="left-side-content">
                         <div class="content-area">
@@ -156,9 +154,13 @@
                                                 {
                                                     var team = StandingsListShort[i];
                                                     <tr>
-                                                        <td><span class="position-number">@{
+                                                        <td>
+                                                            <span class="position-number">
+                                                                @{
                                                                     var position = i + 1;
-                                                                }@position</span></td>
+                                                                }@position
+                                                            </span>
+                                                        </td>
                                                         <td>
                                                             @{
                                                                 var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
@@ -183,50 +185,30 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="col-lg-4">
                     <div class="right-side-content">
                         <div class="inner">
-                            <h3 class="top">Fixtures</h3>
+                            <h3 class="top">Najbliższe mecze</h3>
                             <ul>
-                                <li class="match-wrapper">
-                                    <div class="logo">
-                                        <img src="assets/images/icons/club-25.svg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <p class="date">August 11, 2023</p>
-                                        <p class="result">5:45 Pm</p>
-                                        <h3 class="team">Dragons <span>VS</span>  Manhut</h3>
-                                    </div>
-                                    <div class="logo">
-                                        <img src="assets/images/icons/club-26.svg" alt="">
-                                    </div>
-                                </li>
-                                <li class="match-wrapper">
-                                    <div class="logo">
-                                        <img src="assets/images/icons/club-27.svg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <p class="date">August 11, 2023</p>
-                                        <p class="result">5:45 Pm</p>
-                                        <h3 class="team">Dragons <span>VS</span>  Manhut</h3>
-                                    </div>
-                                    <div class="logo">
-                                        <img src="assets/images/icons/club-28.svg" alt="">
-                                    </div>
-                                </li>
+                                @if (nextMatches != null)
+                                {
+                                    @foreach (var match in nextMatches)
+                                    {
+                                        <li class="match-wrapper">
+                                            <div class="logo">
+                                                <img src="@GetTeamLogoSrc(match.HomeTeam.Logo)" alt="">
+                                            </div>
+                                            <div class="content">
+                                                <p class="date">@match.Schedule.ToString("MMMM dd, yyyy")</p>
+                                                <p class="result">@match.Schedule.ToString("h:mm tt")</p>
+                                                <h3 class="team">@match.HomeTeam.Name <span>VS</span> @match.GuestTeam.Name</h3>
+                                            </div>
+                                            <div class="logo">
+                                                <img src="@GetTeamLogoSrc(match.GuestTeam.Logo)" alt="">
+                                            </div>
+                                        </li>
+                                    }
+                                }
                             </ul>
                         </div>
                     </div>
@@ -407,6 +389,7 @@ else
     public bool articlesLoad = false;
     public bool matchResultsLoad = false;
     private bool cookiesAccepted = false;
+    private List<MatchSummaryDto> nextMatches;
 
     private class ScheduleFilter
     {
@@ -436,7 +419,7 @@ else
 
         cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
 
-        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings());
+        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches());
     }
 
     private async Task LoadStandings()
@@ -464,6 +447,11 @@ else
         matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
         matchResultsLoad = true;
         UpdatePageReadiness();
+    }
+
+    private async Task LoadNextMatches()
+    {
+        nextMatches = await matchService.GetNextTwoMatches();
     }
 
     private void UpdatePageReadiness()
