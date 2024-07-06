@@ -62,6 +62,69 @@
     </div>
 </div>
 
+<section class="rts-trending-news-section volleyball">
+    <div class="container">
+        <div class="section-inner">
+            <div class="row">
+                @if (_articles != null && _articles.Count() > 1)
+                {
+                    var secondArticle = _articles[1];
+                    var thirdArticle = _articles[2];
+                    var firstArticle = _articles.First();
+                    <div class="col-lg-6">
+                        <div class="item">
+                            <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
+                            <div class="bottom-content">
+                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                <div class="gallery-title">
+                                    <a href="blog-details.html">@_articles.First().Title</a>
+                                </div>
+                                <div class="author-info">
+                                    <div class="content">
+                                        <a href="blog-details.html" class="read-more">Więcej</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-side-items">
+                            <div class="rts-post-small">
+                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+                                <div class="bottom-content">
+                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                    <div class="gallery-title">
+                                        <a href="blog-details.html">@secondArticle.Title</a>
+                                    </div>
+                                    <div class="author-info">
+                                        <div class="content">
+                                            <a href="blog-details.html" class="read-more">Więcej</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rts-post-small">
+                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
+                                <div class="bottom-content">
+                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
+                                    <div class="gallery-title">
+                                        <a href="blog-details.html">@thirdArticle.Title</a>
+                                    </div>
+                                    <div class="author-info">
+                                        <div class="content">
+                                            <a href="blog-details.html" class="read-more">Więcej</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="rts-player-static baseball volleyball">
     <div class="container">
         <div class="section-inner">
@@ -198,7 +261,6 @@
     </div>
 </section>
 
-
 <div class="rts-gallery-section home-four nfl volleyball">
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
         <div class="top-wrap">
@@ -208,24 +270,24 @@
         </div>
         <div class="filterd-items home">
             <div class="gallery-grid" style="display: flex; gap: 20px;">
-                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
-                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
                         <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DID8UK3gLj8" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DID8UK3gLj8" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
-                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
-                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
                         <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZgunK7Wgfvc" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZgunK7Wgfvc" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
-                <div class="item" style="position: relative; overflow: hidden; flex: 1;">
-                    <div class="video-section-inner text-center" style="width: 100%;height: 100%;">
+                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
                         <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/imtHlApQ-EU" frameborder="0" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/imtHlApQ-EU" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
@@ -233,7 +295,6 @@
         </div>
     </div>
 </div>
-
 
 
 
