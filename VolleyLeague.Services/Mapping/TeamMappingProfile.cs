@@ -98,6 +98,12 @@ namespace VolleyLeague.Services.Mapping
                 .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.TeamPlayers));
             CreateMap<ManagedTeamDataDto, Team>();
 
+            CreateMap<Team, TeamSummaryDto>()
+             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+             .ForMember(dest => dest.LeagueId, opt => opt.MapFrom(src => src.LeagueId))
+             .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo));
+
             CreateMap<NewTeamDto, Team>()
              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
