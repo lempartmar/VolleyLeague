@@ -140,17 +140,13 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="head-tr">
-                                                <th scope="col">POS</th>
+                                                <th scope="col">LP</th>
                                                 <th scope="col">TEAM</th>
+                                                <th scope="col">Points</th>
                                                 <th scope="col">W</th>
-                                                <th scope="col">L</th>
-                                                <th scope="col">PCT</th>
-                                                <th scope="col">GB</th>
-                                                <th scope="col">RS</th>
-                                                <th scope="col">RA</th>
-                                                <th scope="col">HOME</th>
-                                                <th scope="col">ROAD</th>
-                                                <th scope="col">STRK</th>
+                                                <th scope="col">P</th>
+                                                <th scope="col">SW</th>
+                                                <th scope="col">SL</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -169,18 +165,14 @@
                                                             }
                                                             <div style="display: flex; align-items: center;">
                                                                 <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
-                                                                <a href="/team/@team.Team.Id/" class="team-link" style="color: #0268d6;">@team.Team.Name</a>
+                                                                <a href="/team/@team.Team.Id/" class="team-link">@team.Team.Name</a>
                                                             </div>
                                                         </td>
+                                                        <td><span class="win-count">@team.Points</span></td>
                                                         <td><span class="win-count">@team.MatchesWon</span></td>
                                                         <td><span class="win-count">@team.MatchesLost</span></td>
-                                                        <td><span class="win-count">@String.Format("{0:F3}", (double)team.MatchesWon / team.MatchesPlayed)</span></td>
-                                                        <td><span class="win-count">N/A</span></td>
                                                         <td><span class="win-count">@team.SetsWon</span></td>
                                                         <td><span class="win-count">@team.SetsLost</span></td>
-                                                        <td><span class="win-count">N/A</span></td>
-                                                        <td><span class="win-count">N/A</span></td>
-                                                        <td><span class="win-count">N/A</span></td>
                                                     </tr>
                                                 }
                                             }
