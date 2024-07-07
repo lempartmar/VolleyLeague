@@ -73,9 +73,9 @@
         </div>
         
     </header>
-    }
+}
 else
-    {
+{
     <header id="rtsHeader" class="rts-header1">
         <div class="navbar-sticky">
             <div class="navbar-part navbar-part1">
@@ -83,8 +83,7 @@ else
                     <div class="navbar-inner">
                         <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="logo"></a>
                         <a href="index.html" class="logo-sticky">
-                            <img src="assets/images/logo.png"
-                                 alt="kester-logo">
+                            <img src="assets/images/logo.png" alt="kester-logo">
                         </a>
                         <div class="rts-menu">
                             <nav class="menus menu-toggle">
@@ -118,7 +117,6 @@ else
                                     <li class="has-dropdown">
                                         <NavLink class="menu-item active1" href="/contact">Kontakt</NavLink>
                                     </li>
-
                                 </ul>
                             </nav>
                         </div>
@@ -293,7 +291,7 @@ else
                                     <li class="dropdown-li">
                                         <a class="dropdown-link" href="faq.html">FAQ</a>
                                     </li>
-                                </ul>
+                                    </ul>
                             </li>
                             <li class="mega-dropdown-li">
                                 <ul class="mega-dropdown-ul mm-show">
@@ -383,7 +381,7 @@ else
         </div>
         <!--================= Banner Section End Here =================-->
     </header>
-    }
+}
 
 <style>
     .nav-item.nav-user {
@@ -402,7 +400,6 @@ else
     private bool IsAdmin { get; set; }
     private bool IsHomePage => Navigation.Uri.EndsWith("/");
 
-
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -413,32 +410,32 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Navigation.LocationChanged += OnLocationChanged;
+
         var authState = await authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        Console.WriteLine(user);
 
         if (user.Identity.IsAuthenticated)
         {
-
             IsPlayer = user.IsInRole("Player");
             IsAdmin = user.IsInRole("Admin");
 
-            Console.WriteLine($"User: {user.Identity.Name}");
-            var roles = user.FindAll("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(c => c.Value);
-            foreach (var role in roles)
-            {
-                Console.WriteLine($"Role: {role}");
-            }
             playerSummary = await userService.GetUserSummary();
             HasTeam = await userService.IsTeamCaptain();
         }
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        // Reload the page on any navigation change
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
     public async void Logout()
     {
         await localStorage.RemoveItemAsync("token");
         ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/", forceLoad: true);
     }
 
     private string GetDayName(DateTime date)
@@ -449,5 +446,10 @@ else
     private string GetFormattedDate(DateTime date)
     {
         return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
     }
 }
