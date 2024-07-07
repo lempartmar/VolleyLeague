@@ -8625,7 +8625,7 @@ tr:first-child {
 .banner-bg::before {
   content: "";
   mix-blend-mode: multiply;
-  background-color: rgb(134, 0, 0);
+  background-color: #015293;
   opacity: 0.902;
   position: absolute;
   top: 0;
