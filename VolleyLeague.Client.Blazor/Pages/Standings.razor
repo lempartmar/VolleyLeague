@@ -44,7 +44,6 @@
 }
 else
 {
-
     <div class="rts-point-table-section">
         <div class="container">
             <div class="table-area table-full">
@@ -76,50 +75,97 @@ else
                         </div>
                     </form>
 
+                    @if (standingsLoading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div id="spinner"></div>
+                        </div>
+                    }
+                    else if (!string.IsNullOrEmpty(standingsErrorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            @standingsErrorMessage
+                        </div>
+                    }
+                    else if (StandingsList.Count == 0)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
+                        </div>
+                    }
+                    else if (StandingsList.Count > 0)
+                    {
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">LP</th>
+                                    <th scope="col">DRUŻYNA</th>
+                                    <th scope="col">PUNKTY</th>
+                                    <th scope="col">ROZ</th>
+                                    <th scope="col">W</th>
+                                    <th scope="col">P</th>
+                                    <th scope="col">SW</th>
+                                    <th scope="col">SP</th>
+                                    <th scope="col">3:0</th>
+                                    <th scope="col">3:1</th>
+                                    <th scope="col">3:2</th>
+                                    <th scope="col">2:3</th>
+                                    <th scope="col">1:3</th>
+                                    <th scope="col">0:3</th>
+                                    <th scope="col">Wygrane</th>
+                                    <th scope="col">Przegrane</th>
+                                    <th scope="col">Wygrane</th>
+                                    <th scope="col">Przegrane</th>
+                                    <th scope="col">Stosunek setów</th>
+                                    <th scope="col">Stosunek punktów</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rankLP = 1;
+                                }
+                                @foreach (var team in StandingsList)
+                                {
+                                    <tr>
+                                        <td><span class="position-number">@rankLP</span></td>
+                                        <td>
+                                            @{
+                                                var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
+                                            }
+                                            <div style="display: flex; align-items: center;">
+                                                <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                <a href="/team/@team.Team.Id/">@team.Team.Name</a>
+                                            </div>
+                                        </td>
+                                        <td><span class="pts-count">@team.Points</span></td>
+                                        <td><span class="match-count">@team.MatchesPlayed</span></td>
+                                        <td><span class="match-count">@team.MatchesWon</span></td>
+                                        <td><span class="match-count">@team.MatchesLost</span></td>
+                                        <td><span class="match-count">@team.SetsWon</span></td>
+                                        <td><span class="match-count">@team.SetsLost</span></td>
+                                        <td><span class="match-count">@team.Score3_0</span></td>
+                                        <td><span class="match-count">@team.Score3_1</span></td>
+                                        <td><span class="match-count">@team.Score3_2</span></td>
+                                        <td><span class="match-count">@team.Score2_3</span></td>
+                                        <td><span class="match-count">@team.Score1_3</span></td>
+                                        <td><span class="match-count">@team.Score0_3</span></td>
+                                        <td><span class="match-count">@team.PointsWon</span></td>
+                                        <td><span class="match-count">@team.PointsLost</span></td>
+                                        <td><span class="match-count">@team.SetsWon</span></td>
+                                        <td><span class="match-count">@team.SetsLost</span></td>
+                                        <td><span class="match-count">@team.SetsRatio.ToString("0.00")</span></td>
+                                        <td><span class="match-count">@team.BallsRatio.ToString("0.00")</span></td>
+
+                                    </tr>
+                                    rankLP++;
+                                }
+                            </tbody>
+                        </table>
+                    }
                 </div>
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                    </thead>
-                    <tbody>
-                        @{
-                            int rankLP = 1;
-                        }
-                        <tr class="head-tr">
-                            <th scope="col">LP</th>
-                            <th scope="col">DRUŻYNA</th>
-                            <th scope="col">PUNKTY</th>
-                            <th scope="col">ROZ</th>
-                            <th scope="col">W</th>
-                            <th scope="col">P</th>
-                            <th scope="col">SW</th>
-                            <th scope="col">SP</th>
-                        </tr>
-                        @foreach (var standing in StandingsList)
-                        {
-                            <tr>
-                                <td><span class="position-number">@rankLP</span></td>
-                                <td>
-                                    <div class="product-title-area">
-                                        <h4 class="player-name">@standing.Team.Name</h4>
-                                    </div>
-                                </td>
-                                <td><span class="match-count">@standing.Points</span></td>
-                                <td><span class="win-count">@standing.MatchesPlayed</span></td>
-                                <td><span class="draw-count">@standing.MatchesWon</span></td>
-                                <td><span class="lose-count">@standing.MatchesLost</span></td>
-                                <td><span class="due-count">@standing.SetsWon</span></td>
-                                <td><span class="pts-count">@standing.SetsLost</span></td>
-                            </tr>
-                            rankLP++;
-                        }
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-
-
-
 
     <section class="category_section">
         <div class="container">
