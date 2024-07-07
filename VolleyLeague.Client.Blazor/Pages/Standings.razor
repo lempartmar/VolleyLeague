@@ -45,35 +45,37 @@
 else
 {
 
-    <div class="rts-point-table-section section-gap">
+    <div class="rts-point-table-section">
         <div class="container">
             <div class="table-area table-full">
                 <div class="rts-checkout-section">
-                <form class="checkout-form">
+                    <form class="checkout-form">
                         <div class="row">
                             <div class="col-xl-3 col-md-3">
-                                <select>
-                                    <option value="us">Country/Region</option>
-                                    <option value="us">USA</option>
-                                    <option value="ast">Australia</option>
-                                    <option value="cnd">Canada</option>
-                                    <option value="bd">Bangladesh</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="seasonSelect" class="form-label">SEZON:</label>
+                                    <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                        @foreach (var season in Filter.SeasonList)
+                                        {
+                                            <option value="@season.Id">@season.Name</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-xl-3 col-md-3">
-                                <select>
-                                    <option value="us">Country/Region</option>
-                                    <option value="us">USA</option>
-                                    <option value="ast">Australia</option>
-                                    <option value="cnd">Canada</option>
-                                    <option value="bd">Bangladesh</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="leagueSelect" class="form-label">LIGA:</label>
+                                    <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                        @foreach (var league in Filter.LeagueList)
+                                        {
+                                            <option value="@league.Id">@league.Name</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                    </form>
 
-
-
-                </form>
                 </div>
                 <table class="table table-bordered">
                     <thead class="thead-dark">
