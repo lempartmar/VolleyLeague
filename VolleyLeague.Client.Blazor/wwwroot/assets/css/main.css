@@ -27900,11 +27900,46 @@ a.team-list-check {
     align-items: center;
 }
 
-.name.header-text {
-    font-size: 30px;
+a.name.header-text {
+    font-size: 26px;
     font-weight: 600;
+    text-align: center;
 }
 
 .player-card.background-white {
     background: white;
+}
+
+.player-card-white {
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    background: white;
+    padding: 20px 35px;
+    padding-bottom: 20px;
+    padding-bottom: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.team-logo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10%;
+}
+
+.row.margin-top-min {
+    margin-top: 60px;
+}
+
+.margin-top-xs {
+    margin-top:30px;
+}
+
+a.team-list-check.font-size {
+    font-size: 13px;
 }

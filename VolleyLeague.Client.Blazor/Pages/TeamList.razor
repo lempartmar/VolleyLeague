@@ -26,24 +26,24 @@ else
 
             <div class="filterd-items liga1bls">
                 <div class="team-section-inner inner">
-                    <div class="row">
+                    <div class="row margin-top-min">
                         @foreach (var team in team1)
                         {
-                                                var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
-                            <div class="col-xl-3 col-md-4 col-sm-6">
+                            var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
+                            <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="team-wraper">
-                                    <div class="player-card background-white">
+                                    <div class="player-card-white">
                                         <a class="image" href="team-details.html">
-                                            <img src="@imgSrc" alt="Logo">
+                                            <img src="@imgSrc" alt="Logo" class="team-logo">
                                         </a>
                                     </div>
                                     <div class="display-flex-column-center">
-                                        <div class="display-flex-row">
-                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
-                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
+                                        <div class="display-flex-row margin-top-xs">
+                                            <a href="/team/@team.Id/" class="team-list-check font-size">Profil</a>
+                                            <a href="/team-result/@team.Id/" class="team-list-check font-size">Wyniki</a>
                                         </div>
+                                        <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
                                     </div>
-                                    <a href="#" class="name header-text">@team.Name.ToUpper()</a>
                                 </div>
                             </div>
                         }
@@ -53,25 +53,23 @@ else
 
             <div class="filterd-items liga1blsk">
                 <div class="team-section-inner inner">
-                    <div class="row">
+                    <div class="row margin-top-min">
                         @foreach (var team in team2)
                         {
-                            <div class="col-xl-3 col-md-4 col-sm-6">
+                            var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
+                            <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="team-wraper">
-                                    <div class="player-card">
+                                    <div class="player-card-white">
                                         <a class="image" href="team-details.html">
-                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo">
+                                            <img src="@imgSrc" alt="Logo" class="team-logo">
                                         </a>
-                                        <div class="number">11</div>
-                                        <ul class="social-area">
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
                                     </div>
-                                    <div class="profile">
-                                        <a href="/team/@team.Id/" class="team-link">Profil</a>
-                                        <a href="/team-result/@team.Id/" class="team-link">Wyniki</a>
+                                    <div class="display-flex-column-center">
+                                        <div class="display-flex-row margin-top-xs">
+                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
+                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
+                                        </div>
+                                        <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
                                     </div>
                                 </div>
                             </div>
@@ -82,25 +80,23 @@ else
 
             <div class="filterd-items liga2bls">
                 <div class="team-section-inner inner">
-                    <div class="row">
+                    <div class="row margin-top-min">
                         @foreach (var team in team3)
                         {
-                            <div class="col-xl-3 col-md-4 col-sm-6">
+                            var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
+                            <div class="col-xl-4 col-md-4 col-sm-6">
                                 <div class="team-wraper">
-                                    <div class="player-card">
+                                    <div class="player-card-white">
                                         <a class="image" href="team-details.html">
-                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo">
+                                            <img src="@imgSrc" alt="Logo" class="team-logo">
                                         </a>
-                                        <div class="number">11</div>
-                                        <ul class="social-area">
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
                                     </div>
-                                    <div class="profile">
-                                        <a href="/team/@team.Id/" class="team-link">Profil</a>
-                                        <a href="/team-result/@team.Id/" class="team-link">Wyniki</a>
+                                    <div class="display-flex-column-center">
+                                        <div class="display-flex-row margin-top-xs">
+                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
+                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
+                                        </div>
+                                        <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
                                     </div>
                                 </div>
                             </div>
@@ -110,114 +106,13 @@ else
             </div>
         </div>
     </div>
+
     <section class="category_section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="mobile">
-                        <div class="article_title header_purple">
-                            <h2>ZESPOŁY</h2>
-                        </div>
                         <p class="text-danger">@ErrorMessage</p>
-
-                        <div class="container">
-                            <h2 class="text-center"></h2>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3>1 Liga BLS</h3>
-                                    <div class="list-group">
-                                        @foreach (TeamDto team in team1)
-                                        {
-                                            <div class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        @if (team.Logo != null)
-                                                        {
-                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                    </div>
-                                                    <div class="col-xs-10">
-                                                        <div style="min-height: 45px;">
-                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
-                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
-                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
-                                                            <a href="/team-result/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <h3>1 Liga BLSK</h3>
-                                    <div class="list-group">
-                                        @foreach (TeamDto team in team2)
-                                        {
-                                            <div class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        @if (team.Logo != null)
-                                                        {
-                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                    </div>
-                                                    <div class="col-xs-10">
-                                                        <div style="min-height: 45px;">
-                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
-                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
-                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
-                                                            <a href="/team-result/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <h3>2 Liga BLS</h3>
-                                    <div class="list-group">
-                                        @foreach (TeamDto team in team3)
-                                        {
-                                            <div class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-xs-2">
-                                                        @if (team.Logo != null)
-                                                        {
-                                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="/assets/img/Logo_alternative.png" alt="Logo" style="width: 45px; height: 45px;"> <!-- Powiększone logo -->
-                                                        }
-                                                    </div>
-                                                    <div class="col-xs-10">
-                                                        <div style="min-height: 45px;">
-                                                            <!-- Kontener na tekst, wyrównany do wysokości obrazka -->
-                                                            <div class="team-name" style="font-weight: bold; color: #000;">@team.Name</div> <!-- Nazwa zespołu pogrubiona i czarna -->
-                                                            <a href="/team/@team.Id/" class="team-link" style="color: #0268d6;">Profil</a> <!-- Linki czarne -->
-                                                            <a href="/team-result/@team.Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="container login">
                             <h2 class="text-center">POZOSTAŁE ZESPOŁY</h2>
@@ -262,6 +157,36 @@ else
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
+
+    .display-flex-column-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .display-flex-row {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .team-list-check {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+    }
+
+    .name.header-text {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
     }
 </style>
 
