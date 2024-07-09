@@ -27835,3 +27835,76 @@ button,
   right: 80px;
   bottom: -20px;
 }
+
+button.filter-btn.team-list {
+    margin-right: 15px;
+    background: rgb(255, 255, 255);
+    height: 60px;
+    padding: 0 35px;
+    border-radius: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #111111;
+    font-weight: 600;
+    background: var(--theme-color);
+    color: #fff;
+}
+
+a.team-list-check {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: black;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    /* transform: perspective(1px) translateZ(0); */
+    /* text-transform: uppercase; */
+    position: relative;
+    -webkit-transition-property: color;
+    transition-property: color;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    margin-right: 15px;
+    border: 1px solid #111111;
+    padding: 13px 30px;
+    color: white;
+    font-weight: 400;
+    letter-spacing: 2px;
+    border: 1px solid transparent;
+    -webkit-transition: all 500ms;
+    transition: all 500ms;
+}
+
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.display-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.display-flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.name.header-text {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.player-card.background-white {
+    background: white;
+}

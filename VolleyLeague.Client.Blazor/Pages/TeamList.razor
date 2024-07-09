@@ -14,6 +14,102 @@
 }
 else
 {
+    <div class="rts-team-section inner section-gap">
+        <div class="container">
+            <div class="top-wrap">
+                <div class="filter-button-group">
+                    <button class="filter-btn team-list active" data-show=".liga1bls">1 Liga BLS</button>
+                    <button class="filter-btn team-list" data-show=".liga1blsk">1 Liga BLSK</button>
+                    <button class="filter-btn team-list" data-show=".liga2bls">2 Liga BLS</button>
+                </div>
+            </div>
+
+            <div class="filterd-items liga1bls">
+                <div class="team-section-inner inner">
+                    <div class="row">
+                        @foreach (var team in team1)
+                        {
+                                                var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
+                            <div class="col-xl-3 col-md-4 col-sm-6">
+                                <div class="team-wraper">
+                                    <div class="player-card background-white">
+                                        <a class="image" href="team-details.html">
+                                            <img src="@imgSrc" alt="Logo">
+                                        </a>
+                                    </div>
+                                    <div class="display-flex-column-center">
+                                        <div class="display-flex-row">
+                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
+                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="name header-text">@team.Name.ToUpper()</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterd-items liga1blsk">
+                <div class="team-section-inner inner">
+                    <div class="row">
+                        @foreach (var team in team2)
+                        {
+                            <div class="col-xl-3 col-md-4 col-sm-6">
+                                <div class="team-wraper">
+                                    <div class="player-card">
+                                        <a class="image" href="team-details.html">
+                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo">
+                                        </a>
+                                        <div class="number">11</div>
+                                        <ul class="social-area">
+                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="profile">
+                                        <a href="/team/@team.Id/" class="team-link">Profil</a>
+                                        <a href="/team-result/@team.Id/" class="team-link">Wyniki</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterd-items liga2bls">
+                <div class="team-section-inner inner">
+                    <div class="row">
+                        @foreach (var team in team3)
+                        {
+                            <div class="col-xl-3 col-md-4 col-sm-6">
+                                <div class="team-wraper">
+                                    <div class="player-card">
+                                        <a class="image" href="team-details.html">
+                                            <img src="@GetTeamLogoSrc(team.Logo)" alt="Logo">
+                                        </a>
+                                        <div class="number">11</div>
+                                        <ul class="social-area">
+                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="profile">
+                                        <a href="/team/@team.Id/" class="team-link">Profil</a>
+                                        <a href="/team-result/@team.Id/" class="team-link">Wyniki</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="category_section">
         <div class="container">
             <div class="row">
@@ -160,7 +256,7 @@ else
 
     #spinner {
         width: 40px;
-        height: 40px;   
+        height: 40px;
         border: 5px solid #ccc;
         border-top: 5px solid #007bff;
         border-radius: 50%;
