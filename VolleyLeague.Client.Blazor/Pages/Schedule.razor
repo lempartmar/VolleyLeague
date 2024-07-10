@@ -14,6 +14,58 @@
 }
 else
 {
+    <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner section-gap">
+        <div class="container">
+            <div class="row justify-content-center">
+                @foreach (var game in Games)
+                {
+                    var imgSrcHome = game.HomeTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.HomeTeam.Logo)}" : "/assets/images/Logo_alternative.png";
+                    var imgSrcGuest = game.GuestTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.GuestTeam.Logo)}" : "/assets/images/Logo_alternative.png";
+                <div class="col-12">
+                    <div class="match-single background-white">
+                        <div class="match-single-content">
+                            <div class="match-scores">
+                                <div class="club club1">
+                                    <div class="club-logo mr--20">
+                                            <div class="display-flex-column-center">
+
+                                                <img class="team-logo-size" src=@imgSrcHome alt="club-logo">
+                                                <span class="club-name color-dark">@game.HomeTeam.Name.ToUpper()</span>
+                                            </div>
+                                            <span class="club-name color-dark left-score">@game.Team1Score</span>
+                                    </div>
+                                </div>
+                                <div class="colon">VS</div>
+                                <div class="club club2">
+
+                                    <div class="club-logo ml--20">
+                                            <span class="club-name color-dark right-score">@game.Team2Score</span>
+                                            <div class="display-flex-column-center">
+                                                <img class="team-logo-size" src=@imgSrcGuest alt="club-logo">
+
+
+                                            <span class="club-name color-dark">@game.GuestTeam.Name.ToUpper()</span>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-wrap">
+                                <span class="match-date">@game.Schedule</span>
+                                    <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                            </div>
+                        </div>
+                        <div class="match-bottom-action">
+                            <div class="play-video">
+                                <a href="https://www.youtube.com/watch?v=G4t6TqG5LM8" class="action-item popup-video">SZCZEGÓŁY MECZU</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
     <section class="category_section">
         <div class="container">
             <div class="row">
@@ -69,6 +121,8 @@ else
                             }
                             else if (Games.Count > 0)
                             {
+
+
                                 <div class="p-2 card mt-4 mb-5 table-responsive-lg">
                                     <div class="container-fluid">
                                         <div class="row">

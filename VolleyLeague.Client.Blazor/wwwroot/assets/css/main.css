@@ -27925,6 +27925,13 @@ a.name.header-text {
     justify-content: center;
 }
 
+.team-logo-size {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10%;
+}
+
 .team-logo {
     width: 200px;
     height: 200px;
@@ -27942,4 +27949,26 @@ a.name.header-text {
 
 a.team-list-check.font-size {
     font-size: 13px;
+}
+
+.match-single.background-white {
+    background-color: white;
+}
+
+.rts-match-result-section.inner .match-single .club .club-logo .club-name.color-dark {
+    color: black !important;
+}
+
+    .rts-match-result-section.inner .match-single .club .club-logo .club-name.color-dark.left-score {
+        margin-right: 0px;
+        margin-left: 40px;
+    }
+
+    .rts-match-result-section.inner .match-single .club .club-logo .club-name.color-dark.right-score {
+        margin-left: 0px;
+        margin-right: 40px;
+    }
+
+.rts-match-result-section2-white {
+    background-color: white;
 }
