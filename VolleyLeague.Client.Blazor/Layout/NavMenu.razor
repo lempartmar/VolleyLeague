@@ -803,14 +803,19 @@ else
                         <div class="page-path">
                             <ul>
                                 <li><a class="home-page-link" href="index.html">Strona Główna</a></li>
-                                <li><a class="current-page" href="#">Tabela wyników</a></li>
+                                <li><a class="current-page" href="#">@currentPath</a></li>
                             </ul>
                         </div>
-                        <h1 class="banner-heading">WYNIKI LIGII</h1>
+                        <h1 class="banner-heading">@GetPageTitle()</h1>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+
         <!--================= Banner Section End Here =================-->
     </header>
 }
@@ -824,6 +829,8 @@ else
 </style>
 
 @code {
+    private string currentPath;
+    private string pageTitle;
     private bool collapseNavMenu = true;
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     private bool HasTeam { get; set; } = false;
@@ -864,13 +871,37 @@ else
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
         var currentUri = NavigationManager.Uri;
+        UpdatePageInfo();
+        StateHasChanged();
 
         if (IsNavigatingToOrFromHomePage(currentUri, previousUri))
         {
             StateHasChanged();
-        }
+        }  
 
         previousUri = currentUri;
+    }
+
+    private void UpdatePageInfo()
+    {
+        currentPath = NavigationManager.Uri.Replace(NavigationManager.BaseUri, "");
+        pageTitle = GetPageTitle();
+    }
+
+    private string GetPageTitle()
+    {
+        return currentPath switch
+        {
+            "" => "STRONA GŁÓWNA",
+            "standings" => "TABELA",
+            "mvp" => "MVP",
+            "typedResults" => "TYPERMANIA",
+            "schedule" => "TERMINARZ",
+            "teams-list" => "ZESPOŁY",
+            "policy" => "LIGA",
+            "contact" => "KONTAKT",
+            _ => "STRONA",
+        };
     }
 
     private bool IsNavigatingToOrFromHomePage(string currentUri, string previousUri)
