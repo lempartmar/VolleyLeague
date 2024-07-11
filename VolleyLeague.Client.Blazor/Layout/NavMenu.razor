@@ -39,19 +39,31 @@
                                 </ul>
                             </div>
                             <div class="top-bar-mid">
-                                <span class="tag">LIVE</span>
-                                <div class="live-match">GOLD KING <span>VS</span> ROYAL UP</div>
+                                <span class="tag">AKTUALNY SEZON</span>
+                                <div class="live-match">SEZON 2023/2024</div>
                             </div>
+                                                    <AuthorizeView>
+                            <NotAuthorized>
                             <div class="top-bar-right">
                                 <a href="/login" class="login-btn">ZALOGUJ</a>
                                 <a href="/register" class="sign-up-btn">REJESTRACJA</a>
                             </div>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                                                    <AuthorizeView>
+                            <Authorized>
+                            <div class="top-bar-right">
+                                <a href="" class="login-btn">ZALOGOWANY</a>
+                                <a @onclick="Logout" class="sign-up-btn">WYLOGUJ</a>
+                            </div>
+                                </Authorized>
+                            </AuthorizeView>
                         </div>
                     </div>
                     <div class="navbar-inner">
                         <a href="index.html" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
                         <a href="index.html" class="logo-sticky">
-                            <img src="assets/images/logo7.png" alt="kester-logo">
+                            <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
                         </a>
                         <div class="rts-menu">
                             <nav class="menus menu-toggle">
@@ -479,7 +491,7 @@ else
                     <div class="navbar-inner">
                         <a href="index.html" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
                         <a href="index.html" class="logo-sticky">
-                            <img src="assets/images/logo7.png" alt="kester-logo">
+                            <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
                         </a>
                         <div class="rts-menu">
                             <nav class="menus menu-toggle">
@@ -900,6 +912,7 @@ else
             "teams-list" => "ZESPOŁY",
             "policy" => "LIGA",
             "contact" => "KONTAKT",
+            "login" => "LOGOWANIE DO PORTALU",
             _ => "STRONA",
         };
     }
