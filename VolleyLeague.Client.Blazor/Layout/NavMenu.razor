@@ -12,6 +12,9 @@
 @inject NavigationManager Navigation
 @inject ITeamService teamService
 
+
+@inherits LayoutComponentBase
+
 @if (IsHomePage)
 {
     <header id="rtsHeader" class="rts-header1 header-four cricket">
@@ -48,141 +51,40 @@
                     <div class="navbar-inner">
                         <a href="index.html" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
                         <a href="index.html" class="logo-sticky">
-                            <img src="assets/images/logo7.png"
-                                 alt="kester-logo">
+                            <img src="assets/images/logo7.png" alt="kester-logo">
                         </a>
                         <div class="rts-menu">
                             <nav class="menus menu-toggle">
                                 <ul class="nav__menu">
                                     <li class="has-dropdown">
-                                        <a class="menu-item active1" href="#">Home</a>
-                                        <ul class="dropdown-ul">
-                                            <li class=""><a class="dropdown-link active" href="index.html">Home One (Soccer)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-two.html">Home Two (Sports News)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-three.html">Home Three (Shop)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-four.html">Home Four (Basketball)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-five.html">Home Five (Baseball)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-six.html">Home Six (Cricket)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-seven.html">Home Seven (NFL)</a></li>
-                                            <li class="dropdown-li"><a class="dropdown-link" href="index-eight.html">Home Eight (Volleyball)</a></li>
-                                        </ul>
+                                        <NavLink class="menu-item active1" href="/">Home</NavLink>
                                     </li>
-                                    <li><a class="menu-item" href="about.html">About</a></li>
                                     <li class="has-dropdown">
-                                        <a class="menu-item" href="#">Pages</a>
-                                        <ul class="dropdown-ul mega-dropdown">
-                                            <li class="mega-dropdown-li">
-                                                <ul class="mega-dropdown-ul">
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="team.html">Team Details</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="team-details.html">Player Details</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="history.html">History</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="awards.html">Awards</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="faq.html">FAQ</a>
-                                                    </li>
-                                                </ul>
+                                        <NavLink class="menu-item" href="#">Wyniki</NavLink>
+                                        <ul class="dropdown-ul">
+                                            <li class="dropdown-li">
+                                                <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
                                             </li>
-                                            <li class="mega-dropdown-li">
-                                                <ul class="mega-dropdown-ul">
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="gallery.html">Gallery</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="event.html">Event</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="event-details.html">Event Details</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="error.html">Error</a>
-                                                    </li>
-                                                </ul>
+                                            <li class="dropdown-li">
+                                                <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
                                             </li>
-                                            <li class="mega-dropdown-li">
-                                                <ul class="mega-dropdown-ul">
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="match-schedule.html">Match Schedule</a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="match-result.html">
-                                                            Match
-                                                            Result
-                                                        </a>
-                                                    </li>
-                                                    <li class="dropdown-li">
-                                                        <a class="dropdown-link"
-                                                           href="league-standings.html">Point Table</a>
-                                                    </li>
-                                                </ul>
+                                            <li class="dropdown-li">
+                                                <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="has-dropdown">
-                                        <a class="menu-item" href="#">Shop</a>
-                                        <ul class="dropdown-ul">
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link" href="shop.html">Shop</a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link"
-                                                   href="product-details.html">Product Details</a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link" href="cart.html">Cart</a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link"
-                                                   href="checkout.html">Checkout</a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link" href="account.html">
-                                                    My
-                                                    Account
-                                                </a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link" href="thank-you.html">
-                                                    Thank
-                                                    you
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
                                     </li>
                                     <li class="has-dropdown">
-                                        <a class="menu-item" href="#">News</a>
-                                        <ul class="dropdown-ul">
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link" href="blog.html">News</a>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <a class="dropdown-link"
-                                                   href="blog-details.html">
-                                                    News
-                                                    Details
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
                                     </li>
-                                    <li><a class="menu-item" href="contact.html">Contact</a></li>
+                                    <li class="has-dropdown">
+                                        <NavLink class="menu-item" href="/policy">Liga</NavLink>
+                                    </li>
+                                    <li class="has-dropdown">
+                                        <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -204,8 +106,7 @@
                                             </select>
                                             <div class="input-div">
                                                 <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                                <input id="searchInput1" class="search-input" type="text"
-                                                       placeholder="Search by keyword or #">
+                                                <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
                                             </div>
                                             <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                         </div>
@@ -343,7 +244,6 @@
                 <a href="cart.html" class="view-btn cart-btn">VIEW CART</a>
             </div>
         </div>
-
         <!--================= Slide Bar Start Here =================-->
         <aside class="slide-bar">
             <div class="offset-sidebar">
@@ -397,10 +297,7 @@
                                         <a class="dropdown-link" href="event.html">Event</a>
                                     </li>
                                     <li class="dropdown-li">
-                                        <a class="dropdown-link" href="event-details.html">
-                                            Event
-                                            Details
-                                        </a>
+                                        <a class="dropdown-link" href="event-details.html">Event Details</a>
                                     </li>
                                     <li class="dropdown-li">
                                         <a class="dropdown-link" href="error.html">Error</a>
@@ -410,16 +307,10 @@
                             <li class="mega-dropdown-li">
                                 <ul class="mega-dropdown-ul mm-show">
                                     <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-schedule.html">
-                                            Match
-                                            Schedule
-                                        </a>
+                                        <a class="dropdown-link" href="match-schedule.html">Match Schedule</a>
                                     </li>
                                     <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-result.html">
-                                            Match
-                                            Result
-                                        </a>
+                                        <a class="dropdown-link" href="match-result.html">Match Result</a>
                                     </li>
                                     <li class="dropdown-li">
                                         <a class="dropdown-link" href="league-standings.html">Point Table</a>
@@ -467,7 +358,7 @@
                             <div class="container">
                                 <div class="banner-content">
                                     <span class="pretitle">Welcome To Our Cricket News</span>
-                                    <h1 class="banner-heading">
+                                    <h1 id="dynamicText" class="banner-heading">
                                         Destination for world <br>
                                         Cricket News
                                     </h1>
@@ -483,7 +374,7 @@
                             <div class="container">
                                 <div class="banner-content">
                                     <span class="pretitle">Welcome To Our Cricket News</span>
-                                    <h1 class="banner-heading">
+                                    <h1 id="dynamicText" class="banner-heading">
                                         Destination for world <br>
                                         Cricket News
                                     </h1>
@@ -499,7 +390,7 @@
                             <div class="container">
                                 <div class="banner-content">
                                     <span class="pretitle">Welcome To Our Cricket News</span>
-                                    <h1 class="banner-heading">
+                                    <h1 id="dynamicText" class="banner-heading">
                                         Destination for world <br>
                                         Cricket News
                                     </h1>
@@ -548,79 +439,48 @@
             </div>
         </div>
         <!--================= Banner Section End Here =================-->
-
-    </header>
-
-    <header id="rtsHeader" class="rts-header3 rts-header7">
-        <div class="navbar-sticky">
-            <div class="inline-wrapper d-flex">
-                <div class="navbar-wrapper">
-                    <div class="navbar-part navbar-part3 navbar-upper d-flex">
-                        <div class="container">
-                            <div class="navbar-inner">
-                                <a href="index.html" class="logo"><img src="assets/images/logonew.png" alt="sportius-logo" style="transform: scale(0.8);"></a>
-                                <div class="rts-menu">
-                                    <nav class="menus menu-toggle">
-                                        <ul class="nav__menu">
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item active1" href="/">Home</NavLink>
-                                            </li>
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item" href="#">Wyniki</NavLink>
-                                            <ul class="dropdown-ul">
-                                                <li class="dropdown-li">
-                                                    <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
-                                                </li>
-                                                <li class="dropdown-li">
-                                                    <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
-                                                </li>
-                                                <li class="dropdown-li">
-                                                    <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item active1" href="/schedule">Terminarz</NavLink>
-                                        </li>
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item active1" href="/teams-list">Zespoły</NavLink>
-                                        </li>
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item active1" href="/policy">Liga</NavLink>
-                                        </li>
-                                        <li class="has-dropdown">
-                                            <NavLink class="menu-item active1" href="/contact">Kontakt</NavLink>
-                                        </li>
-                                           
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <a class="hamburger-menu aitem">
-                                <div class="hamburger-menu-inner">
-                                    <span></span>
-                                    <span class=""></span>
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
     </header>
 }
 else
 {
-        <header id="rtsHeader" class="rts-header3 rts-header7">
+
+
+    <header id="rtsHeader" class="rts-header1 header-four cricket">
         <div class="navbar-sticky">
-            <div class="inline-wrapper d-flex">
-                <div class="navbar-wrapper">
-                    <div class="navbar-part navbar-part3 navbar-upper d-flex">
-                        <div class="container">
+            <div class="navbar-part navbar-part1">
+                <div class="container">
+                    <div class="top-bar">
+                        <div class="top-bar-inner">
+                            <div class="top-bar-left">
+                                <a href="#" class="get-ticket-btn">Get Ticket</a>
+                                <ul class="social-wrapper">
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                                    <li>
+                                        <a href="#">
+                                            <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M14.5781 1.66406C16.3828 4.34375 17.2852 7.35156 16.957 10.8242C16.957 10.8242 16.957 10.8516 16.9297 10.8516C15.7266 11.7539 14.3594 12.4375 12.9102 12.875C12.8828 12.9023 12.8828 12.875 12.8555 12.875C12.5547 12.4375 12.2812 12 12.0352 11.5352C12.0352 11.5078 12.0352 11.4805 12.0625 11.4531C12.5 11.2891 12.9102 11.0977 13.3203 10.8516C13.3477 10.8516 13.3477 10.7969 13.3203 10.7695C13.2383 10.7148 13.1562 10.6602 13.0742 10.5781C13.0469 10.5781 13.0469 10.5781 13.0195 10.5781C10.4219 11.7812 7.57812 11.7812 4.95312 10.5781C4.92578 10.5781 4.89844 10.5781 4.89844 10.5781C4.81641 10.6602 4.73438 10.7148 4.65234 10.7695C4.59766 10.7969 4.625 10.8516 4.65234 10.8516C5.03516 11.0977 5.47266 11.2891 5.91016 11.4531C5.9375 11.4805 5.9375 11.5078 5.9375 11.5352C5.69141 12 5.41797 12.4375 5.11719 12.875C5.08984 12.875 5.0625 12.9023 5.0625 12.875C3.61328 12.4375 2.24609 11.7539 1.04297 10.8516C1.01562 10.8516 1.01562 10.8242 1.01562 10.8242C0.742188 7.81641 1.31641 4.78125 3.39453 1.66406C3.39453 1.66406 3.39453 1.66406 3.42188 1.66406C4.46094 1.17188 5.55469 0.84375 6.67578 0.652344C6.70312 0.625 6.73047 0.652344 6.73047 0.652344C6.89453 0.925781 7.03125 1.22656 7.14062 1.5C8.37109 1.30859 9.60156 1.30859 10.832 1.5C10.9414 1.22656 11.0781 0.925781 11.2422 0.652344C11.2422 0.652344 11.2695 0.625 11.2969 0.652344C12.418 0.84375 13.5117 1.17188 14.5508 1.66406C14.5781 1.66406 14.5781 1.66406 14.5781 1.66406ZM6.32031 8.99219C7.11328 8.99219 7.76953 8.25391 7.76953 7.37891C7.76953 6.47656 7.14062 5.76562 6.32031 5.76562C5.52734 5.76562 4.87109 6.47656 4.87109 7.37891C4.87109 8.25391 5.52734 8.99219 6.32031 8.99219ZM11.6523 8.99219C12.4727 8.99219 13.1016 8.25391 13.1016 7.37891C13.1289 6.47656 12.4727 5.76562 11.6523 5.76562C10.8594 5.76562 10.2305 6.47656 10.2305 7.37891C10.2305 8.25391 10.8594 8.99219 11.6523 8.99219Z" fill="white" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="top-bar-mid">
+                                <span class="tag">LIVE</span>
+                                <div class="live-match">GOLD KING <span>VS</span> ROYAL UP</div>
+                            </div>
+                            <div class="top-bar-right">
+                                <a href="account.html" class="login-btn">LOG IN</a>
+                                <a href="account.html" class="sign-up-btn">SIGN UP</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="navbar-inner">
-                        <a href="index.html" class="logo"><img src="assets/images/logonew.png" alt="sportius-logo" style="transform: scale(0.8);"></a>
+                        <a href="index.html" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
+                        <a href="index.html" class="logo-sticky">
+                            <img src="assets/images/logo7.png" alt="kester-logo">
+                        </a>
                         <div class="rts-menu">
                             <nav class="menus menu-toggle">
                                 <ul class="nav__menu">
@@ -642,27 +502,67 @@ else
                                         </ul>
                                     </li>
                                     <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/schedule">Terminarz</NavLink>
+                                        <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
                                     </li>
                                     <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/teams-list">Zespoły</NavLink>
+                                        <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
                                     </li>
                                     <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/policy">Liga</NavLink>
+                                        <NavLink class="menu-item" href="/policy">Liga</NavLink>
                                     </li>
                                     <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/contact">Kontakt</NavLink>
+                                        <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
                                     </li>
-
                                 </ul>
                             </nav>
                         </div>
+                        <div class="header-action-items header-action-items1">
+                            <div class="search-part">
+                                <div class="search-icon action-item icon"><i class="rt-search"></i></div>
+                                <div class="search-input-area">
+                                    <div class="container">
+                                        <div class="search-input-inner">
+                                            <select class="custom-select select-hidden">
+                                                <option value="hide">All Catagorys</option>
+                                                <option value="all">All</option>
+                                                <option value="league">League</option>
+                                                <option value="club">Club</option>
+                                                <option value="team">Team</option>
+                                                <option value="player">Player</option>
+                                                <option value="match">Match</option>
+                                                <option value="score">Score</option>
+                                            </select>
+                                            <div class="input-div">
+                                                <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
+                                                <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
+                                            </div>
+                                            <div class="search-close-icon"><i class="rt-xmark"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="cart action-item">
+                                <div class="cart-nav">
+                                    <div class="basket-icon cart-icon icon">
+                                        <a href="#0">
+                                            <i class="fal fa-shopping-basket"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <a class="hamburger-menu aitem d-block">
+                            <div class="hamburger-menu-inner">
+                                <span></span>
+                                <span class=""></span>
+                                <span></span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="cart-bar">
             <div class="cart-header">
                 <h3 class="cart-heading">MY CART (3 ITEMS)</h3>
@@ -930,10 +830,12 @@ else
     PlayerSummaryDto playerSummary = new PlayerSummaryDto();
     private bool IsPlayer { get; set; }
     private bool IsAdmin { get; set; }
-    private bool IsHomePage => Navigation.Uri.EndsWith("/");
+    private bool IsHomePage => NavigationManager.Uri.EndsWith("/");
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
+
+    private string previousUri;
 
     private void ToggleNavMenu()
     {
@@ -942,7 +844,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Navigation.LocationChanged += OnLocationChanged;
+        NavigationManager.LocationChanged += OnLocationChanged;
 
         var authState = await authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
@@ -955,12 +857,28 @@ else
             playerSummary = await userService.GetUserSummary();
             HasTeam = await userService.IsTeamCaptain();
         }
+
+        previousUri = NavigationManager.Uri;
     }
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
-        // Reload the page on any navigation change
-        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        var currentUri = NavigationManager.Uri;
+
+        if (IsNavigatingToOrFromHomePage(currentUri, previousUri))
+        {
+            NavigationManager.NavigateTo(currentUri, forceLoad: true);
+        }
+
+        previousUri = currentUri;
+    }
+
+    private bool IsNavigatingToOrFromHomePage(string currentUri, string previousUri)
+    {
+        bool isCurrentHomePage = currentUri.EndsWith("/");
+        bool isPreviousHomePage = previousUri.EndsWith("/");
+
+        return isCurrentHomePage || isPreviousHomePage;
     }
 
     public async void Logout()
@@ -982,6 +900,6 @@ else
 
     public void Dispose()
     {
-        Navigation.LocationChanged -= OnLocationChanged;
+        NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
