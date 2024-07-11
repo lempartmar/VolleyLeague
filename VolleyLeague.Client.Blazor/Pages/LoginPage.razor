@@ -15,11 +15,10 @@
 
 <div class="login-area">
     <div class="container">
-        <div class="row">
+        <div class="row display-flex-column-center">
             <div class="col-lg-6 col-md-12 mr-10">
                 <div class="login-form">
                     <div class="section-title">
-                        <h2>Login</h2>
                     </div>
                     <div class="card">
                         <div class="card-body">
@@ -27,24 +26,20 @@
                                 <DataAnnotationsValidator />
                                 <ValidationSummary />
                                 <div class="form">
-                                    <input @bind="User.Email" type="email" class="form-control" id="username" placeholder="Username or email address*" required />
+                                    <input @bind="User.Email" type="email" class="form-control" id="username" placeholder="Adres e-mail" required />
                                 </div>
                                 <div class="form">
                                     <div class="password-input">
-                                        <input @bind="User.Password" type="password" class="form-control" id="password" placeholder="Password*" required />
+                                        <input @bind="User.Password" type="password" class="form-control" id="password" placeholder="Hasło" required />
                                         <span class="show-password-input"></span>
                                     </div>
                                 </div>
                                 <div class="form">
-                                    <input type="checkbox" class="form-check-input" id="remember" />
-                                    <label for="remember" class="form-label">Remember Me</label>
-                                </div>
-                                <div class="form">
                                     <button type="submit" class="btn">
-                                        Login <i class="fal fa-long-arrow-right"></i>
+                                        Zaloguj <i class="fal fa-long-arrow-right"></i>
                                     </button>
                                 </div>
-                                <a class="forgot-password" href="#" @onclick="NavigateToResetPassword">Lost your password?</a>
+                                <a class="forgot-password" href="#" @onclick="NavigateToResetPassword">Nie pamiętasz hasła?</a>
                             </EditForm>
                             @if (!string.IsNullOrEmpty(errorMessage))
                             {
