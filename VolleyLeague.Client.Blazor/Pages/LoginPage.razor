@@ -13,38 +13,45 @@
 @inject IJSRuntime js
 @inject HttpClient Http
 
-<div class="container login">
-    <div class="row justify-content-center">
-        <div class="col-md-12 mt-3">
-            <div class="entity_title text-center">
-                <h1><a>Logowanie</a></h1>
-            </div>
-            <div class="entity_content">
-                <EditForm Model="User" OnValidSubmit="HandleLogin">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+<div class="login-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mr-10">
+                <div class="login-form">
+                    <div class="section-title">
+                        <h2>Login</h2>
+                    </div>
                     <div class="card">
-                        <div class="card-body login">
-                            <div class="form-group mb-3 md-4">
-                                <input @bind="User.Email" class="form-control" type="email" placeholder="Email Address"></input>
-                            </div>
-                            <div class="form-group mb-3">
-                                <input type="password" class="form-control" @bind="User.Password" placeholder="Password" aria-label="Password" aria-describedby="Password">
-                            </div>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">
-                                Zaloguj
-                            </button>
+                        <div class="card-body">
+                            <EditForm Model="User" OnValidSubmit="HandleLogin">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form">
+                                    <input @bind="User.Email" type="email" class="form-control" id="username" placeholder="Username or email address*" required />
+                                </div>
+                                <div class="form">
+                                    <div class="password-input">
+                                        <input @bind="User.Password" type="password" class="form-control" id="password" placeholder="Password*" required />
+                                        <span class="show-password-input"></span>
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <input type="checkbox" class="form-check-input" id="remember" />
+                                    <label for="remember" class="form-label">Remember Me</label>
+                                </div>
+                                <div class="form">
+                                    <button type="submit" class="btn">
+                                        Login <i class="fal fa-long-arrow-right"></i>
+                                    </button>
+                                </div>
+                                <a class="forgot-password" href="#" @onclick="NavigateToResetPassword">Lost your password?</a>
+                            </EditForm>
+                            @if (!string.IsNullOrEmpty(errorMessage))
+                            {
+                                <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@errorMessage</div>
+                            }
                         </div>
                     </div>
-                </EditForm>
-                @if (!string.IsNullOrEmpty(errorMessage))
-                {
-                    <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@errorMessage</div>
-                }
-                <div class="text-center mt-3" style="margin-top: 30px">
-                    <a @onclick="NavigateToResetPassword">Zapomniałeś hasła?</a>
                 </div>
             </div>
         </div>

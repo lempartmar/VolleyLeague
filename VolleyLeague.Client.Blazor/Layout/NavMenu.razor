@@ -43,8 +43,8 @@
                                 <div class="live-match">GOLD KING <span>VS</span> ROYAL UP</div>
                             </div>
                             <div class="top-bar-right">
-                                <a href="account.html" class="login-btn">LOG IN</a>
-                                <a href="account.html" class="sign-up-btn">SIGN UP</a>
+                                <a href="/login" class="login-btn">ZALOGUJ</a>
+                                <a href="/register" class="sign-up-btn">REJESTRACJA</a>
                             </div>
                         </div>
                     </div>
@@ -471,8 +471,8 @@ else
                                 <div class="live-match">GOLD KING <span>VS</span> ROYAL UP</div>
                             </div>
                             <div class="top-bar-right">
-                                <a href="account.html" class="login-btn">LOG IN</a>
-                                <a href="account.html" class="sign-up-btn">SIGN UP</a>
+                                <a href="/login" class="login-btn">LOGOWANIE</a>
+                                <a href="/register" class="sign-up-btn">REJESTRACJA</a>
                             </div>
                         </div>
                     </div>
@@ -867,7 +867,7 @@ else
 
         if (IsNavigatingToOrFromHomePage(currentUri, previousUri))
         {
-            NavigationManager.NavigateTo(currentUri, forceLoad: true);
+            StateHasChanged();
         }
 
         previousUri = currentUri;
