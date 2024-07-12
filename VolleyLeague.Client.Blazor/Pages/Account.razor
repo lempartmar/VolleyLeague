@@ -1,0 +1,58 @@
+﻿@page "/account"
+
+<div class="rts-account-section section-gap">
+    <div class="container">
+        <div class="account-inner">
+            <div class="account-side-navigation">
+                <button class="filter-btn @GetActiveClass(InfoPages.Dashboard)" @onclick="() => ShowSection(InfoPages.Dashboard)">
+                    <i class="fal fa-chart-bar"></i> Dashboard
+                </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.Orders)" @onclick="() => ShowSection(InfoPages.Orders)">
+                    <i class="fal fa-shopping-cart"></i> Orders
+                </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.Address)" @onclick="() => ShowSection(InfoPages.Address)">
+                    <i class="fal fa-map-marker-alt"></i> Address
+                </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.AccountDetails)" @onclick="() => ShowSection(InfoPages.AccountDetails)">
+                    <i class="fal fa-user"></i> Account Details
+                </button>
+                <a href="login.html" class="filter-btn">
+                    <i class="fal fa-long-arrow-left"></i> Logout
+                </a>
+            </div>
+            <div class="account-main-area">
+                @switch (currentSection)
+                {
+                    case InfoPages.Dashboard:
+                        <Dashboard />;
+                        break;
+                    case InfoPages.Orders:
+                        <Orders />;
+                        break;
+                    case InfoPages.Address:
+                        <Address />;
+                        break;
+                    case InfoPages.AccountDetails:
+                        <AccountDetails />;
+                        break;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public enum InfoPages { Dashboard, Orders, Address, AccountDetails }
+
+    private InfoPages currentSection = InfoPages.Dashboard;
+
+    private void ShowSection(InfoPages section)
+    {
+        currentSection = section;
+    }
+
+    private string GetActiveClass(InfoPages section)
+    {
+        return currentSection == section ? "active" : string.Empty;
+    }
+}
