@@ -1,41 +1,5 @@
-﻿<div class="account-main dashboard filterd-items">
-    <div class="account-profile-area">
-        <div class="profile-dp"><img src="assets/images/blog/authordp.jpg" alt="profile-dp"></div>
-        <div class="d-block">
-            <span class="profile-name"><span>Hi,</span> Rosalina D.</span>
-            <span class="profile-date d-block">June 23, 2023</span>
-        </div>
-    </div>
-    <p>From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.</p>
-    <div class="activity-box">
-        <div class="activity-item">
-            <div class="icon"><i class="fas fa-box-check"></i></div>
-            <span class="title">Active Orders</span>
-            <span class="value">33</span>
-        </div>
-        <div class="activity-item">
-            <div class="icon"><i class="fas fa-download"></i></div>
-            <span class="title">Downloads</span>
-            <span class="value">10</span>
-        </div>
-        <div class="activity-item">
-            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
-            <span class="title">Address</span>
-            <span class="value">12/A, New Castle, NYC</span>
-        </div>
-        <div class="activity-item">
-            <div class="icon"><i class="fas fa-user"></i></div>
-            <span class="title">Account Details</span>
-            <span class="value">33</span>
-        </div>
-        <div class="activity-item">
-            <div class="icon"><i class="fas fa-heart"></i></div>
-            <span class="title">Wishlist</span>
-            <span class="value">33</span>
-        </div>
-        <NavLink href="/logout" class="activity-item">
-            <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
-            <span class="title">Logout</span>
-        </NavLink>
-    </div>
-</div>
+﻿@page "/account/dashboard"
+@layout AccountLayout
+
+<h3>Dashboard</h3>
+<p>This is the Dashboard page.</p>

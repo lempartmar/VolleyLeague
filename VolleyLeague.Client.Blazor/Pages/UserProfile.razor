@@ -1,6 +1,7 @@
-﻿@page "/user-profile/0"
-@page "/user-profile/{Id:int}"
+﻿@page "/account/userprofile/{Id:int?}"
+@layout AccountLayout
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Discussion
 @using VolleyLeague.Shared.Dtos.Teams
@@ -8,19 +9,14 @@
 @inject IUserService userService
 @inject ITeamService teamService
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider authStateProvider
 
-@attribute [Authorize(Roles = "Admin,Player")]
+@* @attribute [Authorize(Roles = "Admin,Player")] *@
 
-@if (!PageReady)
-{
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
-        <div class="container">
-            <div id="spinner"></div>
-        </div>
-    </section>
-}
-else
-{
+
+<div>UserProfile</div>
+
+
     <section class="category_section">
         <div class="container">
             <div class="row">
@@ -147,7 +143,6 @@ else
             </div>
         </div>
     </section>
-}
 
 
 <!-- Modal for leave team confirmation -->
@@ -182,7 +177,7 @@ else
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public UserProfileDto? UserProfileData { get; set; }
 
@@ -228,7 +223,7 @@ else
 
     public async Task<UserProfileDto?> GetUserProfile()
     {
-        var response = await userService.GetUserProfile(Id);
+        var response = await userService.GetUserProfile(Id ?? 0);
         return response;
     }
 
@@ -272,7 +267,7 @@ else
                 if (result)
                 {
                     // Sukces, przeładuj dane profilu
-                    NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
+                    NavigationManager.NavigateTo($"/account/userprofile/{Id}", forceLoad: true);
                 }
                 else
                 {
@@ -302,7 +297,7 @@ else
                 if (result.Success)
                 {
                     // Sukces, przeładuj dane profilu
-                    NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
+                    NavigationManager.NavigateTo($"/account/userprofile/{Id}", forceLoad: true);
                 }
                 else
                 {

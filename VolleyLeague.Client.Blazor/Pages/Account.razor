@@ -1,6 +1,19 @@
 ﻿@page "/account"
+@layout AccountLayout
 
-<div class="rts-account-section section-gap">
+@using VolleyLeague.Client.Blazor.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using VolleyLeague.Client.Blazor.Authentication
+@using VolleyLeague.Client.Blazor.Shared.Dtos
+@using static VolleyLeague.Client.Blazor.Services.AccountService
+@using System.Net.Http.Headers
+@using System.Globalization
+@using VolleyLeague.Shared.Dtos.Teams
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager Navigation
+@inject ITeamService teamService
+
+<section class="rts-account-section section-gap">
     <div class="container">
         <div class="account-inner">
             <div class="account-side-navigation">
@@ -15,6 +28,9 @@
                 </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.AccountDetails)" @onclick="() => ShowSection(InfoPages.AccountDetails)">
                     <i class="fal fa-user"></i> Account Details
+                </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
+                    <i class="fal fa-user"></i> User Profile
                 </button>
                 <a href="login.html" class="filter-btn">
                     <i class="fal fa-long-arrow-left"></i> Logout
@@ -35,16 +51,41 @@
                     case InfoPages.AccountDetails:
                         <AccountDetails />;
                         break;
+                    case InfoPages.UserProfile:
+                        <UserProfile Id="@playerSummary.Id" />;
+                        break;
                 }
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @code {
-    public enum InfoPages { Dashboard, Orders, Address, AccountDetails }
+    public enum InfoPages { Dashboard, Orders, Address, AccountDetails, UserProfile }
 
     private InfoPages currentSection = InfoPages.Dashboard;
+    private bool IsPlayer { get; set; }
+    private bool IsAdmin { get; set; }
+    private PlayerSummaryDto playerSummary = new PlayerSummaryDto();
+    private bool HasTeam { get; set; } = false;
+
+    [Inject] private IUserService userService { get; set; }
+    [Inject] private AuthenticationStateProvider authStateProvider { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            IsPlayer = user.IsInRole("Player");
+            IsAdmin = user.IsInRole("Admin");
+
+            playerSummary = await userService.GetUserSummary();
+            HasTeam = await userService.IsTeamCaptain();
+        }
+    }
 
     private void ShowSection(InfoPages section)
     {
