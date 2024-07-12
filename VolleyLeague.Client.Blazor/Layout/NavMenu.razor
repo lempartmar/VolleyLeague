@@ -135,13 +135,18 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="hamburger-menu aitem d-block">
+                        <div @onclick="NavigateToAccount" class="admin-panel-icon">
+                            <div class="admin-icon-inner">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+@*                         <a class="hamburger-menu aitem d-block">
                             <div class="hamburger-menu-inner">
                                 <span></span>
                                 <span class=""></span>
                                 <span></span>
                             </div>
-                        </a>
+                        </a> *@
                     </div>
                 </div>
             </div>
@@ -904,4 +909,10 @@ else
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
+
+    private void NavigateToAccount()
+    {
+        NavigationManager.NavigateTo("/account");
+    }
+
 }
