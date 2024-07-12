@@ -5,7 +5,6 @@
 @inject IUserService UserService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-
 @if (!pageReady)
 {
     <section id="loading_section" style="margin-top: 150px" class="loading_section">
@@ -16,73 +15,70 @@
 }
 else
 {
-<div class="container login">
-    <div class="row justify-content-center">
-        <div class="col-md-12 mt-3">
-            <div class="text-center">
-                <h1>Rejestracja</h1>
-            </div>
-            <div class="entity_content">
-                @if (!IsSubmitted)
-                {
-                    <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
-                        <DataAnnotationsValidator />
+    <div class="login-area">
+        <div class="container">
+            <div class="row display-flex-column-center">
+                <div class="col-lg-6 col-md-12 mr-10">
+                    <div class="login-form">
                         <div class="card">
-                            <div class="card-body login">
-                                <div class="form-group mb-3">
-                                    <label for="FirstName" class="control-label">Imię:</label>
-                                    <InputText class="form-control" id="FirstName" @bind-Value="registerModel.FirstName" />
-                                    <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
-                                    <small class="form-text text-muted">Twoje dane będą weryfikowane przez sędziów w lidze.</small>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="LastName" class="control-label">Nazwisko:</label>
-                                    <InputText class="form-control" id="LastName" @bind-Value="registerModel.LastName" />
-                                    <ValidationMessage class="text-danger" For="@(() => registerModel.LastName)" />
-                                    <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="Email" class="control-label">Adres e-mail:</label>
-                                    <InputText class="form-control" id="Email" @bind-Value="registerModel.Email" />
-                                    <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
-                                    <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="Password" class="control-label">Hasło:</label>
-                                    <InputText class="form-control" id="Password" type="password" @bind-Value="registerModel.Password" @oninput="ValidatePassword" />
-                                    <ValidationMessage class="text-danger" For="@(() => registerModel.Password)" />
-                                    <ul class="password-requirements mt-2">
-                                        <li class="@GetValidationClass(PasswordLengthValid)">Co najmniej 8 znaków</li>
-                                        <li class="@GetValidationClass(PasswordUppercaseValid)">Zawiera wielkie litery</li>
-                                        <li class="@GetValidationClass(PasswordLowercaseValid)">Zawiera małe litery</li>
-                                        <li class="@GetValidationClass(PasswordNumberValid)">Zawiera cyfry</li>
-                                        <li class="@GetValidationClass(PasswordPunctuationValid)">Zawiera znaki interpunkcyjne</li>
-                                    </ul>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="ConfirmPassword" class="control-label">Powtórz hasło:</label>
-                                    <InputText class="form-control" id="ConfirmPassword" type="password" @bind-Value="registerModel.ConfirmPassword" />
-                                    <ValidationMessage class="text-danger" For="@(() => registerModel.ConfirmPassword)" />
-                                    @if (!string.IsNullOrEmpty(confirmPasswordValidationMessage))
+                            <div class="card-body">
+                                <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form">
+                                        <label for="FirstName" class="control-label"></label>
+                                        <input @bind="registerModel.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.FirstName)" />
+                                        <small class="form-text text-muted">Twoje dane będą weryfikowane przez sędziów w lidze.</small>
+                                    </div>
+                                    <div class="form">
+                                        <label for="LastName" class="control-label"></label>
+                                        <input @bind="registerModel.LastName" type="text" class="form-control" id="LastName" placeholder="Nazwisko" required />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.LastName)" />
+                                        <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
+                                    </div>
+                                    <div class="form">
+                                        <label for="Email" class="control-label"></label>
+                                        <input @bind="registerModel.Email" type="email" class="form-control" id="Email" placeholder="Adres e-mail" required />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
+                                        <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
+                                    </div>
+                                    <div class="form">
+                                        <label for="Password" class="control-label"></label>
+                                        <input @bind="registerModel.Password" type="password" class="form-control" id="Password" placeholder="Hasło" required @oninput="ValidatePassword" />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.Password)" />
+                                        <ul class="password-requirements mt-2">
+                                            <li class="@GetValidationClass(PasswordLengthValid)">Co najmniej 8 znaków</li>
+                                            <li class="@GetValidationClass(PasswordUppercaseValid)">Zawiera wielkie litery</li>
+                                            <li class="@GetValidationClass(PasswordLowercaseValid)">Zawiera małe litery</li>
+                                            <li class="@GetValidationClass(PasswordNumberValid)">Zawiera cyfry</li>
+                                            <li class="@GetValidationClass(PasswordPunctuationValid)">Zawiera znaki interpunkcyjne</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form">
+                                        <label for="ConfirmPassword" class="control-label"></label>
+                                        <input @bind="registerModel.ConfirmPassword" type="password" class="form-control" id="ConfirmPassword" placeholder="Powtórz hasło" required />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.ConfirmPassword)" />
+                                        @if (!string.IsNullOrEmpty(confirmPasswordValidationMessage))
+                                        {
+                                            <div class="text-danger mt-2">@confirmPasswordValidationMessage</div>
+                                        }
+                                    </div>
+                                    @if (ShowErrorMessage)
                                     {
-                                        <div class="text-danger mt-2">@confirmPasswordValidationMessage</div>
-                                    }
-                                </div>
-                                @if (ShowErrorMessage)
-                                {
                                         <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@ErrorMessage</div>
-                                }
-                            </div>
-                            <div class="card-footer text-center">
-                                <button class="btn" style="background-color: #7d7d7d; color: white;" type="submit">Zarejestruj</button>
+                                    }
+                                    <div class="form">
+                                        <button type="submit" class="btn btn-primary">Zarejestruj</button>
+                                    </div>
+                                </EditForm>
                             </div>
                         </div>
-                    </EditForm>
-                }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 }
 @if (IsSubmitted)
 {
@@ -155,123 +151,6 @@ else
         padding: 1em;
         max-width: 500px;
         width: 100%;
-    }
-
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-    .dropdown-toggle {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    }
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    .game-entry {
-        margin-bottom: 20px;
-        color: black;
-        min-height: 150px;
-        border: none;
-    }
-
-    .scoreboard {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .team-section {
-        flex: 2;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .team-section, .score-section, .additional-info, .mvp-info {
-        text-align: center;
-        padding: 0 10px;
-        flex: 1;
-    }
-
-    .score-section {
-        flex: 1;
-    }
-
-    .mvp-info {
-        flex: 1;
-    }
-
-    .additional-info {
-        flex: 2;
-    }
-
-    .vertical-line {
-        border-left: 1px solid #000;
-        height: 100%;
-    }
-
-    .team-logo {
-        width: 80px;
-        margin-bottom: 5px;
-    }
-
-    .team-name {
-        max-width: 110px;
-        min-width: 110px;
-        margin-bottom: 5px;
-        color: #0268d6;
-    }
-
-    .team-score {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: black;
-    }
-
-    .versus {
-        font-size: 1.0em;
-        font-weight: bold;
-        margin: 0 10px;
-        color: black;
-    }
-
-    .game-date {
-        font-size: 0.8em;
-    }
-
-    .container-fluid {
-        width: 100%;
-        margin-top: 35px;
-    }
-
-    .d-flex {
-        display: flex;
-    }
-
-    .justify-content-between {
-        justify-content: space-between;
-    }
-
-    .align-items-center {
-        align-items: center;
-        justify-content: center;
     }
 
     #spinner {
@@ -369,9 +248,6 @@ else
         PasswordLowercaseValid = password.Any(char.IsLower);
         PasswordNumberValid = password.Any(char.IsDigit);
         PasswordPunctuationValid = password.Any(ch => char.IsPunctuation(ch) || char.IsSymbol(ch));
-
-        // Remove this line to only validate on submit
-        // ValidateConfirmPassword();
     }
 
     private void ValidateConfirmPassword()
@@ -388,6 +264,6 @@ else
 
     private string GetValidationClass(bool isValid)
     {
-        return isValid ? "valid" : "invalidZero";
+        return isValid ? "valid" : "invalid";
     }
 }
