@@ -27989,3 +27989,14 @@ a.team-list-check.font-size {
 .admin-panel-icon {
     color: white !important;
 }
+
+.admin-panel-popup {
+    position: absolute;
+    top: 80%;
+    right: 5%;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    z-index: 1000;
+}

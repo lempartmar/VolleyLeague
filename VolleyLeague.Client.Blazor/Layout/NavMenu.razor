@@ -135,10 +135,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div @onclick="NavigateToAccount" class="admin-panel-icon">
+                        <div>
+                        <div @onclick="ToggleAdminPanel" class="admin-panel-icon">
                             <div class="admin-icon-inner">
                                 <i class="fas fa-user"></i>
                             </div>
+                        </div>
+                        @if (showAdminPanel)
+                        {
+                            <div class="admin-panel-popup">
+                                <button @onclick="NavigateToAdminPanel">Panel Administracyjny</button>
+                            </div>
+                        }
                         </div>
 @*                         <a class="hamburger-menu aitem d-block">
                             <div class="hamburger-menu-inner">
@@ -911,6 +919,18 @@ else
     }
 
     private void NavigateToAccount()
+    {
+        NavigationManager.NavigateTo("/account");
+    }
+
+    private bool showAdminPanel = false;
+
+    private void ToggleAdminPanel()
+    {
+        showAdminPanel = !showAdminPanel;
+    }
+
+    private void NavigateToAdminPanel()
     {
         NavigationManager.NavigateTo("/account");
     }
