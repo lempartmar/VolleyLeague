@@ -21,76 +21,76 @@ else
     <div class="account-main accountdtls filterd-items">
         <div class="login-form">
             <div class="section-title">
-                <h2>Edit Profile</h2>
+                <h2>Edytuj Profil</h2>
             </div>
             <div class="card">
                 <div class="card-body">
                     <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <div class="form">
-                            <label for="FirstName" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
+                            <label for="FirstName">Imię</label>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.FirstName)" />
                         </div>
-                        <div class="form">
-                            <label for="LastName" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.LastName" type="text" class="form-control" id="LastName" placeholder="Nazwisko" required />
+                            <label for="LastName">Nazwisko</label>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.LastName)" />
                         </div>
-                        <div class="form">
-                            <label for="City" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.City" type="text" class="form-control" id="City" placeholder="Miasto" />
+                            <label for="City">Miasto</label>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.City)" />
                         </div>
-                        <div class="form">
-                            <label for="PositionId" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <select @bind="UserProfileData.PositionId" class="form-control" id="PositionId">
                                 @foreach (var position in Positions)
                                 {
                                     <option value="@position.Id">@position.Name</option>
                                 }
                             </select>
+                            <label for="PositionId">Pozycja</label>
                         </div>
-                        <div class="form">
-                            <label for="BirthYear" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="BirthYear" placeholder="Rok urodzenia" />
+                            <label for="BirthYear">Rok urodzenia</label>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.BirthYear)" />
                         </div>
-                        <div class="form">
-                            <label for="Height" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.Height" type="number" class="form-control" id="Height" placeholder="Wzrost" />
+                            <label for="Height">Wzrost</label>
                         </div>
-                        <div class="form">
-                            <label for="Weight" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.Weight" type="number" class="form-control" id="Weight" placeholder="Waga" />
+                            <label for="Weight">Waga</label>
                         </div>
-                        <div class="form">
-                            <label for="JerseyNumber" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="JerseyNumber" placeholder="Numer koszulki" />
+                            <label for="JerseyNumber">Numer koszulki</label>
                         </div>
-                        <div class="form">
-                            <label for="BlockRange" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="BlockRange" placeholder="Zasięg w bloku (cm)" />
+                            <label for="BlockRange">Zasięg w bloku (cm)</label>
                         </div>
-                        <div class="form">
-                            <label for="AttackRange" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="AttackRange" placeholder="Zasięg w ataku (cm)" />
+                            <label for="AttackRange">Zasięg w ataku (cm)</label>
                         </div>
-                        <div class="form">
-                            <label for="VolleyballIdol" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="VolleyballIdol" placeholder="Idol siatkówki" />
+                            <label for="VolleyballIdol">Idol siatkówki</label>
                         </div>
-                        <div class="form">
-                            <label for="Hobby" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="Hobby" placeholder="Hobby" />
+                            <label for="Hobby">Hobby</label>
                         </div>
-                        <div class="form">
-                            <label for="PersonalInfo" class="control-label"></label>
+                        <div class="form-floating mb-3">
                             <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="PersonalInfo" placeholder="Informacje dodatkowe"></textarea>
+                            <label for="PersonalInfo">Informacje dodatkowe</label>
                         </div>
-                        <div class="form">
-                            <label for="Photo" class="control-label">Zdjęcie:</label>
+                        <div class="mb-3">
+                            <label for="Photo" class="form-label">Zdjęcie:</label>
                             <label class="btn btn-primary">
                                 Wybierz plik
                                 <InputFile OnChange="HandleFileChange" style="display:none;" />
@@ -99,12 +99,12 @@ else
                         </div>
                         @if (!string.IsNullOrEmpty(FileName))
                         {
-                            <div class="form">
+                            <div class="mb-3">
                                 <small class="form-text text-muted">Załadowano plik: @FileName</small>
                             </div>
                         }
-                        <div class="form">
-                            <button type="submit" class="btn">Zapisz</button>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Zapisz</button>
                             <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
                         </div>
                     </EditForm>
