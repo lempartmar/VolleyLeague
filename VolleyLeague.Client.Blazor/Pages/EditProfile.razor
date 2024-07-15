@@ -200,7 +200,7 @@ else
     private async Task HandleValidSubmit()
     {
         await userService.UpdateUser(UserProfileData);
-        Navigation.NavigateTo($"/user-profile/{Id}");
+        Navigation.NavigateTo($"/account?section=UserProfile");
     }
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)

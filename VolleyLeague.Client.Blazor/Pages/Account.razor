@@ -1,4 +1,5 @@
 ﻿@page "/account"
+@using Microsoft.AspNetCore.WebUtilities
 
 @using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
@@ -88,12 +89,22 @@
 
             playerSummary = await userService.GetUserSummary();
             HasTeam = await userService.IsTeamCaptain();
+
+            var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("section", out var section))
+            {
+                if (Enum.TryParse<InfoPages>(section, true, out var parsedSection))
+                {
+                    currentSection = parsedSection;
+                }
+            }
         }
     }
 
     private void ShowSection(InfoPages section)
     {
         currentSection = section;
+        Navigation.NavigateTo($"/account?section={section}");
     }
 
     private string GetActiveClass(InfoPages section)
