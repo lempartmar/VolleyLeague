@@ -28,9 +28,9 @@ else
                     <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
-                            <label for="FirstName">Imię</label>
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="tt2" placeholder="Imię" required />
+                            <span><label for="tt2">Imię</label></span>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.FirstName)" />
                         </div>
                         <div class="form-floating mb-3">
