@@ -5,6 +5,7 @@
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
 @using VolleyLeague.Shared.Dtos.Teams
+@using Microsoft.AspNetCore.Components.Forms
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
@@ -28,67 +29,90 @@ else
                     <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
+
                         <div class="form-label-group outline">
                             <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="tt2" placeholder="Imię" required />
                             <span><label for="tt2">Imię</label></span>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.FirstName)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.LastName" type="text" class="form-control" id="LastName" placeholder="Nazwisko" required />
-                            <label for="LastName">Nazwisko</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.LastName" type="text" class="form-control" id="tt2" placeholder="Nazwisko" required />
+                            <span><label for="tt2">Nazwisko</label></span>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.LastName)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.City" type="text" class="form-control" id="City" placeholder="Miasto" />
-                            <label for="City">Miasto</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.City" type="text" class="form-control" id="tt2" placeholder="Miasto" />
+                            <span><label for="tt2">Miasto</label></span>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.City)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <select @bind="UserProfileData.PositionId" class="form-control" id="PositionId">
+
+                        <div class="form-label-group outline">
+                            <select @bind="UserProfileData.PositionId" class="form-control" id="tt2">
                                 @foreach (var position in Positions)
                                 {
                                     <option value="@position.Id">@position.Name</option>
                                 }
                             </select>
-                            <label for="PositionId">Pozycja</label>
+                            <span><label for="tt2">Pozycja</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.PositionId)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="BirthYear" placeholder="Rok urodzenia" />
-                            <label for="BirthYear">Rok urodzenia</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="tt2" placeholder="Rok urodzenia" />
+                            <span><label for="tt2">Rok urodzenia</label></span>
                             <ValidationMessage class="text-danger" For="@(() => UserProfileData.BirthYear)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.Height" type="number" class="form-control" id="Height" placeholder="Wzrost" />
-                            <label for="Height">Wzrost</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.Height" type="number" class="form-control" id="tt2" placeholder="Wzrost" />
+                            <span><label for="tt2">Wzrost</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Height)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.Weight" type="number" class="form-control" id="Weight" placeholder="Waga" />
-                            <label for="Weight">Waga</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.Weight" type="number" class="form-control" id="tt2" placeholder="Waga" />
+                            <span><label for="tt2">Waga</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Weight)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="JerseyNumber" placeholder="Numer koszulki" />
-                            <label for="JerseyNumber">Numer koszulki</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="tt2" placeholder="Numer koszulki" />
+                            <span><label for="tt2">Numer koszulki</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.JerseyNumber)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="BlockRange" placeholder="Zasięg w bloku (cm)" />
-                            <label for="BlockRange">Zasięg w bloku (cm)</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="tt2" placeholder="Zasięg w bloku (cm)" />
+                            <span><label for="tt2">Zasięg w bloku (cm)</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.BlockRange)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="AttackRange" placeholder="Zasięg w ataku (cm)" />
-                            <label for="AttackRange">Zasięg w ataku (cm)</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="tt2" placeholder="Zasięg w ataku (cm)" />
+                            <span><label for="tt2">Zasięg w ataku (cm)</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.AttackRange)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="VolleyballIdol" placeholder="Idol siatkówki" />
-                            <label for="VolleyballIdol">Idol siatkówki</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="tt2" placeholder="Idol siatkówki" />
+                            <span><label for="tt2">Idol siatkówki</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.VolleyballIdol)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="Hobby" placeholder="Hobby" />
-                            <label for="Hobby">Hobby</label>
+
+                        <div class="form-label-group outline">
+                            <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="tt2" placeholder="Hobby" />
+                            <span><label for="tt2">Hobby</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Hobby)" />
                         </div>
-                        <div class="form-floating mb-3">
-                            <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="PersonalInfo" placeholder="Informacje dodatkowe"></textarea>
-                            <label for="PersonalInfo">Informacje dodatkowe</label>
+
+                        <div class="form-label-group outline">
+                            <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="tt2" placeholder="Informacje dodatkowe"></textarea>
+                            <span><label for="tt2">Informacje dodatkowe</label></span>
+                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.PersonalInfo)" />
                         </div>
+
                         <div class="mb-3">
                             <label for="Photo" class="form-label">Zdjęcie:</label>
                             <label class="btn btn-primary">
@@ -97,12 +121,14 @@ else
                             </label>
                             <ValidationMessage For="@(() => UserProfileData.Photo)" />
                         </div>
+
                         @if (!string.IsNullOrEmpty(FileName))
                         {
                             <div class="mb-3">
                                 <small class="form-text text-muted">Załadowano plik: @FileName</small>
                             </div>
                         }
+
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Zapisz</button>
                             <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
