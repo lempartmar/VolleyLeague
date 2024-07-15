@@ -8,109 +8,156 @@
 
 @attribute [Authorize(Roles = "Admin,Player")]
 
-<section class="category_section">
-    <div class="container">
-        <div class="row">
-            <div class="d-flex flex-row justify-content-center" style="margin-top: 30px; margin-left:auto; margin-right:auto; width: 500px">
-                @if (isLoading)
-                {
-                    <LoadingIcon />
-                }
-                else if (UserProfileData != null)
-                {
-                    <div class="text-center" style="max-width: 750px; width: 75%;">
-                        <h2>Edytuj Profil Użytkownika</h2>
-                        <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
-                            <DataAnnotationsValidator />
-                            <ValidationSummary />
-
-                            <div class="form-group">
-                                <label for="FirstName">Imię</label>
-                                <InputText id="FirstName" class="form-control" @bind-Value="UserProfileData.FirstName" />
-                            </div>
-                            <div class="form-group">
-                                <label for="LastName">Nazwisko</label>
-                                <InputText id="LastName" class="form-control" @bind-Value="UserProfileData.LastName" />
-                            </div>
-                            <div class="form-group">
-                                <label for="City">Miasto</label>
-                                <InputText id="City" class="form-control" @bind-Value="UserProfileData.City" />
-                            </div>
-                            <div class="form-group">
-                                <label for="PositionId">Pozycja</label>
-                                <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId">
-                                    @foreach (var position in Positions)
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="login-area">
+        <div class="container">
+            <div class="row display-flex-column-center">
+                <div class="col-lg-6 col-md-12 mr-10">
+                    <div class="login-form">
+                        <div class="card">
+                            <div class="card-body">
+                                <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form">
+                                        <label for="FirstName" class="control-label"></label>
+                                        <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
+                                        <ValidationMessage class="text-danger" For="@(() => UserProfileData.FirstName)" />
+                                    </div>
+                                    <div class="form">
+                                        <label for="LastName" class="control-label"></label>
+                                        <input @bind="UserProfileData.LastName" type="text" class="form-control" id="LastName" placeholder="Nazwisko" required />
+                                        <ValidationMessage class="text-danger" For="@(() => UserProfileData.LastName)" />
+                                    </div>
+                                    <div class="form">
+                                        <label for="City" class="control-label"></label>
+                                        <input @bind="UserProfileData.City" type="text" class="form-control" id="City" placeholder="Miasto" required />
+                                        <ValidationMessage class="text-danger" For="@(() => UserProfileData.City)" />
+                                    </div>
+                                    <div class="form">
+                                        <label for="PositionId" class="control-label"></label>
+                                        <select @bind="UserProfileData.PositionId" class="form-control" id="PositionId" required>
+                                            @foreach (var position in Positions)
+                                            {
+                                                <option value="@position.Id">@position.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form">
+                                        <label for="BirthYear" class="control-label"></label>
+                                        <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="BirthYear" placeholder="Rok urodzenia" required />
+                                        <ValidationMessage class="text-danger" For="@(() => UserProfileData.BirthYear)" />
+                                    </div>
+                                    <div class="form">
+                                        <label for="Height" class="control-label"></label>
+                                        <input @bind="UserProfileData.Height" type="number" class="form-control" id="Height" placeholder="Wzrost" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="Weight" class="control-label"></label>
+                                        <input @bind="UserProfileData.Weight" type="number" class="form-control" id="Weight" placeholder="Waga" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="JerseyNumber" class="control-label"></label>
+                                        <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="JerseyNumber" placeholder="Numer koszulki" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="BlockRange" class="control-label"></label>
+                                        <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="BlockRange" placeholder="Zasięg w bloku (cm)" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="AttackRange" class="control-label"></label>
+                                        <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="AttackRange" placeholder="Zasięg w ataku (cm)" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="VolleyballIdol" class="control-label"></label>
+                                        <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="VolleyballIdol" placeholder="Idol siatkówki" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="Hobby" class="control-label"></label>
+                                        <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="Hobby" placeholder="Hobby" required />
+                                    </div>
+                                    <div class="form">
+                                        <label for="PersonalInfo" class="control-label"></label>
+                                        <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="PersonalInfo" placeholder="Informacje dodatkowe" required></textarea>
+                                    </div>
+                                    <div class="form">
+                                        <label for="Photo" class="control-label">Zdjęcie:</label>
+                                        <label class="btn btn-primary">
+                                            Wybierz plik
+                                            <InputFile OnChange="HandleFileChange" style="display:none;" />
+                                        </label>
+                                        <ValidationMessage For="@(() => UserProfileData.Photo)" />
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(FileName))
                                     {
-                                        <option value="@position.Id">@position.Name</option>
+                                        <div class="form">
+                                            <small class="form-text text-muted">Załadowano plik: @FileName</small>
+                                        </div>
                                     }
-                                </InputSelect>
+                                    <div class="form">
+                                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                                        <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
+                                    </div>
+                                </EditForm>
                             </div>
-                            <div class="form-group">
-                                <label for="BirthYear">Rok urodzenia</label>
-                                <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" />
-                                <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
-                            </div>
-                            <div class="form-group">
-                                <label for="Height">Wzrost</label>
-                                <InputNumber id="Height" class="form-control" @bind-Value="UserProfileData.Height" />
-                            </div>
-                            <div class="form-group">
-                                <label for="Weight">Waga</label>
-                                <InputNumber id="Weight" class="form-control" @bind-Value="UserProfileData.Weight" />
-                            </div>
-                            <div class="form-group">
-                                <label for="JerseyNumber">Numer koszulki</label>
-                                <InputNumber id="JerseyNumber" class="form-control" @bind-Value="UserProfileData.JerseyNumber" />
-                            </div>
-                            <div class="form-group">
-                                <label for="BlockRange">Zasięg w bloku (cm)</label>
-                                <InputNumber id="BlockRange" class="form-control" @bind-Value="UserProfileData.BlockRange" />
-                            </div>
-                            <div class="form-group">
-                                <label for="AttackRange">Zasięg w ataku (cm)</label>
-                                <InputNumber id="AttackRange" class="form-control" @bind-Value="UserProfileData.AttackRange" />
-                            </div>
-                            <div class="form-group">
-                                <label for="VolleyballIdol">Idol siatkówki</label>
-                                <InputText id="VolleyballIdol" class="form-control" @bind-Value="UserProfileData.VolleyballIdol" />
-                            </div>
-                            <div class="form-group">
-                                <label for="Hobby">Hobby</label>
-                                <InputText id="Hobby" class="form-control" @bind-Value="UserProfileData.Hobby" />
-                            </div>
-                            <div class="form-group">
-                                <label for="PersonalInfo">Informacje dodatkowe</label>
-                                <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" />
-                            </div>
-                            <div class="form-group">
-                                <label for="Photo">Zdjęcie:</label>
-                                <label class="btn btn-primary">
-                                    Wybierz plik
-                                    <InputFile OnChange="HandleFileChange" style="display:none;" />
-                                </label>
-                                <ValidationMessage For="@(() => UserProfileData.Photo)" />
-                            </div>
-                            @if (!string.IsNullOrEmpty(FileName))
-                            {
-                                <div class="form-group">
-                                    <small class="form-text text-muted">Załadowano plik: @FileName</small>
-                                </div>
-                            }
-                            <button type="submit" class="btn btn-primary">Zapisz</button>
-                            <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
-                        </EditForm>
+                        </div>
                     </div>
-                }
-                else
-                {
-                    <div class="alert alert-danger" role="alert">
-                        Błąd ładowania danych.
-                    </div>
-                }
+                </div>
             </div>
         </div>
     </div>
-</section>
+}
+
+<style>
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 1em;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .form-text.text-muted {
+        margin-top: 0.5em;
+    }
+</style>
 
 @code {
     [Parameter]
@@ -118,36 +165,36 @@
 
     public UpdateUserDto UserProfileData { get; set; } = new UpdateUserDto();
     public List<PositionDto> Positions { get; set; } = new List<PositionDto>();
-    private bool isLoading = true;
+    private bool pageReady = false;
     private string FileName { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
-        isLoading = true;
+        pageReady = false;
 
         var userProfile = await userService.GetUserProfile(Id);
         if (userProfile != null)
         {
             UserProfileData = new UpdateUserDto
-            {
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName,
-                City = userProfile.City,
-                PositionId = userProfile.PositionId ?? 0,
-                BirthYear = userProfile.BirthYear ?? 0,
-                Height = userProfile.Height ?? 0,
-                Weight = userProfile.Weight ?? 0,
-                JerseyNumber = userProfile.JerseyNumber ?? 0,
-                BlockRange = userProfile.BlockRange ?? 0,
-                AttackRange = userProfile.AttackRange ?? 0,
-                VolleyballIdol = userProfile.VolleyballIdol,
-                Hobby = userProfile.Hobby,
-                PersonalInfo = userProfile.PersonalInfo
-            };
+                {
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName,
+                    City = userProfile.City,
+                    PositionId = userProfile.PositionId ?? 0,
+                    BirthYear = userProfile.BirthYear ?? 0,
+                    Height = userProfile.Height ?? 0,
+                    Weight = userProfile.Weight ?? 0,
+                    JerseyNumber = userProfile.JerseyNumber ?? 0,
+                    BlockRange = userProfile.BlockRange ?? 0,
+                    AttackRange = userProfile.AttackRange ?? 0,
+                    VolleyballIdol = userProfile.VolleyballIdol,
+                    Hobby = userProfile.Hobby,
+                    PersonalInfo = userProfile.PersonalInfo
+                };
         }
 
         Positions = await userService.GetPositions();
-        isLoading = false;
+        pageReady = true;
     }
 
     private async Task HandleValidSubmit()
