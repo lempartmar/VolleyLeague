@@ -16,8 +16,8 @@
     <div class="container">
         <div class="account-inner">
             <div class="account-side-navigation">
-                <button class="filter-btn @GetActiveClass(InfoPages.Dashboard)" @onclick="() => ShowSection(InfoPages.Dashboard)">
-                    <i class="fal fa-chart-bar"></i> Dashboard
+                <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
+                    <i class="fal fa-user-edit"></i> Edytuj Profil
                 </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.Orders)" @onclick="() => ShowSection(InfoPages.Orders)">
                     <i class="fal fa-shopping-cart"></i> Orders
@@ -29,7 +29,7 @@
                     <i class="fal fa-user"></i> Account Details
                 </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
-                    <i class="fal fa-user"></i> User Profile
+                    <i class="fal fa-user"></i> Profil Użytkownika
                 </button>
                 <a href="login.html" class="filter-btn">
                     <i class="fal fa-long-arrow-left"></i> Logout
@@ -38,20 +38,25 @@
             <div class="account-main-area">
                 @switch (currentSection)
                 {
-                    case InfoPages.Dashboard:
-                        <Dashboard />;
+                    case InfoPages.EditProfile:
+                        <EditProfile Id="@playerSummary.Id" />
+                        ;
                         break;
                     case InfoPages.Orders:
-                        <Orders />;
+                        <Orders />
+                        ;
                         break;
                     case InfoPages.Address:
-                        <Address />;
+                        <Address />
+                        ;
                         break;
                     case InfoPages.AccountDetails:
-                        <AccountDetails />;
+                        <AccountDetails />
+                        ;
                         break;
                     case InfoPages.UserProfile:
-                        <UserProfile Id="@playerSummary.Id" />;
+                        <UserProfile Id="@playerSummary.Id" />
+                        ;
                         break;
                 }
             </div>
@@ -60,9 +65,9 @@
 </section>
 
 @code {
-    public enum InfoPages { Dashboard, Orders, Address, AccountDetails, UserProfile }
+    public enum InfoPages { EditProfile, Orders, Address, AccountDetails, UserProfile }
 
-    private InfoPages currentSection = InfoPages.Dashboard;
+    private InfoPages currentSection = InfoPages.EditProfile;
     private bool IsPlayer { get; set; }
     private bool IsAdmin { get; set; }
     private PlayerSummaryDto playerSummary = new PlayerSummaryDto();
