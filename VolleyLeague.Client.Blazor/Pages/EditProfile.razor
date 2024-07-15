@@ -40,12 +40,12 @@ else
                                     </div>
                                     <div class="form">
                                         <label for="City" class="control-label"></label>
-                                        <input @bind="UserProfileData.City" type="text" class="form-control" id="City" placeholder="Miasto" required />
+                                        <input @bind="UserProfileData.City" type="text" class="form-control" id="City" placeholder="Miasto" />
                                         <ValidationMessage class="text-danger" For="@(() => UserProfileData.City)" />
                                     </div>
                                     <div class="form">
                                         <label for="PositionId" class="control-label"></label>
-                                        <select @bind="UserProfileData.PositionId" class="form-control" id="PositionId" required>
+                                        <select @bind="UserProfileData.PositionId" class="form-control" id="PositionId">
                                             @foreach (var position in Positions)
                                             {
                                                 <option value="@position.Id">@position.Name</option>
@@ -54,40 +54,40 @@ else
                                     </div>
                                     <div class="form">
                                         <label for="BirthYear" class="control-label"></label>
-                                        <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="BirthYear" placeholder="Rok urodzenia" required />
+                                        <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="BirthYear" placeholder="Rok urodzenia" />
                                         <ValidationMessage class="text-danger" For="@(() => UserProfileData.BirthYear)" />
                                     </div>
                                     <div class="form">
                                         <label for="Height" class="control-label"></label>
-                                        <input @bind="UserProfileData.Height" type="number" class="form-control" id="Height" placeholder="Wzrost" required />
+                                        <input @bind="UserProfileData.Height" type="number" class="form-control" id="Height" placeholder="Wzrost" />
                                     </div>
                                     <div class="form">
                                         <label for="Weight" class="control-label"></label>
-                                        <input @bind="UserProfileData.Weight" type="number" class="form-control" id="Weight" placeholder="Waga" required />
+                                        <input @bind="UserProfileData.Weight" type="number" class="form-control" id="Weight" placeholder="Waga" />
                                     </div>
                                     <div class="form">
                                         <label for="JerseyNumber" class="control-label"></label>
-                                        <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="JerseyNumber" placeholder="Numer koszulki" required />
+                                        <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="JerseyNumber" placeholder="Numer koszulki" />
                                     </div>
                                     <div class="form">
                                         <label for="BlockRange" class="control-label"></label>
-                                        <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="BlockRange" placeholder="Zasięg w bloku (cm)" required />
+                                        <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="BlockRange" placeholder="Zasięg w bloku (cm)" />
                                     </div>
                                     <div class="form">
                                         <label for="AttackRange" class="control-label"></label>
-                                        <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="AttackRange" placeholder="Zasięg w ataku (cm)" required />
+                                        <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="AttackRange" placeholder="Zasięg w ataku (cm)" />
                                     </div>
                                     <div class="form">
                                         <label for="VolleyballIdol" class="control-label"></label>
-                                        <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="VolleyballIdol" placeholder="Idol siatkówki" required />
+                                        <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="VolleyballIdol" placeholder="Idol siatkówki" />
                                     </div>
                                     <div class="form">
                                         <label for="Hobby" class="control-label"></label>
-                                        <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="Hobby" placeholder="Hobby" required />
+                                        <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="Hobby" placeholder="Hobby" />
                                     </div>
                                     <div class="form">
                                         <label for="PersonalInfo" class="control-label"></label>
-                                        <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="PersonalInfo" placeholder="Informacje dodatkowe" required></textarea>
+                                        <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="PersonalInfo" placeholder="Informacje dodatkowe"></textarea>
                                     </div>
                                     <div class="form">
                                         <label for="Photo" class="control-label">Zdjęcie:</label>
