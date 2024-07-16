@@ -26,6 +26,9 @@
                 <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
                     <i class="fal fa-users"></i> Utwórz drużynę
                 </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.ChangePassword)" @onclick="() => ShowSection(InfoPages.ChangePassword)">
+                    <i class="fal fa-key"></i> Zmień hasło
+                </button>
             </div>
             <div class="account-main-area">
                 @switch (currentSection)
@@ -39,6 +42,9 @@
                     case InfoPages.CreateTeam:
                         <CreateTeam />
                         break;
+                    case InfoPages.ChangePassword:
+                        <ChangePassword />
+                        break;
                 }
             </div>
         </div>
@@ -46,7 +52,7 @@
 </section>
 
 @code {
-    public enum InfoPages { EditProfile, UserProfile, CreateTeam }
+    public enum InfoPages { EditProfile, UserProfile, CreateTeam, ChangePassword }
 
     private InfoPages currentSection = InfoPages.UserProfile;
     private bool IsPlayer { get; set; }
