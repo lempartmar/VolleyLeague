@@ -20,39 +20,18 @@
                 <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
                     <i class="fal fa-user-edit"></i> Edytuj Profil
                 </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.Orders)" @onclick="() => ShowSection(InfoPages.Orders)">
-                    <i class="fal fa-shopping-cart"></i> Orders
-                </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.Address)" @onclick="() => ShowSection(InfoPages.Address)">
-                    <i class="fal fa-map-marker-alt"></i> Address
-                </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.AccountDetails)" @onclick="() => ShowSection(InfoPages.AccountDetails)">
-                    <i class="fal fa-user"></i> Account Details
-                </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
                     <i class="fal fa-user"></i> Profil Użytkownika
                 </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
                     <i class="fal fa-users"></i> Utwórz drużynę
                 </button>
-                <a href="login.html" class="filter-btn">
-                    <i class="fal fa-long-arrow-left"></i> Logout
-                </a>
             </div>
             <div class="account-main-area">
                 @switch (currentSection)
                 {
                     case InfoPages.EditProfile:
                         <EditProfile Id="@playerSummary.Id" />
-                        break;
-                    case InfoPages.Orders:
-                        <Orders />
-                        break;
-                    case InfoPages.Address:
-                        <Address />
-                        break;
-                    case InfoPages.AccountDetails:
-                        <AccountDetails />
                         break;
                     case InfoPages.UserProfile:
                         <UserProfile Id="@playerSummary.Id" />
@@ -67,7 +46,7 @@
 </section>
 
 @code {
-    public enum InfoPages { EditProfile, Orders, Address, AccountDetails, UserProfile, CreateTeam }
+    public enum InfoPages { EditProfile, UserProfile, CreateTeam }
 
     private InfoPages currentSection = InfoPages.EditProfile;
     private bool IsPlayer { get; set; }
