@@ -17,11 +17,11 @@
     <div class="container">
         <div class="account-inner">
             <div class="account-side-navigation">
-                <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
-                    <i class="fal fa-user-edit"></i> Edytuj Profil
-                </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
                     <i class="fal fa-user"></i> Profil Użytkownika
+                </button>
+                <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
+                    <i class="fal fa-user-edit"></i> Edytuj Profil
                 </button>
                 <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
                     <i class="fal fa-users"></i> Utwórz drużynę
@@ -30,11 +30,11 @@
             <div class="account-main-area">
                 @switch (currentSection)
                 {
-                    case InfoPages.EditProfile:
-                        <EditProfile Id="@playerSummary.Id" />
-                        break;
                     case InfoPages.UserProfile:
                         <UserProfile Id="@playerSummary.Id" />
+                        break;
+                    case InfoPages.EditProfile:
+                        <EditProfile Id="@playerSummary.Id" />
                         break;
                     case InfoPages.CreateTeam:
                         <CreateTeam />
@@ -48,7 +48,7 @@
 @code {
     public enum InfoPages { EditProfile, UserProfile, CreateTeam }
 
-    private InfoPages currentSection = InfoPages.EditProfile;
+    private InfoPages currentSection = InfoPages.UserProfile;
     private bool IsPlayer { get; set; }
     private bool IsAdmin { get; set; }
     private PlayerSummaryDto playerSummary = new PlayerSummaryDto();
