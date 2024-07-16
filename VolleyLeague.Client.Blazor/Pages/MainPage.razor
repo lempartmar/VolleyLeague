@@ -13,53 +13,36 @@
 @inject AuthenticationStateProvider _authStateProvider
 @inject AuthenticationStateProvider authStateProvider
 
-<section class="rts-trending-news-section volleyball">
-    <div class="container">
-        <div class="section-inner">
-            <div class="row">
-                @if (_articles != null && _articles.Count() > 1)
-                {
-                    var secondArticle = _articles[1];
-                    var thirdArticle = _articles[2];
-                    var firstArticle = _articles.First();
-                    <div class="col-lg-6">
-                        <div class="item">
-                            <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
-                            <div class="bottom-content">
-                                <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
-                                <div class="gallery-title">
-                                    <a href="blog-details.html">@_articles.First().Title</a>
-                                </div>
-                                <div class="author-info">
-                                    <div class="content">
-                                        <a href="blog-details.html" class="read-more">Więcej</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="right-side-items">
-                            <div class="rts-post-small">
-                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+@if (!cookiesAccepted)
+{
+    <div class="cookie-consent-overlay">
+        <div class="cookie-consent-popup">
+            <p>
+                Ta strona używa ciasteczek (cookies), dzięki którym nasz serwis może działać lepiej.
+                <a href="/cookie-policy" class="btn-link">Dowiedz się więcej</a>
+            </p>
+            <button class="btn" @onclick="AcceptCookies">Akceptuję</button>
+        </div>
+    </div>
+}
+else
+{
+    <section class="rts-trending-news-section volleyball">
+        <div class="container">
+            <div class="section-inner">
+                <div class="row">
+                    @if (_articles != null && _articles.Count() > 1)
+                    {
+                        var secondArticle = _articles[1];
+                        var thirdArticle = _articles[2];
+                        var firstArticle = _articles.First();
+                        <div class="col-lg-6">
+                            <div class="item">
+                                <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
                                 <div class="bottom-content">
                                     <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
                                     <div class="gallery-title">
-                                        <a href="blog-details.html">@secondArticle.Title</a>
-                                    </div>
-                                    <div class="author-info">
-                                        <div class="content">
-                                            <a href="blog-details.html" class="read-more">Więcej</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rts-post-small">
-                                <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
-                                <div class="bottom-content">
-                                    <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
-                                    <div class="gallery-title">
-                                        <a href="blog-details.html">@thirdArticle.Title</a>
+                                        <a href="blog-details.html">@_articles.First().Title</a>
                                     </div>
                                     <div class="author-info">
                                         <div class="content">
@@ -69,197 +52,269 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="right-side-items">
+                                <div class="rts-post-small">
+                                    <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+                                    <div class="bottom-content">
+                                        <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                        <div class="gallery-title">
+                                            <a href="blog-details.html">@secondArticle.Title</a>
+                                        </div>
+                                        <div class="author-info">
+                                            <div class="content">
+                                                <a href="blog-details.html" class="read-more">Więcej</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rts-post-small">
+                                    <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
+                                    <div class="bottom-content">
+                                        <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
+                                        <div class="gallery-title">
+                                            <a href="blog-details.html">@thirdArticle.Title</a>
+                                        </div>
+                                        <div class="author-info">
+                                            <div class="content">
+                                                <a href="blog-details.html" class="read-more">Więcej</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="rts-player-static baseball volleyball">
+        <div class="container">
+            <div class="section-inner">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="left-side-content">
+                            <div class="content-area">
+                                <div class="stat-table">
+                                    <div class="table-area">
+                                        <h3 class="top">Pierwsza Liga BLS</h3>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="head-tr">
+                                                    <th scope="col">LP</th>
+                                                    <th scope="col">TEAM</th>
+                                                    <th scope="col">Points</th>
+                                                    <th scope="col">W</th>
+                                                    <th scope="col">P</th>
+                                                    <th scope="col">SW</th>
+                                                    <th scope="col">SL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (StandingsListShort != null)
+                                                {
+                                                    for (int i = 0; i < StandingsListShort.Count; i++)
+                                                    {
+                                                        var team = StandingsListShort[i];
+                                                        <tr>
+                                                            <td>
+                                                                <span class="position-number">
+                                                                    @{
+                                                                        var position = i + 1;
+                                                                    }@position
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                @{
+                                                                    var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
+                                                                }
+                                                                <div style="display: flex; align-items: center;">
+                                                                    <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+                                                                    <a href="/team/@team.Team.Id/" class="team-link">@team.Team.Name</a>
+                                                                </div>
+                                                            </td>
+                                                            <td><span class="win-count">@team.Points</span></td>
+                                                            <td><span class="win-count">@team.MatchesWon</span></td>
+                                                            <td><span class="win-count">@team.MatchesLost</span></td>
+                                                            <td><span class="win-count">@team.SetsWon</span></td>
+                                                            <td><span class="win-count">@team.SetsLost</span></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="right-side-content">
+                            <div class="inner">
+                                <h3 class="top">Najbliższe mecze</h3>
+                                <ul>
+                                    @if (nextMatches != null)
+                                    {
+                                        @foreach (var match in nextMatches)
+                                        {
+                                            <li class="match-wrapper">
+                                                <div class="logo">
+                                                    <img src="@GetTeamLogoSrc(match.HomeTeam.Logo)" alt="">
+                                                </div>
+                                                <div class="content">
+                                                    <p class="date">@match.Schedule.ToString("MMMM dd, yyyy")</p>
+                                                    <p class="result">@match.Schedule.ToString("h:mm tt")</p>
+                                                    <h3 class="team">@match.HomeTeam.Name <span>VS</span> @match.GuestTeam.Name</h3>
+                                                </div>
+                                                <div class="logo">
+                                                    <img src="@GetTeamLogoSrc(match.GuestTeam.Logo)" alt="">
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="rts-match-result-section nfl volleyball">
+        <div class="container">
+            <div class="section-title-area text-center">
+                <div class="title-watermark">Ostatni mecz</div>
+            </div>
+            <div class="section-inner">
+                @if (lastMatch != null)
+                {
+                    <div class="logo-area">
+                        <img src="@GetTeamLogoSrc(lastMatch.HomeTeam.Logo)" alt="">
+                    </div>
+                    <div class="inner-middle">
+                        <div class="result">
+                            <div class="left-side">
+                                <div class="content">
+                                    <span class="tag">Win</span>
+                                    <h3 class="heading">@lastMatch.HomeTeam.Name</h3>
+                                </div>
+                                <div class="goal">@lastMatch.Team1Score</div>
+                            </div>
+                            <div class="right-side">
+                                <div class="goal">@lastMatch.Team2Score</div>
+                                <div class="content">
+                                    <span class="tag">Loss</span>
+                                    <h3 class="heading">@lastMatch.GuestTeam.Name</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="desc">@lastMatch.MatchInfo</p>
+                    </div>
+                    <div class="logo-area">
+                        <img src="@GetTeamLogoSrc(lastMatch.GuestTeam.Logo)" alt="">
+                    </div>
+                }
+                else
+                {
+                    <p>Nie ma meczu w najbliższym czasie</p>
                 }
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="rts-player-static baseball volleyball">
-    <div class="container">
-        <div class="section-inner">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="left-side-content">
-                        <div class="content-area">
-                            <div class="stat-table">
-                                <div class="table-area">
-                                    <h3 class="top">Pierwsza Liga BLS</h3>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr class="head-tr">
-                                                <th scope="col">LP</th>
-                                                <th scope="col">TEAM</th>
-                                                <th scope="col">Points</th>
-                                                <th scope="col">W</th>
-                                                <th scope="col">P</th>
-                                                <th scope="col">SW</th>
-                                                <th scope="col">SL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (StandingsListShort != null)
-                                            {
-                                                for (int i = 0; i < StandingsListShort.Count; i++)
-                                                {
-                                                    var team = StandingsListShort[i];
-                                                    <tr>
-                                                        <td>
-                                                            <span class="position-number">
-                                                                @{
-                                                                    var position = i + 1;
-                                                                }@position
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            @{
-                                                                var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
-                                                            }
-                                                            <div style="display: flex; align-items: center;">
-                                                                <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;">
-                                                                <a href="/team/@team.Team.Id/" class="team-link">@team.Team.Name</a>
-                                                            </div>
-                                                        </td>
-                                                        <td><span class="win-count">@team.Points</span></td>
-                                                        <td><span class="win-count">@team.MatchesWon</span></td>
-                                                        <td><span class="win-count">@team.MatchesLost</span></td>
-                                                        <td><span class="win-count">@team.SetsWon</span></td>
-                                                        <td><span class="win-count">@team.SetsLost</span></td>
-                                                    </tr>
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+    <div class="rts-gallery-section home-four nfl volleyball">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="top-wrap">
+                <div class="section-title-area section-title-area1" style="text-align: center; margin-bottom: 40px;">
+                    <h1 class="title">MEDIA</h1>
+                </div>
+            </div>
+            <div class="filterd-items home">
+                <div class="gallery-grid" style="display: flex; gap: 20px;">
+                    <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                        <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
+                            <div class="play-video">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DID8UK3gLj8" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="right-side-content">
-                        <div class="inner">
-                            <h3 class="top">Najbliższe mecze</h3>
-                            <ul>
-                                @if (nextMatches != null)
-                                {
-                                    @foreach (var match in nextMatches)
-                                    {
-                                        <li class="match-wrapper">
-                                            <div class="logo">
-                                                <img src="@GetTeamLogoSrc(match.HomeTeam.Logo)" alt="">
-                                            </div>
-                                            <div class="content">
-                                                <p class="date">@match.Schedule.ToString("MMMM dd, yyyy")</p>
-                                                <p class="result">@match.Schedule.ToString("h:mm tt")</p>
-                                                <h3 class="team">@match.HomeTeam.Name <span>VS</span> @match.GuestTeam.Name</h3>
-                                            </div>
-                                            <div class="logo">
-                                                <img src="@GetTeamLogoSrc(match.GuestTeam.Logo)" alt="">
-                                            </div>
-                                        </li>
-                                    }
-                                }
-                            </ul>
+                    <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                        <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
+                            <div class="play-video">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZgunK7Wgfvc" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
+                        <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
+                            <div class="play-video">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/imtHlApQ-EU" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-
-<section class="rts-match-result-section nfl volleyball">
-    <div class="container">
-        <div class="section-title-area text-center">
-            <div class="title-watermark">Ostatni mecz</div>
-        </div>
-        <div class="section-inner">
-            @if (lastMatch != null)
-            {
-                <div class="logo-area">
-                    <img src="@GetTeamLogoSrc(lastMatch.HomeTeam.Logo)" alt="">
-                </div>
-                <div class="inner-middle">
-                    <div class="result">
-                        <div class="left-side">
-                            <div class="content">
-                                <span class="tag">Win</span>
-                                <h3 class="heading">@lastMatch.HomeTeam.Name</h3>
-                            </div>
-                            <div class="goal">@lastMatch.Team1Score</div>
-                        </div>
-                        <div class="right-side">
-                            <div class="goal">@lastMatch.Team2Score</div>
-                            <div class="content">
-                                <span class="tag">Loss</span>
-                                <h3 class="heading">@lastMatch.GuestTeam.Name</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="desc">@lastMatch.MatchInfo</p>
-                </div>
-                <div class="logo-area">
-                    <img src="@GetTeamLogoSrc(lastMatch.GuestTeam.Logo)" alt="">
-                </div>
-            }
-            else
-            {
-                <p>Nie ma meczu w najbliższym czasie</p>
-            }
-        </div>
-    </div>
-</section>
-
-<div class="rts-gallery-section home-four nfl volleyball">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-        <div class="top-wrap">
-            <div class="section-title-area section-title-area1" style="text-align: center; margin-bottom: 40px;">
-                <h1 class="title">MEDIA</h1>
-            </div>
-        </div>
-        <div class="filterd-items home">
-            <div class="gallery-grid" style="display: flex; gap: 20px;">
-                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
-                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
-                        <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DID8UK3gLj8" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
-                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
-                        <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZgunK7Wgfvc" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
-                    <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
-                        <div class="play-video">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/imtHlApQ-EU" frameborder="0" allowfullscreen style="width: 100%; height: 400px; border: none;"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-@if (!cookiesAccepted)
-{
-    <div class="cookie-consent-banner">
-        <p>
-            Ta strona używa ciasteczek (cookies), dzięki którym nasz serwis może działać lepiej.
-            <a href="/cookie-policy" class="btn btn-link">Dowiedz się więcej</a>
-            <button class="btn btn-primary" @onclick="AcceptCookies">Akceptuję</button>
-        </p>
     </div>
 }
+
+
+<style>
+    .cookie-consent-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cookie-consent-popup {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+    }
+
+        .cookie-consent-popup p {
+            margin: 0 0 20px;
+            font-size: 16px;
+        }
+
+        .cookie-consent-popup .btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .cookie-consent-popup .btn-link {
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+            .cookie-consent-popup .btn-link:hover {
+                color: #0056b3;
+            }
+</style>
 
 <script>
     var swiper = new Swiper('.bannerSlide2', {
