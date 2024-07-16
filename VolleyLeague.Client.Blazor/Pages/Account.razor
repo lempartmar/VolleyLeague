@@ -17,18 +17,57 @@
     <div class="container">
         <div class="account-inner">
             <div class="account-side-navigation">
-                <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
-                    <i class="fal fa-user"></i> Profil Użytkownika
-                </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
-                    <i class="fal fa-user-edit"></i> Edytuj Profil
-                </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
-                    <i class="fal fa-users"></i> Utwórz drużynę
-                </button>
-                <button class="filter-btn @GetActiveClass(InfoPages.ChangePassword)" @onclick="() => ShowSection(InfoPages.ChangePassword)">
-                    <i class="fal fa-key"></i> Zmień hasło
-                </button>
+                @if (IsAdmin || (IsPlayer && !IsAdmin))
+                {
+                    <button class="filter-btn @GetActiveClass(InfoPages.UserProfile)" @onclick="() => ShowSection(InfoPages.UserProfile)">
+                        <i class="fal fa-user"></i> Profil Użytkownika
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
+                        <i class="fal fa-user-edit"></i> Edytuj Profil
+                    </button>
+                    @if (HasTeam && IsPlayer && !IsAdmin)
+                    {
+                        <button class="filter-btn @GetActiveClass(InfoPages.ManageTeam)" @onclick="() => ShowSection(InfoPages.ManageTeam)">
+                            <i class="fal fa-users-cog"></i> Zarządzaj drużyną
+                        </button>
+                    }
+                    else if (IsPlayer && !IsAdmin)
+                    {
+                        <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
+                            <i class="fal fa-users"></i> Stwórz drużynę
+                        </button>
+                    }
+                    <button class="filter-btn @GetActiveClass(InfoPages.ChangePassword)" @onclick="() => ShowSection(InfoPages.ChangePassword)">
+                        <i class="fal fa-key"></i> Zmień hasło
+                    </button>
+                }
+                @if (IsAdmin)
+                {
+                    <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
+                        <i class="fal fa-users"></i> Stwórz drużynę
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.ChangePassword)" @onclick="() => ShowSection(InfoPages.ChangePassword)">
+                        <i class="fal fa-key"></i> Zmień hasło
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.Referees)" @onclick="() => ShowSection(InfoPages.Referees)">
+                        <i class="fal fa-users-cog"></i> Zarządzaj Sędziami
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.HandleSeason)" @onclick="() => ShowSection(InfoPages.HandleSeason)">
+                        <i class="fal fa-calendar-alt"></i> Zarządzaj Sezonami
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.CreateMatch)" @onclick="() => ShowSection(InfoPages.CreateMatch)">
+                        <i class="fal fa-calendar-plus"></i> Dodaj mecz
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.ManageTeams)" @onclick="() => ShowSection(InfoPages.ManageTeams)">
+                        <i class="fal fa-users"></i> Zarządzaj drużynami
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.TeamsImages)" @onclick="() => ShowSection(InfoPages.TeamsImages)">
+                        <i class="fal fa-images"></i> Zarządzaj zdjęciami drużyn
+                    </button>
+                    <button class="filter-btn @GetActiveClass(InfoPages.AddArticle)" @onclick="() => ShowSection(InfoPages.AddArticle)">
+                        <i class="fal fa-newspaper"></i> Dodaj Artykuł
+                    </button>
+                }
             </div>
             <div class="account-main-area">
                 @switch (currentSection)
@@ -45,6 +84,27 @@
                     case InfoPages.ChangePassword:
                         <ChangePassword />
                         break;
+                    case InfoPages.ManageTeam:
+                        <ManageTeam />
+                        break;
+                    case InfoPages.Referees:
+                        <Referees />
+                        break;
+                    case InfoPages.HandleSeason:
+                        <HandleSeason />
+                        break;
+                    case InfoPages.CreateMatch:
+                        <CreateMatch />
+                        break;
+                    case InfoPages.ManageTeams:
+                        <ManageTeams />
+                        break;
+                    case InfoPages.TeamsImages:
+                        <TeamsImages />
+                        break;
+                    case InfoPages.AddArticle:
+                        <AddArticle />
+                        break;
                 }
             </div>
         </div>
@@ -52,7 +112,20 @@
 </section>
 
 @code {
-    public enum InfoPages { EditProfile, UserProfile, CreateTeam, ChangePassword }
+    public enum InfoPages
+    {
+        EditProfile,
+        UserProfile,
+        CreateTeam,
+        ChangePassword,
+        ManageTeam,
+        Referees,
+        HandleSeason,
+        CreateMatch,
+        ManageTeams,
+        TeamsImages,
+        AddArticle
+    }
 
     private InfoPages currentSection = InfoPages.UserProfile;
     private bool IsPlayer { get; set; }
