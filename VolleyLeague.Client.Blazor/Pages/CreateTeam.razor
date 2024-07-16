@@ -32,34 +32,34 @@ else
                             <h2>Tworzenie drużyny</h2>
                         </div>
                         <div class="card-body" style="padding: 16px;">
-                            <div class="form-group mb-3" style="margin-bottom: 16px;">
-                                <label for="Name" class="control-label" style="display: block; margin-bottom: 8px;">Nazwa drużyny</label>
-                                <InputText class="form-control" id="Name" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="NewTeam.Name" />
-                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Name)" />
+                            <div class="form-floating mb-4">
+                                <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
+                                <label for="Name">Nazwa drużyny</label>
+                                <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
                             </div>
 
-                            <div class="form-group mb-3" style="margin-bottom: 16px;">
-                                <label for="Email" class="control-label" style="display: block; margin-bottom: 8px;">Email drużynowy:</label>
-                                <InputText class="form-control" id="Email" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="NewTeam.Email" />
-                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Email)" />
+                            <div class="form-floating mb-4">
+                                <InputText id="Email" class="form-control" @bind-Value="NewTeam.Email" placeholder="Email drużynowy" />
+                                <label for="Email">Email drużynowy</label>
+                                <ValidationMessage For="@(() => NewTeam.Email)" class="text-danger" />
                             </div>
 
-                            <div class="form-group mb-3" style="margin-bottom: 16px;">
-                                <label for="Phone" class="control-label" style="display: block; margin-bottom: 8px;">Telefon komórkowy:</label>
-                                <InputText class="form-control" id="Phone" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="NewTeam.Phone" />
-                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Phone)" />
+                            <div class="form-floating mb-4">
+                                <InputText id="Phone" class="form-control" @bind-Value="NewTeam.Phone" placeholder="Telefon komórkowy" />
+                                <label for="Phone">Telefon komórkowy</label>
+                                <ValidationMessage For="@(() => NewTeam.Phone)" class="text-danger" />
                             </div>
 
-                            <div class="form-group mb-3" style="margin-bottom: 16px;">
-                                <label for="TeamDescription" class="control-label" style="display: block; margin-bottom: 8px;">Opis drużyny:</label>
-                                <InputText class="form-control" id="TeamDescription" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="NewTeam.TeamDescription" />
-                                <ValidationMessage class="text-danger" For="@(() => NewTeam.TeamDescription)" />
+                            <div class="form-floating mb-4">
+                                <InputText id="TeamDescription" class="form-control" @bind-Value="NewTeam.TeamDescription" placeholder="Opis drużyny" />
+                                <label for="TeamDescription">Opis drużyny</label>
+                                <ValidationMessage For="@(() => NewTeam.TeamDescription)" class="text-danger" />
                             </div>
 
-                            <div class="form-group mb-3" style="margin-bottom: 16px;">
-                                <label for="Website" class="control-label" style="display: block; margin-bottom: 8px;">Strona internetowa:</label>
-                                <InputText class="form-control" id="Website" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="NewTeam.Website" />
-                                <ValidationMessage class="text-danger" For="@(() => NewTeam.Website)" />
+                            <div class="form-floating mb-4">
+                                <InputText id="Website" class="form-control" @bind-Value="NewTeam.Website" placeholder="Strona internetowa" />
+                                <label for="Website">Strona internetowa</label>
+                                <ValidationMessage For="@(() => NewTeam.Website)" class="text-danger" />
                             </div>
                         </div>
 
