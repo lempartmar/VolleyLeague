@@ -4,11 +4,12 @@ namespace VolleyLeague.Client.Blazor.Shared.Dtos
 {
     public class LoginDto
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Adres e-mail jest wymagany.")]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres e-mail.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = string.Empty;
-        [Required]
+
+        [Required(ErrorMessage = "Hasło jest wymagane.")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
     }

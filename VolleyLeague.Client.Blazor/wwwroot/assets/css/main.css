@@ -28005,3 +28005,8 @@ div a.menu-item.text-label {
     background: #C10F18;
     color: #FFFFFF;
 }
+
+.validation-message {
+    color: red;
+    font-size: small;
+}

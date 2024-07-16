@@ -24,15 +24,15 @@
                         <div class="card-body">
                             <EditForm Model="User" OnValidSubmit="HandleLogin">
                                 <DataAnnotationsValidator />
-                                <ValidationSummary />
                                 <div class="form">
-                                    <input @bind="User.Email" type="email" class="form-control" id="username" placeholder="Adres e-mail" required />
+                                    <label for="username" class="form-label">Adres e-mail</label>
+                                    <InputText id="username" class="form-control" @bind-Value="User.Email" />
+                                    <ValidationMessage For="@(() => User.Email)" />
                                 </div>
                                 <div class="form">
-                                    <div class="password-input">
-                                        <input @bind="User.Password" type="password" class="form-control" id="password" placeholder="Hasło" required />
-                                        <span class="show-password-input"></span>
-                                    </div>
+                                    <label for="password" class="form-label">Hasło</label>
+                                    <InputText id="password" type="password" class="form-control" @bind-Value="User.Password" />
+                                    <ValidationMessage For="@(() => User.Password)" />
                                 </div>
                                 <div class="form">
                                     <button type="submit" class="btn">
