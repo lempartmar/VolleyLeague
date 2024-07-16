@@ -30,87 +30,87 @@ else
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.FirstName" type="text" class="form-control" id="tt2" placeholder="Imię" required />
-                            <span><label for="tt2">Imię</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.FirstName)" />
+                        <div class="form">
+                            <label for="FirstName" class="form-label">Imię</label>
+                            <InputText id="FirstName" class="form-control" @bind-Value="UserProfileData.FirstName" />
+                            <ValidationMessage For="@(() => UserProfileData.FirstName)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.LastName" type="text" class="form-control" id="tt2" placeholder="Nazwisko" required />
-                            <span><label for="tt2">Nazwisko</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.LastName)" />
+                        <div class="form">
+                            <label for="LastName" class="form-label">Nazwisko</label>
+                            <InputText id="LastName" class="form-control" @bind-Value="UserProfileData.LastName" />
+                            <ValidationMessage For="@(() => UserProfileData.LastName)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.City" type="text" class="form-control" id="tt2" placeholder="Miasto" />
-                            <span><label for="tt2">Miasto</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.City)" />
+                        <div class="form">
+                            <label for="City" class="form-label">Miasto</label>
+                            <InputText id="City" class="form-control" @bind-Value="UserProfileData.City" />
+                            <ValidationMessage For="@(() => UserProfileData.City)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <select @bind="UserProfileData.PositionId" class="form-control" id="tt2">
+                        <div class="form">
+                            <label for="PositionId" class="form-label">Pozycja</label>
+                            <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId">
                                 @foreach (var position in Positions)
                                 {
                                     <option value="@position.Id">@position.Name</option>
                                 }
-                            </select>
-                            <span><label for="tt2">Pozycja</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.PositionId)" />
+                            </InputSelect>
+                            <ValidationMessage For="@(() => UserProfileData.PositionId)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.BirthYear" type="number" class="form-control" id="tt2" placeholder="Rok urodzenia" />
-                            <span><label for="tt2">Rok urodzenia</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.BirthYear)" />
+                        <div class="form">
+                            <label for="BirthYear" class="form-label">Rok urodzenia</label>
+                            <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" />
+                            <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.Height" type="number" class="form-control" id="tt2" placeholder="Wzrost" />
-                            <span><label for="tt2">Wzrost</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Height)" />
+                        <div class="form">
+                            <label for="Height" class="form-label">Wzrost</label>
+                            <InputNumber id="Height" class="form-control" @bind-Value="UserProfileData.Height" />
+                            <ValidationMessage For="@(() => UserProfileData.Height)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.Weight" type="number" class="form-control" id="tt2" placeholder="Waga" />
-                            <span><label for="tt2">Waga</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Weight)" />
+                        <div class="form">
+                            <label for="Weight" class="form-label">Waga</label>
+                            <InputNumber id="Weight" class="form-control" @bind-Value="UserProfileData.Weight" />
+                            <ValidationMessage For="@(() => UserProfileData.Weight)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.JerseyNumber" type="number" class="form-control" id="tt2" placeholder="Numer koszulki" />
-                            <span><label for="tt2">Numer koszulki</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.JerseyNumber)" />
+                        <div class="form">
+                            <label for="JerseyNumber" class="form-label">Numer koszulki</label>
+                            <InputNumber id="JerseyNumber" class="form-control" @bind-Value="UserProfileData.JerseyNumber" />
+                            <ValidationMessage For="@(() => UserProfileData.JerseyNumber)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.BlockRange" type="number" class="form-control" id="tt2" placeholder="Zasięg w bloku (cm)" />
-                            <span><label for="tt2">Zasięg w bloku (cm)</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.BlockRange)" />
+                        <div class="form">
+                            <label for="BlockRange" class="form-label">Zasięg w bloku (cm)</label>
+                            <InputNumber id="BlockRange" class="form-control" @bind-Value="UserProfileData.BlockRange" />
+                            <ValidationMessage For="@(() => UserProfileData.BlockRange)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.AttackRange" type="number" class="form-control" id="tt2" placeholder="Zasięg w ataku (cm)" />
-                            <span><label for="tt2">Zasięg w ataku (cm)</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.AttackRange)" />
+                        <div class="form">
+                            <label for="AttackRange" class="form-label">Zasięg w ataku (cm)</label>
+                            <InputNumber id="AttackRange" class="form-control" @bind-Value="UserProfileData.AttackRange" />
+                            <ValidationMessage For="@(() => UserProfileData.AttackRange)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.VolleyballIdol" type="text" class="form-control" id="tt2" placeholder="Idol siatkówki" />
-                            <span><label for="tt2">Idol siatkówki</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.VolleyballIdol)" />
+                        <div class="form">
+                            <label for="VolleyballIdol" class="form-label">Idol siatkówki</label>
+                            <InputText id="VolleyballIdol" class="form-control" @bind-Value="UserProfileData.VolleyballIdol" />
+                            <ValidationMessage For="@(() => UserProfileData.VolleyballIdol)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <input @bind="UserProfileData.Hobby" type="text" class="form-control" id="tt2" placeholder="Hobby" />
-                            <span><label for="tt2">Hobby</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.Hobby)" />
+                        <div class="form">
+                            <label for="Hobby" class="form-label">Hobby</label>
+                            <InputText id="Hobby" class="form-control" @bind-Value="UserProfileData.Hobby" />
+                            <ValidationMessage For="@(() => UserProfileData.Hobby)" />
                         </div>
 
-                        <div class="form-label-group outline">
-                            <textarea @bind="UserProfileData.PersonalInfo" class="form-control" id="tt2" placeholder="Informacje dodatkowe"></textarea>
-                            <span><label for="tt2">Informacje dodatkowe</label></span>
-                            <ValidationMessage class="text-danger" For="@(() => UserProfileData.PersonalInfo)" />
+                        <div class="form">
+                            <label for="PersonalInfo" class="form-label">Informacje dodatkowe</label>
+                            <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" />
+                            <ValidationMessage For="@(() => UserProfileData.PersonalInfo)" />
                         </div>
 
                         <div class="mb-3">
