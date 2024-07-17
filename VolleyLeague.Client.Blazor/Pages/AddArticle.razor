@@ -45,7 +45,14 @@
                                     <RadzenHtmlEditorSeparator />
                                     <RadzenHtmlEditorColor />
                                     <RadzenHtmlEditorBackground />
-                                    <RadzenHtmlEditorImage />
+                                    <RadzenHtmlEditorFont />
+                                    <RadzenHtmlEditorFontSize />
+                                    <RadzenHtmlEditorSubscript />
+                                    <RadzenHtmlEditorSuperscript />
+                                    <RadzenHtmlEditorAlignment />
+                                    <RadzenHtmlEditorOrderedList />
+                                    <RadzenHtmlEditorUnorderedList />
+                                    <RadzenHtmlEditorLink />
                                     <RadzenHtmlEditorRemoveFormat />
                                 </RadzenHtmlEditor>
                                 <ValidationMessage class="text-danger" For="@(() => articleDto.Content)" />
@@ -76,8 +83,8 @@
                 }
                 else
                 {
-                    <h3>Zarejestrowano pomyślnie!</h3>
-                    <p><a href="/login">Zaloguj się</a></p>
+                    <h3>Artykuł został dodany pomyślnie!</h3>
+                    <p><a href="/">Wróć do strony głównej</a></p>
                 }
             </div>
         </div>
