@@ -9,99 +9,93 @@
 }
 else
 {
-    <section class="category_section">
+    <div class="rts-point-table-section section-gap">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mobile">
-                        @if (pageReady)
-                        {
-                            <div class="card m-2 p-2">
-                                <EditForm Model="Filter">
-                                    <div class="form-group btn-group">
-                                        <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
-                                        <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                                            @foreach (var season in Filter.SeasonList)
-                                            {
-                                                <option value="@season.Id">@season.Name</option>
-                                            }
-                                        </Select>
-                                    </div>
-                                    <div class="form-group btn-group">
-                                        <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
-                                        <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
-                                            @foreach (var league in Filter.LeagueList)
-                                            {
-                                                <option value="@league.Id">@league.Name</option>
-                                            }
-                                        </Select>
-                                    </div>
-                                </EditForm>
+            <div class="table-area table-full">
+                <form class="checkout-form">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="seasonSelect" class="form-label">SEZON:</label>
+                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                    @foreach (var season in Filter.SeasonList)
+                                    {
+                                        <option value="@season.Id">@season.Name</option>
+                                    }
+                                </select>
                             </div>
-
-                            @if (mvpLoading)
-                            {
-                                <div class="d-flex justify-content-center">
-                                    <div id="spinner"></div>
-                                </div>
-                            }
-                            else if (!string.IsNullOrEmpty(mvpErrorMessage))
-                            {
-                                <div class="alert alert-danger">
-                                    @mvpErrorMessage
-                                </div>
-                            }
-                            else if (MvpList.Count == 0)
-                            {
-                                <div class="alert alert-info" role="alert">
-                                    Nie znaleziono MVP dla danego sezonu.
-                                </div>
-                            }
-                            else if (MvpList.Count > 0)
-                            {
-                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px; max-width: 800px; margin-left:auto; margin-right:auto;">
-                                    <table class="table" style="color: black">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
-                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
-                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Drużyna</th>
-                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{
-                                                int rank = 1;
-                                            }
-                                            @foreach (var player in MvpList)
-                                            {
-                                                <tr>
-                                                    <td style="vertical-align: middle; text-align: center;">@rank</td>
-                                                    <td style="vertical-align: middle; text-align: center;">
-                                                        <a href="/user-profile/@player.Id/" class="player-link" style="color: #0268d6;">@player.Name</a>
-                                                    </td>
-                                                    <td style="vertical-align: middle; text-align: center;">@player.TeamName</td>
-                                                    <td style="vertical-align: middle; text-align: center;">@player.TotalMvpCount</td>
-                                                </tr>
-                                                rank++;
-                                            }
-                                        </tbody>
-                                    </table>    
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="d-flex justify-content-center">
-                                <div id="spinner"></div>
-                            </div>
-                        }
                         </div>
-                </div>
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="leagueSelect" class="form-label">LIGA:</label>
+                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                    @foreach (var league in Filter.LeagueList)
+                                    {
+                                        <option value="@league.Id">@league.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                @if (mvpLoading)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div id="spinner"></div>
+                    </div>
+                }
+                else if (!string.IsNullOrEmpty(mvpErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @mvpErrorMessage
+                    </div>
+                }
+                else if (MvpList.Count == 0)
+                {
+                    <div class="alert alert-info" role="alert">
+                        Nie znaleziono MVP dla danego sezonu.
+                    </div>
+                }
+                else if (MvpList.Count > 0)
+                {
+                    <div class="table-area table-full">
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr class="head-tr">
+                                    <th scope="col">LP</th>
+                                    <th scope="col">Zawodnik</th>
+                                    <th scope="col">Drużyna</th>
+                                    <th scope="col">Ilość MVP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rank = 1;
+                                }
+                                @foreach (var player in MvpList)
+                                {
+                                    <tr>
+                                        <td><span class="position-number">@rank</span></td>
+                                        <td>
+                                            <div class="player-name-area">
+                                                <h4 class="player-name"><a href="/user-profile/@player.Id/">@player.Name</a></h4>
+                                            </div>
+                                        </td>
+                                        <td><span class="team-name">@player.TeamName</span></td>
+                                        <td><span class="mvp-count">@player.TotalMvpCount</span></td>
+                                    </tr>
+                                    rank++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </div>
-    </section>
+    </div>
 }
+
 <style>
     .btn-label {
         background: none;
@@ -112,7 +106,7 @@ else
         text-align: left;
     }
 
-    .dropdown-toggle {
+    .form-select {
         background: #fff;
         border: 1px solid #ccc;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
@@ -139,6 +133,33 @@ else
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
+
+    .table {
+        color: black;
+    }
+
+    .thead-dark th {
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table .head-tr th {
+        text-align: center;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .player-name-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-info, .alert-danger {
+        margin-top: 20px;
     }
 </style>
 
