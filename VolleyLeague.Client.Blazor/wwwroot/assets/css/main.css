@@ -28015,3 +28015,7 @@ div a.menu-item.text-label {
     display: flex;
     justify-content: space-around;
 }
+
+td span, th span {
+    color: black;
+}
