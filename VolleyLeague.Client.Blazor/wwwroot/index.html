@@ -35,6 +35,8 @@
     <!--================= Main Stylesheet =================-->
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
+
     <link href="_framework/blazor.webassembly.js" rel="stylesheet">
 </head>
 <body>
@@ -51,6 +53,7 @@
     </div>
 
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
@@ -64,6 +67,7 @@
     <script src="assets/js/vendors/metisMenu.min.js"></script>
     <script src="assets/js/vendors/rtsmenu.js"></script>
     <script src="assets/js/vendors/jquery.magnific-popup.min.js"></script>
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
