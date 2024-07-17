@@ -129,7 +129,6 @@ else
 
                         <div class="mb-4">
                             <button type="submit" class="btn btn-primary">Zapisz</button>
-                            <button type="button" class="btn btn-secondary" @onclick="Cancel">Anuluj</button>
                         </div>
                     </EditForm>
                 </div>
@@ -248,7 +247,8 @@ else
     private async Task HandleValidSubmit()
     {
         await userService.UpdateUser(UserProfileData);
-        Navigation.NavigateTo($"/account?section=UserProfile");
+        // Navigation.NavigateTo($"/account?section=UserProfile");
+        Navigation.NavigateTo($"/account", true);
     }
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
@@ -267,10 +267,5 @@ else
             }
             FileName = imageFile.Name;
         }
-    }
-
-    private void Cancel()
-    {
-        Navigation.NavigateTo($"/user-profile/{Id}");
     }
 }
