@@ -42,9 +42,11 @@ else
                             var secondArticle = _articles[1];
                             var thirdArticle = _articles[2];
                             var firstArticle = _articles.First();
+                            string imageBase64 = Convert.ToBase64String(firstArticle.Image);
+                            string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
                             <div class="col-lg-6">
                                 <div class="item">
-                                    <div class="image-area"><img src="assets/images/blog/news36.jpg" alt=""></div>
+                                    <div class="image-area"><img src="@imageSrc" alt=""></div>
                                     <div class="bottom-content">
                                         <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
                                         <div class="gallery-title">
@@ -179,7 +181,6 @@ else
                                                     </div>
                                                 </li>
                                             }
-                                        }
                                         }
                                     </ul>
                                 </div>
