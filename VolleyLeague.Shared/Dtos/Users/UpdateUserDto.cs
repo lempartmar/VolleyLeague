@@ -12,7 +12,6 @@ namespace VolleyLeague.Shared.Dtos.Teams
         [Display(Name = "Nazwisko")]
         public string? LastName { get; set; }
 
-        [Range(1900, 2100, ErrorMessage = "Podaj prawidłowy rok urodzenia.")]
         [Display(Name = "Rok urodzenia")]
         public int BirthYear { get; set; }
 
@@ -28,23 +27,18 @@ namespace VolleyLeague.Shared.Dtos.Teams
         [Display(Name = "Płeć")]
         public bool Gender { get; set; }
 
-        [Range(0, 300, ErrorMessage = "Podaj prawidłowy wzrost.")]
         [Display(Name = "Wzrost")]
         public int Height { get; set; }
 
-        [Range(0, 300, ErrorMessage = "Podaj prawidłową wagę.")]
         [Display(Name = "Waga")]
         public int Weight { get; set; }
 
-        [Range(0, 99, ErrorMessage = "Podaj prawidłowy numer koszulki.")]
         [Display(Name = "Numer koszulki")]
         public int JerseyNumber { get; set; }
 
-        [Range(0, 400, ErrorMessage = "Podaj prawidłowy zasięg w ataku.")]
         [Display(Name = "Zasięg ataku")]
         public int BlockRange { get; set; }
 
-        [Range(0, 400, ErrorMessage = "Podaj prawidłowy zasięg w bloku.")]
         [Display(Name = "Zasięg bloku")]
         public int AttackRange { get; set; }
 
