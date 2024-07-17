@@ -28,89 +28,116 @@ else
                 <div class="card-body">
                     <EditForm Model="@UserProfileData" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
-                        <div class="form-floating mb-4">
-                            <InputText id="FirstName" class="form-control" @bind-Value="UserProfileData.FirstName" placeholder="Imię" />
-                            <label for="FirstName">Imię</label>
-                            <ValidationMessage For="@(() => UserProfileData.FirstName)" />
+
+                        <h3>Personalia</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="FirstName" class="form-control" @bind-Value="UserProfileData.FirstName" placeholder="Imię" />
+                                    <label for="FirstName">Imię</label>
+                                    <ValidationMessage For="@(() => UserProfileData.FirstName)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="LastName" class="form-control" @bind-Value="UserProfileData.LastName" placeholder="Nazwisko" />
+                                    <label for="LastName">Nazwisko</label>
+                                    <ValidationMessage For="@(() => UserProfileData.LastName)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="City" class="form-control" @bind-Value="UserProfileData.City" placeholder="Miasto" />
+                                    <label for="City">Miasto</label>
+                                    <ValidationMessage For="@(() => UserProfileData.City)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" placeholder="Rok urodzenia" />
+                                    <label for="BirthYear">Rok urodzenia</label>
+                                    <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-floating mb-4">
-                            <InputText id="LastName" class="form-control" @bind-Value="UserProfileData.LastName" placeholder="Nazwisko" />
-                            <label for="LastName">Nazwisko</label>
-                            <ValidationMessage For="@(() => UserProfileData.LastName)" />
+                        <h3>Siatkówka</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="JerseyNumber" class="form-control" @bind-Value="UserProfileData.JerseyNumber" placeholder="Numer koszulki" />
+                                    <label for="JerseyNumber">Numer koszulki</label>
+                                    <ValidationMessage For="@(() => UserProfileData.JerseyNumber)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId" placeholder="Pozycja">
+                                        @foreach (var position in Positions)
+                                        {
+                                            <option value="@position.Id">@position.Name</option>
+                                        }
+                                    </InputSelect>
+                                    <label for="PositionId">Pozycja</label>
+                                    <ValidationMessage For="@(() => UserProfileData.PositionId)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="BlockRange" class="form-control" @bind-Value="UserProfileData.BlockRange" placeholder="Zasięg w bloku (cm)" />
+                                    <label for="BlockRange">Zasięg w bloku (cm)</label>
+                                    <ValidationMessage For="@(() => UserProfileData.BlockRange)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="AttackRange" class="form-control" @bind-Value="UserProfileData.AttackRange" placeholder="Zasięg w ataku (cm)" />
+                                    <label for="AttackRange">Zasięg w ataku (cm)</label>
+                                    <ValidationMessage For="@(() => UserProfileData.AttackRange)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="Height" class="form-control" @bind-Value="UserProfileData.Height" placeholder="Wzrost" />
+                                    <label for="Height">Wzrost</label>
+                                    <ValidationMessage For="@(() => UserProfileData.Height)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputNumber id="Weight" class="form-control" @bind-Value="UserProfileData.Weight" placeholder="Waga" />
+                                    <label for="Weight">Waga</label>
+                                    <ValidationMessage For="@(() => UserProfileData.Weight)" />
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-floating mb-4">
-                            <InputText id="City" class="form-control" @bind-Value="UserProfileData.City" placeholder="Miasto" />
-                            <label for="City">Miasto</label>
-                            <ValidationMessage For="@(() => UserProfileData.City)" />
+                        <h3>Informacje dodatkowe</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="VolleyballIdol" class="form-control" @bind-Value="UserProfileData.VolleyballIdol" placeholder="Idol siatkówki" />
+                                    <label for="VolleyballIdol">Idol siatkówki</label>
+                                    <ValidationMessage For="@(() => UserProfileData.VolleyballIdol)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="Hobby" class="form-control" @bind-Value="UserProfileData.Hobby" placeholder="Hobby" />
+                                    <label for="Hobby">Hobby</label>
+                                    <ValidationMessage For="@(() => UserProfileData.Hobby)" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating mb-4">
+                                    <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" placeholder="Informacje dodatkowe" />
+                                    <label for="PersonalInfo">Informacje dodatkowe</label>
+                                    <ValidationMessage For="@(() => UserProfileData.PersonalInfo)" />
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-floating mb-4">
-                            <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId" placeholder="Pozycja">
-                                @foreach (var position in Positions)
-                                {
-                                    <option value="@position.Id">@position.Name</option>
-                                }
-                            </InputSelect>
-                            <label for="PositionId">Pozycja</label>
-                            <ValidationMessage For="@(() => UserProfileData.PositionId)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="BirthYear" class="form-control" @bind-Value="UserProfileData.BirthYear" placeholder="Rok urodzenia" />
-                            <label for="BirthYear">Rok urodzenia</label>
-                            <ValidationMessage For="@(() => UserProfileData.BirthYear)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="Height" class="form-control" @bind-Value="UserProfileData.Height" placeholder="Wzrost" />
-                            <label for="Height">Wzrost</label>
-                            <ValidationMessage For="@(() => UserProfileData.Height)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="Weight" class="form-control" @bind-Value="UserProfileData.Weight" placeholder="Waga" />
-                            <label for="Weight">Waga</label>
-                            <ValidationMessage For="@(() => UserProfileData.Weight)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="JerseyNumber" class="form-control" @bind-Value="UserProfileData.JerseyNumber" placeholder="Numer koszulki" />
-                            <label for="JerseyNumber">Numer koszulki</label>
-                            <ValidationMessage For="@(() => UserProfileData.JerseyNumber)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="BlockRange" class="form-control" @bind-Value="UserProfileData.BlockRange" placeholder="Zasięg w bloku (cm)" />
-                            <label for="BlockRange">Zasięg w bloku (cm)</label>
-                            <ValidationMessage For="@(() => UserProfileData.BlockRange)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputNumber id="AttackRange" class="form-control" @bind-Value="UserProfileData.AttackRange" placeholder="Zasięg w ataku (cm)" />
-                            <label for="AttackRange">Zasięg w ataku (cm)</label>
-                            <ValidationMessage For="@(() => UserProfileData.AttackRange)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputText id="VolleyballIdol" class="form-control" @bind-Value="UserProfileData.VolleyballIdol" placeholder="Idol siatkówki" />
-                            <label for="VolleyballIdol">Idol siatkówki</label>
-                            <ValidationMessage For="@(() => UserProfileData.VolleyballIdol)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputText id="Hobby" class="form-control" @bind-Value="UserProfileData.Hobby" placeholder="Hobby" />
-                            <label for="Hobby">Hobby</label>
-                            <ValidationMessage For="@(() => UserProfileData.Hobby)" />
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <InputTextArea id="PersonalInfo" class="form-control" @bind-Value="UserProfileData.PersonalInfo" placeholder="Informacje dodatkowe" />
-                            <label for="PersonalInfo">Informacje dodatkowe</label>
-                            <ValidationMessage For="@(() => UserProfileData.PersonalInfo)" />
-                        </div>
-
+                        <h3>Zdjęcie</h3>
                         <div class="mb-4">
                             <label for="Photo" class="form-label">Zdjęcie:</label>
                             <label class="btn btn-primary">
@@ -247,7 +274,6 @@ else
     private async Task HandleValidSubmit()
     {
         await userService.UpdateUser(UserProfileData);
-        // Navigation.NavigateTo($"/account?section=UserProfile");
         Navigation.NavigateTo($"/account", true);
     }
 
