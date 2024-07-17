@@ -1,0 +1,99 @@
+﻿@using System.Text;
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Shared.Dtos.Discussion
+@inject IArticleService ArticleService
+
+@page "/article/{Id:int}"
+@page "/article/zzz"
+
+<div class="pt-2 d-flex flex-column">
+    @if (ArticleData != null)
+    {
+        <div class="d-flex flex-row justify-content-between">
+            <div>
+                <small>@ArticleData.CreationDate</small>
+                <h1>@ArticleData.Title</h1>
+                <hr class="w-100"/>
+
+                <p>@ArticleContent</p>
+                <small>@ArticleData.CreationDate</small>
+            </div>
+            <div class="p-2">
+                <ImagePreview Image="ArticleData.Image" />
+            </div>
+        </div>
+        <hr style="width: 100%"/>
+
+        <div class="text-left mt-2">
+            <h4>Komentarze</h4>
+            @if (CommentsErrorMessage != "")
+            {
+                <div class="alert alert-danger" role="alert">
+                    <b>Nie udało się załadować komentarzy:</b> @CommentsErrorMessage
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        @if (ArticleError != "")
+        {
+            <div class="p-2">
+                <div class="alert alert-danger">Błąd ładowania artykułu: @ArticleError</div>
+            </div>
+        }
+    }
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public ArticleDto? ArticleData { get; set; }
+
+    public string ArticleError { get; set; } = "";
+
+    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
+
+    public string CommentsErrorMessage { get; set; } = "";
+
+    public NewCommentDto commentModel { get; set; } = new NewCommentDto();
+
+    public string NewCommentError { get; set; } = "";
+
+    public bool SubmitLoading { get; set; } = false;
+    public MarkupString ArticleContent;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArticleData = await GetArticle();
+        ArticleContent = new MarkupString(ArticleData.Content);
+        commentModel.ContentLocationId = Id;
+    }
+
+    public async Task<ArticleDto> GetArticle()
+    {
+        var articleResult = await ArticleService.GetArticleById(Id);
+
+        if (articleResult == null)
+        {
+            return null!;
+        }
+        else
+        {
+            return articleResult;
+        }
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        NewCommentError = "";
+        SubmitLoading = true;
+        SubmitLoading = false;
+    }
+}
+
