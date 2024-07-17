@@ -13,16 +13,24 @@
 
 <RadzenDialog />
 
+<div class="account-main accountdtls filterd-items">
+    <div class="login-form">
+        <div class="section-title">
+            <h2>Dodaj artykuł</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
                 @if (!IsSubmitted)
                 {
                     <EditForm Model="@articleDto" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
 
-        <div class="form-floating mb-4">
-            <InputText class="form-control" id="Title" @bind-Value="articleDto.Title" />
-            <label for="Title">Title</label>
-            <ValidationMessage class="text-danger" For="@(() => articleDto.Title)" />
-        </div>
+                        <div class="form-floating mb-4">
+                            <InputText id="Title" class="form-control" @bind-Value="articleDto.Title" placeholder="Tytuł" />
+                            <label for="Title">Tytuł</label>
+                            <ValidationMessage class="text-danger" For="@(() => articleDto.Title)" />
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label" for="Content">Zawartość:</label>
                             <div class="col-sm-10">
@@ -44,19 +52,23 @@
                             </div>
                         </div>
 
-                        <div class="">
-                            <label class="" for="Image">Zdjęcie:</label>
-                            <div class="">
-                                <label class="">
-                                    Wybierz plik
-                                    <InputFile OnChange="HandleFileChange" />
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="Image">Zdjęcie:</label>
+                            <div class="col-sm-10">
+                                <label class="btn btn-primary">
+                                    Wybierz plik (max 2 MB)
+                                    <InputFile OnChange="HandleFileChange" style="display:none;" />
                                 </label>
                                 <ValidationMessage class="text-danger" For="@(() => articleDto.Image)" />
+                                @if (!string.IsNullOrEmpty(FileErrorMessage))
+                                {
+                                    <div class="text-danger">@FileErrorMessage</div>
+                                }
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-sm-10">
+                            <div class="col-sm-10 offset-sm-2">
                                 <button type="submit" class="btn btn-primary">Zapisz artykuł</button>
                             </div>
                         </div>
@@ -67,13 +79,20 @@
                     <h3>Zarejestrowano pomyślnie!</h3>
                     <p><a href="/login">Zaloguj się</a></p>
                 }
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    private const long MaxFileSize = 2 * 1024 * 1024; // 2 MB
+
     private ArticleDto articleDto = new ArticleDto();
     private bool IsLoading = false;
     private bool IsSubmitted = false;
     private bool ShowErrorMessage = false;
     private string ErrorMessage = "";
+    private string FileErrorMessage = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -93,14 +112,26 @@
         var imageFile = e.File;
         if (imageFile != null)
         {
-            using (var stream = imageFile.OpenReadStream())
+            Console.WriteLine($"File size: {imageFile.Size} bytes");
+
+            if (imageFile.Size > MaxFileSize)
             {
-                using (var memoryStream = new MemoryStream())
+                FileErrorMessage = "Zdjęcie jest za duże. Maksymalny rozmiar to 2 MB.";
+                articleDto.Image = null;
+            }
+            else
+            {
+                FileErrorMessage = "";
+                using (var stream = imageFile.OpenReadStream(MaxFileSize))
                 {
-                    await stream.CopyToAsync(memoryStream);
-                    articleDto.Image = memoryStream.ToArray();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        articleDto.Image = memoryStream.ToArray();
+                    }
                 }
             }
+            StateHasChanged();
         }
     }
 
