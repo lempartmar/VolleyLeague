@@ -39,53 +39,55 @@ else
                     <div class="row">
                         @if (_articles != null && _articles.Count() > 1)
                         {
+                            var firstArticle = _articles[0];
                             var secondArticle = _articles[1];
                             var thirdArticle = _articles[2];
-                            var firstArticle = _articles.First();
-                            string imageBase64 = Convert.ToBase64String(firstArticle.Image);
-                            string imageSrc = $"data:image/jpeg;base64,{imageBase64}";
+                            string imageSrc = ConvertImageToBase64(firstArticle.Image);
+
                             <div class="col-lg-6">
                                 <div class="item">
                                     <div class="image-area"><img src="@imageSrc" alt=""></div>
                                     <div class="bottom-content">
-                                        <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                        <span class="blog-category-tag">Aug 02, 2023</span>
                                         <div class="gallery-title">
-                                            <a href="blog-details.html">@_articles.First().Title</a>
+                                            <a href="/article/@firstArticle.Id">@firstArticle.Title</a>
                                         </div>
                                         <div class="author-info">
                                             <div class="content">
-                                                <a href="blog-details.html" class="read-more">Więcej</a>
+                                                <a href="/article/@firstArticle.Id" class="read-more">Więcej</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-6">
                                 <div class="right-side-items">
                                     <div class="rts-post-small">
-                                        <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+                                        <a href="/article/@secondArticle.Id" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
                                         <div class="bottom-content">
-                                            <span class="blog-catagory-tag">Aug 02, 2023 <span></span></span>
+                                            <span class="blog-category-tag">Aug 02, 2023</span>
                                             <div class="gallery-title">
-                                                <a href="blog-details.html">@secondArticle.Title</a>
+                                                <a href="/article/@secondArticle.Id">@secondArticle.Title</a>
                                             </div>
                                             <div class="author-info">
                                                 <div class="content">
-                                                    <a href="blog-details.html" class="read-more">Więcej</a>
+                                                    <a href="/article/@secondArticle.Id" class="read-more">Więcej</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="rts-post-small">
-                                        <a href="blog-details.html" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
+                                        <a href="/article/@thirdArticle.Id" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
                                         <div class="bottom-content">
-                                            <span class="blog-catagory-tag">Aug 02, 2023 <span></span>@thirdArticle.Title</span>
+                                            <span class="blog-category-tag">Aug 02, 2023</span>
                                             <div class="gallery-title">
-                                                <a href="blog-details.html">@thirdArticle.Title</a>
+                                                <a href="/article/@thirdArticle.Id">@thirdArticle.Title</a>
                                             </div>
                                             <div class="author-info">
                                                 <div class="content">
-                                                    <a href="blog-details.html" class="read-more">Więcej</a>
+                                                    <a href="/article/@thirdArticle.Id" class="read-more">Więcej</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,16 +125,11 @@ else
                                                 <tbody>
                                                     @if (StandingsListShort != null)
                                                     {
-                                                        for (int i = 0; i < StandingsListShort.Count; i++)
+                                                        @foreach (var team in StandingsListShort)
                                                         {
-                                                            var team = StandingsListShort[i];
                                                             <tr>
                                                                 <td>
-                                                                    <span class="position-number">
-                                                                        @{
-                                                                            var position = i + 1;
-                                                                        }@position
-                                                                    </span>
+                                                                    <span class="position-number">@StandingsListShort.IndexOf(team) + 1</span>
                                                                 </td>
                                                                 <td>
                                                                     @{
@@ -191,7 +188,6 @@ else
             </div>
         </section>
 
-
         <section class="rts-match-result-section nfl volleyball">
             <div class="container">
                 <div class="section-title-area text-center">
@@ -241,7 +237,7 @@ else
                         <h1 class="title">MEDIA</h1>
                     </div>
                 </div>
-                <div class="filterd-items home">
+                <div class="filtered-items home">
                     <div class="gallery-grid" style="display: flex; gap: 20px;">
                         <div class="item" style="position: relative; overflow: hidden; flex: 1; height: 500px;">
                             <div class="video-section-inner text-center" style="width: 100%; height: 100%;">
@@ -270,7 +266,6 @@ else
         </div>
     }
 }
-
 
 <style>
     .cookie-consent-overlay {
@@ -331,25 +326,6 @@ else
         font-size: 24px;
     }
 </style>
-
-<script>
-    var swiper = new Swiper('.bannerSlide2', {
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'bullets',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-    });
-</script>
 
 @code {
     private MatchSummaryDto lastMatch;
@@ -493,5 +469,10 @@ else
     private string GetTeamLogoSrc(byte[] logo)
     {
         return logo != null ? $"data:image/png;base64,{Convert.ToBase64String(logo)}" : "/assets/images/Logo_alternative.png.";
+    }
+
+    private string ConvertImageToBase64(byte[] image)
+    {
+        return image != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(image)}" : string.Empty;
     }
 }
