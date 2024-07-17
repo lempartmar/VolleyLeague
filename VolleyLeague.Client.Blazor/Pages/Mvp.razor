@@ -5,11 +5,7 @@
 
 @if (!pageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
-        <div class="container">
-            <div id="spinner"></div>
-        </div>
-    </section>
+    <Preloader />
 }
 else
 {
@@ -66,14 +62,14 @@ else
                             }
                             else if (MvpList.Count > 0)
                             {
-                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px; max-width: 500px; margin-left:auto; margin-right:auto;">
+                                <div class="p-2 card mt-4 mb-5 table-responsive-lg" style="margin-top: 25px; max-width: 800px; margin-left:auto; margin-right:auto;">
                                     <table class="table" style="color: black">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
-                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
-                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Drużyna</th>
-                                                <th style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
+                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Lp</th>
+                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Zawodnik</th>
+                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Drużyna</th>
+                                                <th scope="col" style="text-align: center; color: black; border-bottom: 1px solid #ddd;">Ilość MVP</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -103,12 +99,11 @@ else
                                 <div id="spinner"></div>
                             </div>
                         }
-
+                        </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 }
 <style>
     .btn-label {
