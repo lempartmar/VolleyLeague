@@ -9,7 +9,7 @@
         <h2>Zasady</h2>
         <ol>
             <li>Obstawiamy spotkania ze wszystkich lig</li>
-            <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1pkt, w przeciwnym przypadku: 0 pkt.</li>
+            <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1 pkt, w przeciwnym przypadku: 0 pkt.</li>
             <li>W przypadku takiej samej ilości punktów o wyższym miejscu decyduje ilość idealnie wytypowanych wyników.</li>
             <li>Koniec przyjmowania zgłoszeń następuje o północy, na dzień przed rozpoczęciem kolejki.</li>
         </ol>
@@ -26,80 +26,79 @@
 }
 else
 {
-    <section class="category_section">
+    <div class="rts-point-table-section section-gap">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mobile">
-                        <div class="article_title">
-                            <h2>Typermania</h2>
-                        </div>
-                        <div class="card m-2 p-2">
-                            <EditForm Model="Filter">
-                                <div class="form-group btn-group">
-                                    <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
-                                    <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                                        @foreach (var season in Filter.SeasonList.OrderByDescending(s => s.Id))
-                                        {
-                                            <option value="@season.Id">@season.Name</option>
-                                        }
-                                    </Select>
-                                </div>
-                            </EditForm>
-                        </div>
-
-                        @if (resultsLoading)
-                        {
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        }
-                        else if (!string.IsNullOrEmpty(resultsErrorMessage))
-                        {
-                            <div class="alert alert-danger">
-                                @resultsErrorMessage
-                            </div>
-                        }
-                        else if (TypedUserList.Count == 0)
-                        {
-                            <div class="alert alert-info" role="alert">
-                                Brak wyników do wyświetlenia dla wybranego sezonu.
-                            </div>
-                        }
-                        else
-                        {
-                            <table class="table" style="color: black">
-                                <thead>
-                                    <tr>
-                                        <th>LP</th>
-                                        <th>Głosujący</th>
-                                        <th>Poprawnych wyników</th>
-                                        <th>Wytypowanych zwycięzców</th>
-                                        <th>Punkty</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (var i = 0; i < TypedUserList.Count; i++)
+            <div class="table-area table-full">
+                <form class="checkout-form">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="seasonSelect" class="form-label">SEZON:</label>
+                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                    @foreach (var season in Filter.SeasonList.OrderByDescending(s => s.Id))
                                     {
-                                        var user = TypedUserList[i];
-                                        <tr>
-                                            <td>@(i + 1)</td>
-                                            <td>@user.FirstName @user.LastName</td>
-                                            <td>@user.PerfectResultsCount</td>
-                                            <td>@user.CorrectResultsCount</td>
-                                            <td>@user.TemporaryVote</td>
-                                        </tr>
+                                        <option value="@season.Id">@season.Name</option>
                                     }
-                                </tbody>
-                            </table>
-                        }
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
+
+                @if (resultsLoading)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                }
+                else if (!string.IsNullOrEmpty(resultsErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @resultsErrorMessage
+                    </div>
+                }
+                else if (TypedUserList.Count == 0)
+                {
+                    <div class="alert alert-info" role="alert">
+                        Brak wyników do wyświetlenia dla wybranego sezonu.
+                    </div>
+                }
+                else
+                {
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr class="head-tr">
+                                <th scope="col">LP</th>
+                                <th scope="col">Głosujący</th>
+                                <th scope="col">Poprawnych wyników</th>
+                                <th scope="col">Wytypowanych zwycięzców</th>
+                                <th scope="col">Punkty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < TypedUserList.Count; i++)
+                            {
+                                var user = TypedUserList[i];
+                                <tr>
+                                    <td><span class="position-number">@i + 1</span></td>
+                                    <td>
+                                        <div class="player-name-area">
+                                            <h4 class="player-name">@user.FirstName @user.LastName</h4>
+                                        </div>
+                                    </td>
+                                    <td><span class="result-count">@user.PerfectResultsCount</span></td>
+                                    <td><span class="result-count">@user.CorrectResultsCount</span></td>
+                                    <td><span class="points-count">@user.TemporaryVote</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             </div>
         </div>
-    </section>
+    </div>
 }
 
 <style>
@@ -121,7 +120,7 @@ else
         text-align: left;
     }
 
-    .dropdown-toggle {
+    .form-select {
         background: #fff;
         border: 1px solid #ccc;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
@@ -148,6 +147,33 @@ else
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
+
+    .table {
+        color: black;
+    }
+
+    .thead-dark th {
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table .head-tr th {
+        text-align: center;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .player-name-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-info, .alert-danger {
+        margin-top: 20px;
     }
 </style>
 
