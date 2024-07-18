@@ -28020,7 +28020,7 @@ td span, th span {
     color: black;
 }
 
-.user-profile-image {
+img.user-profile-image {
     width: 20%;
     margin-bottom: 30px;
 }
