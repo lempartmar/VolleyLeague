@@ -12,122 +12,130 @@
 @inject AuthenticationStateProvider authStateProvider
 
 @* @attribute [Authorize(Roles = "Admin,Player")] *@
-    <section class="category_section">
+@if (!PageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
         <div class="container">
-            <div class="row">
-                <div class="d-flex flex-row justify-content-center" style="margin-top: 30px;">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="account-main accountdtls filterd-items">
+        <div class="login-form">
+            <div class="section-title">
+                <h2>Profil Użytkownika</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
                     @if (UserProfileData != null)
                     {
-                        <div class="text-center" style="max-width: 750px; display: contents;">
-                            <div class="d-flex flex-row justify-content-center" style="display: flex;justify-content: center;flex-direction: column;">
-                                <div class="mr-5"></div>
-                                <div class="p-2">
-                                    <h2>Profil Użytkownika</h2>
-                                    <img src="@GetLogoSrc(UserProfileData.Photo)" style="width: 300px; height: 400px; margin-bottom: 30px">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <th>Imię i nazwisko</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.FirstName) || string.IsNullOrWhiteSpace(UserProfileData.LastName) ? "-" : $"{UserProfileData.FirstName} {UserProfileData.LastName}")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Pozycja</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.PositionName) ? "-" : UserProfileData.PositionName)</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Rok urodzenia</th>
-                                                <td>@(UserProfileData.BirthYear == 0 ? "-" : UserProfileData.BirthYear.ToString())</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Miasto</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.City) ? "-" : UserProfileData.City)</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Płeć</th>
-                                                <td>@(UserProfileData.Gender.HasValue ? (UserProfileData.Gender.Value ? "Mężczyzna" : "Kobieta") : "-")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Wzrost</th>
-                                                <td>@(UserProfileData.Height == 0 ? "-" : $"{UserProfileData.Height} cm")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Waga</th>
-                                                <td>@(UserProfileData.Weight == 0 ? "-" : $"{UserProfileData.Weight} kg")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Numer koszulki</th>
-                                                <td>@(UserProfileData.JerseyNumber == 0 ? "-" : UserProfileData.JerseyNumber.ToString())</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Zasięg w bloku</th>
-                                                <td>@(UserProfileData.BlockRange == 0 ? "-" : $"{UserProfileData.BlockRange} cm")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Zasięg w ataku</th>
-                                                <td>@(UserProfileData.AttackRange == 0 ? "-" : $"{UserProfileData.AttackRange} cm")</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Idol siatkówki</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.VolleyballIdol) ? "-" : UserProfileData.VolleyballIdol)</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Hobby</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.Hobby) ? "-" : UserProfileData.Hobby)</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Informacje dodatkowe</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.PersonalInfo) ? "-" : UserProfileData.PersonalInfo)</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        <div class="text-center">
+                            <img src="@GetLogoSrc(UserProfileData.Photo)" class="img-fluid rounded" style="width: 300px; height: 400px; margin-bottom: 30px">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>Imię i nazwisko</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.FirstName) || string.IsNullOrWhiteSpace(UserProfileData.LastName) ? "-" : $"{UserProfileData.FirstName} {UserProfileData.LastName}")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pozycja</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.PositionName) ? "-" : UserProfileData.PositionName)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rok urodzenia</th>
+                                        <td>@(UserProfileData.BirthYear == 0 ? "-" : UserProfileData.BirthYear.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Miasto</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.City) ? "-" : UserProfileData.City)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Płeć</th>
+                                        <td>@(UserProfileData.Gender.HasValue ? (UserProfileData.Gender.Value ? "Mężczyzna" : "Kobieta") : "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Wzrost</th>
+                                        <td>@(UserProfileData.Height == 0 ? "-" : $"{UserProfileData.Height} cm")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Waga</th>
+                                        <td>@(UserProfileData.Weight == 0 ? "-" : $"{UserProfileData.Weight} kg")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Numer koszulki</th>
+                                        <td>@(UserProfileData.JerseyNumber == 0 ? "-" : UserProfileData.JerseyNumber.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Zasięg w bloku</th>
+                                        <td>@(UserProfileData.BlockRange == 0 ? "-" : $"{UserProfileData.BlockRange} cm")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Zasięg w ataku</th>
+                                        <td>@(UserProfileData.AttackRange == 0 ? "-" : $"{UserProfileData.AttackRange} cm")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Idol siatkówki</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.VolleyballIdol) ? "-" : UserProfileData.VolleyballIdol)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Hobby</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.Hobby) ? "-" : UserProfileData.Hobby)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Informacje dodatkowe</th>
+                                        <td>@(string.IsNullOrWhiteSpace(UserProfileData.PersonalInfo) ? "-" : UserProfileData.PersonalInfo)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                                    <button class="btn btn-primary" @onclick="NavigateToEditProfile">Edytuj Profil</button>
-                                </div>
-                                <div class="p-2" style="margin-top: 25px">
-                                    <h2>Drużyna użytkownika</h2>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <th>Nazwa drużyny</th>
-                                                <td>@(string.IsNullOrWhiteSpace(UserProfileData.TeamName) ? "-" : UserProfileData.TeamName)</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    @if (!string.IsNullOrWhiteSpace(UserProfileData.TeamName))
-                                    {
-                                        <button class="btn btn-danger" @onclick="ShowLeaveTeamConfirmation">Opuść drużynę</button>
-                                    }
-                                    else
-                                    {
-                                        <div class="alert alert-info" role="alert">
-                                            Użytkownik nie należy do żadnej drużyny.
-                                        </div>
-                                        <div class="p-2" style="margin-top: 25px">
-                                            <h2>Zaproszenia do drużyny</h2>
-                                            @if (HasTeamInvitations != null && HasTeamInvitations.Status)
-                                            {
-                                                <div>
-                                                    Masz zaproszenie do drużyny: @HasTeamInvitations.TeamName;
-                                                </div>
-                                                <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
-                                            }
-                                            else
-                                            {
-                                                <div class="alert alert-info" role="alert">
-                                                    Użytkownik nie ma zaproszeń do drużyny.
-                                                </div>
-                                            }
-                                        </div>
-                                    }
-                                </div>
+                            <button class="btn btn-primary" @onclick="NavigateToEditProfile">Edytuj Profil</button>
 
-                                @if (!string.IsNullOrEmpty(ErrorMessage))
+                            <div class="p-2" style="margin-top: 25px">
+                                <h3>Drużyna użytkownika</h3>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Nazwa drużyny</th>
+                                            <td>@(string.IsNullOrWhiteSpace(UserProfileData.TeamName) ? "-" : UserProfileData.TeamName)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @if (!string.IsNullOrWhiteSpace(UserProfileData.TeamName))
                                 {
-                                    <div class="alert alert-danger" style="margin-top: 30px;" role="alert">
-                                        @ErrorMessage
+                                    <button class="btn btn-danger" @onclick="ShowLeaveTeamConfirmation">Opuść drużynę</button>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        Użytkownik nie należy do żadnej drużyny.
+                                    </div>
+                                    <div class="p-2" style="margin-top: 25px">
+                                        <h3>Zaproszenia do drużyny</h3>
+                                        @if (HasTeamInvitations != null && HasTeamInvitations.Status)
+                                        {
+                                            <div>
+                                                Masz zaproszenie do drużyny: @HasTeamInvitations.TeamName;
+                                            </div>
+                                            <button class="btn btn-primary" @onclick="() => MergeAccount(UserProfileData.AdditionalEmail)">Dołącz do drużyny</button>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-info" role="alert">
+                                                Użytkownik nie ma zaproszeń do drużyny.
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
+
+                            @if (!string.IsNullOrEmpty(ErrorMessage))
+                            {
+                                <div class="alert alert-danger" style="margin-top: 30px;" role="alert">
+                                    @ErrorMessage
+                                </div>
+                            }
                         </div>
                     }
                     else
@@ -137,8 +145,8 @@
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+}
 
 <!-- Modal for leave team confirmation -->
 <div class="modal" tabindex="-1" role="dialog" style="@(ShowLeaveModal ? "display:block" : "display:none")">
@@ -159,6 +167,32 @@
 </div>
 
 <style>
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 1em;
+        max-width: 500px;
+        width: 100%;
+    }
+
     #spinner {
         width: 40px;
         height: 40px;
@@ -167,6 +201,37 @@
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
+
+    .form-text.text-muted {
+        margin-top: 0.5em;
+    }
+
+    .account-main {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title h2 {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card-body {
+        padding: 30px;
+    }
+
+    .form {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
 
@@ -245,8 +310,6 @@
         }
         catch (Exception ex)
         {
-            // ErrorMessage = $"Wystąpił błąd podczas pobierania nazwy drużyny dla zaproszenia: {ex.Message}";
-            // Console.WriteLine(ErrorMessage);
             return "";
         }
     }
@@ -261,7 +324,6 @@
                 var result = await teamService.AccountMerging(email);
                 if (result)
                 {
-                    // Sukces, przeładuj dane profilu
                     NavigationManager.NavigateTo($"/account/userprofile/{Id}", forceLoad: true);
                 }
                 else
@@ -291,7 +353,6 @@
                 var result = await teamService.LeaveTeamByEmail(UserProfileData.AdditionalEmail);
                 if (result.Success)
                 {
-                    // Sukces, przeładuj dane profilu
                     NavigationManager.NavigateTo($"/account/userprofile/{Id}", forceLoad: true);
                 }
                 else
