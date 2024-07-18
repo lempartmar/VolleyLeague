@@ -39,7 +39,7 @@ else
                                 ? $"data:image/png;base64,{Convert.ToBase64String(UserProfileData.Photo)}"
                                 : "/assets/images/Logo_alternative.png";
                             }
-                            <img src="@imgSrc" class="img-fluid rounded" style="width: 300px; height: 400px; margin-bottom: 30px">
+                            <img src="@imgSrc" class="user-profile-image">
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
@@ -96,8 +96,6 @@ else
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <button class="btn btn-primary" @onclick="NavigateToEditProfile">Edytuj Profil</button>
 
                             <div class="p-2" style="margin-top: 25px">
                                 <h3>Drużyna użytkownika</h3>

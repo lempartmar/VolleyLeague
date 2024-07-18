@@ -28019,3 +28019,8 @@ div a.menu-item.text-label {
 td span, th span {
     color: black;
 }
+
+.user-profile-image {
+    width: 20%;
+    margin-bottom: 30px;
+}
