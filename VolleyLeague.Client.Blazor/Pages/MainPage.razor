@@ -351,6 +351,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
         cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
         if (cookiesAccepted)
         {
