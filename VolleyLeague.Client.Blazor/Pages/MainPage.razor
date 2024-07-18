@@ -352,35 +352,39 @@ else
     protected override async Task OnInitializedAsync()
     {
         cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
-        isLoading = false;
-
         if (cookiesAccepted)
         {
-            StandingsListShort = await matchService.GetStandings(37, 1);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadJwtToken(token);
-
-                if (jwtToken.ValidTo < DateTime.UtcNow)
-                {
-                    var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
-                    await customAuthStateProvider.NotifyUserLogout();
-                }
-                else
-                {
-                    Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                }
-            }
-
-            await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches(), LoadLastMatch());
+            await InitializeData();
         }
+        isLoading = false;
+    }
+
+    private async Task InitializeData()
+    {
+        StandingsListShort = await matchService.GetStandings(37, 1);
+        var token = await _localStorageService.GetItemAsStringAsync("token");
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            if (jwtToken.ValidTo < DateTime.UtcNow)
+            {
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+                await customAuthStateProvider.NotifyUserLogout();
+            }
+            else
+            {
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
+        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches(), LoadLastMatch());
     }
 
     private async Task LoadStandings()
     {
-        StandingsList = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
+        // StandingsList = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
         standingsLoad = true;
         UpdatePageReadiness();
     }
@@ -443,26 +447,7 @@ else
         cookiesAccepted = true;
         await _localStorageService.SetItemAsync("cookiesAccepted", true);
         isLoading = true;
-
-        StandingsListShort = await matchService.GetStandings(37, 1);
-        var token = await _localStorageService.GetItemAsStringAsync("token");
-        if (!string.IsNullOrWhiteSpace(token))
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwtToken = tokenHandler.ReadJwtToken(token);
-
-            if (jwtToken.ValidTo < DateTime.UtcNow)
-            {
-                var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
-                await customAuthStateProvider.NotifyUserLogout();
-            }
-            else
-            {
-                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            }
-        }
-
-        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches(), LoadLastMatch());
+        await InitializeData();
         isLoading = false;
     }
 
