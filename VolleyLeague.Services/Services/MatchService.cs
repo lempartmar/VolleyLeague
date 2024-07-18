@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
+using System.Diagnostics;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Helpers;
@@ -216,6 +217,109 @@ namespace VolleyLeague.Services.Services
             return result;
         }
 
+        public async Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            // Fetch the matches with necessary fields only
+            var matches = await _matchRepository.GetAll()
+                .Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId)
+                .Select(m => new MatchForStandingsDto
+                {
+                    HomeTeamId = m.HomeTeamId,
+                    GuestTeamId = m.GuestTeamId,
+                    Team1Score = m.Team1Score,
+                    Team2Score = m.Team2Score,
+                    Set1Team1Score = m.Set1Team1Score,
+                    Set1Team2Score = m.Set1Team2Score,
+                    Set2Team1Score = m.Set2Team1Score,
+                    Set2Team2Score = m.Set2Team2Score,
+                    Set3Team1Score = m.Set3Team1Score,
+                    Set3Team2Score = m.Set3Team2Score,
+                    Set4Team1Score = m.Set4Team1Score,
+                    Set4Team2Score = m.Set4Team2Score,
+                    Set5Team1Score = m.Set5Team1Score,
+                    Set5Team2Score = m.Set5Team2Score,
+                    HomeTeam = new TeamSummaryDto
+                    {
+                        Id = m.HomeTeam.Id,
+                        Name = m.HomeTeam.Name,
+                        Logo = m.HomeTeam.Logo
+                    },
+                    GuestTeam = new TeamSummaryDto
+                    {
+                        Id = m.GuestTeam.Id,
+                        Name = m.GuestTeam.Name,
+                        Logo = m.GuestTeam.Logo
+                    }
+                }).ToListAsync();
+
+            stopwatch.Stop();
+            Console.WriteLine($"Query Execution Time: {stopwatch.ElapsedMilliseconds} ms");
+            stopwatch.Restart();
+
+            // Get distinct teams from matches
+            var teamDictionary = new Dictionary<int, TeamSummaryDto>();
+            foreach (var match in matches)
+            {
+                if (!teamDictionary.ContainsKey(match.HomeTeam.Id))
+                {
+                    teamDictionary.Add(match.HomeTeam.Id, match.HomeTeam);
+                }
+                if (!teamDictionary.ContainsKey(match.GuestTeam.Id))
+                {
+                    teamDictionary.Add(match.GuestTeam.Id, match.GuestTeam);
+                }
+            }
+            var teams = teamDictionary.Values.ToList();
+
+            var standings = new List<StandingsDto>();
+
+            foreach (var team in teams)
+            {
+                var matchesHome = matches.Where(m => m.HomeTeamId == team.Id).ToList();
+                var matchesGuest = matches.Where(m => m.GuestTeamId == team.Id).ToList();
+                var combinedMatches = matchesHome.Concat(matchesGuest).ToList();
+
+                var setsWon = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? m.Team1Score : m.Team2Score);
+                var setsLost = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? m.Team2Score : m.Team1Score);
+                var pointsWon = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0) : (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0));
+                var pointsLost = combinedMatches.Sum(m => m.HomeTeamId == team.Id ? (m.Set1Team2Score ?? 0) + (m.Set2Team2Score ?? 0) + (m.Set3Team2Score ?? 0) + (m.Set4Team2Score ?? 0) + (m.Set5Team2Score ?? 0) : (m.Set1Team1Score ?? 0) + (m.Set2Team1Score ?? 0) + (m.Set3Team1Score ?? 0) + (m.Set4Team1Score ?? 0) + (m.Set5Team1Score ?? 0));
+
+                var standingsDto = new StandingsDto
+                {
+                    Team = team,
+                    MatchesPlayed = combinedMatches.Count,
+                    MatchesWon = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score > m.Team2Score) || (m.GuestTeamId == team.Id && m.Team2Score > m.Team1Score)),
+                    MatchesLost = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score < m.Team2Score) || (m.GuestTeamId == team.Id && m.Team2Score < m.Team1Score)),
+                    SetsWon = setsWon,
+                    SetsLost = setsLost,
+                    PointsWon = pointsWon,
+                    PointsLost = pointsLost,
+                    SetsRatio = (double)setsWon / (setsLost == 0 ? 1 : setsLost),
+                    BallsRatio = (double)pointsWon / (pointsLost == 0 ? 1 : pointsLost),
+                    Score3_0 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 0) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 0)),
+                    Score3_1 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 1) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 1)),
+                    Score3_2 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 3 && m.Team2Score == 2) || (m.GuestTeamId == team.Id && m.Team2Score == 3 && m.Team1Score == 2)),
+                    Score2_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 2 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 2 && m.Team1Score == 3)),
+                    Score1_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 1 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 1 && m.Team1Score == 3)),
+                    Score0_3 = combinedMatches.Count(m => (m.HomeTeamId == team.Id && m.Team1Score == 0 && m.Team2Score == 3) || (m.GuestTeamId == team.Id && m.Team2Score == 0 && m.Team1Score == 3)),
+                    Points = CalculateVolleyballPoints(matchesHome, matchesGuest)
+                };
+
+                standings.Add(standingsDto);
+            }
+
+            stopwatch.Stop();
+            Console.WriteLine($"Processing Time: {stopwatch.ElapsedMilliseconds} ms");
+
+            return standings.OrderByDescending(s => s.Points)
+                            .ThenByDescending(s => s.SetsRatio)
+                            .ThenByDescending(s => s.BallsRatio)
+                            .ToList();
+        }
+
+
         public async Task<List<MatchSummaryDto>> GetLast10Matches()
         {
             var matches = await _matchRepository.GetAll()
@@ -291,8 +395,7 @@ namespace VolleyLeague.Services.Services
 
         //    return matchesDto;
         //}
-
-        public async Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId)
+        public async Task<List<StandingsDto>> GetStandingsBeforeOptimalization(int seasonId, int leagueId)
         {
             var matches = await _matchRepository.GetAll()
                 .Include(m => m.League)
@@ -346,6 +449,7 @@ namespace VolleyLeague.Services.Services
 
             return standingsToReturn;
         }
+
 
 
         private int CalculateTotalHostWins(IEnumerable<Match> matches)
@@ -621,6 +725,98 @@ namespace VolleyLeague.Services.Services
 
             return result;
         }
+
+        private int CalculateVolleyballPoints(IEnumerable<MatchForStandingsDto> hostMatches, IEnumerable<MatchForStandingsDto> guestMatches)
+        {
+            int totalPoints = 0;
+
+            // Helper function to calculate points for a single match
+            int CalculateMatchPoints(int wins, int losses, bool isHost)
+            {
+                if (isHost)
+                {
+                    // As a host
+                    if (wins == 3 && (losses == 0 || losses == 1))
+                    {
+                        return 3; // 3 points for a win 3:0 or 3:1
+                    }
+                    else if (wins == 3 && losses == 2)
+                    {
+                        return 2; // 2 points for a win 3:2
+                    }
+                    else if (wins == 2 && losses == 3)
+                    {
+                        return 1; // 1 point for a loss 2:3
+                    }
+                }
+                else
+                {
+                    // As a guest
+                    if ((losses == 0 || losses == 1) && wins == 3)
+                    {
+                        return 3; // 3 points for a loss 0:3 or 1:3
+                    }
+                    else if (wins == 3 && losses == 2)
+                    {
+                        return 2; // 2 points for a loss 2:3
+                    }
+                    else if (wins == 2 && losses == 3)
+                    {
+                        return 1; // 1 point for a win 3:2
+                    }
+                }
+
+                // In case of other results, 0 points
+                return 0;
+            }
+
+            // Counting points for matches as host
+            foreach (var match in hostMatches)
+            {
+                int hostWins = 0;
+                int guestWins = 0;
+
+                // Checking set wins
+                if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
+                if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
+                if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
+                if (match.Set4Team1Score > match.Set4Team2Score) hostWins++;
+                if (match.Set5Team1Score > match.Set5Team2Score) hostWins++;
+
+                if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
+                if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
+                if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
+                if (match.Set4Team2Score > match.Set4Team1Score) guestWins++;
+                if (match.Set5Team2Score > match.Set5Team1Score) guestWins++;
+
+                totalPoints += CalculateMatchPoints(hostWins, guestWins, true);
+            }
+
+            // Counting points for matches as guest
+            foreach (var match in guestMatches)
+            {
+                int hostWins = 0;
+                int guestWins = 0;
+
+                // Checking set wins
+                if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
+                if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
+                if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
+                if (match.Set4Team2Score > match.Set4Team1Score) guestWins++;
+                if (match.Set5Team2Score > match.Set5Team1Score) guestWins++;
+
+                if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
+                if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
+                if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
+                if (match.Set4Team1Score > match.Set4Team2Score) hostWins++;
+                if (match.Set5Team1Score > match.Set5Team2Score) hostWins++;
+
+                totalPoints += CalculateMatchPoints(guestWins, hostWins, false);
+            }
+
+            return totalPoints;
+        }
+
 
     }
 }
