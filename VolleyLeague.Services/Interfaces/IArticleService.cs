@@ -8,6 +8,7 @@ namespace VolleyLeague.Services.Services
         Task AddArticle(ArticleDto articleDto);
         Task<ArticleDto> GetArticleById(int id);
         Task<List<ArticleDto>> GetArticlesPerPage(int page);
+        Task<List<MinimalArticleDto>> GetRecentArticlesAsync();
     }
 
 }

@@ -30,9 +30,9 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
 
-        Task<List<MatchSummaryDto>> GetNextTwoMatchesAsync();
+        Task<List<NextMatchMinDto>> GetNextTwoMatchesAsync();
 
-        Task<List<MatchSummaryDto>> GetLastMatchAsync();
+        Task<LastMatchDto> GetLastMatchAsync();
 
         Task<List<MatchSummaryDto>> GetLast10Matches();
 

@@ -14,8 +14,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<PlayerSummaryDto>> GetReferees();
         public Task<bool> AddReferee(int userId);
         public Task<bool> RemoveReferee(int userId);
-        public Task<List<MatchSummaryDto>> GetLastMatch();
-        Task<List<MatchSummaryDto>> GetNextTwoMatches();
+        public Task<LastMatchDto> GetLastMatch();
+        Task<List<NextMatchMinDto>> GetNextTwoMatches();
         Task<List<PlayerSummaryDto>> GetPotentialReferees();
         public Task<MatchDto> GetMatch(int matchId);
         public Task<List<MatchSummaryDto>> GetMatches(int seasonId, int leagueId, int roundId);
@@ -110,24 +110,24 @@ namespace VolleyLeague.Client.Blazor.Services
             return referee;
         }
 
-        public async Task<List<MatchSummaryDto>> GetNextTwoMatches()
+        public async Task<List<NextMatchMinDto>> GetNextTwoMatches()
         {
             var response = await _httpClient.GetAsync("api/Match/GetNextTwoMatches");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var matchList = JsonSerializer.Deserialize<List<MatchSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var matchList = JsonSerializer.Deserialize<List<NextMatchMinDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return matchList;
         }
 
-        public async Task<List<MatchSummaryDto>> GetLastMatch()
+        public async Task<LastMatchDto> GetLastMatch()
         {
             var response = await _httpClient.GetAsync("api/Match/GetLastMatch");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var matchList = JsonSerializer.Deserialize<List<MatchSummaryDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var matchList = JsonSerializer.Deserialize<LastMatchDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return matchList;
         }

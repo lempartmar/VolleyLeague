@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
@@ -59,6 +60,29 @@ namespace VolleyLeague.Services.Services
 
             var articlesPerPage = _mapper.Map<List<ArticleDto>>(result);
             return articlesPerPage;
+        }
+
+        public async Task<List<MinimalArticleDto>> GetRecentArticlesAsync()
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            var result = await _articleRepository.GetAll()
+                .AsNoTracking()
+                .OrderByDescending(a => a.CreationDate)
+                .Take(3)
+                .Select(a => new MinimalArticleDto
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreationDate = a.CreationDate,
+                    Image = a.Image
+                })
+                .ToListAsync();
+
+            stopwatch.Stop();
+            Console.WriteLine($"Query Execution Time: {stopwatch.ElapsedMilliseconds} ms");
+
+            return result;
         }
     }
 }

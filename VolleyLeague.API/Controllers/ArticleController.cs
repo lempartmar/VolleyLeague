@@ -45,6 +45,11 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet("GetRecentArticlesAsync")]
+        public async Task<IActionResult> GetRecentArticlesAsync()
+        {
+            var result = await _articleService.GetRecentArticlesAsync();
+            return Ok(result);
+        }
     }
 }

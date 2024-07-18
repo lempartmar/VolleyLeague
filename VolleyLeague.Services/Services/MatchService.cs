@@ -223,6 +223,7 @@ namespace VolleyLeague.Services.Services
 
             // Fetch the matches with necessary fields only
             var matches = await _matchRepository.GetAll()
+                .AsNoTracking()
                 .Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId)
                 .Select(m => new MatchForStandingsDto
                 {
@@ -510,53 +511,48 @@ namespace VolleyLeague.Services.Services
         {
             int totalPoints = 0;
 
-            // Funkcja pomocnicza do obliczania punktów za pojedynczy mecz
             int CalculateMatchPoints(int wins, int losses, bool isHost)
             {
                 if (isHost)
                 {
-                    // Jako gospodarz
                     if (wins == 3 && (losses == 0 || losses == 1))
                     {
-                        return 3; // 3 punkty za wygraną 3:0 lub 3:1
+                        return 3; 
                     }
                     else if (wins == 3 && losses == 2)
                     {
-                        return 2; // 2 punkty za wygraną 3:2
+                        return 2; 
                     }
                     else if (wins == 2 && losses == 3)
                     {
-                        return 1; // 1 punkt za przegraną 2:3
+                        return 1; 
                     }
                 }
                 else
                 {
-                    // Jako gość
+
                     if ((losses == 0 || losses == 1) && wins == 3)
                     {
-                        return 3; // 3 punkty za przegraną 0:3 lub 1:3
+                        return 3; 
                     }
                     else if (wins == 3 && losses == 2)
                     {
-                        return 2; // 2 punkty za przegraną 2:3
+                        return 2; 
                     }
                     else if (wins == 2 && losses == 3)
                     {
-                        return 1; // 1 punkt za wygraną 3:2
+                        return 1; 
                     }
                 }
 
-                // W przypadku innych wyników 0 punktów
                 return 0;
             }
 
-            // Zliczanie punktów za mecze jako gospodarz
             foreach (var match in hostMatches)
             {
                 int hostWins = 0;
                 int guestWins = 0;
 
-                // Sprawdzanie wygranych setów
                 if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
                 if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
                 if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
@@ -572,13 +568,12 @@ namespace VolleyLeague.Services.Services
                 totalPoints += CalculateMatchPoints(hostWins, guestWins, true);
             }
 
-            // Zliczanie punktów za mecze jako gość
+
             foreach (var match in guestMatches)
             {
                 int hostWins = 0;
                 int guestWins = 0;
 
-                // Sprawdzanie wygranych setów
                 if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
                 if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
                 if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
@@ -597,35 +592,73 @@ namespace VolleyLeague.Services.Services
             return totalPoints;
         }
 
-        public async Task<List<MatchSummaryDto>> GetNextTwoMatchesAsync()
+        public async Task<List<NextMatchMinDto>> GetNextTwoMatchesAsync()
         {
+            var stopwatch = Stopwatch.StartNew();
+
             var matches = await _matchRepository.GetAll()
+                .AsNoTracking()
                 .Include(m => m.HomeTeam)
                 .Include(m => m.GuestTeam)
-                .OrderBy(m => m.Schedule)
                 .Where(m => m.Schedule > DateTime.Now)
+                .OrderBy(m => m.Schedule)
                 .Take(2)
+                .Select(m => new NextMatchMinDto
+                {
+                    Id = m.Id,
+                    HomeTeam = new TeamSummaryDto
+                    {
+                        Id = m.HomeTeam.Id,
+                        Name = m.HomeTeam.Name,
+                        Logo = m.HomeTeam.Logo
+                    },
+                    GuestTeam = new TeamSummaryDto
+                    {
+                        Id = m.GuestTeam.Id,
+                        Name = m.GuestTeam.Name,
+                        Logo = m.GuestTeam.Logo
+                    },
+                    Schedule = m.Schedule
+                })
                 .ToListAsync();
 
-            var matchesDto = _mapper.Map<List<MatchSummaryDto>>(matches);
+            stopwatch.Stop();
+            Console.WriteLine($"Query Execution Time: {stopwatch.ElapsedMilliseconds} ms");
 
-            return matchesDto;
+            return matches;
         }
 
-        public async Task<List<MatchSummaryDto>> GetLastMatchAsync()
+        public async Task<LastMatchDto> GetLastMatchAsync()
         {
-            var matches = await _matchRepository.GetAll()
-                .Include(m => m.HomeTeam)
-                .Include(m => m.GuestTeam)
-                .OrderByDescending(m => m.Schedule)
+            var match = await _matchRepository.GetAll()
+                .AsNoTracking()
                 .Where(m => m.Schedule <= DateTime.Now && m.Set1Team1Score != null)
-                .Take(1)
-                .ToListAsync();
+                .OrderByDescending(m => m.Schedule)
+                .Select(m => new LastMatchDto
+                {
+                    Id = m.Id,
+                    HomeTeam = new TeamSummaryDto
+                    {
+                        Id = m.HomeTeam.Id,
+                        Name = m.HomeTeam.Name,
+                        Logo = m.HomeTeam.Logo
+                    },
+                    GuestTeam = new TeamSummaryDto
+                    {
+                        Id = m.GuestTeam.Id,
+                        Name = m.GuestTeam.Name,
+                        Logo = m.GuestTeam.Logo
+                    },
+                    Team1Score = m.Team1Score,
+                    Team2Score = m.Team2Score,
+                    Schedule = m.Schedule,
+                    MatchInfo = m.MatchInfo
+                })
+                .FirstOrDefaultAsync();
 
-            var matchesDto = _mapper.Map<List<MatchSummaryDto>>(matches);
-
-            return matchesDto;
+            return match;
         }
+
 
         public async Task AddMatch(NewMatchDto match)
         {

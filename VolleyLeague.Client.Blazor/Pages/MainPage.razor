@@ -328,12 +328,12 @@ else
 </style>
 
 @code {
-    private MatchSummaryDto lastMatch;
+    private LastMatchDto lastMatch;
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShort = new List<StandingsDto>();
     private ScheduleFilter Filter = new ScheduleFilter();
-    private List<ArticleDto> _articles;
+    private List<MinimalArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
     public bool pageReady = false;
     public bool standingsLoad = false;
@@ -341,7 +341,7 @@ else
     public bool matchResultsLoad = false;
     private bool cookiesAccepted = false;
     private bool isLoading = true;
-    private List<MatchSummaryDto> nextMatches;
+    private List<NextMatchMinDto> nextMatches;
 
     private class ScheduleFilter
     {
@@ -391,10 +391,10 @@ else
 
     private async Task LoadArticles()
     {
-        var result = await Http.GetAsync($"/api/Article/GetArticlesPerPage/{_currentPage}");
+        var result = await Http.GetAsync($"/api/Article/GetRecentArticlesAsync");
         if (result.IsSuccessStatusCode)
         {
-            _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
+            _articles = await result.Content.ReadFromJsonAsync<List<MinimalArticleDto>>();
             articlesLoad = true;
             UpdatePageReadiness();
         }
@@ -404,7 +404,7 @@ else
 
     private async Task LoadMatchResults()
     {
-        matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
+        // matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
         matchResultsLoad = true;
         UpdatePageReadiness();
     }
@@ -416,7 +416,7 @@ else
 
     private async Task LoadLastMatch()
     {
-        lastMatch = (await matchService.GetLastMatch()).FirstOrDefault();
+        lastMatch = (await matchService.GetLastMatch());
     }
 
     private void UpdatePageReadiness()
