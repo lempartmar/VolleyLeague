@@ -14,5 +14,4 @@ namespace VolleyLeague.Shared.Dtos.Matches
         public TeamSummaryDto? GuestTeam { get; set; }
         public DateTime Schedule { get; set; }
     }
-
 }

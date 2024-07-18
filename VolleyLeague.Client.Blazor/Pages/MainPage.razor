@@ -15,7 +15,7 @@
 
 @if (isLoading)
 {
-    <div class="loading-spinner">Loading...</div>
+    <Preloader />
 }
 else
 {
@@ -361,7 +361,24 @@ else
 
     private async Task InitializeData()
     {
-        StandingsListShort = await matchService.GetStandings(37, 1);
+        var tasks = new List<Task>
+        {
+            LoadStandings(),
+            LoadArticles(),
+            LoadMatchResults(),
+            LoadNextMatches(),
+            LoadLastMatch()
+        };
+
+        await Task.WhenAll(tasks);
+
+        await CheckAndSetToken();
+
+        pageReady = true;
+    }
+
+    private async Task CheckAndSetToken()
+    {
         var token = await _localStorageService.GetItemAsStringAsync("token");
         if (!string.IsNullOrWhiteSpace(token))
         {
@@ -378,13 +395,11 @@ else
                 Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
         }
-
-        await Task.WhenAll(LoadMatchResults(), LoadArticles(), LoadStandings(), LoadNextMatches(), LoadLastMatch());
     }
 
     private async Task LoadStandings()
     {
-        // StandingsList = await matchService.GetStandings(Filter.SeasonId, Filter.LeagueId);
+        StandingsListShort = await matchService.GetStandings(37, 1);
         standingsLoad = true;
         UpdatePageReadiness();
     }
@@ -404,7 +419,7 @@ else
 
     private async Task LoadMatchResults()
     {
-        // matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
+        matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
         matchResultsLoad = true;
         UpdatePageReadiness();
     }
