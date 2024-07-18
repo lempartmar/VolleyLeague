@@ -31,8 +31,15 @@ else
                 <div class="card-body">
                     @if (UserProfileData != null)
                     {
+
+                        
                         <div class="text-center">
-                            <img src="@GetLogoSrc(UserProfileData.Photo)" class="img-fluid rounded" style="width: 300px; height: 400px; margin-bottom: 30px">
+                            @{
+                                var imgSrc = UserProfileData.Photo != null && UserProfileData.Photo.Length > 0
+                                ? $"data:image/png;base64,{Convert.ToBase64String(UserProfileData.Photo)}"
+                                : "/assets/images/Logo_alternative.png";
+                            }
+                            <img src="@imgSrc" class="img-fluid rounded" style="width: 300px; height: 400px; margin-bottom: 30px">
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
