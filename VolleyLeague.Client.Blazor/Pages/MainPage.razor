@@ -48,7 +48,7 @@ else
                                 <div class="item">
                                     <div class="image-area"><img src="@imageSrc" alt=""></div>
                                     <div class="bottom-content">
-                                        <span class="blog-category-tag">Aug 02, 2023</span>
+                                        <span class="blog-category-tag">@firstArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                         <div class="gallery-title">
                                             <a href="/article/@firstArticle.Id">@firstArticle.Title</a>
                                         </div>
@@ -66,7 +66,7 @@ else
                                     <div class="rts-post-small">
                                         <a href="/article/@secondArticle.Id" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
                                         <div class="bottom-content">
-                                            <span class="blog-category-tag">Aug 02, 2023</span>
+                                            <span class="blog-category-tag">@secondArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                             <div class="gallery-title">
                                                 <a href="/article/@secondArticle.Id">@secondArticle.Title</a>
                                             </div>
@@ -81,7 +81,7 @@ else
                                     <div class="rts-post-small">
                                         <a href="/article/@thirdArticle.Id" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
                                         <div class="bottom-content">
-                                            <span class="blog-category-tag">Aug 02, 2023</span>
+                                            <span class="blog-category-tag">@thirdArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                             <div class="gallery-title">
                                                 <a href="/article/@thirdArticle.Id">@thirdArticle.Title</a>
                                             </div>
@@ -99,6 +99,7 @@ else
                 </div>
             </div>
         </section>
+
 
         <section class="rts-player-static baseball volleyball">
             <div class="container">
