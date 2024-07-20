@@ -15,7 +15,11 @@
 
 @if (isLoading)
 {
-    <Preloader />
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
 }
 else
 {
@@ -164,9 +168,16 @@ else
                                         {
                                             @foreach (var match in nextMatches)
                                             {
+                                                var imgSrcHome = match.HomeTeam.Logo != null && match.HomeTeam.Logo.Length > 0
+                                                ? $"data:image/png;base64,{Convert.ToBase64String(match.HomeTeam.Logo)}"
+                                                : "/assets/images/Logo_alternative.png";
+
+                                                var imgSrcGuest = match.GuestTeam.Logo != null && match.GuestTeam.Logo.Length > 0
+                                                ? $"data:image/png;base64,{Convert.ToBase64String(match.GuestTeam.Logo)}"
+                                                : "/assets/images/Logo_alternative.png";
                                                 <li class="match-wrapper">
                                                     <div class="logo">
-                                                        <img src="@GetTeamLogoSrc(match.HomeTeam.Logo)" alt="">
+                                                        <img src="@imgSrcHome" alt="">
                                                     </div>
                                                     <div class="content">
                                                         <p class="date">@match.Schedule.ToString("MMMM dd, yyyy")</p>
@@ -174,7 +185,7 @@ else
                                                         <h3 class="team">@match.HomeTeam.Name <span>VS</span> @match.GuestTeam.Name</h3>
                                                     </div>
                                                     <div class="logo">
-                                                        <img src="@GetTeamLogoSrc(match.GuestTeam.Logo)" alt="">
+                                                        <img src="@imgSrcGuest" alt="">
                                                     </div>
                                                 </li>
                                             }
@@ -196,8 +207,15 @@ else
                 <div class="section-inner">
                     @if (lastMatch != null)
                     {
-                        <div class="logo-area">
-                            <img src="@GetTeamLogoSrc(lastMatch.HomeTeam.Logo)" alt="">
+                        var imgSrcHome = lastMatch.HomeTeam.Logo != null && lastMatch.HomeTeam.Logo.Length > 0
+                        ? $"data:image/png;base64,{Convert.ToBase64String(lastMatch.HomeTeam.Logo)}"
+                        : "/assets/images/Logo_alternative.png";
+
+                        var imgSrcGuest = lastMatch.GuestTeam.Logo != null && lastMatch.GuestTeam.Logo.Length > 0
+                        ? $"data:image/png;base64,{Convert.ToBase64String(lastMatch.GuestTeam.Logo)}"
+                        : "/assets/images/Logo_alternative.png";
+                        <div class="logo-area logo-max-width">
+                            <img src="@imgSrcHome" alt="">
                         </div>
                         <div class="inner-middle">
                             <div class="result">
@@ -218,8 +236,8 @@ else
                             </div>
                             <p class="desc">@lastMatch.MatchInfo</p>
                         </div>
-                        <div class="logo-area">
-                            <img src="@GetTeamLogoSrc(lastMatch.GuestTeam.Logo)" alt="">
+                        <div class="logo-area logo-max-width">
+                            <img src="@imgSrcGuest" alt="">
                         </div>
                     }
                     else
@@ -268,6 +286,51 @@ else
 }
 
 <style>
+    .nav-item.nav-user {
+        color: #7d7d7d;
+        text-decoration: none;
+        font-size: 9px;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .display-flex-column-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .display-flex-row {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .team-list-check {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+    }
+
+    .name.header-text {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
     .cookie-consent-overlay {
         position: fixed;
         top: 0;
