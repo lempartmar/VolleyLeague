@@ -12,775 +12,174 @@
 @inject NavigationManager Navigation
 @inject ITeamService teamService
 
-
 @inherits LayoutComponentBase
 
-@if (IsHomePage)
-{
-    <header id="rtsHeader" class="rts-header1 header-four cricket">
-        <div class="navbar-sticky">
-            <div class="navbar-part navbar-part1">
-                <div class="container">
-                    <div class="top-bar">
-                        <div class="top-bar-inner">
-                            <div class="top-bar-left">
-                                <a href="#" class="get-ticket-btn">MEDIA SPOŁECZNOŚCIOWE</a>
-                                <ul class="social-wrapper">
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="top-bar-mid">
-                                <span class="tag">AKTUALNY SEZON</span>
-                                <div class="live-match">SEZON 2023/2024</div>
-                            </div>
-                            <AuthorizeView>
-                                <NotAuthorized>
-                                    <div class="top-bar-right">
-                                        <a href="/login" class="login-btn">ZALOGUJ</a>
-                                        <a href="/register" class="sign-up-btn">REJESTRACJA</a>
-                                    </div>
-                                </NotAuthorized>
-                            </AuthorizeView>
-                            <AuthorizeView>
-                                <Authorized>
-                                    <div class="top-bar-right">
-                                        <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
-                                        @*                                 <a href="" class="login-btn">ZALOGOWANY</a> *@
-                                        <a class="sign-up-btn">|</a>
-                                        <a @onclick="Logout" class="sign-up-btn">WYLOGUJ</a>
-                                    </div>
-                                </Authorized>
-                            </AuthorizeView>
-                        </div>
+<header id="rtsHeader" class="rts-header1 header-four cricket">
+    <div class="navbar-sticky">
+    </div>
+    <div class="navbar-part navbar-part1">
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-inner">
+                    <div class="top-bar-left">
+                        <a href="#" class="get-ticket-btn">MEDIA SPOŁECZNOŚCIOWE</a>
+                        <ul class="social-wrapper">
+                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                        </ul>
                     </div>
-                    <div class="navbar-inner">
-                        <a href="/" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
-                        <a href="/" class="logo-sticky">
-                            <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
-                        </a>
-                        <div class="rts-menu">
-                            <nav class="menus menu-toggle">
-                                <ul class="nav__menu">
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/">Home</NavLink>
+                    <div class="top-bar-mid">
+                        <span class="tag">AKTUALNY SEZON</span>
+                        <div class="live-match">SEZON 2023/2024</div>
+                    </div>
+                    <AuthorizeView>
+                        <NotAuthorized>
+                            <div class="top-bar-right">
+                                <a href="/login" class="login-btn">ZALOGUJ</a>
+                                <a href="/register" class="sign-up-btn">REJESTRACJA</a>
+                            </div>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="top-bar-right">
+                                <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
+                                <a class="sign-up-btn">|</a>
+                                <a @onclick="Logout" class="sign-up-btn">WYLOGUJ</a>
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+            <div class="navbar-inner">
+                <a href="/" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
+                <a href="/" class="logo-sticky">
+                    <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
+                </a>
+                <div class="rts-menu">
+                    <nav class="menus menu-toggle">
+                        <ul class="nav__menu">
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item active1" href="/">Home</NavLink>
+                            </li>
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item" href="#">Wyniki</NavLink>
+                                <ul class="dropdown-ul">
+                                    <li class="dropdown-li">
+                                        <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
                                     </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="#">Wyniki</NavLink>
-                                        <ul class="dropdown-ul">
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
-                                            </li>
-                                        </ul>
+                                    <li class="dropdown-li">
+                                        <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
                                     </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/policy">Liga</NavLink>
-                                    </li>
-                                    @*                             <AuthorizeView>
-                                <Authorized>
-                                <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/account">Panel Administracyjny</NavLink>
-                                </li>
-                                </Authorized>
-                                </AuthorizeView> *@
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
+                                    <li class="dropdown-li">
+                                        <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
                                     </li>
                                 </ul>
-                            </nav>
-                        </div>
-                        <div class="header-action-items header-action-items1">
-                            <div class="search-part">
-                                @*                                 <div class="person-icon action-item icon"><i class="bi bi-person"></i></div> *@
-                                <div class="search-icon action-item icon"><i class="rt-search"></i></div>
-                                <div class="search-input-area">
-                                    <div class="container">
-                                        <div class="search-input-inner">
-                                            <select class="custom-select select-hidden">
-                                                <option value="hide">All Catagorys</option>
-                                                <option value="all">All</option>
-                                                <option value="league">League</option>
-                                                <option value="club">Club</option>
-                                                <option value="team">Team</option>
-                                                <option value="player">Player</option>
-                                                <option value="match">Match</option>
-                                                <option value="score">Score</option>
-                                            </select>
-                                            @* <div class="person-icon action-item icon"><i class="bi bi-person"></i></div> *@
-                                            <div class="input-div">
-                                                <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                                <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
-                                            </div>
-                                            <div class="search-close-icon"><i class="rt-xmark"></i></div>
-                                        </div>
+                            </li>
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
+                            </li>
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
+                            </li>
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item" href="/policy">Liga</NavLink>
+                            </li>
+                            <li class="has-dropdown">
+                                <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="header-action-items header-action-items1">
+                    <div class="search-part">
+                        <div class="search-icon action-item icon"><i class="rt-search"></i></div>
+                        <div class="search-input-area">
+                            <div class="container">
+                                <div class="search-input-inner">
+                                    <select class="custom-select select-hidden">
+                                        <option value="hide">All Catagorys</option>
+                                        <option value="all">All</option>
+                                        <option value="league">League</option>
+                                        <option value="club">Club</option>
+                                        <option value="team">Team</option>
+                                        <option value="player">Player</option>
+                                        <option value="match">Match</option>
+                                        <option value="score">Score</option>
+                                    </select>
+                                    <div class="input-div">
+                                        <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
+                                        <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
                                     </div>
+                                    <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                        </div>
-                        @*                         <a class="hamburger-menu aitem d-block">
+                    </div>
+                </div>
+                <a class="hamburger-menu aitem d-block">
                     <div class="hamburger-menu-inner">
-                    <span></span>
-                    <span class=""></span>
-                    <span></span>
+                        <span></span>
+                        <span class=""></span>
+                        <span></span>
                     </div>
-                    </a> *@
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
-        <div class="cart-bar">
-            <div class="cart-header">
-                <h3 class="cart-heading">MY CART (3 ITEMS)</h3>
-                <div class="close-cart"><i class="fal fa-times"></i></div>
-            </div>
-            <div class="product-area">
-                <div class="product-item">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product1.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Parachute Jacket</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">3 ×</span>
-                                <span class="product-price">$198.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="3" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product2.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Narrow Trouser</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">2 ×</span>
-                                <span class="product-price">$88.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="2" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item last-child">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product6.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Bellyless Hoodie</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">1 ×</span>
-                                <span class="product-price">$289.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="2" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cart-bottom-area">
-                <span class="spend-shipping">
-                    <i class="fal fa-truck"></i> SPENT <span class="amount">$199.00</span> MORE
-                    FOR FREE SHIPPING
-                </span>
-                <span class="total-price">TOTAL: <span class="price">$556</span></span>
-                <a href="checkout.html" class="checkout-btn cart-btn">PROCEED TO CHECKOUT</a>
-                <a href="cart.html" class="view-btn cart-btn">VIEW CART</a>
-            </div>
-        </div>
-        <!--================= Slide Bar Start Here =================-->
-        <aside class="slide-bar">
-            <div class="offset-sidebar">
-                <button class="slide-bar-close ml--30"><i class="fal fa-times"></i></button>
-                <div class="offset-widget offset-logo mb-30">
-                    <a href="/">
-                        <img src="assets/images/logo.png" alt="logo">
-                    </a>
-                </div>
-            </div>
-            <!-- side-mobile-menu start -->
-            <nav class="side-mobile-menu side-mobile-menu1">
-                <ul id="mobile-menu-active">
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="/">Home <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="/">Home Style 1</a></li>
-                            <li><a href="index-two.html">Home Style 2</a></li>
-                            <li><a href="index-three.html">Home Style 3</a></li>
-                            <li><a href="index-four.html">Home Style 4</a></li>
-                            <li><a href="index-five.html">Home Style 5</a></li>
-                            <li><a href="index-six.html">Home Style 6</a></li>
-                            <li><a href="index-seven.html">Home Style 7</a></li>
-                            <li><a href="index-eight.html">Home Style 8</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="mm-link" href="about.html">About</a></li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="index.html">Pages <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu mega-dropdown-mobile">
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li"><a class="dropdown-link" href="team.html">Team Details</a></li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="team-details.html">Player Details</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="history.html">History</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="faq.html">FAQ</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="gallery.html">Gallery</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="event.html">Event</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="event-details.html">Event Details</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="error.html">Error</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-schedule.html">Match Schedule</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-result.html">Match Result</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="league-standings.html">Point Table</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="index.html">Shop <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="shop.html">Shop</a></li>
-                            <li><a href="product-details.html">Product Details</a></li>
-                            <li><a href="cart.html">cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="account.html">My Account</a></li>
-                            <li><a href="thank-you.html">Thank You</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="news-details.html">News <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="blog.html">News</a></li>
-                            <li><a href="blog-details.html">News Details</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="mm-link" href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <!-- side-mobile-menu end -->
-            <div class="side-bar-social-links">
-                <a href="#0" class="platform"><i class="fab fa-facebook-f"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-twitter"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-behance"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-youtube"></i></a>
-            </div>
-        </aside>
-        <!--================= Slide Bar Start Here =================-->
-        <!--================= Banner Section Start Here =================-->
-        <div class="banner banner1 banner5 cricket">
-            <div class="swiper thumbBannerSlide">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="banner-single banner-single-1 banner-bg">
-                            <div class="container">
-                                <div class="banner-content">
-                                    <span class="pretitle">Witaj na stronie</span>
-                                    <h1 id="dynamicText" class="banner-heading">
-                                        LIGASIATKÓWKI.PL
-                                    </h1>
-                                    <div class="banner-btn-area">
-                                        <a href="" class="team-btn banner-btn">WPROWADZENIE</a>
-                                    </div>
+    </div>
+    <div class="banner banner1 banner5 cricket @(IsHomePage ? "" : "display_none")">
+        <div class="swiper thumbBannerSlide">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="banner-single banner-single-1 banner-bg">
+                        <div class="container">
+                            <div class="banner-content">
+                                <span class="pretitle">Witaj na stronie</span>
+                                <h1 id="dynamicText" class="banner-heading">
+                                    LIGASIATKÓWKI.PL
+                                </h1>
+                                <div class="banner-btn-area">
+                                    <a href="" class="team-btn banner-btn">WPROWADZENIE</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="banner-single banner-single-1_2 banner-bg">
-                            <div class="container">
-                                <div class="banner-content">
-                                    <span class="pretitle">Welcome To Our Cricket News</span>
-                                    <h1 id="dynamicText" class="banner-heading">
-                                        Destination for world <br>
-                                        Cricket News
-                                    </h1>
-                                    <div class="banner-btn-area">
-                                        <a href="team.html" class="team-btn banner-btn">Read More</a>
-                                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="banner-single banner-single-1_2 banner-bg">
+                        <div class="container">
+                            <div class="banner-content">
+                                <span class="pretitle">Welcome To Our Cricket News</span>
+                                <h1 id="dynamicText" class="banner-heading">
+                                    Destination for world <br>
+                                    Cricket News
+                                </h1>
+                                <div class="banner-btn-area">
+                                    <a href="team.html" class="team-btn banner-btn">Read More</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="banner-single banner-single-3 banner-bg">
-                            <div class="container">
-                                <div class="banner-content">
-                                    <span class="pretitle">Welcome To Our Cricket News</span>
-                                    <h1 id="dynamicText" class="banner-heading">
-                                        Destination for world <br>
-                                        Cricket News
-                                    </h1>
-                                    <div class="banner-btn-area">
-                                        <a href="team.html" class="team-btn banner-btn">Read More</a>
-                                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="banner-single banner-single-3 banner-bg">
+                        <div class="container">
+                            <div class="banner-content">
+                                <span class="pretitle">Welcome To Our Cricket News</span>
+                                <h1 id="dynamicText" class="banner-heading">
+                                    Destination for world <br>
+                                    Cricket News
+                                </h1>
+                                <div class="banner-btn-area">
+                                    <a href="team.html" class="team-btn banner-btn">Read More</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <!--================= Banner Section End Here =================-->
-    </header>
-}
-else
-{
-
-
-    <header id="rtsHeader" class="rts-header1 header-four cricket">
-        <div class="navbar-sticky">
-            <div class="navbar-part navbar-part1">
-                <div class="container">
-                    <div class="top-bar">
-                        <div class="top-bar-inner">
-                            <div class="top-bar-left">
-                                <a href="#" class="get-ticket-btn">Media Społecznościowe</a>
-                                <ul class="social-wrapper">
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="top-bar-mid">
-                                <span class="tag">AKTUALNY SEZON</span>
-                                <div class="live-match">SEZON 2023/2024</div>
-                            </div>
-                            <AuthorizeView>
-                                <NotAuthorized>
-                                    <div class="top-bar-right">
-                                        <a href="/login" class="login-btn">ZALOGUJ</a>
-                                        <a href="/register" class="sign-up-btn">REJESTRACJA</a>
-                                    </div>
-                                </NotAuthorized>
-                            </AuthorizeView>
-                            <AuthorizeView>
-                                <Authorized>
-                                    <div class="top-bar-right">
-                                        <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
-                                        @*                                 <a href="" class="login-btn">ZALOGOWANY</a> *@
-                                        <a class="sign-up-btn">|</a>
-                                        <a @onclick="Logout" class="sign-up-btn">WYLOGUJ</a>
-                                    </div>
-                                </Authorized>
-                            </AuthorizeView>
-                        </div>
-                    </div>
-                    <div class="navbar-inner">
-                        <a href="/" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
-                        <a href="/" class="logo-sticky">
-                            <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
-                        </a>
-                        <div class="rts-menu">
-                            <nav class="menus menu-toggle">
-                                <ul class="nav__menu">
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item active1" href="/">Home</NavLink>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="#">Wyniki</NavLink>
-                                        <ul class="dropdown-ul">
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
-                                            </li>
-                                            <li class="dropdown-li">
-                                                <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/policy">Liga</NavLink>
-                                    </li>
-                                    @*                                     <AuthorizeView>
-                                <Authorized>
-                                <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/account">Panel Administracyjny</NavLink>
-                                </li>
-                                </Authorized>
-                                </AuthorizeView> *@
-                                    <li class="has-dropdown">
-                                        <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div class="header-action-items header-action-items1">
-                            <div class="search-part">
-                                <div class="search-icon action-item icon"><i class="rt-search"></i></div>
-                                <div class="search-input-area">
-                                    <div class="container">
-                                        <div class="search-input-inner">
-                                            <select class="custom-select select-hidden">
-                                                <option value="hide">All Catagorys</option>
-                                                <option value="all">All</option>
-                                                <option value="league">League</option>
-                                                <option value="club">Club</option>
-                                                <option value="team">Team</option>
-                                                <option value="player">Player</option>
-                                                <option value="match">Match</option>
-                                                <option value="score">Score</option>
-                                            </select>
-                                            <div class="input-div">
-                                                <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                                <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
-                                            </div>
-                                            <div class="search-close-icon"><i class="rt-xmark"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @*                             <div class="cart action-item">
-                        <div class="cart-nav">
-                        <div class="basket-icon cart-icon icon">
-                        <a href="#0">
-                        <i class="fal fa-shopping-basket"></i>
-                        </a>
-                        </div>
-                        </div>
-                        </div> *@
-                        </div>
-                        <a class="hamburger-menu aitem d-block">
-                            <div class="hamburger-menu-inner">
-                                <span></span>
-                                <span class=""></span>
-                                <span></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="cart-bar">
-            <div class="cart-header">
-                <h3 class="cart-heading">MY CART (3 ITEMS)</h3>
-                <div class="close-cart"><i class="fal fa-times"></i></div>
-            </div>
-            <div class="product-area">
-                <div class="product-item">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product1.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Parachute Jacket</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">3 ×</span>
-                                <span class="product-price">$198.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="3" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product2.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Narrow Trouser</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">2 ×</span>
-                                <span class="product-price">$88.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="2" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item last-child">
-                    <div class="product-detail">
-                        <div class="product-thumb">
-                            <img src="assets/images/products/product6.png" alt="product-thumb">
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-name">Bellyless Hoodie</span>
-                            <div class="item-wrapper">
-                                <span class="product-variation">
-                                    <span class="color">Green /</span>
-                                    <span class="size">XL</span>
-                                </span>
-                            </div>
-                            <div class="item-wrapper">
-                                <span class="product-qnty">1 ×</span>
-                                <span class="product-price">$289.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cart-edit">
-                        <div class="quantity-edit">
-                            <button class="button"><i class="fal fa-minus minus"></i></button>
-                            <input type="text" class="input" value="2" />
-                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                        </div>
-                        <div class="item-wrapper d-flex mr--5 align-items-center">
-                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cart-bottom-area">
-                <span class="spend-shipping">
-                    <i class="fal fa-truck"></i> SPENT <span class="amount">$199.00</span> MORE
-                    FOR FREE SHIPPING
-                </span>
-                <span class="total-price">TOTAL: <span class="price">$556</span></span>
-                <a href="checkout.html" class="checkout-btn cart-btn">PROCEED TO CHECKOUT</a>
-                <a href="cart.html" class="view-btn cart-btn">VIEW CART</a>
-            </div>
-        </div>
-        <!--================= Slide Bar Start Here =================-->
-        <aside class="slide-bar">
-            <div class="offset-sidebar">
-                <button class="slide-bar-close ml--30"><i class="fal fa-times"></i></button>
-                <div class="offset-widget offset-logo mb-30">
-                    <a href="/">
-                        <img src="assets/images/logo.png" alt="logo">
-                    </a>
-                </div>
-            </div>
-            <!-- side-mobile-menu start -->
-            <nav class="side-mobile-menu side-mobile-menu1">
-                <ul id="mobile-menu-active">
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="/">Home <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="index.html">Home Style 1</a></li>
-                            <li><a href="index-two.html">Home Style 2</a></li>
-                            <li><a href="index-three.html">Home Style 3</a></li>
-                            <li><a href="index-four.html">Home Style 4</a></li>
-                            <li><a href="index-five.html">Home Style 5</a></li>
-                            <li><a href="index-six.html">Home Style 6</a></li>
-                            <li><a href="index-seven.html">Home Style 7</a></li>
-                            <li><a href="index-eight.html">Home Style 8</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="mm-link" href="about.html">About</a></li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="index.html">Pages <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu mega-dropdown-mobile">
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="team.html">Team Details</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="team-details.html">
-                                            Player
-                                            Details
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="history.html">History</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="awards.html">Awards</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="faq.html">FAQ</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="gallery.html">Gallery</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="event.html">Event</a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="event-details.html">
-                                            Event
-                                            Details
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="error.html">Error</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="mega-dropdown-li">
-                                <ul class="mega-dropdown-ul mm-show">
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-schedule.html">
-                                            Match
-                                            Schedule
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="match-result.html">
-                                            Match
-                                            Result
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <a class="dropdown-link" href="league-standings.html">Point Table</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="index.html">Shop <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="shop.html">Shop</a></li>
-                            <li><a href="product-details.html">Product Details</a></li>
-                            <li><a href="cart.html">cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="account.html">My Account</a></li>
-                            <li><a href="thank-you.html">Thank You</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown firstlvl">
-                        <a class="mm-link" href="news-details.html">News <i class="rt-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li><a href="blog.html">News</a></li>
-                            <li><a href="blog-details.html">News Details</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="mm-link" href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <!-- side-mobile-menu end -->
-            <div class="side-bar-social-links">
-                <a href="#0" class="platform"><i class="fab fa-youtube-f"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-youtube"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-youtube"></i></a>
-                <a href="#0" class="platform"><i class="fab fa-youtube"></i></a>
-            </div>
-        </aside>
-        <!--================= Slide Bar Start Here =================-->
-        <!--================= Banner Section Start Here =================-->
+    </div>
+    <div class="banner banner1 @(IsHomePage ? "display_none" : "")">
         <div class="banner banner1">
             <div class="inner-page-banner banner-bg">
                 <div class="container">
@@ -796,20 +195,18 @@ else
                 </div>
             </div>
         </div>
-
-
-
-
-
-        <!--================= Banner Section End Here =================-->
-    </header>
-}
+    </div>
+</header>
 
 <style>
     .nav-item.nav-user {
         color: #7d7d7d;
         text-decoration: none;
         font-size: 9px;
+    }
+
+    .display_none {
+        display: none;
     }
 </style>
 
@@ -916,10 +313,10 @@ else
         return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
     }
 
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
+    // public void Dispose()
+    // {
+    //     NavigationManager.LocationChanged -= OnLocationChanged;
+    // }
 
     private void NavigateToAccount()
     {
@@ -937,5 +334,4 @@ else
     {
         NavigationManager.NavigateTo("/account");
     }
-
 }
