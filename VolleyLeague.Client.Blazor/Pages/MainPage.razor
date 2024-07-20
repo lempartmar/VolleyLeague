@@ -42,11 +42,13 @@ else
                             var firstArticle = _articles[0];
                             var secondArticle = _articles[1];
                             var thirdArticle = _articles[2];
-                            string imageSrc = ConvertImageToBase64(firstArticle.Image);
+                            string imageSrc1 = ConvertImageToBase64(firstArticle.Image);
+                            string imageSrc2 = ConvertImageToBase64(secondArticle.Image);
+                            string imageSrc3 = ConvertImageToBase64(thirdArticle.Image);
 
                             <div class="col-lg-6">
                                 <div class="item">
-                                    <div class="image-area"><img src="@imageSrc" alt=""></div>
+                                    <div class="image-area"><img src="@imageSrc1" alt=""></div>
                                     <div class="bottom-content">
                                         <span class="blog-category-tag">@firstArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                         <div class="gallery-title">
@@ -64,7 +66,7 @@ else
                             <div class="col-lg-6">
                                 <div class="right-side-items">
                                     <div class="rts-post-small">
-                                        <a href="/article/@secondArticle.Id" class="gallery-picture"><img src="assets/images/blog/news37.jpg" alt=""></a>
+                                        <a href="/article/@secondArticle.Id" class="gallery-picture"><img src="@imageSrc2" alt=""></a>
                                         <div class="bottom-content">
                                             <span class="blog-category-tag">@secondArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                             <div class="gallery-title">
@@ -79,7 +81,7 @@ else
                                     </div>
 
                                     <div class="rts-post-small">
-                                        <a href="/article/@thirdArticle.Id" class="gallery-picture"><img src="assets/images/blog/news38.jpg" alt=""></a>
+                                        <a href="/article/@thirdArticle.Id" class="gallery-picture"><img src="@imageSrc3" alt=""></a>
                                         <div class="bottom-content">
                                             <span class="blog-category-tag">@thirdArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
                                             <div class="gallery-title">
