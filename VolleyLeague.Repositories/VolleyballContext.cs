@@ -35,8 +35,6 @@ namespace VolleyLeague.Repositories
 
         public virtual DbSet<TeamPlayer> TeamPlayers { get; set; }
 
-        public virtual DbSet<NewTable> NewTables { get; set; }
-
         public virtual DbSet<ForumCategory> ForumCategories { get; set; }
 
         public virtual DbSet<Round> Rounds { get; set; }
@@ -53,8 +51,6 @@ namespace VolleyLeague.Repositories
 
         public virtual DbSet<CommentLocation> CommentLocations { get; set; }
 
-
-        public virtual DbSet<NewTable2> NewTable2 { get; set; }
         public virtual DbSet<SportsVenue> SportsVenues { get; set; }
 
         public virtual DbSet<Position> Positions { get; set; }
