@@ -59,6 +59,8 @@ namespace VolleyLeague.Repositories
 
         public virtual DbSet<ForumTopic> ForumTopics { get; set; }
 
+        public virtual DbSet<UserRegistrationVerificationCode> VerificationCodes { get; set; }
+
         public virtual DbSet<User> Users { get; set; }
 
         public virtual DbSet<TypedResult> TypedResults { get; set; }
@@ -127,6 +129,13 @@ namespace VolleyLeague.Repositories
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.Cascade);
 
+            });
+
+            modelBuilder.Entity<UserRegistrationVerificationCode>(entity =>
+            {
+                entity.Property(e => e.Email).IsRequired();
+                entity.Property(e => e.Code).IsRequired();
+                entity.Property(e => e.ExpirationTime).IsRequired();
             });
 
             modelBuilder.Entity<TypedResult>(entity =>

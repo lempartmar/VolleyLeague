@@ -87,6 +87,31 @@ namespace VolleyLeague.API.Controllers
             return Ok("Registration successful");
         }
 
+        [AllowAnonymous]
+        [HttpPost("startregistration")]
+        public async Task<IActionResult> StartRegistration([FromBody] RegisterDto registerDto)
+        {
+            var result = await _userService.StartRegistration(registerDto);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok("Verification code sent to email.");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("completeregistration")]
+        public async Task<IActionResult> CompleteRegistration([FromBody] CompleteRegistrationDto completeRegistrationDto)
+        {
+            var result = await _userService.CompleteRegistration(completeRegistrationDto);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok("Registration successful.");
+        }
+
+
         [Authorize]
         [HttpGet("summary")]
         public async Task<IActionResult> GetUserSummary()

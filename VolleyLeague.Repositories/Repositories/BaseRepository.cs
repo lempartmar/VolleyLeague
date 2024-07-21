@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using VolleyLeague.Entities;
 using VolleyLeague.Repositories.Interfaces;
 
@@ -30,6 +31,17 @@ namespace VolleyLeague.Repositories.Repositories
         {
             return Task.FromResult(Insert(entity));
         }
+
+        public VolleyballContext CreateContext()
+        {
+            return new VolleyballContext();
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _dbContextProvider.Database.BeginTransactionAsync();
+        }
+
 
         public async Task<TEntity> InsertOrUpdate(TEntity entity)
         {

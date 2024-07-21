@@ -11,6 +11,11 @@ namespace VolleyLeague.Services.Services
 
         Task<UserProfileDto> GetUserProfileByEmail(string email);
 
+        Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto);
+
+
+        Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto);
+
         Task<(bool Success, string Message)> Register(RegisterDto registerDto);
 
         Task<bool> IsTeamCaptain(string playerEmail);

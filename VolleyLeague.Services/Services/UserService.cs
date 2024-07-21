@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
@@ -21,6 +22,7 @@ namespace VolleyLeague.Services.Services
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
+        private readonly IBaseRepository<UserRegistrationVerificationCode> _verificationCodeRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IEmailService _emailService;
         private readonly IFileService _fileService;
@@ -30,7 +32,8 @@ namespace VolleyLeague.Services.Services
 
         public UserService(IBaseRepository<User> userRepository,
                            IBaseRepository<Credentials> credentialsRepository,
-                           IRoleRepository roleRepository,
+                           IBaseRepository<UserRegistrationVerificationCode> userRegistrationVerificationCodeRepository,
+                            IRoleRepository roleRepository,
                            IEmailService emailService,
                            IFileService fileService,
                            IMapper mapper,
@@ -39,6 +42,7 @@ namespace VolleyLeague.Services.Services
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _fileService = fileService;
+            _verificationCodeRepository = userRegistrationVerificationCodeRepository;
             _credentialsRepository = credentialsRepository;
             _emailService = emailService;
             _mapper = mapper;
@@ -355,6 +359,136 @@ namespace VolleyLeague.Services.Services
                 return false;
             }
         }
+
+        public async Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto)
+        {
+            var existingUser = _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefault(u => u.Credentials != null && u.Credentials.Email == registerDto.Email);
+
+            if (existingUser != null)
+            {
+                return (false, "Użytkownik z takim adresem e-mail już istnieje.");
+            }
+
+            var verificationCode = GenerateVerificationCode();
+            var expirationTime = DateTime.UtcNow.AddMinutes(30);
+
+            var verificationEntity = new UserRegistrationVerificationCode
+            {
+                Email = registerDto.Email,
+                Code = verificationCode,
+                ExpirationTime = expirationTime
+            };
+
+            await _verificationCodeRepository.InsertAsync(verificationEntity);
+            await _verificationCodeRepository.SaveChangesAsync();
+
+            await SendVerificationEmail(registerDto.Email, verificationCode);
+
+            return (true, "Verification code sent to email.");
+        }
+
+
+        public async Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto)
+        {
+            using var transaction = await _userRepository.BeginTransactionAsync();
+
+            try
+            {
+                // Sprawdź kod weryfikacyjny w oddzielnym kontekście
+                using (var verificationContext = _verificationCodeRepository.CreateContext())
+                {
+                    var verificationEntity = await verificationContext.Set<UserRegistrationVerificationCode>()
+                        .FirstOrDefaultAsync(vc => vc.Email == completeRegistrationDto.Email && vc.Code == completeRegistrationDto.VerificationCode);
+
+                    if (verificationEntity == null || verificationEntity.ExpirationTime < DateTime.UtcNow)
+                    {
+                        return (false, "Invalid or expired verification code.");
+                    }
+                }
+
+                // Operacje na użytkownikach i poświadczeniach w głównym kontekście
+                var user = await _userRepository.GetAll()
+                    .Include(u => u.Credentials)
+                    .FirstOrDefaultAsync(u => u.AdditionalEmail == completeRegistrationDto.Email);
+
+                if (user != null && user.Credentials == null)
+                {
+                    user.FirstName = completeRegistrationDto.FirstName;
+                    user.LastName = completeRegistrationDto.LastName;
+                    user.AdditionalEmail = completeRegistrationDto.Email;
+                }
+                else
+                {
+                    user = new User
+                    {
+                        FirstName = completeRegistrationDto.FirstName,
+                        LastName = completeRegistrationDto.LastName,
+                        AdditionalEmail = completeRegistrationDto.Email,
+                        PositionId = 6, // Assuming default position
+                    };
+                    await _userRepository.InsertAsync(user);
+                }
+
+                var playerRoles = await _roleRepository.GetRoles();
+                var playerRole = playerRoles.FirstOrDefault(r => r.Name == Roles.Player);
+
+                var credentials = new Credentials
+                {
+                    Email = completeRegistrationDto.Email,
+                    Password = HashPassword(completeRegistrationDto.Email, completeRegistrationDto.Password),
+                    User = user,
+                    Roles = new List<Role> { playerRole }
+                };
+
+                await _credentialsRepository.InsertAsync(credentials);
+
+                await _credentialsRepository.SaveChangesAsync();
+                await _userRepository.SaveChangesAsync();
+
+                // Usunięcie kodu weryfikacyjnego w oddzielnym kontekście
+                using (var verificationContext = _verificationCodeRepository.CreateContext())
+                {
+                    var verificationEntity = await verificationContext.Set<UserRegistrationVerificationCode>()
+                        .FirstOrDefaultAsync(vc => vc.Email == completeRegistrationDto.Email && vc.Code == completeRegistrationDto.VerificationCode);
+
+                    if (verificationEntity != null)
+                    {
+                        verificationContext.Set<UserRegistrationVerificationCode>().Remove(verificationEntity);
+                        await verificationContext.SaveChangesAsync();
+                    }
+                }
+
+                await transaction.CommitAsync();
+
+                return (true, "Registration successful");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return (false, $"Registration failed due to a server error: {ex.Message}");
+            }
+        }
+
+
+        private string GenerateVerificationCode()
+        {
+            var random = new Random();
+            return random.Next(100000, 999999).ToString();
+        }
+
+        private async Task SendVerificationEmail(string email, string verificationCode)
+        {
+            var message = new MailMessage("noreply@yourwebsite.com", email)
+            {
+                Subject = "Verification Code",
+                Body = $"Your verification code is: {verificationCode}",
+                IsBodyHtml = true,
+            };
+
+            await _emailService.Send(email, message);
+        }
+
+
 
         public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
         {

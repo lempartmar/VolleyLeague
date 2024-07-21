@@ -1,4 +1,6 @@
-﻿namespace VolleyLeague.Repositories.Interfaces
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace VolleyLeague.Repositories.Interfaces
 {
     public interface IBaseRepository<TEntity>
         where TEntity : class
@@ -7,7 +9,11 @@
 
         IQueryable<TEntity> GetAll();
 
+        VolleyballContext CreateContext();
+
         Task<TEntity> InsertAsync(TEntity entity);
+
+        Task<IDbContextTransaction> BeginTransactionAsync();
 
         Task<TEntity> GetById(long id);
 

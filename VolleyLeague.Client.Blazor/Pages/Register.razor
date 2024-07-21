@@ -2,6 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
+@using VolleyLeague.Shared.Dtos.Users
 @inject IUserService UserService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -13,7 +14,7 @@
         </div>
     </section>
 }
-else
+else if (!isVerificationStep)
 {
     <div class="login-area">
         <div class="container">
@@ -25,6 +26,7 @@ else
                                 <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
+                                    <!-- Fields for FirstName, LastName, Email, Password, ConfirmPassword -->
                                     <div class="form">
                                         <label for="FirstName" class="control-label"></label>
                                         <input @bind="registerModel.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
@@ -80,6 +82,36 @@ else
         </div>
     </div>
 }
+else
+{
+    <div class="verification-area">
+        <div class="container">
+            <div class="row display-flex-column-center">
+                <div class="col-lg-6 col-md-12 mr-10">
+                    <div class="verification-form">
+                        <div class="card">
+                            <div class="card-body">
+                                <EditForm Model="@verificationModel" OnValidSubmit="HandleVerificationSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form">
+                                        <label for="VerificationCode" class="control-label"></label>
+                                        <input @bind="verificationModel.VerificationCode" type="text" class="form-control" id="VerificationCode" placeholder="Kod weryfikacyjny" required />
+                                        <ValidationMessage class="text-danger" For="@(() => verificationModel.VerificationCode)" />
+                                    </div>
+                                    <div class="form">
+                                        <button type="submit" class="btn btn-primary">Zweryfikuj</button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @if (IsSubmitted)
 {
     <div class="modal" style="display:block">
@@ -166,18 +198,15 @@ else
 
 @code {
     private RegisterDto registerModel = new RegisterDto();
+    private VerificationCodeDto verificationModel = new VerificationCodeDto();
 
     private bool IsLoading = false;
-
     private bool IsSubmitted = false;
-
     private bool ShowErrorMessage = false;
-
     private string ErrorMessage = "";
-
     private string confirmPasswordValidationMessage = "";
-
     private bool pageReady = false;
+    private bool isVerificationStep = false;
 
     private List<PositionDto> Positions = new List<PositionDto>();
 
@@ -215,12 +244,13 @@ else
         if (string.IsNullOrEmpty(confirmPasswordValidationMessage))
         {
             await Task.Delay(1000);
-            var result = await UserService.Register(registerModel);
+            var result = await UserService.StartRegistration(registerModel);
             IsLoading = false;
 
             if (result.Success)
             {
-                IsSubmitted = true;
+                isVerificationStep = true;
+                verificationModel.Email = registerModel.Email;
             }
             else
             {
@@ -231,6 +261,36 @@ else
         else
         {
             IsLoading = false;
+        }
+        pageReady = true;
+    }
+
+    private async Task HandleVerificationSubmit()
+    {
+        pageReady = false;
+        ShowErrorMessage = false;
+        IsLoading = true;
+
+        var completeRegistrationDto = new CompleteRegistrationDto
+            {
+                FirstName = registerModel.FirstName,
+                LastName = registerModel.LastName,
+                Email = verificationModel.Email,
+                Password = registerModel.Password,
+                VerificationCode = verificationModel.VerificationCode
+            };
+
+        var result = await UserService.CompleteRegistration(completeRegistrationDto);
+        IsLoading = false;
+
+        if (result.Success)
+        {
+            IsSubmitted = true;
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = result.Message;
         }
         pageReady = true;
     }

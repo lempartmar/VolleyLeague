@@ -8,6 +8,10 @@ namespace VolleyLeague.Client.Blazor.Services
     {
         Task<(bool Success, string Message)> Register(RegisterDto registerDto);
 
+        Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto);
+        Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto);
+
+
         //Task<string> Login(LoginDto loginDto);
         //Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto);
         Task<List<PositionDto>> GetPositions();
@@ -36,6 +40,34 @@ namespace VolleyLeague.Client.Blazor.Services
         public UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public async Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/startregistration", registerDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, string.Empty);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return (false, errorMessage);
+            }
+        }
+
+        public async Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/completeregistration", completeRegistrationDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, string.Empty);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return (false, errorMessage);
+            }
         }
 
         public async Task<(bool Success, string Message)> Register(RegisterDto registerDto)
