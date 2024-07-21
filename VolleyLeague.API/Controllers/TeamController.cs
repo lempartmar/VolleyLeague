@@ -153,6 +153,41 @@ namespace VolleyLeague.API.Controllers
             return BadRequest("Failed to delete the team.");
         }
 
+        [HttpGet("getallteamsimagesstatus")]
+        public async Task<IActionResult> GetAllTeamsImagesStatus()
+        {
+            var result = await _teamService.GetAllTeamsImagesStatus();
+            return Ok(result);
+        }
+
+        [HttpGet("DownloadTeamImage/{teamId}")]
+        public async Task<IActionResult> DownloadTeamImage(int teamId)
+        {
+            var teamImage = await _teamService.GetTeamImageByTeamId(teamId);
+
+            if (teamImage == null || teamImage.Image == null)
+            {
+                return NotFound();
+            }
+
+            var memoryStream = new MemoryStream(teamImage.Image);
+            return File(memoryStream, teamImage.ImageType, $"{teamId}.jpg");
+        }
+
+        [HttpPost("UploadTeamImage/{teamId}")]
+        public async Task<IActionResult> UploadTeamImage(int teamId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var result = await _teamService.UploadTeamImage(teamId, file);
+            if (result.Success)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpDelete("LeaveTeamByEmail")]
         public async Task<IActionResult> LeaveTeamByEmail([FromQuery] string email)
         {

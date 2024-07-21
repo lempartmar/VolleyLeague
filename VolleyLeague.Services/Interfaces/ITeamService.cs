@@ -1,4 +1,6 @@
-﻿using VolleyLeague.Shared.Dtos.Teams;
+﻿using Microsoft.AspNetCore.Http;
+using VolleyLeague.Entities.Models;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Services.Interfaces
 {
@@ -7,6 +9,12 @@ namespace VolleyLeague.Services.Interfaces
         Task<(bool Success, string Message)> AddTeam(NewTeamDto team, string email);
 
         Task<TeamDto> GetTeamById(int Id);
+
+        Task<TeamImage?> GetTeamImageByTeamId(int teamId);
+
+        Task<List<TeamImageDto>> GetAllTeamsImagesStatus();
+
+        Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file);
 
         Task<List<TeamDto>> GetAllTeams();
 

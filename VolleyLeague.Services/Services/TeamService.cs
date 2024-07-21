@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using VolleyLeague.Entities.Models;
@@ -15,17 +16,19 @@ namespace VolleyLeague.Services.Services
         private readonly IEmailService _emailService;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<TeamPlayer> _teamPlayerRepository;
+        private readonly IBaseRepository<TeamImage> _teamImageRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
 
-        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<TeamPlayer> teamPlayerRepository, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
+        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<TeamPlayer> teamPlayerRepository, IBaseRepository<TeamImage> teamImageRepository, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
             _logService = logService;
             _emailService = emailService;
             _teamRepository = teamRepository;
+            _teamImageRepository = teamImageRepository;
             _teamPlayerRepository = teamPlayerRepository;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
@@ -347,6 +350,65 @@ namespace VolleyLeague.Services.Services
         //        return false;
         //    }
         //}
+
+        public async Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file)
+        {
+            var team = await _teamRepository.GetAll().Include(t => t.TeamImage).FirstOrDefaultAsync(t => t.Id == teamId);
+            if (team == null)
+            {
+                return (false, "Team not found.");
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                var teamImage = new TeamImage
+                {
+                    TeamId = teamId,
+                    Image = memoryStream.ToArray(),
+                    ImageType = file.ContentType
+                };
+
+                // Check if the team already has an image and update it
+                if (team.TeamImage != null)
+                {
+                    team.TeamImage.Image = teamImage.Image;
+                    team.TeamImage.ImageType = teamImage.ImageType;
+                    _teamImageRepository.Update(team.TeamImage);
+                }
+                else
+                {
+                    await _teamImageRepository.InsertAsync(teamImage);
+                }
+
+                await _teamImageRepository.SaveChangesAsync();
+            }
+
+            return (true, "Image uploaded successfully.");
+        }
+
+        public async Task<TeamImage?> GetTeamImageByTeamId(int teamId)
+        {
+            return await _teamImageRepository.GetAll().FirstOrDefaultAsync(ti => ti.TeamId == teamId);
+        }
+
+        public async Task<List<TeamImageDto>> GetAllTeamsImagesStatus()
+        {
+            var teams = await _teamRepository.GetAll().ToListAsync();
+            var teamImageDtos = teams.Select(team => new TeamImageDto
+            {
+                Id = team.Id,
+                Name = team.Name,
+                HasImage = TeamHasImage(team.Id)
+            }).ToList();
+
+            return teamImageDtos;
+        }
+
+        private bool TeamHasImage(int teamId)
+        {
+            return _teamImageRepository.GetAll().Any(ti => ti.TeamId == teamId);
+        }
 
         public async Task<bool> DeleteTeam(int teamId)
         {

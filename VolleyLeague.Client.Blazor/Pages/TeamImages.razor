@@ -9,6 +9,8 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
+
+<div>Działa</div>
 <AuthorizeView Roles="Admin">
     <Authorized>
         @if (!PageReady)
@@ -199,7 +201,7 @@
                 var content = new MultipartFormDataContent();
                 content.Add(new StreamContent(file.OpenReadStream()), "file", file.Name);
 
-                var response = await Http.PostAsync($"api/File/UploadTeamImage/{teamId}", content);
+                var response = await Http.PostAsync($"api/Team/UploadTeamImage/{teamId}", content);
                 if (response.IsSuccessStatusCode)
                 {
                     await LoadTeams();
@@ -220,7 +222,7 @@
     {
         try
         {
-            var response = await Http.GetAsync($"api/File/DownloadTeamImage/{teamId}");
+            var response = await Http.GetAsync($"api/Team/DownloadTeamImage/{teamId}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsByteArrayAsync();

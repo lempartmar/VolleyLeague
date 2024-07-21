@@ -47,7 +47,7 @@ namespace VolleyLeague.Client.Blazor.Services
 
         public async Task<List<TeamImageDto>> GetAllTeamsImageStatus()
         {
-            var response = await _httpClient.GetAsync("api/file/getallteamsimagesstatus");
+            var response = await _httpClient.GetAsync("api/team/getallteamsimagesstatus");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
