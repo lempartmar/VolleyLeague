@@ -199,7 +199,9 @@
             if (file != null)
             {
                 var content = new MultipartFormDataContent();
-                content.Add(new StreamContent(file.OpenReadStream()), "file", file.Name);
+                var fileContent = new StreamContent(file.OpenReadStream());
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                content.Add(fileContent, "file", file.Name);
 
                 var response = await Http.PostAsync($"api/Team/UploadTeamImage/{teamId}", content);
                 if (response.IsSuccessStatusCode)
@@ -217,6 +219,7 @@
             ErrorMessage = $"Wystąpił błąd podczas przesyłania obrazu: {ex.Message}";
         }
     }
+
 
     private async Task LoadAndShowImage(int teamId)
     {

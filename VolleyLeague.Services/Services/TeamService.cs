@@ -369,6 +369,9 @@ namespace VolleyLeague.Services.Services
                     ImageType = file.ContentType
                 };
 
+                // Logowanie typu MIME
+                Console.WriteLine($"Uploading image with MIME type: {file.ContentType}");
+
                 // Check if the team already has an image and update it
                 if (team.TeamImage != null)
                 {
@@ -386,6 +389,7 @@ namespace VolleyLeague.Services.Services
 
             return (true, "Image uploaded successfully.");
         }
+
 
         public async Task<TeamImage?> GetTeamImageByTeamId(int teamId)
         {
