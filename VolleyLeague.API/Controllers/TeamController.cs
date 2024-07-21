@@ -188,6 +188,17 @@ namespace VolleyLeague.API.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpDelete("DeleteTeamImage/{teamId}")]
+        public async Task<IActionResult> DeleteTeamImage(int teamId)
+        {
+            var result = await _teamService.DeleteTeamImage(teamId);
+            if (result.Success)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpDelete("LeaveTeamByEmail")]
         public async Task<IActionResult> LeaveTeamByEmail([FromQuery] string email)
         {

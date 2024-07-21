@@ -247,7 +247,7 @@
     {
         try
         {
-            var response = await Http.DeleteAsync($"api/File/DeleteTeamImage/{teamId}");
+            var response = await Http.DeleteAsync($"api/Team/DeleteTeamImage/{teamId}");
             if (response.IsSuccessStatusCode)
             {
                 await LoadTeams();

@@ -330,6 +330,21 @@ namespace VolleyLeague.Services.Services
             return (true, "Drużyna została pomyślnie dodana.");
         }
 
+        public async Task<(bool Success, string Message)> DeleteTeamImage(int teamId)
+        {
+            var teamImage = await _teamImageRepository.GetAll().FirstOrDefaultAsync(ti => ti.TeamId == teamId);
+            if (teamImage == null)
+            {
+                return (false, "Image not found.");
+            }
+
+            await _teamImageRepository.Delete(teamImage);
+            await _teamImageRepository.SaveChangesAsync();
+
+            return (true, "Image deleted successfully.");
+        }
+
+
         //public async Task<bool> DeleteTeam(int teamId)
         //{
         //    var teamToDelete = await _teamRepository.GetAll().FirstOrDefaultAsync(t => t.Id == teamId);
@@ -350,6 +365,8 @@ namespace VolleyLeague.Services.Services
         //        return false;
         //    }
         //}
+
+
 
         public async Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file)
         {

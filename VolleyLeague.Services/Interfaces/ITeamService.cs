@@ -10,6 +10,8 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<TeamDto> GetTeamById(int Id);
 
+        Task<(bool Success, string Message)> DeleteTeamImage(int teamId);
+
         Task<TeamImage?> GetTeamImageByTeamId(int teamId);
 
         Task<List<TeamImageDto>> GetAllTeamsImagesStatus();
