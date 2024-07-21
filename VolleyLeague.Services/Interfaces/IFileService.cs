@@ -10,6 +10,8 @@ namespace VolleyLeague.Services.Services
 
         Task UploadTeamImage(int teamId, IFormFile file);
 
+        Task MigrateTeamImagesToDatabase();
+
         Task<(Stream FileStream, string ContentType, string FileName)> GetLogoAsync();
 
         string GetLogoPath();

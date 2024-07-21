@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
+using VolleyLeague.Entities.Models;
+using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Files;
 
@@ -12,12 +15,14 @@ namespace VolleyLeague.Services.Services
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _env;
         private readonly ILogService _logService;
+        private readonly IBaseRepository<TeamImage> _teamImageRepository;
 
-        public FileService(ILogService logService, IMapper mapper, IWebHostEnvironment env)
+        public FileService(ILogService logService, IMapper mapper, IWebHostEnvironment env, IBaseRepository<TeamImage> teamImageRepository)
         {
             _mapper = mapper;
             _env = env;
             _logService = logService;
+            _teamImageRepository = teamImageRepository;
         }
 
         public bool TeamHasImage(int teamId)
@@ -97,6 +102,46 @@ namespace VolleyLeague.Services.Services
                 servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Logos");
             }
             return Path.Combine(servicesPath, $"{fileName}.png");
+        }
+
+        public async Task MigrateTeamImagesToDatabase()
+        {
+            var servicesPath2 = Path.Combine(_env.ContentRootPath);
+            if (servicesPath2.Contains("VolleyLeague.API"))
+            {
+                servicesPath2 = servicesPath2.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+            }
+            var fileNames = Directory.EnumerateFiles(servicesPath2, "*.jpg");
+
+            // List of files to be processed
+            
+            foreach (var fileName in fileNames)
+            {
+
+                var servicesPath1 = Path.Combine(_env.ContentRootPath);
+                if (servicesPath1.Contains("VolleyLeague.API"))
+                {
+                    servicesPath1 = servicesPath1.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
+                }
+
+                var filePath = Path.Combine(servicesPath1, $"{fileName}");
+                if (File.Exists(filePath))
+                {
+                    var teamId = int.Parse(Path.GetFileNameWithoutExtension(filePath));
+                    var imageBytes = await File.ReadAllBytesAsync(filePath);
+
+                    var teamImage = new TeamImage
+                    {
+                        TeamId = teamId,
+                        Image = imageBytes,
+                        ImageType = "image/jpeg"
+                    };
+
+                    await _teamImageRepository.InsertAsync(teamImage);
+                }
+            }
+
+            await _teamImageRepository.SaveChangesAsync();
         }
 
         public async Task UploadFiles(List<IFormFile> files)

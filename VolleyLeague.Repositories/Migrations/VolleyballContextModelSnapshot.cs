@@ -420,62 +420,6 @@ namespace VolleyLeague.Repositories.Migrations
                     b.ToTable("Matches", "tomasz1_voladmin");
                 });
 
-            modelBuilder.Entity("VolleyLeague.Entities.Models.NewTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NewTables", "tomasz1_voladmin");
-                });
-
-            modelBuilder.Entity("VolleyLeague.Entities.Models.NewTable2", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.ToTable("NewTable2", "tomasz1_voladmin");
-                });
-
             modelBuilder.Entity("VolleyLeague.Entities.Models.PersonalLog", b =>
                 {
                     b.Property<int>("Id")
@@ -685,6 +629,33 @@ namespace VolleyLeague.Repositories.Migrations
                     b.HasIndex("LeagueId");
 
                     b.ToTable("Teams", "tomasz1_voladmin");
+                });
+
+            modelBuilder.Entity("VolleyLeague.Entities.Models.TeamImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId")
+                        .IsUnique();
+
+                    b.ToTable("TeamImage", "tomasz1_voladmin");
                 });
 
             modelBuilder.Entity("VolleyLeague.Entities.Models.TeamPlayer", b =>
@@ -961,17 +932,6 @@ namespace VolleyLeague.Repositories.Migrations
                     b.Navigation("Venue");
                 });
 
-            modelBuilder.Entity("VolleyLeague.Entities.Models.NewTable2", b =>
-                {
-                    b.HasOne("VolleyLeague.Entities.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-                });
-
             modelBuilder.Entity("VolleyLeague.Entities.Models.PersonalLog", b =>
                 {
                     b.HasOne("VolleyLeague.Entities.Models.Log", "Log")
@@ -1016,6 +976,17 @@ namespace VolleyLeague.Repositories.Migrations
                     b.Navigation("Captain");
 
                     b.Navigation("League");
+                });
+
+            modelBuilder.Entity("VolleyLeague.Entities.Models.TeamImage", b =>
+                {
+                    b.HasOne("VolleyLeague.Entities.Models.Team", "Team")
+                        .WithOne("TeamImage")
+                        .HasForeignKey("VolleyLeague.Entities.Models.TeamImage", "TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("VolleyLeague.Entities.Models.TeamPlayer", b =>
@@ -1120,6 +1091,8 @@ namespace VolleyLeague.Repositories.Migrations
                     b.Navigation("HomeMatches");
 
                     b.Navigation("Invitations");
+
+                    b.Navigation("TeamImage");
 
                     b.Navigation("TeamPlayers");
                 });

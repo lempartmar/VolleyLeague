@@ -73,6 +73,16 @@ namespace VolleyLeague.Repositories
         {
             modelBuilder.HasDefaultSchema(SchemaName);
 
+            modelBuilder.Entity<TeamImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(d => d.Team)
+                    .WithOne(p => p.TeamImage)
+                    .HasForeignKey<TeamImage>(d => d.TeamId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
             modelBuilder.Entity<Article>(entity =>
             {
                 entity.Property(e => e.IsActive)

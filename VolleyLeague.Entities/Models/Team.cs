@@ -38,6 +38,9 @@
 
         public int? PointCorrection { get; set; }
 
+        public virtual TeamImage? TeamImage { get; set; }
+
+
         public virtual ICollection<TeamPlayer> TeamPlayers { get; set; } = new List<TeamPlayer>();
 
         public virtual User Captain { get; set; } = null!;

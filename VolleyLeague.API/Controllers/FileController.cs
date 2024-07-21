@@ -29,6 +29,21 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
+        [HttpPost("MigrateTeamImages")]
+        public async Task<ActionResult> MigrateTeamImages()
+        {
+            try
+            {
+                await _fileService.MigrateTeamImagesToDatabase();
+                return Ok("Team images migrated successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while migrating team images.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpGet("DownloadFile/{fileName}")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {

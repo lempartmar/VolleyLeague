@@ -58,6 +58,7 @@ namespace VolleyLeague.Services.Services
             var team = await _teamRepository.GetAll()
                 .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).ThenInclude(c => c.Position)
                 .Include(t => t.Captain)
+                .Include(t => t.TeamImage)
                 .Include(t => t.League)
                 .FirstOrDefaultAsync(t => t.Id == Id);
 
@@ -74,6 +75,9 @@ namespace VolleyLeague.Services.Services
 
             TeamDto teamDto = _mapper.Map<TeamDto>(team);
 
+            if (team.TeamImage != null) { 
+                teamDto.Photo = team.TeamImage.Image;
+        }
             return teamDto;
         }
 

@@ -26,12 +26,9 @@
                             <img src="@GetLogoSrc(TeamData.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
                         }
 
-                        @if (IsTeamImageAvailable)
-                        {
                             <div>
-                                <img src="@($"/assets/images/teams/{Id}.jpg")" style="width:70%; height: 70%;" />
+                                <img src="@GetLogoSrc(TeamData.Photo)" style="width:70%; height: 70%;" />
                             </div>
-                        }
                         <div class="p-2 card table-responsive" style="">
                             <div class="card-header" style="margin-top: 30px">
                                 <h2>Zawodnicy</h2>
