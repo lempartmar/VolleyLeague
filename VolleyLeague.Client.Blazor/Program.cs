@@ -18,6 +18,7 @@ builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserDefinedCodeService, UserDefinedCodeService>();
 builder.Services.AddScoped<IUserAccount, AccountService>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
 builder.Services.AddScoped<ILogService, LogService>();

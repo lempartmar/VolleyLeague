@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VolleyLeague.Repositories;
 
@@ -11,9 +12,11 @@ using VolleyLeague.Repositories;
 namespace VolleyLeague.Repositories.Migrations
 {
     [DbContext(typeof(VolleyballContext))]
-    partial class VolleyballContextModelSnapshot : ModelSnapshot
+    [Migration("20240721191239_AddUserDefinedCodes")]
+    partial class AddUserDefinedCodes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -805,7 +808,7 @@ namespace VolleyLeague.Repositories.Migrations
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
@@ -817,9 +820,6 @@ namespace VolleyLeague.Repositories.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Key")
-                        .IsUnique();
 
                     b.ToTable("UserDefinedCodes", "tomasz1_voladmin");
                 });

@@ -11,6 +11,7 @@
 @inject IUserService userService
 @inject NavigationManager Navigation
 @inject ITeamService teamService
+@inject IUserDefinedCodeService userDefinedCodeService
 
 @inherits LayoutComponentBase
 
@@ -29,7 +30,7 @@
                     </div>
                     <div class="top-bar-mid">
                         <span class="tag">AKTUALNY SEZON</span>
-                        <div class="live-match">SEZON 2023/2024</div>
+                        <div class="live-match">@currentSeason</div>
                     </div>
                     <AuthorizeView>
                         <NotAuthorized>
@@ -226,6 +227,9 @@
 
     private string previousUri;
 
+    private string currentSeason = "Ładowanie...";
+
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
@@ -233,6 +237,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        currentSeason = await userDefinedCodeService.GetValueByKey("current-season-for-main-page");
+
         NavigationManager.LocationChanged += OnLocationChanged;
 
         var authState = await authStateProvider.GetAuthenticationStateAsync();
