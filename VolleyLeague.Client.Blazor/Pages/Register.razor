@@ -84,21 +84,28 @@ else if (!isVerificationStep)
 }
 else
 {
-    <div class="verification-area">
+    <div class="login-area">
         <div class="container">
             <div class="row display-flex-column-center">
                 <div class="col-lg-6 col-md-12 mr-10">
-                    <div class="verification-form">
+                    <div class="login-form">
                         <div class="card">
                             <div class="card-body">
                                 <EditForm Model="@verificationModel" OnValidSubmit="HandleVerificationSubmit">
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
                                     <div class="form">
+                                        <small class="form-text text-muted">Na podany w trakcie rejestracji adres mailowy został wysłany kod weryfikacyjny.</small>
+                                        <small class="form-text text-muted">W celu ukończenia rejestracji niezbędne jest weryfikacja adresu e-mail.</small>
                                         <label for="VerificationCode" class="control-label"></label>
                                         <input @bind="verificationModel.VerificationCode" type="text" class="form-control" id="VerificationCode" placeholder="Kod weryfikacyjny" required />
                                         <ValidationMessage class="text-danger" For="@(() => verificationModel.VerificationCode)" />
+
                                     </div>
+                                    @if (ShowErrorMessage)
+                                    {
+                                        <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@ErrorMessage</div>
+                                    }
                                     <div class="form">
                                         <button type="submit" class="btn btn-primary">Zweryfikuj</button>
                                     </div>
