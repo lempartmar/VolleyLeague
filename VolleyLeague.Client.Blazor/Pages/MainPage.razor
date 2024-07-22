@@ -6,11 +6,13 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Discussion
 @using VolleyLeague.Shared.Dtos.Matches
+@using Microsoft.JSInterop
 @inject HttpClient Http
 @inject IMatchService matchService
 @inject ILogService logService
 @inject ILocalStorageService _localStorageService
 @inject AuthenticationStateProvider _authStateProvider
+@inject IJSRuntime JS
 @inject AuthenticationStateProvider authStateProvider
 
 @if (isLoading)
@@ -286,6 +288,26 @@ else
     }
 }
 
+<script>
+window.initializeSwiper = () => {
+    new Swiper('.swiper.bannerSlide2', {
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+            delay: 5000, // 5000ms = 5 seconds
+            disableOnInteraction: false,
+        },
+    });
+};
+
+</script>
 <style>
     .nav-item.nav-user {
         color: #7d7d7d;
@@ -407,6 +429,14 @@ else
     private bool isLoading = true;
     private List<NextMatchMinDto> nextMatches;
 
+     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initializeSwiper");
+        }
+    }
+
     private class ScheduleFilter
     {
         public int SeasonId { get; set; } = 37;
@@ -468,6 +498,8 @@ else
         standingsLoad = true;
         UpdatePageReadiness();
     }
+
+
 
     private async Task LoadArticles()
     {
