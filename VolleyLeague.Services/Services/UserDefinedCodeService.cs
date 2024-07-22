@@ -28,7 +28,7 @@ namespace VolleyLeague.Services.Services
 
         public async Task UpdateCodeAsync(UserDefinedCode code)
         {
-            var existingCode = await _userDefinedCodeRepository.GetAll().FirstOrDefaultAsync(c => c.Id == code.Id);
+            var existingCode = await _userDefinedCodeRepository.GetAll().FirstOrDefaultAsync(c => c.Key == code.Key);
             if (existingCode != null)
             {
                 existingCode.Value = code.Value;

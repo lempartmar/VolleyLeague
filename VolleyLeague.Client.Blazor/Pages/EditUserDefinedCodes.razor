@@ -1,0 +1,130 @@
+﻿@page "/EditUserDefinedCodes"
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Entities.Models
+@using VolleyLeague.Shared.Dtos
+@inject IUserDefinedCodeService UserDefinedCodeService
+@inject NavigationManager NavigationManager
+
+<h3>Edit User Defined Code</h3>
+
+<div class="account-main accountdtls filterd-items">
+    <div class="login-form">
+        <div class="section-title">
+            <h2>Edytuj Profil</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
+                    <h3>Dane osobowe</h3>
+                    <div class="row margin-top-xs">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
+                                <label for="Value">Value</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-info mt-3">@message</div>
+}
+
+<style>
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 1em;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .form-text.text-muted {
+        margin-top: 0.5em;
+    }
+
+    .account-main {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title h2 {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card-body {
+        padding: 30px;
+    }
+
+    .form {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+@code {
+    public UserDefinedCodeDto codeDto { get; set; } = new UserDefinedCodeDto();
+    private string message = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        codeDto.Value = await UserDefinedCodeService.GetValueByKey("current-season-for-main-page");
+        codeDto.Key = "current-season-for-main-page";
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await UserDefinedCodeService.UpdateCode(codeDto);
+        if (result.Success)
+        {
+            message = "Code updated successfully.";
+        }
+        else
+        {
+            message = "Failed to update the code.";
+        }
+    }
+}

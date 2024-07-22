@@ -2,12 +2,15 @@
 using System.Text.Json;
 using VolleyLeague.Shared.Dtos;
 using VolleyLeague.Shared.Dtos.Discussion;
+using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Client.Blazor.Services
 {
     public interface IUserDefinedCodeService
     {
         Task<string> GetValueByKey(string key);
+
+        Task<(bool Success, string Message)> UpdateCode(UserDefinedCodeDto code);
     }
     public class UserDefinedCodeService : IUserDefinedCodeService
     {
@@ -25,7 +28,23 @@ namespace VolleyLeague.Client.Blazor.Services
 
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<UserDefinedCodeDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            return result.Value;
+            var value = result.Value;
+            return value;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateCode(UserDefinedCodeDto code)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/UserDefinedCode/UpdateCode", code);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, content);
+            }
+            else
+            {
+                return (false, content);
+            }
         }
     }
 }

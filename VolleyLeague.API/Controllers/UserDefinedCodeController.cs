@@ -31,16 +31,25 @@ namespace VolleyLeague.API.Controllers
             return Ok(code);
         }
 
-        [HttpPut]
+        [HttpPut("UpdateCode")]
         public async Task<IActionResult> UpdateCode([FromBody] UserDefinedCode code)
         {
             if (code == null)
             {
-                return BadRequest();
+                return BadRequest("Invalid code data.");
             }
 
-            await _codeService.UpdateCodeAsync(code);
-            return Ok();
+            try
+            {
+                await _codeService.UpdateCodeAsync(code);
+                return Ok("Code updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating code");
+                return StatusCode(500, "Internal server error");
+            }
         }
+
     }
 }
