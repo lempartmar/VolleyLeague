@@ -18,16 +18,16 @@ else
         <div class="container">
             <div class="top-wrap">
                 <div class="filter-button-group">
-                    <button class="filter-btn team-list active" data-show=".liga1bls">1 Liga BLS</button>
-                    <button class="filter-btn team-list" data-show=".liga1blsk">1 Liga BLSK</button>
-                    <button class="filter-btn team-list" data-show=".liga2bls">2 Liga BLS</button>
+                    <button class="filter-btn team-list @(activeLeague == 1 ? "active" : "")" @onclick="() => LoadTeams(1)">1 Liga BLS</button>
+                    <button class="filter-btn team-list @(activeLeague == 5 ? "active" : "")" @onclick="() => LoadTeams(5)">1 Liga BLSK</button>
+                    <button class="filter-btn team-list @(activeLeague == 2 ? "active" : "")" @onclick="() => LoadTeams(2)">2 Liga BLS</button>
                 </div>
             </div>
 
-            <div class="filterd-items liga1bls">
+            <div class="filterd-items">
                 <div class="team-section-inner inner">
                     <div class="row margin-top-min">
-                        @foreach (var team in team1)
+                        @foreach (var team in Teams)
                         {
                             var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
                             <div class="col-xl-4 col-md-4 col-sm-6">
@@ -50,96 +50,8 @@ else
                     </div>
                 </div>
             </div>
-
-            <div class="filterd-items liga1blsk">
-                <div class="team-section-inner inner">
-                    <div class="row margin-top-min">
-                        @foreach (var team in team2)
-                        {
-                            var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
-                            <div class="col-xl-4 col-md-4 col-sm-6">
-                                <div class="team-wraper">
-                                    <div class="player-card-white">
-                                        <a class="image" href="team-details.html">
-                                            <img src="@imgSrc" alt="Logo" class="team-logo">
-                                        </a>
-                                    </div>
-                                    <div class="display-flex-column-center">
-                                        <div class="display-flex-row margin-top-xs">
-                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
-                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
-                                        </div>
-                                        <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <div class="filterd-items liga2bls">
-                <div class="team-section-inner inner">
-                    <div class="row margin-top-min">
-                        @foreach (var team in team3)
-                        {
-                            var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
-                            <div class="col-xl-4 col-md-4 col-sm-6">
-                                <div class="team-wraper">
-                                    <div class="player-card-white">
-                                        <a class="image" href="team-details.html">
-                                            <img src="@imgSrc" alt="Logo" class="team-logo">
-                                        </a>
-                                    </div>
-                                    <div class="display-flex-column-center">
-                                        <div class="display-flex-row margin-top-xs">
-                                            <a href="/team/@team.Id/" class="team-list-check">Profil</a>
-                                            <a href="/team-result/@team.Id/" class="team-list-check">Wyniki</a>
-                                        </div>
-                                        <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
-    <section class="category_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mobile">
-                        <p class="text-danger">@ErrorMessage</p>
-
-                        <div class="container login">
-                            <h2 class="text-center">POZOSTAŁE ZESPOŁY</h2>
-                            <div class="form-group row" style="max-width:700px">
-                                <label for="league">Liga:</label>
-                                <select class="form-control" id="league" @onchange="UpdateLeague">
-                                    @if (Leagues == null)
-                                    {
-                                        <option value="null" disabled>Ładowanie lig...</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="null" selected disabled>Wybierz ligę</option>
-                                        @foreach (LeagueDto league in Leagues)
-                                        {
-                                            <option value="@league.Id">@league.Name</option>
-                                        }
-                                    }
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 }
 
 <style>
@@ -192,26 +104,20 @@ else
 
 @code {
     public bool PageReady = false;
-
     public string ErrorMessage = "";
-
     public List<LeagueDto>? Leagues;
-
-    public List<TeamDto>? Teams;
-
+    public List<TeamDto>? Teams = new List<TeamDto>();
     public List<TeamDto>? team1;
     public List<TeamDto>? team2;
     public List<TeamDto>? team3;
 
+    private int activeLeague = 1;
+
     protected override async Task OnInitializedAsync()
     {
-        await GetCurrentTopTeams();
+        await LoadTeams(activeLeague);
         Leagues = await GetLeagues();
-
-        if (Leagues != null && team1 != null && team2 != null && team3 != null)
-        {
-            PageReady = true;
-        }
+        PageReady = true;
     }
 
     private async Task<List<LeagueDto>?> GetLeagues()
@@ -220,22 +126,17 @@ else
         return leaguesResoponse;
     }
 
-    private async Task GetCurrentTopTeams()
+    private async Task LoadTeams(int leagueId)
     {
-        team1 = await TeamService.GetTeamsByLeague(1);
-        team2 = await TeamService.GetTeamsByLeague(5);
-        team3 = await TeamService.GetTeamsByLeague(2);
+        activeLeague = leagueId;
+        Teams = await TeamService.GetTeamsByLeague(leagueId);
         StateHasChanged();
     }
 
     private async void UpdateLeague(ChangeEventArgs e)
     {
         int leagueId = Convert.ToInt32(e.Value);
-
-        var result = await TeamService.GetTeamsByLeague(leagueId);
-
-        Teams = result;
-        StateHasChanged();
+        await LoadTeams(leagueId);
     }
 
     private string GetTeamLogoSrc(byte[] logo)
