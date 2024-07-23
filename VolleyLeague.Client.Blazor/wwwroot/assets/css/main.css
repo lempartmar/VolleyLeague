@@ -7619,7 +7619,7 @@ tr:first-child {
   background: none;
 }
 .banner1 .slider-pagination-area .swiper-pagination .swiper-pagination-bullet:first-child {
-  background-image: url(../images/banner/bannerbg1.jpg);
+  background-image: url(../images/banner/bannerbg10.jpeg);
   background-position: center;
   background-size: cover;
 }
@@ -8649,7 +8649,7 @@ tr:first-child {
 }
 
 .banner-single-1 {
-  background-image: url("../images/banner/bannerbg1.jpg");
+  background-image: url("../images/banner/bannerbg10.jpeg");
 }
 
 .banner-single-1_2 {
@@ -8809,11 +8809,11 @@ tr:first-child {
 }
 
 .inner-page-banner {
-  background-image: url("../images/banner/bannerbg-inner.jpg");
-  background-size: cover;
-  background-position: bottom;
-  padding-top: 260px;
-  padding-bottom: 60px;
+    background-image: url("../images/banner/banner-inner11.jpg");
+    background-size: cover;
+    background-position: bottom;
+    padding-top: 260px;
+    padding-bottom: 60px;
 }
 .inner-page-banner::after {
   display: none;
