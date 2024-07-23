@@ -14,38 +14,50 @@
 }
 else
 {
-    <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner section-gap">
+    <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner" style="margin-bottom: 80px;">
         <div class="container">
-            <div class="card m-2 p-2">
-                <EditForm Model="Filter">
-                    <div class="form-group btn-group">
-                        <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
-                        <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                            @foreach (var season in Filter.SeasonList)
-                            {
-                                <option value="@season.Id">@season.Name</option>
-                            }
-                        </Select>
+            <div class="rts-point-table-section section-gap">
+                <div class="container">
+                    <div class="table-area table-full">
+                        <form class="checkout-form">
+                            <div class="row">
+                                <div class="col-xl-3 col-md-3">
+                                    <div class="form-group">
+                                        <label for="seasonSelect" class="form-label">SEZON:</label>
+                                        <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                            @foreach (var season in Filter.SeasonList)
+                                            {
+                                                <option value="@season.Id">@season.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-3">
+                                    <div class="form-group">
+                                        <label for="roundSelect" class="form-label">RUNDA:</label>
+                                        <select id="roundSelect" value="@Filter.RoundId" @onchange="OnRoundChanged" class="form-select">
+                                            @foreach (var round in Filter.RoundList)
+                                            {
+                                                <option value="@round.Id">@round.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-3">
+                                    <div class="form-group">
+                                        <label for="leagueSelect" class="form-label">LIGA:</label>
+                                        <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                            @foreach (var league in Filter.LeagueList)
+                                            {
+                                                <option value="@league.Id">@league.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group btn-group">
-                        <label for="RoundSelect" class="btn btn-default btn-label">RUNDA:</label>
-                        <Select value="@Filter.RoundId" @onchange="OnRoundChanged" class="btn btn-default dropdown-toggle">
-                            @foreach (var round in Filter.RoundList)
-                            {
-                                <option value="@round.Id">@round.Name</option>
-                            }
-                        </Select>
-                    </div>
-                    <div class="form-group btn-group">
-                        <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
-                        <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
-                            @foreach (var league in Filter.LeagueList)
-                            {
-                                <option value="@league.Id">@league.Name</option>
-                            }
-                        </Select>
-                    </div>
-                </EditForm>
+                </div>
             </div>
             <div class="row justify-content-center">
                 @foreach (var game in Games)
@@ -73,7 +85,7 @@ else
                                     <div class="club-score" style="flex: 1;display: flex;justify-content: space-between;flex-direction: column;">
                                         <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
                                             <span class="club-name color-dark left-score"><h2>@game.Team1Score</h2></span>
-                                        <div class="colon">VS</div>
+                                            <div class="colon">VS</div>
                                             <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
                                         </div>
                                         <div class="block-wrap">
@@ -103,128 +115,6 @@ else
         </div>
     </div>
 
-    <section class="category_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mobile">
-                        <div class="article_title header_purple">
-                            <h2>Terminarz</h2>
-                        </div>
-                        @if (pageReady)
-                        {
-                            <div class="card m-2 p-2">
-                                <EditForm Model="Filter">
-                                    <div class="form-group btn-group">
-                                        <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
-                                        <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
-                                            @foreach (var season in Filter.SeasonList)
-                                            {
-                                                <option value="@season.Id">@season.Name</option>
-                                            }
-                                        </Select>
-                                    </div>
-                                    <div class="form-group btn-group">
-                                        <label for="RoundSelect" class="btn btn-default btn-label">RUNDA:</label>
-                                        <Select value="@Filter.RoundId" @onchange="OnRoundChanged" class="btn btn-default dropdown-toggle">
-                                            @foreach (var round in Filter.RoundList)
-                                            {
-                                                <option value="@round.Id">@round.Name</option>
-                                            }
-                                        </Select>
-                                    </div>
-                                    <div class="form-group btn-group">
-                                        <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
-                                        <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
-                                            @foreach (var league in Filter.LeagueList)
-                                            {
-                                                <option value="@league.Id">@league.Name</option>
-                                            }
-                                        </Select>
-                                    </div>
-                                </EditForm>
-                            </div>
-                            @if (scheduleLoading)
-                            {
-                                <div class="d-flex justify-content-center">
-                                    <div id="spinner"></div>
-                                </div>
-                            }
-                            else if (Games.Count == 0)
-                            {
-                                <div class="alert alert-info" role="alert">
-                                    Brak meczów do wyświetlenia
-                                </div>
-                            }
-                            else if (Games.Count > 0)
-                            {
-                                <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            @foreach (var game in Games)
-                                            {
-                                                <div class="col-xs-12 game-entry">
-                                                    <div class="scoreboard d-flex justify-content-between align-items-center">
-                                                        <div class="team-section home-team">
-                                                            <img src="@GetLogoSrc(game.HomeTeam.Logo)" class="team-logo" alt="@game.HomeTeam.Name">
-                                                            <a href="/team/@game.HomeTeam.Id/" class="team-link" style="color: #0268d6;">@game.HomeTeam.Name</a>
-                                                        </div>
-                                                        <div class="score-section d-flex align-items-center">
-                                                            <div class="team-score">@game.Team1Score</div>
-                                                            <div class="versus">VS</div>
-                                                            <div class="team-score">@game.Team2Score</div>
-                                                        </div>
-                                                        <div class="team-section guest-team">
-                                                            <img src="@GetLogoSrc(game.GuestTeam.Logo)" class="team-logo" alt="@game.GuestTeam.Name">
-                                                            <a href="/team/@game.GuestTeam.Id/" class="team-link" style="color: #0268d6;">@game.GuestTeam.Name</a>
-                                                        </div>
-                                                        <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
-                                                        <div class="additional-info">
-                                                            <div class="referee">
-                                                                <strong>Sędzia:</strong> @game.Referee.FirstName @game.Referee.LastName
-                                                            </div>
-                                                            <div class="venue">
-                                                                <strong>Miejsce:</strong> @game.VenueName
-                                                            </div>
-                                                            <strong>Data:</strong> @game.Schedule.ToShortDateString()
-                                                            <div class="venue">
-                                                                <strong>Dodatkowe Informacje:</strong> @game.MatchInfo
-                                                            </div>
-                                                        </div>
-                                                        <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
-                                                        <div class="mvp-info">
-                                                            <strong><NavLink href=@{
-                                                    "/match/" + game.Id
-}>Szczegóły Meczu</NavLink></strong>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            @if (!string.IsNullOrEmpty(errorMessage))
-                            {
-                                <div class="alert alert-danger" role="alert">
-                                    @errorMessage
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="d-flex justify-content-center">
-                                    <div id="spinner"></div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 }
 
 <style>
