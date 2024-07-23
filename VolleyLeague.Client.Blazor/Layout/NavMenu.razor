@@ -346,6 +346,11 @@
 
 private string GetPageTitle()
 {
+    if (string.IsNullOrEmpty(currentPath))
+    {
+        return "STRONA GŁÓWNA";
+    }
+
     if (currentPath.StartsWith("article"))
     {
         return "ARTYKUŁ";
@@ -353,7 +358,6 @@ private string GetPageTitle()
 
     return currentPath switch
     {
-        "" => "STRONA GŁÓWNA",
         "standings" => "TABELA",
         "mvp" => "MVP",
         "typedResults" => "TYPERMANIA",
@@ -366,6 +370,7 @@ private string GetPageTitle()
         _ => "STRONA",
     };
 }
+
 
 
     private void NavigateToRegister()
