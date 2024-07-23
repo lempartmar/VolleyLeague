@@ -28114,3 +28114,9 @@ img.user-profile-image {
         background: var(--theme-color);
         margin: 0 10px;
 }
+
+.category_section.additional-margin-medium
+{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}

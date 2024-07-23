@@ -344,23 +344,29 @@
         pageTitle = GetPageTitle();
     }
 
-    private string GetPageTitle()
+private string GetPageTitle()
+{
+    if (currentPath.StartsWith("article"))
     {
-        return currentPath switch
-        {
-            "" => "STRONA GŁÓWNA",
-            "standings" => "TABELA",
-            "mvp" => "MVP",
-            "typedResults" => "TYPERMANIA",
-            "schedule" => "TERMINARZ",
-            "teams-list" => "ZESPOŁY",
-            "policy" => "LIGA",
-            "contact" => "KONTAKT",
-            "login" => "LOGOWANIE DO PORTALU",
-            "register" => "REJESTRACJA UŻYTKOWNIKA",
-            _ => "STRONA",
-        };
+        return "ARTYKUŁ";
     }
+
+    return currentPath switch
+    {
+        "" => "STRONA GŁÓWNA",
+        "standings" => "TABELA",
+        "mvp" => "MVP",
+        "typedResults" => "TYPERMANIA",
+        "schedule" => "TERMINARZ",
+        "teams-list" => "ZESPOŁY",
+        "policy" => "LIGA",
+        "contact" => "KONTAKT",
+        "login" => "LOGOWANIE DO PORTALU",
+        "register" => "REJESTRACJA UŻYTKOWNIKA",
+        _ => "STRONA",
+    };
+}
+
 
     private void NavigateToRegister()
     {
