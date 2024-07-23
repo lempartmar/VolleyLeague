@@ -136,10 +136,10 @@
                             <div class="banner-content">
 @*                                 <span class="pretitle">LIGASIATKOWKI.pl</span> *@
                                 <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
-                                <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce</p>
+                                <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce. Dołącz do nas!</p>
 @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
-                                    <button type="submit" class="btn" style="margin-top: 20px">
+                                    <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
                                     </button>
                                 </div>
@@ -156,7 +156,7 @@
                                 <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
 @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
-                                    <button type="submit" class="btn" style="margin-top: 20px">
+                                    <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
                                     </button>
                                 </div>
@@ -256,23 +256,23 @@
                 delay: 5000, // 5000ms = 5 seconds
                 disableOnInteraction: false,
             },
-            speed: 2000, // 2000ms = 2 seconds for transition speed
+            speed: 1500, // 2000ms = 2 seconds for transition speed
             on: {
                 slideChangeTransitionStart: function () {
                     const activeSlide = this.slides[this.activeIndex];
-                    const textElements = activeSlide.querySelectorAll('.pretitle, .banner-heading, .desc');
+                    const textElements = activeSlide.querySelectorAll('.animated-element');
                     textElements.forEach(el => {
-                        el.style.opacity = '0';
-                        el.style.transform = 'translateY(20px)';
+                        el.classList.remove('show');
                     });
                 },
                 slideChangeTransitionEnd: function () {
                     const activeSlide = this.slides[this.activeIndex];
-                    const textElements = activeSlide.querySelectorAll('.pretitle, .banner-heading, .desc');
-                    textElements.forEach(el => {
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0)';
-                    });
+                    const textElements = activeSlide.querySelectorAll('.animated-element');
+                    setTimeout(() => {
+                        textElements.forEach(el => {
+                            el.classList.add('show');
+                        });
+                    }, 3000); // Opóźnienie 0,5 sekundy
                 }
             }
         });
@@ -360,6 +360,11 @@
             "register" => "REJESTRACJA UŻYTKOWNIKA",
             _ => "STRONA",
         };
+    }
+
+    private void NavigateToRegister()
+    {
+        Navigation.NavigateTo("/register");
     }
 
     private bool IsNavigatingToOrFromHomePage(string currentUri, string previousUri)
