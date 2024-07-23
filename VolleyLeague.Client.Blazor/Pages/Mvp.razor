@@ -128,22 +128,20 @@
         animation: spin 1s linear infinite;
     }
 
-    .table {
-        color: black;
+    thead {
+        border: 1px solid #e7e7e7; /* Ensure thead has a border */
     }
 
-    .thead-dark th {
-        text-align: center;
-        border-bottom: 1px solid #ddd;
+    th, td {
+        border: 1px solid #e7e7e7; /* Set border for table headers and cells */
     }
 
-    .table .head-tr th {
-        text-align: center;
+    .head-tr th {
+        border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
     }
 
-    .table td, .table th {
-        vertical-align: middle;
-        text-align: center;
+    .table-bordered {
+        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
     }
 
     .player-name-area {
