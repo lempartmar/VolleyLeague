@@ -4,7 +4,6 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
-
 @if (!pageReady)
 {
     <section id="loading_section" style="margin-top: 150px" class="loading_section">
@@ -67,7 +66,7 @@ else
                 }
                 else
                 {
-                    <table class="table table-bordered">
+                    <table class="table">
                         <thead class="thead-dark">
                             <tr class="head-tr">
                                 <th scope="col">LP</th>
@@ -82,10 +81,10 @@ else
                             {
                                 var user = TypedUserList[i];
                                 <tr>
-                                    <td><span class="position-number">@i + 1</span></td>
+                                    <td><span class="position-number">@(i + 1)</span></td>
                                     <td>
-                                        <div class="player-name-area">
-                                            <h4 class="player-name">@user.FirstName @user.LastName</h4>
+                                        <div class="player-name-area" style="justify-content: center;">
+                                            <h4 class="player-name" >@user.FirstName @user.LastName</h4>
                                         </div>
                                     </td>
                                     <td><span class="result-count">@user.PerfectResultsCount</span></td>
@@ -149,24 +148,6 @@ else
         animation: spin 1s linear infinite;
     }
 
-    .table {
-        color: black;
-    }
-
-    .thead-dark th {
-        text-align: center;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .table .head-tr th {
-        text-align: center;
-    }
-
-    .table td, .table th {
-        vertical-align: middle;
-        text-align: center;
-    }
-
     .player-name-area {
         display: flex;
         align-items: center;
@@ -176,22 +157,18 @@ else
         margin-top: 20px;
     }
 
-    thead {
-        border: 1px solid #e7e7e7; /* Ensure thead has a border */
+    .table-bordered {
+        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
+        border-collapse: collapse; /* Ensure borders are collapsed */
+        width: 100%; /* Ensure table takes full width */
     }
 
     th, td {
-        border: 1px solid #e7e7e7; /* Set border for table headers and cells */
+        border: 1px solid #e7e7e7; /* Ensure each cell has a border */
+        padding: 8px; /* Ensure padding for table headers and cells */
+        text-align: center; /* Center text horizontally */
+        vertical-align: middle; /* Center text vertically */
     }
-
-    .head-tr th {
-        border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
-    }
-
-    .table-bordered {
-        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
-    }
-
 </style>
 
 @code {
