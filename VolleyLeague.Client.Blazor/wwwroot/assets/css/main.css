@@ -7811,9 +7811,9 @@ tr:first-child {
   border: none;
 }
 .banner1.banner5.cricket .thumbBannerSlide .swiper-slide .banner-single-1 {
-  background: url(../images/banner/banner-bg-new2.jpg);
-  background-position: center;
-  background-size: cover;
+    background: url(../images/banner/banner-bg-new2.jpg);
+    background-position: center;
+    background-size: cover;
 }
 .banner1.banner5.cricket .thumbBannerSlide .swiper-slide .banner-single-1_2 {
   background: url(../images/banner/banner-bg10.jpg);
@@ -26924,12 +26924,21 @@ tr:first-child {
 }
 
 .banner1.volleyball .banner-single {
-  background: url(../images/banner/banner-bg-new2.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  padding: 300px 0 180px 0;
+    background: url(../images/banner/banner-bg-new2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 300px 0 180px 0;
 }
+
+.banner1.volleyball .banner-single2 {
+    background: url(../images/banner/banner-bg-new-small.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 300px 0 180px 0;
+}
+
 @media (max-width: 576px) {
   .banner1.volleyball .banner-single {
     padding: 100px 0;
@@ -26973,7 +26982,7 @@ tr:first-child {
           animation: rotateIt 20s linear infinite;
 }
 .banner1.volleyball .banner-single-1_2 {
-  background: url(../images/banner/banner-bg-new2.jpg);
+  background: url(../images/banner/banner-bg-new-small.jpeg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -28073,4 +28082,9 @@ img.user-profile-image {
     font-size: 18px;
     font-weight: bold;
     color: #333;
+}
+
+.banner1.banner5.volleyball .thumbBannerSlide .swiper-slide .banner-single .banner-content .banner-btn-area .team-btn {
+    background: #FFFFFF;
+    border: none;
 }

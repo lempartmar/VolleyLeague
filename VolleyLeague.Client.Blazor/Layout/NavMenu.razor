@@ -117,13 +117,13 @@
                         </div>
                     </div>
                 </div>
-                <a class="hamburger-menu aitem d-block">
+@*                 <a class="hamburger-menu aitem d-block">
                     <div class="hamburger-menu-inner">
                         <span></span>
                         <span class=""></span>
                         <span></span>
                     </div>
-                </a>
+                </a> *@
             </div>
         </div>
     </div>
@@ -134,10 +134,15 @@
                     <div class="banner-single banner-single-1 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-                                <span class="pretitle">LIGASIATKOWKI.pl</span>
-                                <h1 class="banner-heading">Volleyball World</h1>
-                                <p class="desc">Welcome to Kester premier online destination for everything volleyball! Whether you're a dedicated player, a passionate fan, or someone just begin to explore the world of volleyball</p>
-                                <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div>
+@*                                 <span class="pretitle">LIGASIATKOWKI.pl</span> *@
+                                <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
+                                <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce</p>
+@*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
+                                <div class="form">
+                                    <button type="submit" class="btn" style="margin-top: 20px">
+                                        Dołącz do nas <i class=""></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -146,16 +151,21 @@
                     <div class="banner-single banner-single-1_2 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-                                <span class="pretitle">Liga2</span>
-                                <h1 class="banner-heading">Volleyball World</h1>
-                                <p class="desc">Welcome to Kester premier online destination for everything volleyball! Whether you're a dedicated player, a passionate fan, or someone just begin to explore the world of volleyball</p>
-                                <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div>
+@*                                 <span class="pretitle">Liga2</span> *@
+                                <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
+                                <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
+@*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
+                                <div class="form">
+                                    <button type="submit" class="btn" style="margin-top: 20px">
+                                        Dołącz do nas <i class=""></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="banner-single banner-single-3 banner-bg">
+@*                 <div class="swiper-slide">
+                        <div class="banner-single banner-single-1_2 banner-bg">
                         <div class="container">
                             <div class="banner-content">
                                 <span class="pretitle">WELCOME TO Volleyball World</span>
@@ -165,15 +175,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> *@
             </div>
-            <div class="slider-pagination-area">
+@*             <div class="slider-pagination-area">
                 <span>01</span>
                 <div class="swiper-pagination">
                 </div>
                 <span>03</span>
-            </div>
-            </div>
+            </div>*@
+            </div> 
     </div>
     <div class="banner banner1 @(IsHomePage ? "display_none" : "")">
         <div class="banner banner1">
@@ -195,6 +205,16 @@
 </header>
 
 <style>
+    .btn:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .team-btn.banner-btn {
+        background-color: #0d6efd;
+        background: white;
+    }
+
     .nav-item.nav-user {
         color: #7d7d7d;
         text-decoration: none;
@@ -203,8 +223,61 @@
 
     .display_none {
         display: none;
+        .banner-content .pretitle, .banner-content .banner-heading, .banner-content .desc
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .swiper-slide-active .banner-content .pretitle,
+    .swiper-slide-active .banner-content .banner-heading,
+    .swiper-slide-active .banner-content .desc {
+        opacity: 1;
+        transform: translateY(0);
+    }
     }
 </style>
+
+<script>
+    window.initializeSwiper = () => {
+        const swiper = new Swiper('.swiper.bannerSlide2', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 5000, // 5000ms = 5 seconds
+                disableOnInteraction: false,
+            },
+            speed: 2000, // 2000ms = 2 seconds for transition speed
+            on: {
+                slideChangeTransitionStart: function () {
+                    const activeSlide = this.slides[this.activeIndex];
+                    const textElements = activeSlide.querySelectorAll('.pretitle, .banner-heading, .desc');
+                    textElements.forEach(el => {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(20px)';
+                    });
+                },
+                slideChangeTransitionEnd: function () {
+                    const activeSlide = this.slides[this.activeIndex];
+                    const textElements = activeSlide.querySelectorAll('.pretitle, .banner-heading, .desc');
+                    textElements.forEach(el => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    });
+                }
+            }
+        });
+    };
+</script>
 
 @code {
     private string currentPath;
