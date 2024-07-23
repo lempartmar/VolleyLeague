@@ -27031,7 +27031,7 @@ tr:first-child {
   position: absolute;
   background: white;
   width: 410px;
-  right: -20px;
+  right: 0px;
   bottom: -160px;
   padding: 30px 0 0 30px;
 }
