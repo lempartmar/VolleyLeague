@@ -24,7 +24,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="seasonSelect" class="form-label">SEZON:</label>
-                                        <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                        <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select ">
                                             @foreach (var season in Filter.SeasonList)
                                             {
                                                 <option value="@season.Id">@season.Name</option>
@@ -35,7 +35,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="roundSelect" class="form-label">RUNDA:</label>
-                                        <select id="roundSelect" value="@Filter.RoundId" @onchange="OnRoundChanged" class="form-select">
+                                        <select id="roundSelect" value="@Filter.RoundId" @onchange="OnRoundChanged" class="form-select ">
                                             @foreach (var round in Filter.RoundList)
                                             {
                                                 <option value="@round.Id">@round.Name</option>
@@ -46,7 +46,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="leagueSelect" class="form-label">LIGA:</label>
-                                        <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                        <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select ">
                                             @foreach (var league in Filter.LeagueList)
                                             {
                                                 <option value="@league.Id">@league.Name</option>
@@ -89,7 +89,7 @@ else
                                             <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
                                         </div>
                                         <div class="block-wrap">
-                                            <span class="match-date">@game.Schedule</span>
+                                            <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
                                             <span class="stadium-name">@game.VenueName.ToUpper()</span>
                                         </div>
                                     </div>
@@ -103,10 +103,8 @@ else
                                     </div>
                                 </div>
                             </div>
-                            <div class="match-bottom-action">
-                                <div class="play-video">
-                                    <a href="https://www.youtube.com/watch?v=G4t6TqG5LM8" class="action-item popup-video">SZCZEGÓŁY MECZU</a>
-                                </div>
+                            <div class="form" style="width: 100%">
+                                <button type="submit" class="btn btn-primary" style="width:100%">SZCZEGÓŁY MECZU</button>
                             </div>
                         </div>
                     </div>
@@ -114,7 +112,6 @@ else
             </div>
         </div>
     </div>
-
 }
 
 <style>
@@ -145,6 +142,15 @@ else
         font-weight: bold;
         text-align: left;
     }
+
+    .custom-button {
+        color: white;
+        background-color: #015293;
+    }
+
+        .custom-button:hover {
+            background-color: black;
+        }
 
     .game-entry {
         margin-bottom: 20px;
