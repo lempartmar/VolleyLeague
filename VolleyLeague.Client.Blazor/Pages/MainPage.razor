@@ -52,7 +52,7 @@ else
                                 <div class="item">
                                     <div class="image-area"><img src="@imageSrc1" alt=""></div>
                                     <div class="bottom-content">
-                                        <span class="blog-category-tag">@firstArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
+                                        <span class="blog-category-tag-main-page">@firstArticle.CreationDate.ToString("dd.MM.yyyy")<span></span> Informacje</span>
                                         <div class="gallery-title">
                                             <a href="/article/@firstArticle.Id">@firstArticle.Title</a>
                                         </div>
@@ -68,9 +68,9 @@ else
                             <div class="col-lg-6">
                                 <div class="right-side-items">
                                     <div class="rts-post-small">
-                                        <a href="/article/@secondArticle.Id" class="gallery-picture"><img src="@imageSrc2" alt=""></a>
-                                        <div class="bottom-content">
-                                            <span class="blog-category-tag">@secondArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
+                                        <a href="/article/@secondArticle.Id" class="gallery-picture" style="flex: 60%"><img src="@imageSrc2" alt=""></a>
+                                        <div class="bottom-content" style="flex: 40%">
+                                            <span class="blog-category-tag-main-page">@secondArticle.CreationDate.ToString("dd.MM.yyyy")<span></span> Informacje</span>
                                             <div class="gallery-title">
                                                 <a href="/article/@secondArticle.Id">@secondArticle.Title</a>
                                             </div>
@@ -83,10 +83,10 @@ else
                                     </div>
 
                                     <div class="rts-post-small">
-                                        <a href="/article/@thirdArticle.Id" class="gallery-picture"><img src="@imageSrc3" alt=""></a>
-                                        <div class="bottom-content">
-                                            <span class="blog-category-tag">@thirdArticle.CreationDate.ToString("MMMM dd, yyyy")</span>
-                                            <div class="gallery-title">
+                                        <a href="/article/@thirdArticle.Id" class="gallery-picture" style="flex: 60%"><img src="@imageSrc3" alt=""></a>
+                                        <div class="bottom-content" style="flex: 40%">
+                                            <span class="blog-category-tag-main-page">@thirdArticle.CreationDate.ToString("dd.MM.yyyy") <span></span> Informacje</span>
+                                            <div class="gallery-title" >
                                                 <a href="/article/@thirdArticle.Id">@thirdArticle.Title</a>
                                             </div>
                                             <div class="author-info">
