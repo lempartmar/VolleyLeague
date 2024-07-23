@@ -4,17 +4,6 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
-<section class="rules_section">
-    <div class="container">
-        <h2>Zasady</h2>
-        <ol>
-            <li>Obstawiamy spotkania ze wszystkich lig</li>
-            <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1 pkt, w przeciwnym przypadku: 0 pkt.</li>
-            <li>W przypadku takiej samej ilości punktów o wyższym miejscu decyduje ilość idealnie wytypowanych wyników.</li>
-            <li>Koniec przyjmowania zgłoszeń następuje o północy, na dzień przed rozpoczęciem kolejki.</li>
-        </ol>
-    </div>
-</section>
 
 @if (!pageReady)
 {
@@ -28,6 +17,17 @@ else
 {
     <div class="rts-point-table-section section-gap">
         <div class="container">
+            <section class="rules_section">
+                <div class="container">
+                    <h2 style="margin-bottom: 20px">Zasady</h2>
+                    <ol>
+                        <li>Obstawiamy spotkania ze wszystkich lig</li>
+                        <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1 pkt, w przeciwnym przypadku: 0 pkt.</li>
+                        <li>W przypadku takiej samej ilości punktów o wyższym miejscu decyduje ilość idealnie wytypowanych wyników.</li>
+                        <li>Koniec przyjmowania zgłoszeń następuje o północy, na dzień przed rozpoczęciem kolejki.</li>
+                    </ol>
+                </div>
+            </section>
             <div class="table-area table-full">
                 <form class="checkout-form">
                     <div class="row">
@@ -175,6 +175,23 @@ else
     .alert-info, .alert-danger {
         margin-top: 20px;
     }
+
+    thead {
+        border: 1px solid #e7e7e7; /* Ensure thead has a border */
+    }
+
+    th, td {
+        border: 1px solid #e7e7e7; /* Set border for table headers and cells */
+    }
+
+    .head-tr th {
+        border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
+    }
+
+    .table-bordered {
+        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
+    }
+
 </style>
 
 @code {
