@@ -16,51 +16,88 @@ else
 {
     <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner section-gap">
         <div class="container">
+            <div class="card m-2 p-2">
+                <EditForm Model="Filter">
+                    <div class="form-group btn-group">
+                        <label for="seasonSelect" class="btn btn-default btn-label">SEZON:</label>
+                        <Select value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="btn btn-default dropdown-toggle">
+                            @foreach (var season in Filter.SeasonList)
+                            {
+                                <option value="@season.Id">@season.Name</option>
+                            }
+                        </Select>
+                    </div>
+                    <div class="form-group btn-group">
+                        <label for="RoundSelect" class="btn btn-default btn-label">RUNDA:</label>
+                        <Select value="@Filter.RoundId" @onchange="OnRoundChanged" class="btn btn-default dropdown-toggle">
+                            @foreach (var round in Filter.RoundList)
+                            {
+                                <option value="@round.Id">@round.Name</option>
+                            }
+                        </Select>
+                    </div>
+                    <div class="form-group btn-group">
+                        <label for="leagueSelect" class="btn btn-default btn-label">LIGA:</label>
+                        <Select value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="btn btn-default dropdown-toggle">
+                            @foreach (var league in Filter.LeagueList)
+                            {
+                                <option value="@league.Id">@league.Name</option>
+                            }
+                        </Select>
+                    </div>
+                </EditForm>
+            </div>
             <div class="row justify-content-center">
                 @foreach (var game in Games)
                 {
-                    var imgSrcHome = game.HomeTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.HomeTeam.Logo)}" : "/assets/images/Logo_alternative.png";
-                    var imgSrcGuest = game.GuestTeam.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(game.GuestTeam.Logo)}" : "/assets/images/Logo_alternative.png";
-                <div class="col-12">
-                    <div class="match-single background-white">
-                        <div class="match-single-content">
-                            <div class="match-scores">
-                                <div class="club club1">
-                                    <div class="club-logo mr--20">
+                    var imgSrcHome = (game.HomeTeam.Logo != null && game.HomeTeam.Logo.Length > 0)
+                    ? $"data:image/png;base64,{Convert.ToBase64String(game.HomeTeam.Logo)}"
+                    : "/assets/images/Logo_alternative.png";
+
+                    var imgSrcGuest = (game.GuestTeam.Logo != null && game.GuestTeam.Logo.Length > 0)
+                    ? $"data:image/png;base64,{Convert.ToBase64String(game.GuestTeam.Logo)}"
+                    : "/assets/images/Logo_alternative.png";
+
+                    <div class="col-12">
+                        <div class="match-single background-white">
+                            <div class="match-single-content" style="width: 100%">
+                                <div class="match-scores" style="display: flex; justify-content: space-between;">
+                                    <div class="club club1" style="flex:1;">
+                                        <div class="club-logo mr--20">
                                             <div class="display-flex-column-center">
-
                                                 <img class="team-logo-size" src=@imgSrcHome alt="club-logo">
-                                                <span class="club-name color-dark">@game.HomeTeam.Name.ToUpper()</span>
+                                                <span class="club-name color-dark" style="margin-top: 20px;">@game.HomeTeam.Name.ToUpper()</span>
                                             </div>
-                                            <span class="club-name color-dark left-score">@game.Team1Score</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="colon">VS</div>
-                                <div class="club club2">
-
-                                    <div class="club-logo ml--20">
-                                            <span class="club-name color-dark right-score">@game.Team2Score</span>
+                                    <div class="club-score" style="flex: 1;display: flex;justify-content: space-between;flex-direction: column;">
+                                        <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
+                                            <span class="club-name color-dark left-score"><h2>@game.Team1Score</h2></span>
+                                        <div class="colon">VS</div>
+                                            <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
+                                        </div>
+                                        <div class="block-wrap">
+                                            <span class="match-date">@game.Schedule</span>
+                                            <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                                        </div>
+                                    </div>
+                                    <div class="club club2" style="flex:1;">
+                                        <div class="club-logo ml--20">
                                             <div class="display-flex-column-center">
                                                 <img class="team-logo-size" src=@imgSrcGuest alt="club-logo">
-
-
-                                            <span class="club-name color-dark">@game.GuestTeam.Name.ToUpper()</span>
+                                                <span class="club-name color-dark" style="margin-top: 20px;">@game.GuestTeam.Name.ToUpper()</span>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="block-wrap">
-                                <span class="match-date">@game.Schedule</span>
-                                    <span class="stadium-name">@game.VenueName.ToUpper()</span>
-                            </div>
-                        </div>
-                        <div class="match-bottom-action">
-                            <div class="play-video">
-                                <a href="https://www.youtube.com/watch?v=G4t6TqG5LM8" class="action-item popup-video">SZCZEGÓŁY MECZU</a>
+                            <div class="match-bottom-action">
+                                <div class="play-video">
+                                    <a href="https://www.youtube.com/watch?v=G4t6TqG5LM8" class="action-item popup-video">SZCZEGÓŁY MECZU</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 }
             </div>
         </div>
@@ -121,8 +158,6 @@ else
                             }
                             else if (Games.Count > 0)
                             {
-
-
                                 <div class="p-2 card mt-4 mb-5 table-responsive-lg">
                                     <div class="container-fluid">
                                         <div class="row">
@@ -158,7 +193,9 @@ else
                                                         </div>
                                                         <div class="vertical-line" style="border:1px solid #eee; height: 100px;"></div>
                                                         <div class="mvp-info">
-                                                            <strong><NavLink href=@{"/match/" + game.Id}>Szczegóły Meczu</NavLink></strong>
+                                                            <strong><NavLink href=@{
+                                                    "/match/" + game.Id
+}>Szczegóły Meczu</NavLink></strong>
                                                         </div>
                                                     </div>
                                                 </div>
