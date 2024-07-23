@@ -627,11 +627,13 @@ namespace VolleyLeague.Services.Services
 
             return matches;
         }
-
         public async Task<LastMatchDto> GetLastMatchAsync()
         {
             var match = await _matchRepository.GetAll()
                 .AsNoTracking()
+                .Include(m => m.Venue)
+                .Include(m => m.League)
+                .Include(m => m.Round)
                 .Where(m => m.Schedule <= DateTime.Now && m.Set1Team1Score != null)
                 .OrderByDescending(m => m.Schedule)
                 .Select(m => new LastMatchDto
@@ -652,7 +654,10 @@ namespace VolleyLeague.Services.Services
                     Team1Score = m.Team1Score,
                     Team2Score = m.Team2Score,
                     Schedule = m.Schedule,
-                    MatchInfo = m.MatchInfo
+                    MatchInfo = m.MatchInfo,
+                    LeagueName = m.League.Name,
+                    RoundName = m.Round.Name, 
+                    VenueName = m.Venue.Name
                 })
                 .FirstOrDefaultAsync();
 

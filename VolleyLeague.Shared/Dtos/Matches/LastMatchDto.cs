@@ -16,5 +16,8 @@ namespace VolleyLeague.Shared.Dtos.Matches
         public int? Team2Score { get; set; }
         public DateTime Schedule { get; set; }
         public string MatchInfo { get; set; }
+        public string LeagueName { get; set; } 
+        public string RoundName { get; set; } 
+        public string VenueName { get; set; }
     }
 }
