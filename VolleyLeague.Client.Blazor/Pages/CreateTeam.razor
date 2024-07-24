@@ -32,31 +32,31 @@ else
                     <EditForm Model="@NewTeam" OnValidSubmit="HandleValidSubmit" style="width: 100%">
                         <DataAnnotationsValidator />
                         <div class="form-floating mb-4">
-                            <InputText id="Name" class="form-control text-center" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
-                            <label for="Name">Nazwa drużyny</label>
+                            <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
+                            <label class="text-center" for="Name">Nazwa drużyny</label>
                             <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
                         </div>
 
                         <div class="form-floating mb-4">
-                            <InputText id="Email" class="form-control text-center" @bind-Value="NewTeam.Email" placeholder="Email drużynowy" />
+                            <InputText id="Email" class="form-control" @bind-Value="NewTeam.Email" placeholder="Email drużynowy" />
                             <label for="Email">Email drużynowy</label>
                             <ValidationMessage For="@(() => NewTeam.Email)" class="text-danger" />
                         </div>
 
                         <div class="form-floating mb-4">
-                            <InputText id="Phone" class="form-control text-center" @bind-Value="NewTeam.Phone" placeholder="Telefon komórkowy" />
+                            <InputText id="Phone" class="form-control" @bind-Value="NewTeam.Phone" placeholder="Telefon komórkowy" />
                             <label for="Phone">Telefon komórkowy</label>
                             <ValidationMessage For="@(() => NewTeam.Phone)" class="text-danger" />
                         </div>
 
                         <div class="form-floating mb-4">
-                            <InputText id="TeamDescription" class="form-control text-center" @bind-Value="NewTeam.TeamDescription" placeholder="Opis drużyny" />
+                            <InputText id="TeamDescription" class="form-control" @bind-Value="NewTeam.TeamDescription" placeholder="Opis drużyny" />
                             <label for="TeamDescription">Opis drużyny</label>
                             <ValidationMessage For="@(() => NewTeam.TeamDescription)" class="text-danger" />
                         </div>
 
                         <div class="form-floating mb-4">
-                            <InputText id="Website" class="form-control text-center" @bind-Value="NewTeam.Website" placeholder="Strona internetowa" />
+                            <InputText id="Website" class="form-control" @bind-Value="NewTeam.Website" placeholder="Strona internetowa" />
                             <label for="Website">Strona internetowa</label>
                             <ValidationMessage For="@(() => NewTeam.Website)" class="text-danger" />
                         </div>
@@ -65,7 +65,7 @@ else
             </div>
 
             <div class="card-body" style="padding: 16px;">
-                <h2 style="text-align: center;">Zawodnicy</h2>
+                <h2 style="margin-bottom: 25px;">Zawodnicy</h2>
                 <p class="text-danger">@ErrorMessage</p>
                 <table class="table table-responsive table-sm" style="width: 100%; border-collapse: collapse;">
                     <thead style="margin-bottom: 20px">
