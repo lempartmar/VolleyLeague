@@ -22,142 +22,142 @@
 }
 else
 {
-<section class="category_section" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-    <div class="container" style="max-width: 1000px; width: 100%;">
-        <div class="row" style="display: flex; justify-content: center; width: 100%">
+
+
+    <div class="account-main accountdtls filterd-items">
+    <div class="login-form">
+        <div class="section-title">
+            <h2>Tworzenie drużyny</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
                 <EditForm Model="@NewTeam" OnValidSubmit="HandleValidSubmit" style="width: 100%">
                     <DataAnnotationsValidator />
-                    <div class="card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; width: 100%;">
-                        <div class="card-header" style="text-align: center; padding: 16px; background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
-                            <h2>Tworzenie drużyny</h2>
-                        </div>
-                        <div class="card-body" style="padding: 16px;">
-                            <div class="form-floating mb-4">
-                                <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
-                                <label for="Name">Nazwa drużyny</label>
-                                <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
-                            </div>
+                    <div class="form-floating mb-4">
+                        <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
+                        <label for="Name">Nazwa drużyny</label>
+                        <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
+                    </div>
 
-                            <div class="form-floating mb-4">
-                                <InputText id="Email" class="form-control" @bind-Value="NewTeam.Email" placeholder="Email drużynowy" />
-                                <label for="Email">Email drużynowy</label>
-                                <ValidationMessage For="@(() => NewTeam.Email)" class="text-danger" />
-                            </div>
+                    <div class="form-floating mb-4">
+                        <InputText id="Email" class="form-control" @bind-Value="NewTeam.Email" placeholder="Email drużynowy" />
+                        <label for="Email">Email drużynowy</label>
+                        <ValidationMessage For="@(() => NewTeam.Email)" class="text-danger" />
+                    </div>
 
-                            <div class="form-floating mb-4">
-                                <InputText id="Phone" class="form-control" @bind-Value="NewTeam.Phone" placeholder="Telefon komórkowy" />
-                                <label for="Phone">Telefon komórkowy</label>
-                                <ValidationMessage For="@(() => NewTeam.Phone)" class="text-danger" />
-                            </div>
+                    <div class="form-floating mb-4">
+                        <InputText id="Phone" class="form-control" @bind-Value="NewTeam.Phone" placeholder="Telefon komórkowy" />
+                        <label for="Phone">Telefon komórkowy</label>
+                        <ValidationMessage For="@(() => NewTeam.Phone)" class="text-danger" />
+                    </div>
 
-                            <div class="form-floating mb-4">
-                                <InputText id="TeamDescription" class="form-control" @bind-Value="NewTeam.TeamDescription" placeholder="Opis drużyny" />
-                                <label for="TeamDescription">Opis drużyny</label>
-                                <ValidationMessage For="@(() => NewTeam.TeamDescription)" class="text-danger" />
-                            </div>
+                    <div class="form-floating mb-4">
+                        <InputText id="TeamDescription" class="form-control" @bind-Value="NewTeam.TeamDescription" placeholder="Opis drużyny" />
+                        <label for="TeamDescription">Opis drużyny</label>
+                        <ValidationMessage For="@(() => NewTeam.TeamDescription)" class="text-danger" />
+                    </div>
 
-                            <div class="form-floating mb-4">
-                                <InputText id="Website" class="form-control" @bind-Value="NewTeam.Website" placeholder="Strona internetowa" />
-                                <label for="Website">Strona internetowa</label>
-                                <ValidationMessage For="@(() => NewTeam.Website)" class="text-danger" />
-                            </div>
-                        </div>
-
-                        <div class="card-body" style="padding: 16px;">
-                            <h2 style="text-align: center;">Zawodnicy</h2>
-                            <p class="text-danger">@ErrorMessage</p>
-                            <table class="table table-responsive table-sm" style="width: 100%; border-collapse: collapse;">
-                                <thead style="margin-bottom: 20px">
-                                    <tr>
-                                        <th>Lp</th>
-                                        <th>Imię</th>
-                                        <th>Nazwisko</th>
-                                        <th>Numer</th>
-                                        <th>Wzrost</th>
-                                        <th>Pozycja</th>
-                                        <th>Płeć</th>
-                                        <th>Email</th>
-                                        <th>Usuń</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @{
-                                    i = 0;
-                                }
-                                @foreach (var player in NewTeam.Players)
-                                {
-                                    <tr style="margin-top: 20px;">
-                                        <td>@(++i)</td>
-                                        <td>
-                                            <InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.FirstName" readonly="@(i == 1)" />
-                                            <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
-                                        </td>
-                                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.LastName" readonly="@(i == 1)" />
-                                            <ValidationMessage For="@(() => player.LastName)" class="text-danger" />
-                                        </td>
-                                        <td><InputNumber class="form-control" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.JerseyNumber" disabled="@(i == 1)" />
-                                            <ValidationMessage For="@(() => player.JerseyNumber)" class="text-danger" />
-                                        </td>
-                                        <td><InputNumber class="form-control" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Height" disabled="@(i == 1)" />
-                                            <ValidationMessage For="@(() => player.Height)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.PositionId" disabled="@(i == 1)">
-                                                @foreach (var position in Positions)
-                                                {
-                                                    <option value="@position.Id">@position.Name</option>
-                                                }
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
-                                        </td>
-                                        <td style="margin-bottom: 8px;">
-                                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Gender" disabled="@(i == 1)">
-                                                <option value="false">M</option>
-                                                <option value="true">K</option>
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
-                                        </td>
-                                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Email" readonly="@(i == 1)" />
-                                            <ValidationMessage For="@(() => player.Email)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            @if (i > 1)
-                                            {
-                                                <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" @onclick="() => RemovePlayer(player)">Usuń</button>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                                <tr>
-                                    <td colspan="9" style="text-align: center;">
-                                        <button type="button" class="btn btn-success" style="padding: 8px 16px; background-color: #28a745; color: #fff; border: none; border-radius: 4px;" @onclick="() => AddPlayer()">Dodaj zawodnika</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="card-footer" style="padding: 16px; display: flex; justify-content: center;">
-                            @if (IsLoading)
-                            {
-                                <LoadingIcon></LoadingIcon>
-                            }
-                            else
-                            {
-                                @if (ShowErrorMessage)
-                                {
-                                    <p class="text-danger">@ErrorMessage </p>
-                                    <br />
-                                }
-
-                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit">Wyślij</button>
-                            }
-                        </div>
+                    <div class="form-floating mb-4">
+                        <InputText id="Website" class="form-control" @bind-Value="NewTeam.Website" placeholder="Strona internetowa" />
+                        <label for="Website">Strona internetowa</label>
+                        <ValidationMessage For="@(() => NewTeam.Website)" class="text-danger" />
                     </div>
                 </EditForm>
+            </div>
+        </div>
+
+        <div class="card-body" style="padding: 16px;">
+            <h2 style="text-align: center;">Zawodnicy</h2>
+            <p class="text-danger">@ErrorMessage</p>
+            <table class="table table-responsive table-sm" style="width: 100%; border-collapse: collapse;">
+                <thead style="margin-bottom: 20px">
+                    <tr>
+                        <th>Lp</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Numer</th>
+                        <th>Wzrost</th>
+                        <th>Pozycja</th>
+                        <th>Płeć</th>
+                        <th>Email</th>
+                        <th>Usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @{
+                    int i = 0;
+                }
+                @foreach (var player in NewTeam.Players)
+                {
+                    <tr style="margin-top: 20px;">
+                        <td>@(++i)</td>
+                        <td>
+                            <InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.FirstName" readonly="@(i == 1)" />
+                            <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
+                        </td>
+                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.LastName" readonly="@(i == 1)" />
+                            <ValidationMessage For="@(() => player.LastName)" class="text-danger" />
+                        </td>
+                        <td><InputNumber class="form-control" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.JerseyNumber" disabled="@(i == 1)" />
+                            <ValidationMessage For="@(() => player.JerseyNumber)" class="text-danger" />
+                        </td>
+                        <td><InputNumber class="form-control" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Height" disabled="@(i == 1)" />
+                            <ValidationMessage For="@(() => player.Height)" class="text-danger" />
+                        </td>
+                        <td>
+                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.PositionId" disabled="@(i == 1)">
+                                @foreach (var position in Positions)
+                                {
+                                    <option value="@position.Id">@position.Name</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
+                        </td>
+                        <td style="margin-bottom: 8px;">
+                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Gender" disabled="@(i == 1)">
+                                <option value="false">M</option>
+                                <option value="true">K</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
+                        </td>
+                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Email" readonly="@(i == 1)" />
+                            <ValidationMessage For="@(() => player.Email)" class="text-danger" />
+                        </td>
+                        <td>
+                            @if (i > 1)
+                            {
+                                <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" @onclick="() => RemovePlayer(player)">Usuń</button>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+                <tr>
+                    <td colspan="9" style="text-align: center;">
+                        <button type="button" class="btn btn-success" style="padding: 8px 16px; background-color: #28a745; color: #fff; border: none; border-radius: 4px;" @onclick="() => AddPlayer()">Dodaj zawodnika</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer" style="padding: 16px; display: flex; justify-content: center;">
+            @if (IsLoading)
+            {
+                <LoadingIcon></LoadingIcon>
+            }
+            else
+            {
+                @if (ShowErrorMessage)
+                {
+                    <p class="text-danger">@ErrorMessage </p>
+                    <br />
+                }
+
+                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit">Wyślij</button>
+            }
         </div>
     </div>
-</section>
+</div>
 }
 
 <style>
@@ -169,6 +169,33 @@ else
         border-radius: 50%;
         margin: 50px auto;
         animation: spin 1s linear infinite;
+    }
+
+    .account-main {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title h2 {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card-body {
+        padding: 30px;
+    }
+
+    .form {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
 
