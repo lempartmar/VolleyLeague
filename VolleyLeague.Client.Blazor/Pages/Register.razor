@@ -40,6 +40,16 @@ else if (!isVerificationStep)
                                         <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
                                     </div>
                                     <div class="form">
+@*                                         <label for="Gender" class="control-label">Płeć</label> *@
+                                        <select @bind="registerModel.Gender" class="form-control" id="Gender" required style="color: #6c757d">
+                                            <option value="">Płeć</option>
+                                            <option value="1">Mężczyzna</option>
+                                            <option value="0">Kobieta</option>
+                                        </select>
+                                        <small class="form-text text-muted">Uwaga - adresu e-mail oraz płci nie będziesz mógł zmienić po rejestracji.</small>
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.Gender)" />
+                                    </div>
+                                    <div class="form">
                                         <label for="Email" class="control-label"></label>
                                         <input @bind="registerModel.Email" type="email" class="form-control" id="Email" placeholder="Adres e-mail" required />
                                         <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
@@ -284,6 +294,7 @@ else
                 LastName = registerModel.LastName,
                 Email = verificationModel.Email,
                 Password = registerModel.Password,
+                Gender = registerModel.Gender == 1, // Use the integer value directly
                 VerificationCode = verificationModel.VerificationCode
             };
 

@@ -23,6 +23,10 @@ namespace VolleyLeague.Shared.Dtos.Teams
         [Compare("Password", ErrorMessage = "Hasła nie są identyczne.")]
         public string ConfirmPassword { get; set; }
 
+        [Required(ErrorMessage = "Płeć jest wymagana.")]
+        [Display(Name = "Płeć")]
+        public int Gender { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();

@@ -423,6 +423,7 @@ namespace VolleyLeague.Services.Services
                         FirstName = completeRegistrationDto.FirstName,
                         LastName = completeRegistrationDto.LastName,
                         AdditionalEmail = completeRegistrationDto.Email,
+                        Gender = completeRegistrationDto.Gender,
                         PositionId = 6, // Assuming default position
                     };
                     await _userRepository.InsertAsync(user);
@@ -553,7 +554,7 @@ namespace VolleyLeague.Services.Services
                 //City = registerDto.City,
                 //PersonalInfo = registerDto.PersonalInfo,
                 //Photo = null,
-                //Gender = registerDto.Gender,
+                Gender = registerDto.Gender == 1,
                 //Height = (byte?)registerDto.Height,
                 //Weight = (byte?)registerDto.Weight,
                 //JerseyNumber = (byte?)registerDto.JerseyNumber,
