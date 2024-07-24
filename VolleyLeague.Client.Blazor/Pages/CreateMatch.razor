@@ -10,14 +10,18 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
-<section class="category_section" style="margin-top: 60px;">
-    <div class="container" style="display:flex; justify-content: center">
-        <div class="row" style="width: 75%;">
+    <div class="account-main accountdtls filterd-items">
+        <div class="login-form">
+            <div class="section-title">
+                <h2>Tworzenie meczu</h2>
+            </div>
+
 
 
                 @if (pageReady)
                 {
-                    <h1 style="text-align: center;">Tworzenie meczu</h1>
+            <div class="card">
+                <div class="card-body">
                     <EditForm Model="NewMatch" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
@@ -110,6 +114,8 @@
                             <button type="submit" class="btn btn-primary">Utwórz</button>
                         </div>
                     </EditForm>
+                </div>
+            </div>
                 }
                 else
                 {
@@ -128,7 +134,54 @@
                 }
             </div>
         </div>
-</section>
+
+        <style>
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .account-main {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title h2 {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card-body {
+        padding: 30px;
+    }
+
+    .form {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .form-label {
+        display: block;
+        width: 100%;
+    }
+</style>
 
 @code {
     private NewMatchModel NewMatch = new NewMatchModel();
