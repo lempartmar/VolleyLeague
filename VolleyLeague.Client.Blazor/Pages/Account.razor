@@ -1,6 +1,5 @@
 ﻿@page "/account"
 @using Microsoft.AspNetCore.WebUtilities
-
 @using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using VolleyLeague.Client.Blazor.Authentication
@@ -25,13 +24,13 @@
                     <button class="filter-btn @GetActiveClass(InfoPages.EditProfile)" @onclick="() => ShowSection(InfoPages.EditProfile)">
                         <i class="fal fa-user-edit"></i> Edytuj Profil
                     </button>
-                    @if (HasTeam && IsPlayer && !IsAdmin)
+                    @if (HasTeam)
                     {
                         <button class="filter-btn @GetActiveClass(InfoPages.ManageTeam)" @onclick="() => ShowSection(InfoPages.ManageTeam)">
                             <i class="fal fa-users-cog"></i> Zarządzaj drużyną
                         </button>
                     }
-                    else if (IsPlayer && !IsAdmin)
+                    else
                     {
                         <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
                             <i class="fal fa-users"></i> Stwórz drużynę
@@ -43,9 +42,6 @@
                 }
                 @if (IsAdmin)
                 {
-                    <button class="filter-btn @GetActiveClass(InfoPages.CreateTeam)" @onclick="() => ShowSection(InfoPages.CreateTeam)">
-                        <i class="fal fa-users"></i> Stwórz drużynę
-                    </button>
                     <button class="filter-btn @GetActiveClass(InfoPages.Referees)" @onclick="() => ShowSection(InfoPages.Referees)">
                         <i class="fal fa-users-cog"></i> Zarządzaj Sędziami
                     </button>
@@ -128,7 +124,7 @@
         ManageTeams,
         TeamsImages,
         AddArticle,
-        EditUserDefinedCode 
+        EditUserDefinedCode
     }
 
     private InfoPages currentSection = InfoPages.UserProfile;
