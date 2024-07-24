@@ -244,16 +244,20 @@ else
                                 <ValidationMessage For="@(() => CaptainId)" class="text-danger" />
                             </div>
                             <div class="text-center">
+                                <p class="text-primary">Zmiana kapitana jest możliwa tylko wtedy, gdy potencjalny nowy kapitan ma założone konto w portalu.</p>
                                 <p class="text-primary">Uwaga: Zmieniając kapitana stracisz dostęp do zarządzania drużyną. Nowy kapitan musi posiadać własne konto.</p>
-                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit" disabled="@(CaptainId == 0)">Aktualizuj</button>
+                                <div class="card-footer" style="padding: 16px; display: flex; justify-content: center;">
+                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit" disabled="@(CaptainId == 0)">Wyślij</button>
+                            </div>
                             </div>
                         </div>
                     </EditForm>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-danger" style="padding: 10px 20px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
+                    </div>
                 </div>
 
-                <div class="card-body text-center">
-                    <button class="btn btn-danger" style="padding: 10px 20px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
-                </div>
+
             </div>
         </div>
     </div>
