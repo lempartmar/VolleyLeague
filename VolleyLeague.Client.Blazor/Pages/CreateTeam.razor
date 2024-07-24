@@ -105,7 +105,7 @@ else
                             <ValidationMessage For="@(() => player.Height)" class="text-danger" />
                         </td>
                         <td>
-                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.PositionId" disabled="@(i == 1)">
+                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; " @bind-Value="player.PositionId" disabled="@(i == 1)">
                                 @foreach (var position in Positions)
                                 {
                                     <option value="@position.Id">@position.Name</option>
@@ -114,13 +114,13 @@ else
                             <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
                         </td>
                         <td style="margin-bottom: 8px;">
-                            <InputSelect class="form-control" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px;" @bind-Value="player.Gender" disabled="@(i == 1)">
+                                    <InputSelect class="form-control" style="max-width: 100px;padding: 4px;border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-right:6px;" @bind-Value="player.Gender" disabled="@(i == 1)">
                                 <option value="false">M</option>
                                 <option value="true">K</option>
                             </InputSelect>
                             <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
                         </td>
-                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Email" readonly="@(i == 1)" />
+                        <td><InputText class="form-control" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: 6px;" @bind-Value="player.Email" readonly="@(i == 1)" />
                             <ValidationMessage For="@(() => player.Email)" class="text-danger" />
                         </td>
                         <td>
