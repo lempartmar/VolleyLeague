@@ -7,16 +7,24 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
-<section class="category_section" style="margin-top: 60px;">
-    <div class="container">
-        <div class="content-center">
-            <div class="content-width">
-                <div class="text-center">
-                    <h2 class="mt-4">Zarządzanie Sędziami</h2>
-                    <p>Wybierz sędziego z listy aktualnych sędziów lub dodaj nowego sędziego z listy potencjalnych sędziów.</p>
-                </div>
-
-                <div class="card m-2 p-2" style="margin-top:30px;">
+@if (!_isPageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="account-main accountdtls filterd-items">
+        <div class="login-form">
+            <div class="section-title">
+                <h2>Zarządzanie Sędziami</h2>
+                <p>Wybierz sędziego z listy aktualnych sędziów lub dodaj nowego sędziego z listy potencjalnych sędziów.</p>
+            </div>
+            <div class="card">
+                <div class="card-body">
                     <h5>Aktualni Sędziowie</h5>
                     <ul class="list-group">
                         @if (_referees == null || !_referees.Any())
@@ -28,17 +36,19 @@
                             @foreach (PlayerSummaryDto referee in _referees)
                             {
                                 <li class="list-group-item">
-                                    <div class="list-item-content" style="width: 100%;">
+                                    <div class="list-item-content">
                                         <span>@referee.Name</span>
-                                        <button class="button button-danger button-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
                                     </div>
                                 </li>
                             }
                         }
                     </ul>
                 </div>
+            </div>
 
-                <div class="card m-2 p-2">
+            <div class="card mt-4">
+                <div class="card-body">
                     <h5>Dodaj Nowego Sędziego</h5>
                     <select @onchange="OnPotentialRefereeSelected" class="form-control mb-3" id="potentialReferees">
                         @if (_potentialReferees == null)
@@ -54,28 +64,54 @@
                             }
                         }
                     </select>
-                    <button class="button button-primary" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
+                    <button class="btn btn-primary" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
                 </div>
             </div>
         </div>
     </div>
-</section>
+}
 
 <style>
-    .content-center {
-        display: flex;
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .account-main {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .section-title h2 {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card {
+        margin-bottom: 20px;
+    }
+
+    .login-form .card-body {
+        padding: 30px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
     }
 
-    .content-width {
-        width: 100%;
-        max-width: 600px;
+    .text-center {
+        text-align: center;
     }
 
-    .list-item-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .form-label {
+        display: block;
+        width: 100%;
     }
 
     .list-group-item {
@@ -83,27 +119,8 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px;
-/*         border: 1px solid #ddd; */
         margin-bottom: 5px;
     }
-
-    .button {
-        padding: 5px 10px;
-        color: white;
-        background-color: #337ab7;
-        border-color: #2e6da4;
-        border: none;
-        cursor: pointer;
-    }
-
-        .button:hover {
-            background-color: #337ab7;
-            border-color: #2e6da4;
-        }
-
-        .button:disabled {
-            background-color: #aaa;
-        }
 
     .form-control {
         width: 100%;
@@ -119,11 +136,13 @@
     private IEnumerable<PlayerSummaryDto> _potentialReferees = Enumerable.Empty<PlayerSummaryDto>();
     private int? selectedRefereeId = null;
     private bool _isRefereeSelected => selectedRefereeId.HasValue;
+    private bool _isPageReady = false;
 
     protected override async Task OnInitializedAsync()
     {
         _referees = await LoadReferees();
         _potentialReferees = await LoadPotentialReferees();
+        _isPageReady = true;
     }
 
     private async Task<List<PlayerSummaryDto>> LoadReferees()
