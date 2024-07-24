@@ -122,7 +122,6 @@ else
                                         </td>
                                     </tr>
                                 }
-                                }
                                 @foreach (var newPlayer in ManagedTeam.NewPlayers)
                                 {
                                     <tr>
@@ -422,7 +421,7 @@ else
             IsLoading = false;
             if (response.Success)
             {
-                navigationManager.NavigateTo("/ManageTeam", forceLoad: true);
+                navigationManager.NavigateTo("/account?section=ManageTeam", forceLoad: true);
             }
             else
             {
