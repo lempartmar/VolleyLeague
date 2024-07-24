@@ -35,11 +35,9 @@ else
                         {
                             @foreach (PlayerSummaryDto referee in _referees)
                             {
-                                <li class="list-group-item">
-                                    <div class="list-item-content">
-                                        <span>@referee.Name</span>
-                                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
-                                    </div>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@referee.Name</span>
+                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
                                 </li>
                             }
                         }
@@ -64,7 +62,7 @@ else
                             }
                         }
                     </select>
-                    <button class="btn btn-primary" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
+                    <button class="btn btn-primary btn-sm" @onclick="AddSelectedReferee" disabled="@(!_isRefereeSelected)">Dodaj</button>
                 </div>
             </div>
         </div>
