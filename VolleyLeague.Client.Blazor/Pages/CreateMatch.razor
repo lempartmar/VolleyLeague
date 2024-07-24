@@ -32,7 +32,7 @@ else
                         <ValidationSummary />
 
                         <div class="form-floating mb-4">
-                            <Select id="seasonSelect" class="form-control" @bind-Value="NewMatch.SeasonId" @onchange="OnSeasonChanged">
+                            <Select id="seasonSelect" class="form-control" @onchange="OnSeasonChanged">
                                 @foreach (var season in NewMatch.SeasonList)
                                 {
                                     <option value="@season.Id">@season.Name</option>
@@ -43,7 +43,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="RoundSelect" class="form-control" @bind-Value="NewMatch.RoundId" @onchange="OnRoundChanged">
+                            <Select id="RoundSelect" class="form-control" @onchange="OnRoundChanged">
                                 @foreach (var round in NewMatch.RoundList)
                                 {
                                     <option value="@round.Id">@round.Name</option>
@@ -54,7 +54,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="leagueSelect" class="form-control" @bind-Value="NewMatch.LeagueId" @onchange="OnLeagueChanged">
+                            <Select id="leagueSelect" class="form-control" @onchange="OnLeagueChanged">
                                 @foreach (var league in NewMatch.LeagueList)
                                 {
                                     <option value="@league.Id">@league.Name</option>
@@ -65,7 +65,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="HomeTeam" class="form-control" @bind-Value="NewMatch.HomeTeamId" @onchange="OnHomeTeamChanged">
+                            <Select id="HomeTeam" class="form-control" @onchange="OnHomeTeamChanged">
                                 @foreach (var team in NewMatch.HomeTeamList)
                                 {
                                     <option value="@team.Id">@team.Name</option>
@@ -76,7 +76,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="GuestTeam" class="form-control" @bind-Value="NewMatch.GuestTeamId" @onchange="OnGuestTeamChanged">
+                            <Select id="GuestTeam" class="form-control"  @onchange="OnGuestTeamChanged">
                                 @foreach (var team in NewMatch.GuestTeamList)
                                 {
                                     <option value="@team.Id">@team.Name</option>
@@ -87,7 +87,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="Referees" class="form-control" @bind-Value="NewMatch.RefereeId" @onchange="OnRefereeChange">
+                            <Select id="Referees" class="form-control" @onchange="OnRefereeChange">
                                 @foreach (var referee in NewMatch.RefereeList)
                                 {
                                     <option value="@referee.Id">@referee.Name</option>
@@ -98,7 +98,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="Venues" class="form-control" @bind-Value="NewMatch.VenueId" @onchange="OnVenueChange">
+                            <Select id="Venues" class="form-control"  @onchange="OnVenueChange">
                                 @foreach (var venue in NewMatch.VenueList)
                                 {
                                     <option value="@venue.Id">@venue.Name</option>
