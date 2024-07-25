@@ -9,8 +9,6 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
-
-<div>Działa</div>
 <AuthorizeView Roles="Admin">
     <Authorized>
         @if (!PageReady)
