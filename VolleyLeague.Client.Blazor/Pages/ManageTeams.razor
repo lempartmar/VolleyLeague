@@ -56,14 +56,14 @@ else
                                     {
                                         <tr class="text-center">
                                             <td>@team.Id</td>
-                                            <td>
+                                            <td class="wrap-text">
                                                 @if (team.IsEditing)
                                                 {
-                                                    <input class="form-control" @bind="team.Name" />
+                                                    <input class="form-control" @bind="team.Name" maxlength="15" />
                                                 }
                                                 else
                                                 {
-                                                    @team.Name
+                                                    <span class="truncated" title="@team.Name">@team.Name</span>
                                                 }
                                             </td>
                                             <td>
@@ -165,6 +165,19 @@ else
     </div>
 }
 
+<style>
+    .truncated {
+        max-width: 150px;
+        display: inline-block;
+        font-size: 100%;
+    }
+
+    .wrap-text {
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 150px; /* adjust as needed */
+    }
+</style>
 @code {
     private List<ExtendedTeamDto> extendedTeams;
     private List<LeagueDto> leagues;
