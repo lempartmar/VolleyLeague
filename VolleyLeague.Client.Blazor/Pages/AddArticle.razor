@@ -63,7 +63,7 @@
                             <label class="col-sm-2 col-form-label" for="Image">Zdjęcie:</label>
                             <div class="col-sm-10">
                                 <label class="btn btn-primary">
-                                    Wybierz plik (max 2 MB)
+                                    Wybierz plik (max 256 KB)
                                     <InputFile OnChange="HandleFileChange" style="display:none;" />
                                 </label>
                                 <ValidationMessage class="text-danger" For="@(() => articleDto.Image)" />
@@ -92,7 +92,7 @@
 </div>
 
 @code {
-    private const long MaxFileSize = 2 * 1024 * 1024; // 2 MB
+    private const long MaxFileSize = 256 * 1024; // 256 KB
 
     private ArticleDto articleDto = new ArticleDto();
     private bool IsLoading = false;
@@ -123,7 +123,7 @@
 
             if (imageFile.Size > MaxFileSize)
             {
-                FileErrorMessage = "Zdjęcie jest za duże. Maksymalny rozmiar to 2 MB.";
+                FileErrorMessage = "Zdjęcie jest za duże. Maksymalny rozmiar to 256 KB.";
                 articleDto.Image = null;
             }
             else
