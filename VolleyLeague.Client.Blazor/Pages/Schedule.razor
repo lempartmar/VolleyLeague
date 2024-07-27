@@ -82,17 +82,46 @@ else
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="club-score" style="flex: 1;display: flex;justify-content: space-between;flex-direction: column;">
-                                        <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
-                                            <span class="club-name color-dark left-score"><h2>@game.Team1Score</h2></span>
-                                            <div class="colon">VS</div>
-                                            <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
+
+                                    @if (DateTime.Now < game.Schedule)
+                                    {
+                                        <div class="club-score" style="flex: 1;display: flex;justify-content: center;align-items: center; flex-direction: column;">
+                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
+                                            <span class="club-name color-dark left-score"><h4>Mecz się jeszcze nie odbył</h4></span>
+                                            </div>
+                                            <div class="block-wrap">
+                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                                            </div>
                                         </div>
-                                        <div class="block-wrap">
-                                            <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
-                                            <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                                    }
+                                    else if (game.Set1Team1Score == null)
+                                    {
+                                        <div class="club-score" style="flex: 1;display: flex;justify-content: center;align-items: center; flex-direction: column;">
+                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
+                                            <div class="club-name color-dark left-score"><h4>Oczekujemy na wprowadzenie wyniku</h4></div>
+                                            </div>
+                                            <div class="block-wrap">
+                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="club-score" style="flex: 1;display: flex;justify-content: space-between;flex-direction: column;">
+                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
+                                                <span class="club-name color-dark left-score"><h2>@game.Team1Score</h2></span>
+                                                <div class="colon">VS</div>
+                                                <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
+                                            </div>
+                                            <div class="block-wrap">
+                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.VenueName.ToUpper()</span>
+                                            </div>
+                                        </div>
+                                    }
+
                                     <div class="club club2" style="flex:1;">
                                         <div class="club-logo ml--20">
                                             <div class="display-flex-column-center">
