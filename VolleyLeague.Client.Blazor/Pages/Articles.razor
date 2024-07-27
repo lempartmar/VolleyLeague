@@ -3,51 +3,72 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
-<PageTitle>Articles</PageTitle>
-
-<h1 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Aktualności</h1>
-
-@if (_articles != null && _articles.Any())
-{
-    <div class="page-wrapper">
-        <div class="blog-top clearfix">
-            <h4 class="pull-left">Aktualności</h4>
-        </div>
-
-        <div class="blog-list clearfix">
-            @foreach (var article in _articles)
-            {
-                <div>
-                    <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
+<section class="rts-blog-section3 section4 section-gap">
+    <div class="container">
+        <div class="section-inner">
+            <div class="section-title-area section-ttile-area2">
+                <h1 class="section-title"></h1>
+            </div>
+            <div class="blog-area">
+                <div class="row">
+                    @if (_articles != null && _articles.Any())
+                    {
+                        @foreach (var article in _articles)
+                        {
+                            <div class="col-lg-4 col-md-6">
+                                <div class="blog-item">
+                                    <div class="blog-picture">
+                                        <img src="@ConvertImageToBase64(article.Image)" alt="Article Image">
+                                    </div>
+                                    <div class="contents-wrapper">
+                                        <div class="contents text-start">
+                                            <div class="d-block">
+                                                <div class="heading d-flex">
+                                                    <span class="blog-date">@article.CreationDate.ToString("dd MMMM yyyy")</span>
+                                                </div>
+                                                <div class="gallery-title">
+                                                    <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
+                                                </div>
+                                               @*  <p class="desc">@article.Summary</p> *@
+                                            </div>
+                                            <div class="author-info">
+                                                <div class="content">
+                                                    <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">READ MORE</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No articles found.</p>
+                    }
                 </div>
-                <hr class="invis">
-            }
-        </div>
+                <div class="pagination-controls">
+                    @if (_currentPage > 1)
+                    {
+                        <button @onclick="LoadPreviousPage">Previous Page</button>
+                    }
 
-        <div class="pagination-controls">
-            @if (_currentPage > 1)
-            {
-                <button @onclick="LoadPreviousPage">Previous Page</button>
-            }
+                    <span>Page @_currentPage</span>
 
-            <span>Page @_currentPage</span>
-
-            @if (_articles.Count() >= _articlesPerPage)
-            {
-                <button @onclick="LoadNextPage">Next Page</button>
-            }
+                    @if (_articles.Count() >= _articlesPerPage)
+                    {
+                        <button @onclick="LoadNextPage">Next Page</button>
+                    }
+                </div>
+            </div>
         </div>
     </div>
-}
-else
-{
-    <p>Nie znaleziono artykułów.</p>
-}
+</section>
 
 @code {
-    private IEnumerable<ArticleDto> _articles;
+    private List<ArticleDto> _articles;
     private int _currentPage = 1;
-    private int _articlesPerPage = 7;
+    private int _articlesPerPage = 6;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,8 +80,7 @@ else
         var result = await Http.GetAsync($"/api/Article/GetArticlesPerPage/{_currentPage}");
         if (result.IsSuccessStatusCode)
         {
-            var articlesFromApi = await result.Content.ReadFromJsonAsync<IEnumerable<ArticleDto>>();
-            _articles = articlesFromApi;
+            _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
         }
     }
 
@@ -83,4 +103,110 @@ else
     {
         Navigation.NavigateTo($"/article/{articleId}");
     }
+
+    private string ConvertImageToBase64(byte[] image)
+    {
+        return image != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(image)}" : "path/to/default/image.jpg";
+    }
 }
+
+<style>
+    .rts-blog-section3 {
+        padding: 60px 0;
+    }
+
+    .section-title-area2 {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .blog-area .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .blog-item {
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .blog-picture img {
+        width: 100%;
+        height: auto;
+    }
+
+    .contents-wrapper {
+        padding: 20px;
+    }
+
+    .contents .heading {
+        margin-bottom: 10px;
+    }
+
+    .blog-date {
+        font-size: 14px;
+        color: #999;
+    }
+
+    .gallery-title a {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+
+        .gallery-title a:hover {
+            color: #007bff;
+        }
+
+    .desc {
+        margin-top: 10px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .author-info .read-more {
+        display: inline-block;
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .author-info .read-more:hover {
+            text-decoration: underline;
+        }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+        .pagination-controls button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .pagination-controls button:hover {
+                background-color: #0056b3;
+            }
+
+        .pagination-controls span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+</style>

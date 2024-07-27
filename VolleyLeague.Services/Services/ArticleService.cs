@@ -50,7 +50,7 @@ namespace VolleyLeague.Services.Services
         }
         public async Task<List<ArticleDto>> GetArticlesPerPage(int page)
         {
-            int pageSize = 10;
+            int pageSize = 9;
             var result = await _articleRepository.GetAll()
                 .Include(a => a.Author)
                 .OrderByDescending(a => a.CreationDate)
