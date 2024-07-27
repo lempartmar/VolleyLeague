@@ -62,7 +62,9 @@
                                             <td>@game.VenueName</td>
                                             <td>@game.RoundName</td>
                                             <td>
-                                                <NavLink href=@{"/user-profile/" + game.Referee.Id}>@game.Referee.FirstName @game.Referee.LastName</NavLink>
+                                                <NavLink href=@{
+                                        "/user/" + game.Referee.Id
+}>@game.Referee.FirstName @game.Referee.LastName</NavLink>
                                             </td>
                                         </tr>
                                     }

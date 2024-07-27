@@ -49,7 +49,7 @@
                                             <td>1</td>
                                             <td>
                                                 <NavLink href=@{
-                                                     "/user-profile/" + TeamData.Captain.Id
+                                                     "/user/" + TeamData.Captain.Id
                                                      }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink>
                                             </td>
                                             <td>@TeamData.Captain.JerseyNumber</td>
@@ -62,7 +62,7 @@
                                                 <td>@(++i)</td>
                                                 <td>
                                                     <NavLink href=@{
-                                                     "/user-profile/" + player.Id
+                                                     "/user/" + player.Id
                                                      }>@player.FirstName @player.LastName</NavLink>
                                                 </td>
                                                 <td>@(player.JerseyNumber.ToString() ?? "?")</td>

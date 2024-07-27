@@ -52,9 +52,9 @@
                 </div>
             </div>
             <div class="navbar-inner">
-                <a href="/" class="logo"><img src="assets/images/logo-new.png" alt="sportius-logo"></a>
+                <a href="/" class="logo"><img src="/assets/images/logo-new.png" alt="sportius-logo"></a>
                 <a href="/" class="logo-sticky">
-                    <img src="assets/images/logo-new.png" alt="liga-siatkowki-logo">
+                    <img src="/assets/images/logo-new.png" alt="liga-siatkowki-logo">
                 </a>
                 <div class="rts-menu">
                     <nav class="menus menu-toggle">
@@ -117,12 +117,12 @@
                         </div>
                     </div>
                 </div>
-@*                 <a class="hamburger-menu aitem d-block">
-                    <div class="hamburger-menu-inner">
-                        <span></span>
-                        <span class=""></span>
-                        <span></span>
-                    </div>
+                @*                 <a class="hamburger-menu aitem d-block">
+                <div class="hamburger-menu-inner">
+                <span></span>
+                <span class=""></span>
+                <span></span>
+                </div>
                 </a> *@
             </div>
         </div>
@@ -134,10 +134,10 @@
                     <div class="banner-single banner-single-1 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-@*                                 <span class="pretitle">LIGASIATKOWKI.pl</span> *@
+                                @*                                 <span class="pretitle">LIGASIATKOWKI.pl</span> *@
                                 <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
                                 <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce. Dołącz do nas!</p>
-@*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
+                                @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
                                     <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
@@ -151,10 +151,10 @@
                     <div class="banner-single banner-single-1_2 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-@*                                 <span class="pretitle">Liga2</span> *@
+                                @*                                 <span class="pretitle">Liga2</span> *@
                                 <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
                                 <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
-@*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
+                                @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
                                     <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
@@ -164,26 +164,26 @@
                         </div>
                     </div>
                 </div>
-@*                 <div class="swiper-slide">
-                        <div class="banner-single banner-single-1_2 banner-bg">
-                        <div class="container">
-                            <div class="banner-content">
-                                <span class="pretitle">WELCOME TO Volleyball World</span>
-                                <h1 class="banner-heading">Volleyball World</h1>
-                                <p class="desc">Welcome to Kester premier online destination for everything volleyball! Whether you're a dedicated player, a passionate fan, or someone just begin to explore the world of volleyball</p>
-                                <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div>
-                            </div>
-                        </div>
-                    </div>
+                @*                 <div class="swiper-slide">
+                <div class="banner-single banner-single-1_2 banner-bg">
+                <div class="container">
+                <div class="banner-content">
+                <span class="pretitle">WELCOME TO Volleyball World</span>
+                <h1 class="banner-heading">Volleyball World</h1>
+                <p class="desc">Welcome to Kester premier online destination for everything volleyball! Whether you're a dedicated player, a passionate fan, or someone just begin to explore the world of volleyball</p>
+                <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div>
+                </div>
+                </div>
+                </div>
                 </div> *@
             </div>
-@*             <div class="slider-pagination-area">
-                <span>01</span>
-                <div class="swiper-pagination">
-                </div>
-                <span>03</span>
+            @*             <div class="slider-pagination-area">
+            <span>01</span>
+            <div class="swiper-pagination">
+            </div>
+            <span>03</span>
             </div>*@
-            </div> 
+        </div>
     </div>
     <div class="banner banner1 @(IsHomePage ? "display_none" : "")">
         <div class="banner banner1">
@@ -192,7 +192,7 @@
                     <div class="banner-content">
                         <div class="page-path">
                             <ul>
-                                <li><a class="home-page-link" href="index.html">Strona Główna</a></li>
+                                <li><a class="home-page-link" href="/">Strona Główna</a></li>
                                 @*                                 <li><a class="current-page" href="#">@currentPath</a></li> *@
                             </ul>
                         </div>
@@ -237,6 +237,7 @@
         opacity: 1;
         transform: translateY(0);
     }
+
     }
 </style>
 
@@ -288,7 +289,7 @@
     PlayerSummaryDto playerSummary = new PlayerSummaryDto();
     private bool IsPlayer { get; set; }
     private bool IsAdmin { get; set; }
-    private bool IsHomePage => NavigationManager.Uri.EndsWith("/");
+    private bool IsHomePage => NavigationManager.Uri.TrimEnd('/') == NavigationManager.BaseUri.TrimEnd('/');
 
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
@@ -380,8 +381,8 @@
 
     private bool IsNavigatingToOrFromHomePage(string currentUri, string previousUri)
     {
-        bool isCurrentHomePage = currentUri.EndsWith("/");
-        bool isPreviousHomePage = previousUri.EndsWith("/");
+        bool isCurrentHomePage = currentUri.TrimEnd('/') == NavigationManager.BaseUri.TrimEnd('/');
+        bool isPreviousHomePage = previousUri.TrimEnd('/') == NavigationManager.BaseUri.TrimEnd('/');
 
         return isCurrentHomePage || isPreviousHomePage;
     }

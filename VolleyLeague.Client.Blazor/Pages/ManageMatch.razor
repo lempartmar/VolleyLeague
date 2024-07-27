@@ -90,7 +90,7 @@
                                             <tr>
                                                 <td style="border-bottom: 1px solid #eceeef;">@(i1++)</td>
                                                 <td class="wrap" style="border-bottom: 1px solid #eceeef;">
-                                                    <NavLink href="@{"/user-profile/" + player.Id}">@player.FirstName @player.LastName</NavLink>
+                                                    <NavLink href="@{"/user/" + player.Id}">@player.FirstName @player.LastName</NavLink>
                                                 </td>
                                             </tr>
                                         }
@@ -130,7 +130,9 @@
                                             <tr>
                                                 <td style="border-bottom: 1px solid #eceeef;">@(i2++)</td>
                                                 <td class="wrap" style="border-bottom: 1px solid #eceeef;">
-                                                    <NavLink href="@{"/user-profile/" + player.Id}">@player.FirstName @player.LastName</NavLink>
+                                                    <NavLink href="@{
+                                                "/user/" + player.Id
+}">@player.FirstName @player.LastName</NavLink>
                                                 </td>
                                             </tr>
                                         }
@@ -174,7 +176,9 @@
                                                 }
                                                 else
                                                 {
-                                                    <NavLink href="@{"/user-profile/" + MatchData.Referee.Id}">
+                                                    <NavLink href="@{
+                                                "/user/" + MatchData.Referee.Id
+}">
                                                         @MatchData.Referee.FirstName @MatchData.Referee.LastName
                                                     </NavLink>
                                                 }
