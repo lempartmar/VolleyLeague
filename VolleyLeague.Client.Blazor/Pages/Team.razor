@@ -15,13 +15,23 @@
         <div class="table-area table-full">
                 @if (TeamData != null)
                 {
+
+                var imgSrcLogo = (TeamData.Logo != null && TeamData.Logo.Length > 0)
+                ? $"data:image/png;base64,{Convert.ToBase64String(TeamData.Logo)}"
+                : "/assets/images/Logo_alternative.png";
+
+                var imgSrcImage = (TeamData.Photo != null && TeamData.Photo.Length > 0)
+                ? $"data:image/png;base64,{Convert.ToBase64String(TeamData.Photo)}"
+                : "/assets/images/Logo_alternative.png";
+
+
                     <h2>@TeamData.Name</h2>
                         @if (TeamData.Logo != null && TeamData.Logo.Length > 0)
                         {
-                            <img src="@GetLogoSrc(TeamData.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                    <img src="@imgSrcLogo" style="width:70%;">
                         }
                         <div>
-                            <img src="@GetLogoSrc(TeamData.Photo)" style="width:70%; height: 70%;" />
+                    <img src="@imgSrcImage" style="width:70%;" />
                         </div>
                         <div class="p-2 card table-responsive">
                             <div class="card-header" style="margin-top: 30px">
