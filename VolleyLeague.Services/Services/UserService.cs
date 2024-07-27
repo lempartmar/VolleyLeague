@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<UserRegistrationVerificationCode> _verificationCodeRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _env;
         private readonly IFileService _fileService;
         private readonly IMapper _mapper;
         private readonly PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
@@ -34,6 +36,7 @@ namespace VolleyLeague.Services.Services
                            IBaseRepository<UserRegistrationVerificationCode> userRegistrationVerificationCodeRepository,
                             IRoleRepository roleRepository,
                            IEmailService emailService,
+                           IWebHostEnvironment env,
                            IFileService fileService,
                            IMapper mapper,
                            IConfiguration config)
@@ -41,6 +44,7 @@ namespace VolleyLeague.Services.Services
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _fileService = fileService;
+            _env = env;
             _verificationCodeRepository = userRegistrationVerificationCodeRepository;
             _credentialsRepository = credentialsRepository;
             _emailService = emailService;
@@ -510,13 +514,28 @@ namespace VolleyLeague.Services.Services
             return true;
         }
 
+
         private async Task SendPasswordResetEmail(string email, string resetToken)
         {
             var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
+
+            // Określ ścieżkę do pliku HTML
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/PasswordResetTemplate.html");
+            }
+
+            // Przeczytaj zawartość pliku HTML
+            var emailBody = await File.ReadAllTextAsync(servicesPath);
+
+            // Zamień placeholder na rzeczywisty link
+            emailBody = emailBody.Replace("https://tabular.email", resetLink);
+
             var message = new MailMessage("noreply@yourwebsite.com", email)
             {
                 Subject = "Resetowanie hasła",
-                Body = $"Kliknij na poniższy link, aby zresetować hasło: <a href=\"{resetLink}\">Resetuj hasło</a>",
+                Body = emailBody,
                 IsBodyHtml = true,
             };
 
@@ -541,6 +560,38 @@ namespace VolleyLeague.Services.Services
                 Console.WriteLine($"General Error: {ex.Message}");
             }
         }
+
+        //private async Task SendPasswordResetEmail(string email, string resetToken)
+        //{
+        //    var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
+        //    var message = new MailMessage("noreply@yourwebsite.com", email)
+        //    {
+        //        Subject = "Resetowanie hasła",
+        //        Body = $"Kliknij na poniższy link, aby zresetować hasło: <a href=\"{resetLink}\">Resetuj hasło</a>",
+        //        IsBodyHtml = true,
+        //    };
+
+        //    try
+        //    {
+        //        using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+        //        {
+        //            Credentials = new NetworkCredential("ligasiatkowkidevelopment@gmail.com", "awonkpobrfhwvvck"),
+        //            EnableSsl = true,
+        //        };
+
+        //        await smtpClient.SendMailAsync(message);
+        //    }
+        //    catch (SmtpException smtpEx)
+        //    {
+        //        // Obsługa specyficznych wyjątków SMTP
+        //        Console.WriteLine($"SMTP Error: {smtpEx.Message}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Obsługa innych wyjątków
+        //        Console.WriteLine($"General Error: {ex.Message}");
+        //    }
+        //}
 
         private User ConvertToUser(RegisterDto registerDto)
         {
