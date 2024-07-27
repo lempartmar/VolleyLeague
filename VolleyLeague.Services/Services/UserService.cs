@@ -245,7 +245,6 @@ namespace VolleyLeague.Services.Services
                     message.Attachments.Add(typermaniaAttachment);
                 }
 
-                await _emailService.Send(registerDto.Email, message);
                 await _credentialsRepository.SaveChangesAsync();
                 await _userRepository.SaveChangesAsync();
             }
@@ -482,15 +481,31 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
+            // Ścieżka do szablonu
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html");
+            }
+
+            // Wczytanie zawartości szablonu
+            string emailTemplate = await File.ReadAllTextAsync(servicesPath);
+
+            // Zastąpienie placeholdera kodem weryfikacyjnym
+            string emailBody = emailTemplate.Replace("623123", verificationCode);
+
+            // Utworzenie wiadomości email
             var message = new MailMessage("noreply@yourwebsite.com", email)
             {
                 Subject = "Verification Code",
-                Body = $"Your verification code is: {verificationCode}",
+                Body = emailBody,
                 IsBodyHtml = true,
             };
 
+            // Wysłanie emaila
             await _emailService.Send(email, message);
         }
+
 
 
 

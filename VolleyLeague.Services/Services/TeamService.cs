@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
@@ -17,12 +18,13 @@ namespace VolleyLeague.Services.Services
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<TeamPlayer> _teamPlayerRepository;
         private readonly IBaseRepository<TeamImage> _teamImageRepository;
+        private readonly IWebHostEnvironment _env;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<Position> _positionRepository;
         private readonly IBaseRepository<League> _leagueRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
 
-        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IBaseRepository<TeamPlayer> teamPlayerRepository, IBaseRepository<TeamImage> teamImageRepository, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
+        public TeamService(IMapper mapper, ILogService logService, IEmailService emailService, IWebHostEnvironment env, IBaseRepository<TeamPlayer> teamPlayerRepository, IBaseRepository<TeamImage> teamImageRepository, IBaseRepository<Team> teamRepository, IBaseRepository<League> leagueRepository, IBaseRepository<User> userRepository, IBaseRepository<Credentials> credentialsRepository)
         {
             _mapper = mapper;
             _logService = logService;
@@ -30,6 +32,7 @@ namespace VolleyLeague.Services.Services
             _teamRepository = teamRepository;
             _teamImageRepository = teamImageRepository;
             _teamPlayerRepository = teamPlayerRepository;
+            _env = env;
             _userRepository = userRepository;
             _leagueRepository = leagueRepository;
             _credentialsRepository = credentialsRepository;
@@ -839,11 +842,22 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendEmailAddedToTeam(TeamPlayerDto newUser, string teamName)
         {
+
+            var servicesPath = Path.Combine(_env.ContentRootPath);
+            if (servicesPath.Contains("VolleyLeague.API"))
+            {
+                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/NewTeamMate.html");
+            }
+
+            string emailTemplate = await File.ReadAllTextAsync(servicesPath);
+
+            string emailBody = emailTemplate.Replace("TeamNameId", teamName);
+
             var message = new MailMessage("noreply@volleyleague.com", newUser.Email)
             {
-                Subject = "Witaj w drużynie w ligasiatkowki.pl",
-                Body = $"Hi {newUser.FirstName} {newUser.LastName},\n\\Dodalismy Cię do drużyny {teamName}. W celu synchronizacji konta z drużyną utwórz konto i wejdź do zakładki Profil!",
-                IsBodyHtml = false,
+                Subject = "Verification Code",
+                Body = emailBody,
+                IsBodyHtml = true,
             };
 
             await _emailService.Send(newUser.Email, message);
