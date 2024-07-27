@@ -12,130 +12,127 @@
 
 <div class="rts-point-table-section section-gap">
     <div class="container">
-        <div class="table-area table-full">
-                @if (TeamData != null)
-                {
+        <div class="table-area table-full text-center">
+            @if (TeamData != null)
+            {
 
                 var imgSrcLogo = (TeamData.Logo != null && TeamData.Logo.Length > 0)
                 ? $"data:image/png;base64,{Convert.ToBase64String(TeamData.Logo)}"
                 : "/assets/images/Logo_alternative.png";
 
-                var imgSrcImage = (TeamData.Photo != null && TeamData.Photo.Length > 0)
-                ? $"data:image/png;base64,{Convert.ToBase64String(TeamData.Photo)}"
-                : "/assets/images/Logo_alternative.png";
+                var imgSrcImage =  $"data:image/png;base64,{Convert.ToBase64String(TeamData.Photo)}";
 
-
+                <div class="team-header">
                     <h2>@TeamData.Name</h2>
-                        @if (TeamData.Logo != null && TeamData.Logo.Length > 0)
-                        {
-                    <img src="@imgSrcLogo" style="width:70%;">
-                        }
+                    @if (TeamData.Logo != null && TeamData.Logo.Length > 0)
+                    {
+                        <img src="@imgSrcLogo" class="team-logo">
+                    }
+                    @if (TeamData.Photo != null && TeamData.Photo.Length > 0)
+                    {
                         <div>
-                    <img src="@imgSrcImage" style="width:70%;" />
+                            <img src="@imgSrcImage" class="team-image">
                         </div>
-                        <div class="p-2 card table-responsive">
-                            <div class="card-header" style="margin-top: 30px">
-                                <h2>Zawodnicy</h2>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="thead-dark" style="background: #015293; color: white;">
-                                        <tr>
-                                            <th>LP</th>
-                                            <th>Imię i nazwisko</th>
-                                            <th>Numer</th>
-                                            <th>Wzrost</th>
-                                            <th>Pozycja</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            int rank = 1;
-                                        }
-                                        <tr>
-                                            <td><span class="position-number">@rank</span></td>
-                                            <td>
-                                                <div class="player-name-area">
-                                                    <h4 class="player-name"><NavLink href=@{
-                                                         "/user/" + TeamData.Captain.Id
-                                                         }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink></h4>
-                                                </div>
-                                            </td>
-                                            <td>@TeamData.Captain.JerseyNumber</td>
-                                            <td>@TeamData.Captain.Height</td>
-                                            <td>@TeamData.Captain.PositionName</td>
-                                        </tr>
-                                        @foreach (var player in TeamData.Players)
-                                        {
-                                            rank++;
-                                            <tr>
-                                                <td><span class="position-number">@rank</span></td>
-                                                <td>
-                                                    <div class="player-name-area">
-                                                        <h4 class="player-name"><NavLink href=@{
-                                                         "/user/" + player.Id
-                                                         }>@player.FirstName @player.LastName</NavLink></h4>
-                                                    </div>
-                                                </td>
-                                                <td>@(player.JerseyNumber.ToString() ?? "?")</td>
-                                                <td>@(player.Height.ToString() ?? "?")</td>
-                                                <td>@(player.PositionName.ToString() ?? "?")</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-
-
-
-
-                    <div class="p-2 card mt-4 mb-5 table-responsive">
-                        <div class="card-header">
-                            <h2>Informacje o drużynie</h2>
-                        </div>
+                    }
+                </div>
+                <div class="p-2 card table-responsive">
+                    <div class="card-header" style="margin-top: 30px">
+                        <h2>Zawodnicy</h2>
+                    </div>
+                    <div class="table-responsive">
                         <table class="table">
+                            <thead class="thead-dark" style="background: #015293; color: white;">
+                                <tr>
+                                    <th>LP</th>
+                                    <th>Imię i nazwisko</th>
+                                    <th>Numer</th>
+                                    <th>Wzrost</th>
+                                    <th>Pozycja</th>
+                                </tr>
+                            </thead>
                             <tbody>
+                                @{
+                                    int rank = 1;
+                                }
                                 <tr>
-                                    <td><b>Nazwa</b></td>
-                                    <td>@TeamData.Name</td>
+                                    <td><span class="position-number">@rank</span></td>
+                                    <td>
+                                        <div class="player-name-area">
+                                            <h4 class="player-name"><NavLink href=@{
+                                                 "/user/" + TeamData.Captain.Id
+                                                 }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink></h4>
+                                        </div>
+                                    </td>
+                                    <td>@TeamData.Captain.JerseyNumber</td>
+                                    <td>@TeamData.Captain.Height</td>
+                                    <td>@TeamData.Captain.PositionName</td>
                                 </tr>
-                                <tr>
-                                    <td><b>Strona www</b></td>
-                                    <td><a href="@TeamData.Website">@TeamData.Website</a></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Opis</b></td>
-                                    <td>@TeamData.TeamDescription</td>
-                                </tr>
+                                @foreach (var player in TeamData.Players)
+                                {
+                                    rank++;
+                                    <tr>
+                                        <td><span class="position-number">@rank</span></td>
+                                        <td>
+                                            <div class="player-name-area">
+                                                <h4 class="player-name"><NavLink href=@{
+                                                 "/user/" + player.Id
+                                                 }>@player.FirstName @player.LastName</NavLink></h4>
+                                            </div>
+                                        </td>
+                                        <td>@(player.JerseyNumber.ToString() ?? "?")</td>
+                                        <td>@(player.Height.ToString() ?? "?")</td>
+                                        <td>@(player.PositionName.ToString() ?? "?")</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <div class="p-2 card mt-4 mb-5 table-responsive-lg">
-                        <div class="card-header">
-                            Historia meczów
-                            <a href="/team-result/@Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
-                        </div>
+                <div class="p-2 card mt-4 mb-5 table-responsive">
+                    <div class="card-header">
+                        <h2>Informacje o drużynie</h2>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Nazwa</b></td>
+                                <td>@TeamData.Name</td>
+                            </tr>
+                            <tr>
+                                <td><b>Strona www</b></td>
+                                <td><a href="@TeamData.Website">@TeamData.Website</a></td>
+                            </tr>
+                            <tr>
+                                <td><b>Opis</b></td>
+                                <td>@TeamData.TeamDescription</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-2 card mt-4 mb-5 table-responsive-lg">
+                    <div class="card-header">
+                        Historia meczów
+                        <a href="/team-result/@Id/" class="team-link" style="color: #0268d6;">Wyniki</a> <!-- Linki czarne -->
+                    </div>
+                </div>
+            }
+            else
+            {
+                @if (ErrorMessage != "")
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ErrorMessage
                     </div>
                 }
                 else
                 {
-                    @if (ErrorMessage != "")
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ErrorMessage
-                        </div>
-                    }
-                    else
-                    {
-                        <LoadingIcon></LoadingIcon>
-                    }
+                    <LoadingIcon></LoadingIcon>
                 }
-            </div>
+            }
         </div>
+    </div>
 </div>
 
 <style>
@@ -223,72 +220,27 @@
         margin-top: 20px;
     }
 
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-    .form-select {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    }
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #015293;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    thead {
-        border: 1px solid #015293; /* Ensure thead has a border */
-    }
-
-    th, td {
-        border: 1px solid #015293; /* Set border for table headers and cells */
-    }
-
-    .head-tr th {
-        border-bottom: 2px solid #015293; /* Ensure thicker border for header row */
-    }
-
-    .table-bordered {
-        border: 1px solid #015293; /* Ensure table itself has a border */
-    }
-
-    .player-name-area {
-        display: flex;
-        align-items: center;
-    }
-
-    .alert-info, .alert-danger {
-        margin-top: 20px;
-    }
-
     .thead-dark th {
         background-color: #015293;
         color: white;
+    }
+
+    .team-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .team-logo, .team-image {
+        width: 70%;
+        height: auto;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .team-logo{
+        max-width: 250px;
     }
 </style>
 
