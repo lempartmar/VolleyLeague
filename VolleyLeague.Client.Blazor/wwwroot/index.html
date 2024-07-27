@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ligasiatkowki.pl</title>
+    <base href="/" />
     <!--================= Favicon =================-->
     <!--<link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
     <link href="_content/Radzen.Blazor/css/standard-base.css" rel="stylesheet">-->
@@ -74,13 +75,6 @@
         </div>
 
     </div>
-
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
-
-    <!-- Include JS scripts from new template -->
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.min.js"></script>
     <script src="assets/js/vendors/wow.min.js"></script>
@@ -113,5 +107,13 @@
     <script src="js/swiperInit.js"></script>
     <!--================= Main Script =================-->
     <script src="assets/js/main.js"></script>
+
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <!-- Include JS scripts from new template -->
+
 </body>
 </html>
