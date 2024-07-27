@@ -33,7 +33,7 @@
                                             </div>
                                             <div class="author-info">
                                                 <div class="content">
-                                                    <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">READ MORE</a>
+                                                    <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">WIĘCEJ</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,14 +50,14 @@
                 <div class="pagination-controls">
                     @if (_currentPage > 1)
                     {
-                        <button @onclick="LoadPreviousPage">Previous Page</button>
+                        <button @onclick="LoadPreviousPage">Poprzednia Strona</button>
                     }
 
-                    <span>Page @_currentPage</span>
+                    <span>Strona @_currentPage</span>
 
                     @if (_articles.Count() >= _articlesPerPage)
                     {
-                        <button @onclick="LoadNextPage">Next Page</button>
+                        <button @onclick="LoadNextPage">Następna Strona</button>
                     }
                 </div>
             </div>
