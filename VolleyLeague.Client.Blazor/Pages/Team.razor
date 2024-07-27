@@ -10,34 +10,28 @@
 @inject IMatchService matchService
 @inject HttpClient Http
 
-<section class="category_section team">
+<div class="rts-point-table-section section-gap">
     <div class="container">
-        <div class="row">
-            <div class="article_title header_purple">
-                <h2>Profil</h2>
-            </div>
-            <div class="text-center">
+        <div class="table-area table-full">
                 @if (TeamData != null)
                 {
                     <h2>@TeamData.Name</h2>
-                    <div class="d-flex flex-row flex-wrap justify-content-center">
                         @if (TeamData.Logo != null && TeamData.Logo.Length > 0)
                         {
                             <img src="@GetLogoSrc(TeamData.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
                         }
-
-                            <div>
-                                <img src="@GetLogoSrc(TeamData.Photo)" style="width:70%; height: 70%;" />
-                            </div>
-                        <div class="p-2 card table-responsive" style="">
+                        <div>
+                            <img src="@GetLogoSrc(TeamData.Photo)" style="width:70%; height: 70%;" />
+                        </div>
+                        <div class="p-2 card table-responsive">
                             <div class="card-header" style="margin-top: 30px">
                                 <h2>Zawodnicy</h2>
                             </div>
                             <div class="table-responsive">
-                                <table class="table text-left">
-                                    <thead>
+                                <table class="table">
+                                    <thead class="thead-dark" style="background: #015293; color: white;">
                                         <tr>
-                                            <th>LP:</th>
+                                            <th>LP</th>
                                             <th>Imię i nazwisko</th>
                                             <th>Numer</th>
                                             <th>Wzrost</th>
@@ -45,12 +39,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @{
+                                            int rank = 1;
+                                        }
                                         <tr>
-                                            <td>1</td>
+                                            <td><span class="position-number">@rank</span></td>
                                             <td>
-                                                <NavLink href=@{
-                                                     "/user/" + TeamData.Captain.Id
-                                                     }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink>
+                                                <div class="player-name-area">
+                                                    <h4 class="player-name"><NavLink href=@{
+                                                         "/user/" + TeamData.Captain.Id
+                                                         }><b>@TeamData.Captain.FirstName @TeamData.Captain.LastName (K)</b></NavLink></h4>
+                                                </div>
                                             </td>
                                             <td>@TeamData.Captain.JerseyNumber</td>
                                             <td>@TeamData.Captain.Height</td>
@@ -58,12 +57,15 @@
                                         </tr>
                                         @foreach (var player in TeamData.Players)
                                         {
+                                            rank++;
                                             <tr>
-                                                <td>@(++i)</td>
+                                                <td><span class="position-number">@rank</span></td>
                                                 <td>
-                                                    <NavLink href=@{
-                                                     "/user/" + player.Id
-                                                     }>@player.FirstName @player.LastName</NavLink>
+                                                    <div class="player-name-area">
+                                                        <h4 class="player-name"><NavLink href=@{
+                                                         "/user/" + player.Id
+                                                         }>@player.FirstName @player.LastName</NavLink></h4>
+                                                    </div>
                                                 </td>
                                                 <td>@(player.JerseyNumber.ToString() ?? "?")</td>
                                                 <td>@(player.Height.ToString() ?? "?")</td>
@@ -73,15 +75,18 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
-                    </div>
+
+
+
+
+
 
                     <div class="p-2 card mt-4 mb-5 table-responsive">
                         <div class="card-header">
                             <h2>Informacje o drużynie</h2>
                         </div>
-                        <table class="table text-left">
+                        <table class="table">
                             <tbody>
                                 <tr>
                                     <td><b>Nazwa</b></td>
@@ -121,10 +126,47 @@
                 }
             </div>
         </div>
-    </div>
-</section>
+</div>
 
 <style>
+    .btn-label {
+        background: none;
+        border: none;
+        padding: 6px 12px;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+    }
+
+    .dropdown-toggle {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .card {
+        margin-bottom: 50px;
+    }
+
+    .btn.btn-default.dropdown-toggle {
+        background: #e5e7eb;
+        font-size: 12px;
+        color: black;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .custom-button {
+        color: white;
+        background-color: #015293;
+    }
+
+    .custom-button:hover {
+        background-color: black;
+        color: white;
+    }
+
     .category_section.team {
         margin-top: 50px;
     }
@@ -150,6 +192,93 @@
 
     .table-responsive {
         margin-top: 20px;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    .player-name-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-info, .alert-danger {
+        margin-top: 20px;
+    }
+
+    .btn-label {
+        background: none;
+        border: none;
+        padding: 6px 12px;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+    }
+
+    .form-select {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .card {
+        margin-bottom: 50px;
+    }
+
+    .btn.btn-default.dropdown-toggle {
+        background: #e5e7eb;
+        font-size: 12px;
+        color: black;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #015293;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+
+    thead {
+        border: 1px solid #015293; /* Ensure thead has a border */
+    }
+
+    th, td {
+        border: 1px solid #015293; /* Set border for table headers and cells */
+    }
+
+    .head-tr th {
+        border-bottom: 2px solid #015293; /* Ensure thicker border for header row */
+    }
+
+    .table-bordered {
+        border: 1px solid #015293; /* Ensure table itself has a border */
+    }
+
+    .player-name-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-info, .alert-danger {
+        margin-top: 20px;
+    }
+
+    .thead-dark th {
+        background-color: #015293;
+        color: white;
     }
 </style>
 
