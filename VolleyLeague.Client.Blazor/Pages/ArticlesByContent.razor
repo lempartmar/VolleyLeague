@@ -1,0 +1,153 @@
+﻿@page "/articlesByContent"
+@page "/articlesByContent/{searchTerm}"
+@using VolleyLeague.Shared.Dtos.Discussion
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="rts-blog-section3 section4 section-gap">
+        <div class="container">
+            <div class="section-inner">
+                <div class="section-title-area section-ttile-area2">
+                    <h1 class="section-title">Articles</h1>
+                </div>
+                <div class="search-area">
+                    <input type="text" placeholder="Search articles..." @bind="searchTerm" />
+                    <button @onclick="SearchArticles">Search</button>
+                </div>
+                <div class="blog-area">
+                    <div class="row">
+                        @if (_articles != null && _articles.Any())
+                        {
+                            @foreach (var article in _articles)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="blog-item">
+                                        <div class="blog-picture">
+                                            <img src="@ConvertImageToBase64(article.Image)" alt="Article Image">
+                                        </div>
+                                        <div class="contents-wrapper">
+                                            <div class="contents text-start">
+                                                <div class="d-block">
+                                                    <div class="heading d-flex">
+                                                        <span class="blog-date">@article.CreationDate.ToString("dd MMMM yyyy")</span>
+                                                    </div>
+                                                    <div class="gallery-title">
+                                                        <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
+                                                    </div>
+                                                </div>
+                                                <div class="author-info">
+                                                    <div class="content">
+                                                        <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">WIĘCEJ</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>No articles found.</p>
+                        }
+                    </div>
+                    <div class="pagination-controls">
+                        @if (_currentPage > 1)
+                        {
+                            <button @onclick="LoadPreviousPage">Poprzednia Strona</button>
+                        }
+
+                        <span>Strona @_currentPage</span>
+
+                        @if (_articles.Count() >= _articlesPerPage)
+                        {
+                            <button @onclick="LoadNextPage">Następna Strona</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@code {
+    private bool pageReady = false;
+    private List<ArticleDto> _articles;
+    private int _currentPage = 1;
+    private int _articlesPerPage = 6;
+    [Parameter] public string searchTerm { get; set; }
+    [Parameter] public string category { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadArticles();
+    }
+
+    private async Task LoadArticles()
+    {
+        string searchUrl;
+        if (string.IsNullOrWhiteSpace(category) || category == "hide" || category == "all")
+        {
+            searchUrl = $"/api/Article/SearchArticlesByContent/{searchTerm}";
+        }
+        else
+        {
+            searchUrl = $"/api/Article/SearchArticlesByCategory/{category}/{searchTerm}";
+        }
+
+        var result = await Http.GetAsync(searchUrl);
+        if (result.IsSuccessStatusCode)
+        {
+            _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
+            pageReady = true;
+        }
+    }
+
+    private async Task LoadNextPage()
+    {
+        _currentPage++;
+        await LoadArticles();
+    }
+
+    private async Task LoadPreviousPage()
+    {
+        if (_currentPage > 1)
+        {
+            _currentPage--;
+            await LoadArticles();
+        }
+    }
+
+    private void NavigateToArticle(int articleId)
+    {
+        Navigation.NavigateTo($"/article/{articleId}");
+    }
+
+    private string ConvertImageToBase64(byte[] image)
+    {
+        return image != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(image)}" : "path/to/default/image.jpg";
+    }
+
+    private async Task SearchArticles()
+    {
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var result = await Http.GetAsync($"/api/Article/SearchArticlesByContent/{searchTerm}");
+            if (result.IsSuccessStatusCode)
+            {
+                _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
+                _currentPage = 1;  // Reset the page number for search results
+            }
+        }
+    }
+}

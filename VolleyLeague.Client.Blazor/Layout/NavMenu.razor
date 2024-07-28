@@ -10,6 +10,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject IUserService userService
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 @inject ITeamService teamService
 @inject IAdminDefinedCodeService adminDefinedCodeService
 
@@ -91,14 +92,15 @@
                         </ul>
                     </nav>
                 </div>
+
                 <div class="header-action-items header-action-items1">
                     <div class="search-part">
                         <div class="search-icon action-item icon"><i class="rt-search"></i></div>
                         <div class="search-input-area">
                             <div class="container">
                                 <div class="search-input-inner">
-                                    <select class="custom-select select-hidden">
-                                        <option value="hide">All Catagorys</option>
+                                    <select @bind="selectedCategory" class="custom-select select-hidden">
+                                        <option value="hide">All Categories</option>
                                         <option value="all">All</option>
                                         <option value="league">League</option>
                                         <option value="club">Club</option>
@@ -109,14 +111,17 @@
                                     </select>
                                     <div class="input-div">
                                         <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                        <input id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #">
+                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #" @onkeydown="HandleKeyDown">
                                     </div>
-                                    <div class="search-close-icon"><i class="rt-xmark"></i></div>
+                                    <div class="search-close-icon" ><i class="rt-xmark"></i></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+
                 @*                 <a class="hamburger-menu aitem d-block">
                 <div class="hamburger-menu-inner">
                 <span></span>
@@ -242,6 +247,14 @@
 </style>
 
 <script>
+
+        function clickHiddenNavLink() {
+        var hiddenNavLink = document.getElementById("hiddenNavLink");
+        if (hiddenNavLink) {
+            hiddenNavLink.click();
+        }
+    }
+
     window.initializeSwiper = () => {
         const swiper = new Swiper('.swiper.bannerSlide2', {
             loop: true,
@@ -325,6 +338,12 @@
         previousUri = NavigationManager.Uri;
     }
 
+    private void ClearSearch()
+    {
+        searchTerm = string.Empty;
+    }
+
+
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
         var currentUri = NavigationManager.Uri;
@@ -372,7 +391,31 @@
         };
     }
 
+    private string searchTerm;
+    private string selectedCategory;
 
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            NavigateToSearchResults1(searchTerm);
+        }
+    }
+
+    private void NavigateToSearchResults1(string searchTerm)
+    {
+        Console.WriteLine("Działa");
+        Console.WriteLine(searchTerm);
+        // NavigationManager.NavigateTo($"/articlesByContent/{searchTerm}", forceLoad: true);
+        JS.InvokeVoidAsync("clickHiddenNavLink");
+    }
+
+    private string GetSearchUrl()
+    {
+        return string.IsNullOrWhiteSpace(selectedCategory) || selectedCategory == "hide" || selectedCategory == "all"
+            ? $"/articlesByContent/{searchTerm}"
+            : $"/articlesByContent/{searchTerm}?category={selectedCategory}";
+    }
 
     private void NavigateToRegister()
     {

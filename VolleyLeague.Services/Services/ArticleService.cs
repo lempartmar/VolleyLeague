@@ -62,6 +62,16 @@ namespace VolleyLeague.Services.Services
             return articlesPerPage;
         }
 
+        public async Task<List<ArticleDto>> SearchArticlesByContentAsync(string searchTerm)
+        {
+            var articles = await _articleRepository.GetAll().Where(a => EF.Functions.Like(a.Content, $"%{searchTerm}%"))
+                             .Include(a => a.Author)
+                             .ToListAsync();
+
+            var articleDtos = _mapper.Map<List<ArticleDto>>(articles);
+            return articleDtos;
+        }
+
         public async Task<List<MinimalArticleDto>> GetRecentArticlesAsync()
         {
             var stopwatch = Stopwatch.StartNew();

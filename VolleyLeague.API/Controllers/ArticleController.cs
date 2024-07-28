@@ -51,5 +51,12 @@ namespace VolleyLeague.API.Controllers
             var result = await _articleService.GetRecentArticlesAsync();
             return Ok(result);
         }
+
+        [HttpGet("SearchArticlesByContent/{searchTerm}")]
+        public async Task<IActionResult> SearchArticlesByContent(string searchTerm)
+        {
+            var result = await _articleService.SearchArticlesByContentAsync(searchTerm);
+            return Ok(result);
+        }
     }
 }
