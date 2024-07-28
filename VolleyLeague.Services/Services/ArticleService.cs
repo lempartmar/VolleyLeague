@@ -64,13 +64,16 @@ namespace VolleyLeague.Services.Services
 
         public async Task<List<ArticleDto>> SearchArticlesByContentAsync(string searchTerm)
         {
-            var articles = await _articleRepository.GetAll().Where(a => EF.Functions.Like(a.Content, $"%{searchTerm}%"))
-                             .Include(a => a.Author)
-                             .ToListAsync();
+            var articles = await _articleRepository.GetAll()
+                                                   .Where(a => EF.Functions.Like(a.Content, $"%{searchTerm}%"))
+                                                   .Include(a => a.Author)
+                                                   .OrderByDescending(a => a.CreationDate)
+                                                   .ToListAsync();
 
             var articleDtos = _mapper.Map<List<ArticleDto>>(articles);
             return articleDtos;
         }
+
 
         public async Task<List<MinimalArticleDto>> GetRecentArticlesAsync()
         {

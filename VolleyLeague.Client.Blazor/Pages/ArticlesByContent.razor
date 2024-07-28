@@ -16,13 +16,6 @@ else
     <section class="rts-blog-section3 section4 section-gap">
         <div class="container">
             <div class="section-inner">
-                <div class="section-title-area section-ttile-area2">
-                    <h1 class="section-title">Articles</h1>
-                </div>
-                <div class="search-area">
-                    <input type="text" placeholder="Search articles..." @bind="searchTerm" />
-                    <button @onclick="SearchArticles">Search</button>
-                </div>
                 <div class="blog-area">
                     <div class="row">
                         @if (_articles != null && _articles.Any())
@@ -46,7 +39,7 @@ else
                                                 </div>
                                                 <div class="author-info">
                                                     <div class="content">
-                                                        <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">WIĘCEJ</a>
+                                                        <a href="/article/@article.Id" class="read-more">Więcej</a>
                                                     </div>
                                                 </div>
                                             </div>

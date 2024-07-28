@@ -100,19 +100,9 @@
                         <div class="search-input-area">
                             <div class="container">
                                 <div class="search-input-inner">
-                                    <select @bind="selectedCategory" class="custom-select select-hidden">
-                                        <option value="hide">All Categories</option>
-                                        <option value="all">All</option>
-                                        <option value="league">League</option>
-                                        <option value="club">Club</option>
-                                        <option value="team">Team</option>
-                                        <option value="player">Player</option>
-                                        <option value="match">Match</option>
-                                        <option value="score">Score</option>
-                                    </select>
                                     <div class="input-div">
                                         <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #" @onkeydown="HandleKeyDown">
+                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Wyszukaj po haśle" @onkeydown="HandleKeyDown">
                                     </div>
                                     <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                 </div>
