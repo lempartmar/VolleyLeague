@@ -1,40 +1,38 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using VolleyLeague.Shared.Dtos;
-using VolleyLeague.Shared.Dtos.Discussion;
-using VolleyLeague.Shared.Dtos.Teams;
 
 namespace VolleyLeague.Client.Blazor.Services
 {
-    public interface IUserDefinedCodeService
+    public interface IAdminDefinedCodeService
     {
         Task<string> GetValueByKey(string key);
 
-        Task<(bool Success, string Message)> UpdateCode(UserDefinedCodeDto code);
+        Task<(bool Success, string Message)> UpdateCode(AdminDefinedCodeDto code);
     }
-    public class UserDefinedCodeService : IUserDefinedCodeService
+    public class AdminDefinedCodeService : IAdminDefinedCodeService
     {
         private readonly HttpClient _httpClient;
 
-        public UserDefinedCodeService(HttpClient httpClient)
+        public AdminDefinedCodeService(HttpClient httpClient)
         {
             this._httpClient = httpClient;
         }
 
         public async Task<string> GetValueByKey(string key)
         {
-            var response = await _httpClient.GetAsync($"api/UserDefinedCode/GetCodeByKey/{key}");
+            var response = await _httpClient.GetAsync($"api/AdminDefinedCode/GetCodeByKey/{key}");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<UserDefinedCodeDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var result = JsonSerializer.Deserialize<AdminDefinedCodeDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             var value = result.Value;
             return value;
         }
 
-        public async Task<(bool Success, string Message)> UpdateCode(UserDefinedCodeDto code)
+        public async Task<(bool Success, string Message)> UpdateCode(AdminDefinedCodeDto code)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/UserDefinedCode/UpdateCode", code);
+            var response = await _httpClient.PutAsJsonAsync("api/AdminDefinedCode/UpdateCode", code);
             var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)

@@ -35,7 +35,7 @@ namespace VolleyLeague.Repositories
 
         public virtual DbSet<TeamPlayer> TeamPlayers { get; set; }
 
-        public DbSet<UserDefinedCode> UserDefinedCodes { get; set; }
+        public DbSet<AdminDefinedCode> AdminDefinedCodes { get; set; }
 
         public virtual DbSet<ForumCategory> ForumCategories { get; set; }
 
@@ -99,15 +99,15 @@ namespace VolleyLeague.Repositories
 
             });
 
-            modelBuilder.Entity<UserDefinedCode>()
+            modelBuilder.Entity<AdminDefinedCode>()
                 .Property(udc => udc.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
-            modelBuilder.Entity<UserDefinedCode>()
+            modelBuilder.Entity<AdminDefinedCode>()
                 .Property(udc => udc.ModifiedDate)
                 .HasDefaultValueSql("GETDATE()");
 
-            modelBuilder.Entity<UserDefinedCode>()
+            modelBuilder.Entity<AdminDefinedCode>()
                 .HasIndex(udc => udc.Key)
                 .IsUnique();
 

@@ -2,7 +2,7 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Models
 @using VolleyLeague.Shared.Dtos
-@inject IUserDefinedCodeService UserDefinedCodeService
+@inject IAdminDefinedCodeService AdminDefinedCodeService
 @inject NavigationManager NavigationManager
 
 <h3>Edit User Defined Code</h3>
@@ -106,18 +106,18 @@
 </style>
 
 @code {
-    public UserDefinedCodeDto codeDto { get; set; } = new UserDefinedCodeDto();
+    public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
     private string message = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        codeDto.Value = await UserDefinedCodeService.GetValueByKey("current-season-for-main-page");
+        codeDto.Value = await AdminDefinedCodeService.GetValueByKey("current-season-for-main-page");
         codeDto.Key = "current-season-for-main-page";
     }
 
     private async Task HandleValidSubmit()
     {
-        var result = await UserDefinedCodeService.UpdateCode(codeDto);
+        var result = await AdminDefinedCodeService.UpdateCode(codeDto);
         if (result.Success)
         {
             message = "Code updated successfully.";

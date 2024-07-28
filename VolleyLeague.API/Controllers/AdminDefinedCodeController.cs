@@ -7,14 +7,14 @@ namespace VolleyLeague.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserDefinedCodeController : ControllerBase
+    public class AdminDefinedCodeController : ControllerBase
     {
-        private readonly IUserDefinedCodeService _codeService;
-        private readonly ILogger<UserDefinedCodeController> _logger;
+        private readonly IAdminDefinedCodeService _codeService;
+        private readonly ILogger<AdminDefinedCodeController> _logger;
 
-        public UserDefinedCodeController(
-            ILogger<UserDefinedCodeController> logger,
-            IUserDefinedCodeService codeService)
+        public AdminDefinedCodeController(
+            ILogger<AdminDefinedCodeController> logger,
+            IAdminDefinedCodeService codeService)
         {
             _logger = logger;
             _codeService = codeService;
@@ -32,7 +32,7 @@ namespace VolleyLeague.API.Controllers
         }
 
         [HttpPut("UpdateCode")]
-        public async Task<IActionResult> UpdateCode([FromBody] UserDefinedCode code)
+        public async Task<IActionResult> UpdateCode([FromBody] AdminDefinedCode code)
         {
             if (code == null)
             {

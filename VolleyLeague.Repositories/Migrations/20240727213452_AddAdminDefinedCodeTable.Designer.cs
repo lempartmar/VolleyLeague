@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VolleyLeague.Repositories;
 
@@ -11,9 +12,11 @@ using VolleyLeague.Repositories;
 namespace VolleyLeague.Repositories.Migrations
 {
     [DbContext(typeof(VolleyballContext))]
-    partial class VolleyballContextModelSnapshot : ModelSnapshot
+    [Migration("20240727213452_AddAdminDefinedCodeTable")]
+    partial class AddAdminDefinedCodeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

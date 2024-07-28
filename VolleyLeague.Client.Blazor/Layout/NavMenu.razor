@@ -11,7 +11,7 @@
 @inject IUserService userService
 @inject NavigationManager Navigation
 @inject ITeamService teamService
-@inject IUserDefinedCodeService userDefinedCodeService
+@inject IAdminDefinedCodeService adminDefinedCodeService
 
 @inherits LayoutComponentBase
 
@@ -306,7 +306,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        currentSeason = await userDefinedCodeService.GetValueByKey("current-season-for-main-page");
+        currentSeason = await adminDefinedCodeService.GetValueByKey("current-season-for-main-page");
 
         NavigationManager.LocationChanged += OnLocationChanged;
 
