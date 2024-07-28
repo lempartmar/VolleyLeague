@@ -72,7 +72,7 @@ else
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-4">
-                                    <InputSelect id="PositionId" class="form-control" @bind-Value="UserProfileData.PositionId" placeholder="Pozycja">
+                                    <InputSelect id="PositionId" class="form-select" @bind-Value="UserProfileData.PositionId" placeholder="Pozycja">
                                         @foreach (var position in Positions)
                                         {
                                             <option value="@position.Id">@position.Name</option>
