@@ -3,6 +3,16 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
+
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else{
 <section class="rts-blog-section3 section4 section-gap">
     <div class="container">
         <div class="section-inner">
@@ -64,8 +74,11 @@
         </div>
     </div>
 </section>
+}
+
 
 @code {
+    private bool pageReady = false;
     private List<ArticleDto> _articles;
     private int _currentPage = 1;
     private int _articlesPerPage = 6;
@@ -81,6 +94,7 @@
         if (result.IsSuccessStatusCode)
         {
             _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
+            pageReady = true;
         }
     }
 

@@ -5,17 +5,21 @@
 @inject IAdminDefinedCodeService AdminDefinedCodeService
 @inject NavigationManager NavigationManager
 
-<h3>Edit User Defined Code</h3>
+<h3>Dodatkowy panel zarządzania portalem</h3>
 
-<div class="account-main accountdtls filterd-items">
+                <div class="legend margin-top-xs">
+                        <li>Panel ten umożliwia zarządzanie sekcjami niezdefiniowanymi w pozostałych zakładkach</li>
+                </div>
+
+<div class="account-main accountdtls filterd-items mt-5">
     <div class="login-form">
         <div class="section-title">
-            <h2>Edytuj Profil</h2>
+            <h2>Opis aktualnego sezonu (strona główna)</h2>
         </div>
         <div class="card">
             <div class="card-body">
                 <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
-                    <h3>Dane osobowe</h3>
+                    <h3>Edytuj opis</h3>
                     <div class="row margin-top-xs">
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
@@ -24,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
                 </EditForm>
             </div>
         </div>
