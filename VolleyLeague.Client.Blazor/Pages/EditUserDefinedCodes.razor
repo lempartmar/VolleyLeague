@@ -27,8 +27,17 @@
                                 <label for="Value">Value</label>
                             </div>
                         </div>
+
                     </div>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
+
+                    <div>
+                        <div>Dotyczy poniższego tekstu na stronie głównej: </div>
+                        @{
+                            var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
+                        }
+                        <img style="" src=@imgSrc alt="club-logo">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
                 </EditForm>
             </div>
         </div>
