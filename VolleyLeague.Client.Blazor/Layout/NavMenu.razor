@@ -93,6 +93,7 @@
                     </nav>
                 </div>
 
+
                 <div class="header-action-items header-action-items1">
                     <div class="search-part">
                         <div class="search-icon action-item icon"><i class="rt-search"></i></div>
@@ -113,13 +114,13 @@
                                         <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
                                         <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Search by keyword or #" @onkeydown="HandleKeyDown">
                                     </div>
-                                    <div class="search-close-icon" ><i class="rt-xmark"></i></div>
+                                    <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <NavLink id="hiddenNavLink" href="@GetSearchUrl()" class="d-none"></NavLink>
 
 
                 @*                 <a class="hamburger-menu aitem d-block">
@@ -402,12 +403,16 @@
         }
     }
 
-    private void NavigateToSearchResults1(string searchTerm)
+    private async Task NavigateToSearchResults1(string searchTerm)
     {
+        await JS.InvokeVoidAsync("sessionStorage.setItem", "searchTerm", searchTerm);
+        await Task.Delay(100);
+
+
         Console.WriteLine("Działa");
         Console.WriteLine(searchTerm);
         // NavigationManager.NavigateTo($"/articlesByContent/{searchTerm}", forceLoad: true);
-        JS.InvokeVoidAsync("clickHiddenNavLink");
+        await JS.InvokeVoidAsync("clickHiddenNavLink");
     }
 
     private string GetSearchUrl()
