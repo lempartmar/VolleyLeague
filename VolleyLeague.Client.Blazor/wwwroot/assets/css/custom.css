@@ -79,8 +79,87 @@ a.display-menu {
         width: 80%;
     }
 
+    .team-logo-size{
+        height: 20% !important;
+    }
+
+    .form-select, .btn, .btn-primary {
+        width: 100%;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .colon {
+        font-size: 80%;
+    }
+
+    .card-footer {
+        padding: 0.75rem;
+    }
+
+    .team-logo-size {
+        width: 30% !important;
+        height: 30% !important;
+    }
+
+    .club-score h2 {
+        font-size: 1.5rem;
+    }
+
+    .match-scores {
+        display: flex;
+        /* justify-content: space-between; */
+        flex-direction: row;
+    }
+
+    .club1, .club2 {
+        text-align: center;
+    }
+
+    .club-score {
+        text-align: center;
+    }
+
+        .club-score .d-flex {
+            flex-direction: column;
+        }
+
+    .match-single .form {
+        text-align: center;
+    }
+
+    .div.match-single-content {
+        padding: 0px !important;
+    }
+
     .section-gap {
         margin-top: 90px;
+    }
+
+    .club-name.color-dark.text-center.text-md-left {
+        font-size: 70%;
+    }
+
+    div span.club-name.color-dark{
+        font-size: 100% !important;
+    }
+
+    .stadium-name {
+        font-size: 80%;
+    }
+
+    .col-12.main-section{
+        padding: 0px;
+    }
+
+    .match-single-content {
+        padding: 0px !important;
     }
         /*    .container {
         width: 10%;
