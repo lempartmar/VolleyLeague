@@ -1,0 +1,93 @@
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
+}
+
+    .mobile-menu.open {
+        display: block;
+    }
+
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger-menu-inner span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px;
+    background-color: #000;
+}
+
+a.display-menu {
+    display: none !important;
+}
+
+
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+/*    .rts-menu nav {
+        display: none;
+    }*/
+
+    a.display-menu {
+        display: block !important;
+    }
+
+/*    .banner.banner1.volleyball {
+        display:none !important;
+    }
+*/
+    header#rtsHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .banner.banner1 {
+        height: 120px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .container .top-bar {
+        display: none;
+    }
+
+    .navbar-inner {
+        width: 100%;
+        padding-right: 25px;
+        background-color: black;
+    }
+
+    .logo img{
+        width: 80%;
+    }
+
+/*    .container {
+        width: 10%;
+        padding: 0;
+    }
+
+        .container.main {
+            background-color: black;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            overflow: hidden;
+        }*/
+}

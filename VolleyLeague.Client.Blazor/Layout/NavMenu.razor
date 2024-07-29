@@ -17,10 +17,9 @@
 @inherits LayoutComponentBase
 
 <header id="rtsHeader" class="rts-header1 header-four cricket">
-    <div class="navbar-sticky">
-    </div>
+    <div class="navbar-sticky"></div>
     <div class="navbar-part navbar-part1">
-        <div class="container">
+        <div class="container main">
             <div class="top-bar">
                 <div class="top-bar-inner">
                     <div class="top-bar-left">
@@ -93,7 +92,6 @@
                     </nav>
                 </div>
 
-
                 <div class="header-action-items header-action-items1">
                     <div class="search-part">
                         <div class="search-icon action-item icon"><i class="rt-search"></i></div>
@@ -111,15 +109,13 @@
                     </div>
                 </div>
                 <NavLink id="hiddenNavLink" href="@GetSearchUrl()" class="d-none"></NavLink>
-
-
-                @*                 <a class="hamburger-menu aitem d-block">
-                <div class="hamburger-menu-inner">
-                <span></span>
-                <span class=""></span>
-                <span></span>
-                </div>
-                </a> *@
+                <a class="hamburger-menu aitem d-block display-menu" @onclick="ToggleMenu">
+                    <div class="hamburger-menu-inner">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -200,6 +196,90 @@
     </div>
 </header>
 
+<aside class="slide-bar @(menuClass)">
+    <div class="offset-sidebar">
+        <button class="slide-bar-close ml--30" @onclick="ToggleMenu"><i class="fal fa-times"></i></button>
+        <div class="offset-widget offset-logo mb-30">
+            <a href="/">
+                <img src="/assets/images/logo-new.png" alt="logo">
+            </a>
+        </div>
+    </div>
+    <!-- side-mobile-menu start -->
+    <nav class="side-mobile-menu side-mobile-menu1">
+        <ul id="mobile-menu-active">
+            <li class="has-dropdown firstlvl">
+                <a class="mm-link" href="/">Home <i class="rt-angle-down"></i></a>
+                <ul class="sub-menu">
+                    <li><NavLink href="/">Home Style 1</NavLink></li>
+                    <li><NavLink href="index-two.html">Home Style 2</NavLink></li>
+                    <li><NavLink href="index-three.html">Home Style 3</NavLink></li>
+                    <li><NavLink href="index-four.html">Home Style 4</NavLink></li>
+                    <li><NavLink href="index-five.html">Home Style 5</NavLink></li>
+                    <li><NavLink href="index-six.html">Home Style 6</NavLink></li>
+                    <li><NavLink href="index-seven.html">Home Style 7</NavLink></li>
+                    <li><NavLink href="index-eight.html">Home Style 8</NavLink></li>
+                </ul>
+            </li>
+            <li><NavLink class="mm-link" href="about.html">About</NavLink></li>
+            <li class="has-dropdown firstlvl">
+                <a class="mm-link" href="#">Pages <i class="rt-angle-down"></i></a>
+                <ul class="sub-menu mega-dropdown-mobile">
+                    <li class="mega-dropdown-li">
+                        <ul class="mega-dropdown-ul mm-show">
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="team.html">Team Details</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="team-details.html">Player Details</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="history.html">History</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="faq.html">FAQ</NavLink></li>
+                        </ul>
+                    </li>
+                    <li class="mega-dropdown-li">
+                        <ul class="mega-dropdown-ul mm-show">
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="gallery.html">Gallery</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="event.html">Event</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="event-details.html">Event Details</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="error.html">Error</NavLink></li>
+                        </ul>
+                    </li>
+                    <li class="mega-dropdown-li">
+                        <ul class="mega-dropdown-ul mm-show">
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="match-schedule.html">Match Schedule</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="match-result.html">Match Result</NavLink></li>
+                            <li class="dropdown-li"><NavLink class="dropdown-link" href="league-standings.html">Point Table</NavLink></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="has-dropdown firstlvl">
+                <a class="mm-link" href="#">Shop <i class="rt-angle-down"></i></a>
+                <ul class="sub-menu">
+                    <li><NavLink href="shop.html">Shop</NavLink></li>
+                    <li><NavLink href="product-details.html">Product Details</NavLink></li>
+                    <li><NavLink href="cart.html">cart</NavLink></li>
+                    <li><NavLink href="checkout.html">Checkout</NavLink></li>
+                    <li><NavLink href="account.html">My Account</NavLink></li>
+                    <li><NavLink href="thank-you.html">Thank You</NavLink></li>
+                </ul>
+            </li>
+            <li class="has-dropdown firstlvl">
+                <a class="mm-link" href="#">News <i class="rt-angle-down"></i></a>
+                <ul class="sub-menu">
+                    <li><NavLink href="blog.html">News</NavLink></li>
+                    <li><NavLink href="blog-details.html">News Details</NavLink></li>
+                </ul>
+            </li>
+            <li><NavLink class="mm-link" href="contact.html">Contact</NavLink></li>
+        </ul>
+    </nav>
+    <!-- side-mobile-menu end -->
+    <div class="side-bar-social-links">
+        <a href="#" class="platform"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="platform"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="platform"><i class="fab fa-behance"></i></a>
+        <a href="#" class="platform"><i class="fab fa-youtube"></i></a>
+    </div>
+</aside>
+
 <style>
     .btn:hover {
         background-color: white;
@@ -219,9 +299,11 @@
 
     .display_none {
         display: none;
-        .banner-content .pretitle, .banner-content .banner-heading, .banner-content .desc
+    }
 
-    {
+    .banner-content .pretitle,
+    .banner-content .banner-heading,
+    .banner-content .desc {
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 0.5s ease, transform 0.5s ease;
@@ -234,12 +316,29 @@
         transform: translateY(0);
     }
 
+    .hamburger-menu {
+        cursor: pointer;
     }
+
+    .mobile-menu {
+        display: none;
+    }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+    .slide-bar {
+        display: none;
+    }
+
+        .slide-bar.show {
+            display: block;
+        }
 </style>
 
 <script>
-
-        function clickHiddenNavLink() {
+    function clickHiddenNavLink() {
         var hiddenNavLink = document.getElementById("hiddenNavLink");
         if (hiddenNavLink) {
             hiddenNavLink.click();
@@ -258,10 +357,10 @@
                 prevEl: '.swiper-button-prev',
             },
             autoplay: {
-                delay: 5000, // 5000ms = 5 seconds
+                delay: 5000,
                 disableOnInteraction: false,
             },
-            speed: 1500, // 2000ms = 2 seconds for transition speed
+            speed: 1500,
             on: {
                 slideChangeTransitionStart: function () {
                     const activeSlide = this.slides[this.activeIndex];
@@ -277,7 +376,7 @@
                         textElements.forEach(el => {
                             el.classList.add('show');
                         });
-                    }, 3000); // Opóźnienie 0,5 sekundy
+                    }, 3000);
                 }
             }
         });
@@ -299,19 +398,24 @@
     public NavigationManager NavigationManager { get; set; } = null!;
 
     private string previousUri;
-
     private string currentSeason = "Ładowanie...";
-
+    private string searchTerm;
+    private string selectedCategory;
+    private string menuClass = string.Empty;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private void ToggleMenu()
+    {
+        menuClass = menuClass == string.Empty ? "show" : string.Empty;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         currentSeason = await adminDefinedCodeService.GetValueByKey("current-season-for-main-page");
-
         NavigationManager.LocationChanged += OnLocationChanged;
 
         var authState = await authStateProvider.GetAuthenticationStateAsync();
@@ -333,7 +437,6 @@
     {
         searchTerm = string.Empty;
     }
-
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
@@ -382,14 +485,11 @@
         };
     }
 
-    private string searchTerm;
-    private string selectedCategory;
-
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
-            NavigateToSearchResults1(searchTerm);
+            await NavigateToSearchResults1(searchTerm);
         }
     }
 
@@ -397,11 +497,8 @@
     {
         await JS.InvokeVoidAsync("sessionStorage.setItem", "searchTerm", searchTerm);
         await Task.Delay(100);
-
-
         Console.WriteLine("Działa");
         Console.WriteLine(searchTerm);
-        // NavigationManager.NavigateTo($"/articlesByContent/{searchTerm}", forceLoad: true);
         await JS.InvokeVoidAsync("clickHiddenNavLink");
     }
 
@@ -441,11 +538,6 @@
     {
         return date.ToString("dd MMMM yyyy", new CultureInfo("pl-PL"));
     }
-
-    // public void Dispose()
-    // {
-    //     NavigationManager.LocationChanged -= OnLocationChanged;
-    // }
 
     private void NavigateToAccount()
     {

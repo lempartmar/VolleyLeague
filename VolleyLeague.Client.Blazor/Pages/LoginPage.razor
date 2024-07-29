@@ -39,7 +39,7 @@
                                         Zaloguj <i class="fal fa-long-arrow-right"></i>
                                     </button>
                                 </div>
-                                <a class="forgot-password" href="#" @onclick="NavigateToResetPassword">Nie pamiętasz hasła?</a>
+                                <a class="forgot-password" href="/request-password-reset" @onclick="NavigateToResetPassword">Nie pamiętasz hasła?</a>
                             </EditForm>
                             @if (!string.IsNullOrEmpty(errorMessage))
                             {
