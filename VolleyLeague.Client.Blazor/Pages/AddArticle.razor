@@ -8,6 +8,8 @@
 @inject IArticleService ArticleService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
+@inject IHttpClientFactory HttpClientFactory
+@inject IJSRuntime JSRuntime
 
 @attribute [Authorize(Roles = "Admin")]
 
@@ -73,7 +75,6 @@
                                 }
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <div class="col-sm-10 offset-sm-2">
                                 <button type="submit" class="btn btn-primary">Zapisz artykuł</button>
@@ -91,6 +92,56 @@
     </div>
 </div>
 
+<div class="account-main accountdtls filterd-items">
+    <div class="login-form">
+        <div class="section-title">
+        </div>
+        <div class="card">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="section-title text-center">
+                    <h2>Proponowane zdjęcia</h2>
+                    <label>[ W celu ułatwienia pracy nad artykułem dodano proponowane zdjęcia. Pobierz zdjęcie w celu umieszczenia w artykule. ]</label>
+                    <label>[ Rekomenduje się umieszczanie zdjęć o rozmiarze poniżej 50kb. ]</label>
+                </div>
+
+                <div class="form-group row justify-content-center">
+                    <div class="col-sm-10">
+                        <div class="image-selection d-flex justify-content-center flex-wrap">
+                            @foreach (var imageUrl in availableImages)
+                            {
+                                <img src="@imageUrl" class="thumbnail" @onclick="() => SelectImage(imageUrl)" style="width: 100px; height: auto; margin: 5px; cursor: pointer;" />
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(selectedImage))
+                        {
+                            <div class="selected-image-preview text-center mt-4">
+                                <h5>Wybrane zdjęcie:</h5>
+                                <img src="@selectedImage" style="width: 200px; height: auto;" />
+                                <button class="btn btn-secondary mt-2" @onclick="DownloadSelectedImage">Pobierz zdjęcie</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.downloadFileFromStream = async (fileName, contentStreamReference) => {
+        const arrayBuffer = await contentStreamReference.arrayBuffer();
+        const blob = new Blob([arrayBuffer]);
+        const url = URL.createObjectURL(blob);
+        const anchorElement = document.createElement('a');
+        anchorElement.href = url;
+        anchorElement.download = fileName ?? '';
+        anchorElement.click();
+        URL.revokeObjectURL(url);
+    };
+</script>
+
+
 @code {
     private const long MaxFileSize = 256 * 1024; // 256 KB
 
@@ -100,6 +151,13 @@
     private bool ShowErrorMessage = false;
     private string ErrorMessage = "";
     private string FileErrorMessage = "";
+    private List<string> availableImages = new List<string>
+    {
+        "/assets/images/articles/article1.jpg",
+        "/assets/images/articles/article2.jpg",
+        "/assets/images/articles/article3.jpg",
+    };
+    private string selectedImage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -140,6 +198,28 @@
             }
             StateHasChanged();
         }
+    }
+
+    private void SelectImage(string imageUrl)
+    {
+        selectedImage = imageUrl;
+        articleDto.Image = null; // Clear any uploaded image
+        FileErrorMessage = "";
+        StateHasChanged();
+    }
+
+    private async Task DownloadSelectedImage()
+    {
+        var fileName = Path.GetFileName(selectedImage);
+        var imageUrl = Navigation.ToAbsoluteUri(selectedImage).ToString();
+
+        using var httpClient = HttpClientFactory.CreateClient();
+        var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+
+        using var memoryStream = new MemoryStream(imageBytes);
+        using var streamRef = new DotNetStreamReference(stream: memoryStream);
+
+        await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 
     private string UploadImageUrl => Navigation.ToAbsoluteUri("/api/upload/image").ToString();
