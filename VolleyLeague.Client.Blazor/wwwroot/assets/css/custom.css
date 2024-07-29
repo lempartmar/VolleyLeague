@@ -79,7 +79,10 @@ a.display-menu {
         width: 80%;
     }
 
-/*    .container {
+    .section-gap {
+        margin-top: 90px;
+    }
+        /*    .container {
         width: 10%;
         padding: 0;
     }
@@ -90,4 +93,4 @@ a.display-menu {
             border-bottom-right-radius: 15px;
             overflow: hidden;
         }*/
-}
+    }
