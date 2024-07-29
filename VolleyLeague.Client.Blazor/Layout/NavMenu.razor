@@ -196,6 +196,7 @@
     </div>
 </header>
 
+
 <aside class="slide-bar @(menuClass)">
     <div class="offset-sidebar">
         <button class="slide-bar-close ml--30" @onclick="ToggleMenu"><i class="fal fa-times"></i></button>
@@ -209,66 +210,28 @@
     <nav class="side-mobile-menu side-mobile-menu1">
         <ul id="mobile-menu-active">
             <li class="has-dropdown firstlvl">
-                <a class="mm-link" href="/">Home <i class="rt-angle-down"></i></a>
-                <ul class="sub-menu">
-                    <li><NavLink href="/">Home Style 1</NavLink></li>
-                    <li><NavLink href="index-two.html">Home Style 2</NavLink></li>
-                    <li><NavLink href="index-three.html">Home Style 3</NavLink></li>
-                    <li><NavLink href="index-four.html">Home Style 4</NavLink></li>
-                    <li><NavLink href="index-five.html">Home Style 5</NavLink></li>
-                    <li><NavLink href="index-six.html">Home Style 6</NavLink></li>
-                    <li><NavLink href="index-seven.html">Home Style 7</NavLink></li>
-                    <li><NavLink href="index-eight.html">Home Style 8</NavLink></li>
-                </ul>
+                <NavLink class="mm-link" href="/">Home</NavLink>
             </li>
-            <li><NavLink class="mm-link" href="about.html">About</NavLink></li>
             <li class="has-dropdown firstlvl">
-                <a class="mm-link" href="#">Pages <i class="rt-angle-down"></i></a>
-                <ul class="sub-menu mega-dropdown-mobile">
-                    <li class="mega-dropdown-li">
-                        <ul class="mega-dropdown-ul mm-show">
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="team.html">Team Details</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="team-details.html">Player Details</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="history.html">History</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="faq.html">FAQ</NavLink></li>
-                        </ul>
-                    </li>
-                    <li class="mega-dropdown-li">
-                        <ul class="mega-dropdown-ul mm-show">
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="gallery.html">Gallery</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="event.html">Event</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="event-details.html">Event Details</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="error.html">Error</NavLink></li>
-                        </ul>
-                    </li>
-                    <li class="mega-dropdown-li">
-                        <ul class="mega-dropdown-ul mm-show">
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="match-schedule.html">Match Schedule</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="match-result.html">Match Result</NavLink></li>
-                            <li class="dropdown-li"><NavLink class="dropdown-link" href="league-standings.html">Point Table</NavLink></li>
-                        </ul>
-                    </li>
+                <NavLink class="mm-link" href="#">Wyniki <i class="rt-angle-down"></i></NavLink>
+                <ul class="sub-menu">
+                    <li><NavLink class="dropdown-link" href="/standings">Tabele</NavLink></li>
+                    <li><NavLink class="dropdown-link" href="/mvp">MVP</NavLink></li>
+                    <li><NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink></li>
                 </ul>
             </li>
             <li class="has-dropdown firstlvl">
-                <a class="mm-link" href="#">Shop <i class="rt-angle-down"></i></a>
-                <ul class="sub-menu">
-                    <li><NavLink href="shop.html">Shop</NavLink></li>
-                    <li><NavLink href="product-details.html">Product Details</NavLink></li>
-                    <li><NavLink href="cart.html">cart</NavLink></li>
-                    <li><NavLink href="checkout.html">Checkout</NavLink></li>
-                    <li><NavLink href="account.html">My Account</NavLink></li>
-                    <li><NavLink href="thank-you.html">Thank You</NavLink></li>
-                </ul>
+                <NavLink class="mm-link" href="/schedule">Terminarz</NavLink>
             </li>
             <li class="has-dropdown firstlvl">
-                <a class="mm-link" href="#">News <i class="rt-angle-down"></i></a>
-                <ul class="sub-menu">
-                    <li><NavLink href="blog.html">News</NavLink></li>
-                    <li><NavLink href="blog-details.html">News Details</NavLink></li>
-                </ul>
+                <NavLink class="mm-link" href="/teams-list">Zespoły</NavLink>
             </li>
-            <li><NavLink class="mm-link" href="contact.html">Contact</NavLink></li>
+            <li class="has-dropdown firstlvl">
+                <NavLink class="mm-link" href="/policy">Liga</NavLink>
+            </li>
+            <li class="has-dropdown firstlvl">
+                <NavLink class="mm-link" href="/contact">Kontakt</NavLink>
+            </li>
         </ul>
     </nav>
     <!-- side-mobile-menu end -->
@@ -279,6 +242,7 @@
         <a href="#" class="platform"><i class="fab fa-youtube"></i></a>
     </div>
 </aside>
+
 
 <style>
     .btn:hover {
