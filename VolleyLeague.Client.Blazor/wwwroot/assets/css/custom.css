@@ -400,11 +400,35 @@ a.display-menu {
     display: flex;
     align-items: center;
 }
-
-.product-title-area {
+.player-name-area, .product-title-area, .table-title-area {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.rules_section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+    .rules_section ol {
+        padding-left: 20px;
+    }
+
+.alert-info, .alert-danger {
+    margin-top: 20px;
+}
+
+.table-bordered {
+    border: 1px solid #e7e7e7; 
+    border-collapse: collapse; 
+    width: 100%; 
+}
+
+th, td {
+    border: 1px solid #e7e7e7; 
+    padding: 8px; 
+    text-align: center;
+    vertical-align: middle; 
+}
 

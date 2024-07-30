@@ -4,11 +4,13 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
+<link href="typedresults.css" rel="stylesheet">
+
 @if (!pageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section" style="margin-top: 150px">
         <div class="container">
-            <div id="spinner"></div>
+            <div class="table-spinner"></div>
         </div>
     </section>
 }
@@ -18,7 +20,7 @@ else
         <div class="container">
             <section class="rules_section">
                 <div class="container">
-                    <h2 style="margin-bottom: 20px">Zasady</h2>
+                    <h2 class="margin-bottom-xs">Zasady</h2>
                     <ol>
                         <li>Obstawiamy spotkania ze wszystkich lig</li>
                         <li>Za idealne wytypowanie wyniku: 3 pkt, za poprawne wytypowanie zwycięzcy: 1 pkt, w przeciwnym przypadku: 0 pkt.</li>
@@ -54,21 +56,21 @@ else
                 }
                 else if (!string.IsNullOrEmpty(resultsErrorMessage))
                 {
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger standings-alert-danger">
                         @resultsErrorMessage
                     </div>
                 }
                 else if (TypedUserList.Count == 0)
                 {
-                    <div class="alert alert-info" role="alert">
+                    <div class="alert alert-info standings-alert-info" role="alert">
                         Brak wyników do wyświetlenia dla wybranego sezonu.
                     </div>
                 }
                 else
                 {
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr class="head-tr">
+                    <table class="table table-table-bordered">
+                        <thead class="table-thead table-thead-dark">
+                            <tr class="table-head-tr">
                                 <th scope="col">LP</th>
                                 <th scope="col">Głosujący</th>
                                 <th scope="col">Poprawnych wyników</th>
@@ -83,8 +85,8 @@ else
                                 <tr>
                                     <td><span class="position-number">@(i + 1)</span></td>
                                     <td>
-                                        <div class="player-name-area" style="justify-content: center;">
-                                            <h4 class="player-name" >@user.FirstName @user.LastName</h4>
+                                        <div class="player-name-area">
+                                            <h4 class="player-name">@user.FirstName @user.LastName</h4>
                                         </div>
                                     </td>
                                     <td><span class="result-count">@user.PerfectResultsCount</span></td>
@@ -99,77 +101,6 @@ else
         </div>
     </div>
 }
-
-<style>
-    .rules_section {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-        .rules_section ol {
-            padding-left: 20px;
-        }
-
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-/*     .form-select {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    } */
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .player-name-area {
-        display: flex;
-        align-items: center;
-    }
-
-    .alert-info, .alert-danger {
-        margin-top: 20px;
-    }
-
-    .table-bordered {
-        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
-        border-collapse: collapse; /* Ensure borders are collapsed */
-        width: 100%; /* Ensure table takes full width */
-    }
-
-    th, td {
-        border: 1px solid #e7e7e7; /* Ensure each cell has a border */
-        padding: 8px; /* Ensure padding for table headers and cells */
-        text-align: center; /* Center text horizontally */
-        vertical-align: middle; /* Center text vertically */
-    }
-</style>
 
 @code {
     private bool pageReady = false;
