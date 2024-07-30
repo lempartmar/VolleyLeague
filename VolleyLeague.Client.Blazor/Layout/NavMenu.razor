@@ -126,10 +126,8 @@
                     <div class="banner-single banner-single-1 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-                                @*                                 <span class="pretitle">LIGASIATKOWKI.pl</span> *@
                                 <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
                                 <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce. Dołącz do nas!</p>
-                                @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
                                     <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
@@ -143,10 +141,8 @@
                     <div class="banner-single banner-single-1_2 banner-bg">
                         <div class="container">
                             <div class="banner-content">
-                                @*                                 <span class="pretitle">Liga2</span> *@
                                 <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
                                 <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
-                                @*                                 <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div> *@
                                 <div class="form">
                                     <button @onclick="NavigateToRegister" class="btn" style="margin-top: 20px">
                                         Dołącz do nas <i class=""></i>
@@ -156,25 +152,8 @@
                         </div>
                     </div>
                 </div>
-                @*                 <div class="swiper-slide">
-                <div class="banner-single banner-single-1_2 banner-bg">
-                <div class="container">
-                <div class="banner-content">
-                <span class="pretitle">WELCOME TO Volleyball World</span>
-                <h1 class="banner-heading">Volleyball World</h1>
-                <p class="desc">Welcome to Kester premier online destination for everything volleyball! Whether you're a dedicated player, a passionate fan, or someone just begin to explore the world of volleyball</p>
-                <div class="shape-area"><img src="assets/images/banner/circle.png" alt=""></div>
-                </div>
-                </div>
-                </div>
-                </div> *@
             </div>
-            @*             <div class="slider-pagination-area">
-            <span>01</span>
-            <div class="swiper-pagination">
-            </div>
-            <span>03</span>
-            </div>*@
+
         </div>
     </div>
     <div class="banner banner1 @(IsHomePage ? "display_none" : "")">
@@ -185,7 +164,6 @@
                         <div class="page-path">
                             <ul>
                                 <li><a class="home-page-link" href="/">Strona Główna</a></li>
-                                @*                                 <li><a class="current-page" href="#">@currentPath</a></li> *@
                             </ul>
                         </div>
                         <h1 class="banner-heading">@GetPageTitle()</h1>
@@ -206,7 +184,6 @@
             </a>
         </div>
     </div>
-    <!-- side-mobile-menu start -->
     <nav class="side-mobile-menu side-mobile-menu1">
         <ul id="mobile-menu-active">
             <li class="has-dropdown firstlvl">
@@ -234,7 +211,6 @@
             </li>
         </ul>
     </nav>
-    <!-- side-mobile-menu end -->
     <div class="side-bar-social-links">
         <a href="#" class="platform"><i class="fab fa-facebook-f"></i></a>
         <a href="#" class="platform"><i class="fab fa-twitter"></i></a>
@@ -242,64 +218,6 @@
         <a href="#" class="platform"><i class="fab fa-youtube"></i></a>
     </div>
 </aside>
-
-
-<style>
-    .btn:hover {
-        background-color: white;
-        color: black;
-    }
-
-    .team-btn.banner-btn {
-        background-color: #0d6efd;
-        background: white;
-    }
-
-    .nav-item.nav-user {
-        color: #7d7d7d;
-        text-decoration: none;
-        font-size: 9px;
-    }
-
-    .display_none {
-        display: none;
-    }
-
-    .banner-content .pretitle,
-    .banner-content .banner-heading,
-    .banner-content .desc {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .swiper-slide-active .banner-content .pretitle,
-    .swiper-slide-active .banner-content .banner-heading,
-    .swiper-slide-active .banner-content .desc {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .hamburger-menu {
-        cursor: pointer;
-    }
-
-    .mobile-menu {
-        display: none;
-    }
-
-        .mobile-menu.open {
-            display: block;
-        }
-
-    .slide-bar {
-        display: none;
-    }
-
-        .slide-bar.show {
-            display: block;
-        }
-</style>
 
 <script>
     function clickHiddenNavLink() {
@@ -366,6 +284,14 @@
     private string searchTerm;
     private string selectedCategory;
     private string menuClass = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("loadCssFile", "/assets/css/custom-navmenu.css");
+        }
+    }
 
     private void ToggleNavMenu()
     {

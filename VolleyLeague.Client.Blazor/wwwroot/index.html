@@ -77,6 +77,15 @@
         </div>
 
     </div>
+
+    <script>
+        window.loadCssFile = (filename) => {
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = filename;
+            document.head.appendChild(link);
+        };
+    </script>
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.min.js"></script>
     <script src="assets/js/vendors/wow.min.js"></script>

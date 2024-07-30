@@ -1,0 +1,54 @@
+.btn:hover {
+    background-color: white;
+    color: black;
+}
+
+.team-btn.banner-btn {
+    background-color: #0d6efd;
+    background: white;
+}
+
+.nav-item.nav-user {
+    color: #7d7d7d;
+    text-decoration: none;
+    font-size: 9px;
+}
+
+.display_none {
+    display: none;
+}
+
+.banner-content .pretitle,
+.banner-content .banner-heading,
+.banner-content .desc {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.swiper-slide-active .banner-content .pretitle,
+.swiper-slide-active .banner-content .banner-heading,
+.swiper-slide-active .banner-content .desc {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hamburger-menu {
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+    .mobile-menu.open {
+        display: block;
+    }
+
+.slide-bar {
+    display: none;
+}
+
+    .slide-bar.show {
+        display: block;
+    }
