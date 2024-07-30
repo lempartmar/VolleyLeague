@@ -6,7 +6,7 @@
 
 @if (!pageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section">
         <div class="container">
             <div id="spinner"></div>
         </div>
@@ -14,7 +14,7 @@
 }
 else
 {
-    <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner" style="margin-bottom: 80px;">
+    <div class="rts-match-result-section rts-match-result-section2-white rts-match-schedule-section inner">
         <div class="container">
             <div class="rts-point-table-section section-gap">
                 <div class="container">
@@ -24,7 +24,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="seasonSelect" class="form-label">SEZON:</label>
-                                        <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select ">
+                                        <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
                                             @foreach (var season in Filter.SeasonList)
                                             {
                                                 <option value="@season.Id">@season.Name</option>
@@ -35,7 +35,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="roundSelect" class="form-label">RUNDA:</label>
-                                        <select id="roundSelect" value="@Filter.RoundId" @onchange="OnRoundChanged" class="form-select ">
+                                        <select id="roundSelect" value="@Filter.RoundId" @onchange="OnRoundChanged" class="form-select">
                                             @foreach (var round in Filter.RoundList)
                                             {
                                                 <option value="@round.Id">@round.Name</option>
@@ -46,7 +46,7 @@ else
                                 <div class="col-xl-3 col-md-3">
                                     <div class="form-group">
                                         <label for="leagueSelect" class="form-label">LIGA:</label>
-                                        <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select ">
+                                        <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
                                             @foreach (var league in Filter.LeagueList)
                                             {
                                                 <option value="@league.Id">@league.Name</option>
@@ -72,68 +72,68 @@ else
 
                     <div class="col-12 main-section">
                         <div class="match-single background-white">
-                            <div class="match-single-content" style="width: 100%">
-                                <div class="match-scores" style="display: flex; justify-content: space-between;">
-                                    <div class="club club1" style="flex:1;">
-                                        <div class="club-logo mr--20">
+                            <div class="match-single-content">
+                                <div class="match-scores">
+                                    <div class="club club1">
+                                        <div class="club-logo">
                                             <div class="display-flex-column-center">
                                                 <img class="team-logo-size" src=@imgSrcHome alt="club-logo">
-                                                <span class="club-name color-dark" style="margin-top: 20px;">@game.HomeTeam.Name.ToUpper()</span>
+                                                <span class="club-name">@game.HomeTeam.Name.ToUpper()</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     @if (DateTime.Now < game.Schedule)
                                     {
-                                        <div class="club-score" style="flex: 1;display: flex;justify-content: center;align-items: center; flex-direction: column;">
-                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
-                                            <span class="club-name color-dark left-score"><h4>Mecz się jeszcze nie odbył</h4></span>
+                                        <div class="club-score">
+                                            <div class="d-flex">
+                                                <span class="club-name left-score"><h4>Mecz się jeszcze nie odbył</h4></span>
                                             </div>
                                             <div class="block-wrap">
-                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.Schedule</span>
                                                 <span class="stadium-name">@game.VenueName.ToUpper()</span>
                                             </div>
                                         </div>
                                     }
                                     else if (game.Set1Team1Score == null)
                                     {
-                                        <div class="club-score" style="flex: 1;display: flex;justify-content: center;align-items: center; flex-direction: column;">
-                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
-                                            <div class="club-name color-dark left-score"><h4>Oczekujemy na wprowadzenie wyniku</h4></div>
+                                        <div class="club-score">
+                                            <div class="d-flex">
+                                                <div class="club-name left-score"><h4>Oczekujemy na wprowadzenie wyniku</h4></div>
                                             </div>
                                             <div class="block-wrap">
-                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.Schedule</span>
                                                 <span class="stadium-name">@game.VenueName.ToUpper()</span>
                                             </div>
                                         </div>
                                     }
                                     else
                                     {
-                                        <div class="club-score" style="flex: 1;display: flex;justify-content: space-between;flex-direction: column;">
-                                            <div style="display: flex;flex-direction: row;justify-content: center;flex: 3;align-items: center;">
-                                                <span class="club-name color-dark left-score"><h2>@game.Team1Score</h2></span>
+                                        <div class="club-score">
+                                            <div class="d-flex">
+                                                <span class="club-name left-score"><h2>@game.Team1Score</h2></span>
                                                 <div class="colon">VS</div>
-                                                <span class="club-name color-dark right-score"><h2>@game.Team2Score</h2></span>
+                                                <span class="club-name right-score"><h2>@game.Team2Score</h2></span>
                                             </div>
                                             <div class="block-wrap">
-                                                <span class="stadium-name" style="margin-bottom: 20px;">@game.Schedule</span>
+                                                <span class="stadium-name">@game.Schedule</span>
                                                 <span class="stadium-name">@game.VenueName.ToUpper()</span>
                                             </div>
                                         </div>
                                     }
 
-                                    <div class="club club2" style="flex:1;">
+                                    <div class="club club2">
                                         <div class="club-logo">
                                             <div class="display-flex-column-center">
                                                 <img class="team-logo-size" src=@imgSrcGuest alt="club-logo">
-                                                <span class="club-name color-dark" style="margin-top: 20px;">@game.GuestTeam.Name.ToUpper()</span>
+                                                <span class="club-name">@game.GuestTeam.Name.ToUpper()</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form" style="width: 100%">
-                                <a href="/match/@game.Id" class="btn btn-primary custom-button" style="width:100%">SZCZEGÓŁY MECZU</a>
+                            <div class="form">
+                                <a href="/match/@game.Id" class="btn btn-primary custom-button width-max">SZCZEGÓŁY MECZU</a>
                             </div>
                         </div>
                     </div>
@@ -142,145 +142,6 @@ else
         </div>
     </div>
 }
-
-<style>
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-    .dropdown-toggle {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    }
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    .custom-button {
-        color: white;
-        background-color: #015293;
-    }
-
-        .custom-button:hover {
-            background-color: black;
-            color: white;
-        }
-
-    .game-entry {
-        margin-bottom: 20px;
-        color: black;
-        min-height: 150px;
-        border: none;
-    }
-
-    .scoreboard {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .team-section {
-        flex: 2;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .team-section, .score-section, .additional-info, .mvp-info {
-        text-align: center;
-        padding: 0 10px;
-        flex: 1;
-    }
-
-    .score-section {
-        flex: 1;
-    }
-
-    .mvp-info {
-        flex: 1;
-    }
-
-    .additional-info {
-        flex: 2;
-    }
-
-    .vertical-line {
-        border-left: 1px solid #000;
-        height: 100%;
-    }
-
-    .team-logo {
-        width: 80px;
-        margin-bottom: 5px;
-    }
-
-    .team-name {
-        max-width: 110px;
-        min-width: 110px;
-        margin-bottom: 5px;
-        color: #0268d6;
-    }
-
-    .team-score {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: black;
-    }
-
-    .versus {
-        font-size: 1.0em;
-        font-weight: bold;
-        margin: 0 10px;
-        color: black;
-    }
-
-    .game-date {
-        font-size: 0.8em;
-    }
-
-    .container-fluid {
-        width: 100%;
-        margin-top: 35px;
-    }
-
-    .d-flex {
-        display: flex;
-    }
-
-    .justify-content-between {
-        justify-content: space-between;
-    }
-
-    .align-items-center {
-        align-items: center;
-        justify-content: center;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-</style>
 
 @code {
     private List<MatchSummaryDto> Games { get; set; } = new List<MatchSummaryDto>();

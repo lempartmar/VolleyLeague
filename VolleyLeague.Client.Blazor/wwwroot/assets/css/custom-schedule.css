@@ -1,0 +1,333 @@
+.btn-label {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
+.dropdown-toggle {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.card {
+    margin-bottom: 50px;
+}
+
+.btn.btn-default.dropdown-toggle {
+    background: #e5e7eb;
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+    text-align: left;
+}
+
+.custom-button {
+    color: white;
+    background-color: #015293;
+}
+
+    .custom-button:hover {
+        background-color: black;
+        color: white;
+    }
+
+.game-entry {
+    margin-bottom: 20px;
+    color: black;
+    min-height: 150px;
+    border: none;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-section {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.team-section, .score-section, .additional-info, .mvp-info {
+    text-align: center;
+    padding: 0 10px;
+    flex: 1;
+}
+
+.score-section {
+    flex: 1;
+}
+
+.mvp-info {
+    flex: 1;
+}
+
+.additional-info {
+    flex: 2;
+}
+
+.vertical-line {
+    border-left: 1px solid #000;
+    height: 100%;
+}
+
+.team-logo {
+    width: 80px;
+    margin-bottom: 5px;
+}
+
+.team-name {
+    max-width: 110px;
+    min-width: 110px;
+    margin-bottom: 5px;
+    color: #0268d6;
+}
+
+.team-score {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: black;
+}
+
+.versus {
+    font-size: 1.0em;
+    font-weight: bold;
+    margin: 0 10px;
+    color: black;
+}
+
+.game-date {
+    font-size: 0.8em;
+}
+
+.container-fluid {
+    width: 100%;
+    margin-top: 35px;
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 3;
+    align-items: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+    justify-content: center;
+}
+
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.match-single-content {
+    width: 100%;
+}
+
+.match-scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+.club {
+    flex: 1;
+}
+
+.club-logo {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-logo-size {
+    height: 20%;
+}
+
+.club-name {
+    color: dark;
+    margin-top: 20px;
+}
+
+.club-score {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.block-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stadium-name {
+    margin-bottom: 20px;
+}
+
+.form {
+    width: 100%;
+}
+
+.btn.btn-primary.custom-button.width-max {
+    width: 100%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.container{
+    margin-bottom: 50px;
+}
+
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    a.display-menu {
+        display: block !important;
+    }
+
+    header#rtsHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .banner.banner1 {
+        height: 120px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .container .top-bar {
+        display: none;
+    }
+
+    .navbar-inner {
+        width: 100%;
+        padding-right: 25px;
+        background-color: black;
+    }
+
+    .logo img {
+        width: 80%;
+    }
+
+    .team-logo-size {
+        height: 20% !important;
+    }
+
+    .form-select, .btn, .btn-primary {
+        width: 100%;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .colon {
+        font-size: 80%;
+    }
+
+    .card-footer {
+        padding: 0.75rem;
+    }
+
+    .team-logo-size {
+        width: 30% !important;
+        height: 30% !important;
+    }
+
+    .club-score h2 {
+        font-size: 1.5rem;
+    }
+
+    div.match-scores {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+
+    .club1, .club2 {
+        text-align: center;
+    }
+
+    .club-score {
+        text-align: center;
+    }
+
+        .club-score .d-flex {
+            display: flex;
+            flex-direction: row;
+        }
+
+    .match-single .form {
+        text-align: center;
+    }
+
+    .match-single-content {
+        padding: 0px !important;
+    }
+
+    .section-gap {
+        margin-top: 90px;
+    }
+
+    .club-name.color-dark.text-center.text-md-left {
+        font-size: 70% !important;
+    }
+
+    div span.club-name.color-dark {
+        font-size: 100% !important;
+    }
+
+    .stadium-name {
+        font-size: 80%;
+    }
+
+    .col-12.main-section {
+        padding: 0px;
+    }
+
+    .match-single-content {
+        padding: 0px !important;
+    }
+}
