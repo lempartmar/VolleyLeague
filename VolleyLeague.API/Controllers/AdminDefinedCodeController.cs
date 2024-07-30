@@ -50,6 +50,5 @@ namespace VolleyLeague.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
     }
 }
