@@ -27,12 +27,6 @@ else
                         <li><strong>KP:</strong> Korekta punktów</li>
                     </ul>
                 </div>
-@*                 <div class="legend">
-                    <p><strong>Zgłoszony?</strong> ZGŁ</p>
-                    <p><strong>Zaakceptowany</strong> ZA</p>
-                    <p><strong>Nazwa ligi</strong> NL</p>
-                    <p><strong>Korepkta punktów</strong> KP</p>
-                </div> *@
             </div>
             <div class="card">
                 <div class="">
@@ -45,7 +39,7 @@ else
                     else
                     {
                         <div class="table-responsive">
-                            <table class="table table-bordered" style="font-size: 80%">
+                            <table class="table table-bordered font-size-decrease" >
                                 <thead class="thead-dark text-center">
                                     <tr class="head-tr">
                                         <th scope="col">Id drużyny</th>
@@ -155,12 +149,12 @@ else
                                             <td>
                                                 @if (team.IsEditing)
                                                 {
-                                                    <button class="btn btn-secondary" style="padding: 5px;" @onclick="() => CancelEdit(team)">Anuluj</button>
-                                                    <button class="btn btn-success" style="padding: 5px;" @onclick="() => UpdateTeam(team)">Zapisz</button>
+                                                    <button class="btn btn-secondary small-padding" @onclick="() => CancelEdit(team)">Anuluj</button>
+                                                    <button class="btn btn-success small-padding" @onclick="() => UpdateTeam(team)">Zapisz</button>
                                                 }
                                                 else
                                                 {
-                                                    <button class="btn btn-primary" style="padding: 5px;" @onclick="() => EditTeam(team)">Edytuj</button>
+                                                    <button class="btn btn-primary small-padding" @onclick="() => EditTeam(team)">Edytuj</button>
                                                 }
                                             </td>
                                         </tr>
@@ -175,19 +169,6 @@ else
     </div>
 }
 
-<style>
-    .truncated {
-        max-width: 150px;
-        display: inline-block;
-        font-size: 100%;
-    }
-
-    .wrap-text {
-        white-space: normal;
-        word-wrap: break-word;
-        max-width: 150px; /* adjust as needed */
-    }
-</style>
 @code {
     private List<ExtendedTeamDto> extendedTeams;
     private List<LeagueDto> leagues;

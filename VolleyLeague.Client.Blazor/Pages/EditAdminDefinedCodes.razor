@@ -1,9 +1,12 @@
 ﻿@page "/EditAdminDefinedCodes"
+@using Microsoft.AspNetCore.Authorization
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Models
 @using VolleyLeague.Shared.Dtos
 @inject IAdminDefinedCodeService AdminDefinedCodeService
 @inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>Dodatkowy panel zarządzania portalem</h3>
 

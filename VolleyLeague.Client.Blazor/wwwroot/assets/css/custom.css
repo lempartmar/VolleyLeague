@@ -647,3 +647,23 @@ th, td {
 .policies ol, .policies ul {
     margin-left: 20px;
 }
+
+.truncated {
+    max-width: 150px;
+    display: inline-block;
+    font-size: 100%;
+}
+
+.wrap-text {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 150px; /* adjust as needed */
+}
+
+.small-padding {
+    padding: 5px;
+}
+
+.font-size-decrease {
+    font-size: 80%
+}

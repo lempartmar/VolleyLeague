@@ -11,6 +11,8 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider authStateProvider
 
+@attribute [Authorize(Roles = "Admin,Player")]
+
 <head>
     <link href="/assets/css/custom-user-profile.css" rel="stylesheet" />
 </head>
