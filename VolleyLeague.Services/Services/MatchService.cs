@@ -221,7 +221,6 @@ namespace VolleyLeague.Services.Services
         {
             var stopwatch = Stopwatch.StartNew();
 
-            // Fetch the matches with necessary fields only
             var matches = await _matchRepository.GetAll()
                 .AsNoTracking()
                 .Where(m => m.Round.SeasonId == seasonId && m.LeagueId == leagueId)
@@ -259,7 +258,6 @@ namespace VolleyLeague.Services.Services
             Console.WriteLine($"Query Execution Time: {stopwatch.ElapsedMilliseconds} ms");
             stopwatch.Restart();
 
-            // Get distinct teams from matches
             var teamDictionary = new Dictionary<int, TeamSummaryDto>();
             foreach (var match in matches)
             {
@@ -320,7 +318,6 @@ namespace VolleyLeague.Services.Services
                             .ToList();
         }
 
-
         public async Task<List<MatchSummaryDto>> GetLast10Matches()
         {
             var matches = await _matchRepository.GetAll()
@@ -374,28 +371,6 @@ namespace VolleyLeague.Services.Services
             return result;
         }
 
-        //public async Task<List<MatchDto>> GetLast10Matches()
-        //{
-        //    var last10Matches = await _matchRepository.GetAll()
-        //        .Include(m => m.League)
-        //        .Include(m => m.Round)
-        //            .ThenInclude(r => r.Season)
-        //        .Include(m => m.HomeTeam) 
-        //        .Include(m => m.GuestTeam) 
-        //        .OrderByDescending(m => m.Schedule) 
-        //        .Take(10)
-        //        .ToListAsync();
-
-        //    var matchesDto = new List<MatchDto>(); 
-
-        //    foreach (var match in last10Matches)
-        //    {
-        //        var matchDto = _mapper.Map<MatchDto>(match);
-        //        matchesDto.Add(matchDto);
-        //    }
-
-        //    return matchesDto;
-        //}
         public async Task<List<StandingsDto>> GetStandingsBeforeOptimalization(int seasonId, int leagueId)
         {
             var matches = await _matchRepository.GetAll()
@@ -449,62 +424,6 @@ namespace VolleyLeague.Services.Services
             var standingsToReturn = standings.OrderByDescending(s => s.Points).ThenByDescending(s => s.SetsRatio).ThenByDescending(s => s.BallsRatio).ToList();
 
             return standingsToReturn;
-        }
-
-
-
-        private int CalculateTotalHostWins(IEnumerable<Match> matches)
-        {
-            int totalHostWins = 0;
-
-            foreach (var match in matches)
-            {
-                int hostWins = 0;
-                int guestWins = 0;
-
-                if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
-                if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
-                if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
-                if (match.Set4Team1Score > match.Set4Team2Score) hostWins++;
-                if (match.Set5Team1Score > match.Set5Team2Score) hostWins++;
-
-                if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
-                if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
-                if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
-                if (match.Set4Team2Score > match.Set4Team1Score) guestWins++;
-                if (match.Set5Team2Score > match.Set5Team1Score) guestWins++;
-
-                if (hostWins > guestWins) totalHostWins++;
-            }
-
-            return totalHostWins;
-        }
-
-        private int CalculateTotalGuestWins(IEnumerable<Match> matches)
-        {
-            int totalGuestWins = 0;
-
-            foreach (var match in matches)
-            {
-                int hostWins = 0;
-                int guestWins = 0;
-
-                if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
-                if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
-                if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
-                if (match.Set4Team1Score > match.Set4Team2Score) hostWins++;
-                if (match.Set5Team1Score > match.Set5Team2Score) hostWins++;
-
-                if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
-                if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
-                if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
-                if (match.Set4Team2Score > match.Set4Team1Score) guestWins++;
-                if (match.Set5Team2Score > match.Set5Team1Score) guestWins++;
-
-                if (guestWins > hostWins) totalGuestWins++;
-            }
-
-            return totalGuestWins;
         }
 
         private int CalculateVolleyballPoints(IEnumerable<Match> hostMatches, IEnumerable<Match> guestMatches)
@@ -679,27 +598,8 @@ namespace VolleyLeague.Services.Services
             await _logService.AddLog(logMessage, logLink, false, null);
         }
 
-        //public async Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId)
-        //{
-        //    var teams = await _matchRepository.GetAll()
-        //        .Include(t => t.League)
-        //        .Include(t => t.GuestMatches)
-        //            .ThenInclude(m => m.Round)
-        //            .ThenInclude(r => r.Season)
-        //        .Include(t => t.HomeMatches)
-        //            .ThenInclude(m => m.Round)
-        //            .ThenInclude(r => r.Season)
-        //        .Where(t => t.LeagueId == leagueId)
-        //        .ToListAsync();
-
-        //    response.Data = teams.Select(t => new StandingsDto(t, seasonId)).OrderByDescending(s => s.Points).ToList();
-
-        //    return response;
-        //}
-
         public async Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId)
         {
-            // Pierwsze zapytanie: Uzyskanie użytkowników MVP
             var mvpUsers = await _matchRepository.GetAll()
                 .Include(m => m.Mvp)
                 .Include(m => m.League)
@@ -716,14 +616,12 @@ namespace VolleyLeague.Services.Services
             }
 
             var userIds = mvpUsers
-                .Where(mvp => mvp.User != null) // Filtruj tylko tych, którzy mają User nie null
+                .Where(mvp => mvp.User != null)
                 .Select(mvp => mvp.User.Id)
                 .ToList();
 
-            // Lista do przechowywania informacji o drużynach dla użytkowników MVP
             var userTeams = new List<TeamPlayer>();
 
-            // Pojedyncze zapytania dla każdego userId
             foreach (var userId in userIds)
             {
                 var userTeam = await _teamPlayerRepository.GetAll()
@@ -737,13 +635,11 @@ namespace VolleyLeague.Services.Services
                 }
             }
 
-            // Utworzenie mapy użytkowników MVP i ich drużyn
             var teamDict = userTeams
-                .Where(tp => tp.Team != null) // Tylko ci, którzy mają przypisany zespół
+                .Where(tp => tp.Team != null)
                 .GroupBy(tp => tp.PlayerId)
                 .ToDictionary(g => g.Key, g => g.First().Team.Name);
 
-            // Stworzenie listy wynikowej, uwzględniającej brak drużyny
             var result = mvpUsers
                 .Where(mvp => mvp.User != null)
                 .Select(mvp => new PlayerSummaryDto
@@ -755,7 +651,6 @@ namespace VolleyLeague.Services.Services
                     TeamName = teamDict.TryGetValue(mvp.User.Id, out var teamName) ? teamName : "Brak drużyny"
                 }).ToList();
 
-            // Sprawdzenie, czy każdy z użytkowników ma drużynę
             foreach (var player in result)
             {
                 Console.WriteLine($"Player: {player.FirstName} {player.LastName}, Team: {player.TeamName}");
@@ -768,53 +663,47 @@ namespace VolleyLeague.Services.Services
         {
             int totalPoints = 0;
 
-            // Helper function to calculate points for a single match
             int CalculateMatchPoints(int wins, int losses, bool isHost)
             {
                 if (isHost)
                 {
-                    // As a host
                     if (wins == 3 && (losses == 0 || losses == 1))
                     {
-                        return 3; // 3 points for a win 3:0 or 3:1
+                        return 3; 
                     }
                     else if (wins == 3 && losses == 2)
                     {
-                        return 2; // 2 points for a win 3:2
+                        return 2; 
                     }
                     else if (wins == 2 && losses == 3)
                     {
-                        return 1; // 1 point for a loss 2:3
+                        return 1; 
                     }
                 }
                 else
                 {
-                    // As a guest
                     if ((losses == 0 || losses == 1) && wins == 3)
                     {
-                        return 3; // 3 points for a loss 0:3 or 1:3
+                        return 3; 
                     }
                     else if (wins == 3 && losses == 2)
                     {
-                        return 2; // 2 points for a loss 2:3
+                        return 2;
                     }
                     else if (wins == 2 && losses == 3)
                     {
-                        return 1; // 1 point for a win 3:2
+                        return 1; 
                     }
                 }
 
-                // In case of other results, 0 points
                 return 0;
             }
 
-            // Counting points for matches as host
             foreach (var match in hostMatches)
             {
                 int hostWins = 0;
                 int guestWins = 0;
 
-                // Checking set wins
                 if (match.Set1Team1Score > match.Set1Team2Score) hostWins++;
                 if (match.Set2Team1Score > match.Set2Team2Score) hostWins++;
                 if (match.Set3Team1Score > match.Set3Team2Score) hostWins++;
@@ -830,13 +719,11 @@ namespace VolleyLeague.Services.Services
                 totalPoints += CalculateMatchPoints(hostWins, guestWins, true);
             }
 
-            // Counting points for matches as guest
             foreach (var match in guestMatches)
             {
                 int hostWins = 0;
                 int guestWins = 0;
 
-                // Checking set wins
                 if (match.Set1Team2Score > match.Set1Team1Score) guestWins++;
                 if (match.Set2Team2Score > match.Set2Team1Score) guestWins++;
                 if (match.Set3Team2Score > match.Set3Team1Score) guestWins++;
@@ -854,7 +741,5 @@ namespace VolleyLeague.Services.Services
 
             return totalPoints;
         }
-
-
     }
 }

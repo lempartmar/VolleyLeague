@@ -63,7 +63,6 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
-        // Service to login a user
         public List<Role> Login(LoginDto loginDto, out Credentials? credentials)
         {
             var response = new List<Role>();
@@ -74,7 +73,6 @@ namespace VolleyLeague.Services.Services
                 return null;
             }
 
-            // Add AdditionalEmail if missing
             AddAdditionalEmailIfMissing(credentials);
 
             response = credentials.Roles.ToList();
@@ -396,7 +394,6 @@ namespace VolleyLeague.Services.Services
 
             try
             {
-                // Sprawdź kod weryfikacyjny w oddzielnym kontekście
                 using (var verificationContext = _verificationCodeRepository.CreateContext())
                 {
                     var verificationEntity = await verificationContext.Set<UserRegistrationVerificationCode>()
@@ -408,7 +405,6 @@ namespace VolleyLeague.Services.Services
                     }
                 }
 
-                // Operacje na użytkownikach i poświadczeniach w głównym kontekście
                 var user = await _userRepository.GetAll()
                     .Include(u => u.Credentials)
                     .FirstOrDefaultAsync(u => u.AdditionalEmail == completeRegistrationDto.Email);
@@ -427,7 +423,7 @@ namespace VolleyLeague.Services.Services
                         LastName = completeRegistrationDto.LastName,
                         AdditionalEmail = completeRegistrationDto.Email,
                         Gender = completeRegistrationDto.Gender,
-                        PositionId = 6, // Assuming default position
+                        PositionId = 6,
                     };
                     await _userRepository.InsertAsync(user);
                 }
@@ -448,7 +444,6 @@ namespace VolleyLeague.Services.Services
                 await _credentialsRepository.SaveChangesAsync();
                 await _userRepository.SaveChangesAsync();
 
-                // Usunięcie kodu weryfikacyjnego w oddzielnym kontekście
                 using (var verificationContext = _verificationCodeRepository.CreateContext())
                 {
                     var verificationEntity = await verificationContext.Set<UserRegistrationVerificationCode>()
@@ -481,20 +476,16 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
-            // Ścieżka do szablonu
             var servicesPath = Path.Combine(_env.ContentRootPath);
             if (servicesPath.Contains("VolleyLeague.API"))
             {
                 servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html");
             }
 
-            // Wczytanie zawartości szablonu
             string emailTemplate = await File.ReadAllTextAsync(servicesPath);
 
-            // Zastąpienie placeholdera kodem weryfikacyjnym
             string emailBody = emailTemplate.Replace("623123", verificationCode);
 
-            // Utworzenie wiadomości email
             var message = new MailMessage("noreply@yourwebsite.com", email)
             {
                 Subject = "Verification Code",
@@ -502,12 +493,8 @@ namespace VolleyLeague.Services.Services
                 IsBodyHtml = true,
             };
 
-            // Wysłanie emaila
             await _emailService.Send(email, message);
         }
-
-
-
 
         public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
         {
@@ -534,17 +521,14 @@ namespace VolleyLeague.Services.Services
         {
             var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
 
-            // Określ ścieżkę do pliku HTML
             var servicesPath = Path.Combine(_env.ContentRootPath);
             if (servicesPath.Contains("VolleyLeague.API"))
             {
                 servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/PasswordResetTemplate.html");
             }
 
-            // Przeczytaj zawartość pliku HTML
             var emailBody = await File.ReadAllTextAsync(servicesPath);
 
-            // Zamień placeholder na rzeczywisty link
             emailBody = emailBody.Replace("https://tabular.email", resetLink);
 
             var message = new MailMessage("noreply@yourwebsite.com", email)
@@ -566,47 +550,13 @@ namespace VolleyLeague.Services.Services
             }
             catch (SmtpException smtpEx)
             {
-                // Obsługa specyficznych wyjątków SMTP
                 Console.WriteLine($"SMTP Error: {smtpEx.Message}");
             }
             catch (Exception ex)
             {
-                // Obsługa innych wyjątków
                 Console.WriteLine($"General Error: {ex.Message}");
             }
         }
-
-        //private async Task SendPasswordResetEmail(string email, string resetToken)
-        //{
-        //    var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
-        //    var message = new MailMessage("noreply@yourwebsite.com", email)
-        //    {
-        //        Subject = "Resetowanie hasła",
-        //        Body = $"Kliknij na poniższy link, aby zresetować hasło: <a href=\"{resetLink}\">Resetuj hasło</a>",
-        //        IsBodyHtml = true,
-        //    };
-
-        //    try
-        //    {
-        //        using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
-        //        {
-        //            Credentials = new NetworkCredential("ligasiatkowkidevelopment@gmail.com", "awonkpobrfhwvvck"),
-        //            EnableSsl = true,
-        //        };
-
-        //        await smtpClient.SendMailAsync(message);
-        //    }
-        //    catch (SmtpException smtpEx)
-        //    {
-        //        // Obsługa specyficznych wyjątków SMTP
-        //        Console.WriteLine($"SMTP Error: {smtpEx.Message}");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Obsługa innych wyjątków
-        //        Console.WriteLine($"General Error: {ex.Message}");
-        //    }
-        //}
 
         private User ConvertToUser(RegisterDto registerDto)
         {
@@ -616,20 +566,7 @@ namespace VolleyLeague.Services.Services
                 LastName = registerDto.LastName,
                 AccountId = null,
                 AdditionalEmail = registerDto.Email,//
-                //BirthYear = registerDto.BirthYear,
-                //City = registerDto.City,
-                //PersonalInfo = registerDto.PersonalInfo,
-                //Photo = null,
                 Gender = registerDto.Gender == 1,
-                //Height = (byte?)registerDto.Height,
-                //Weight = (byte?)registerDto.Weight,
-                //JerseyNumber = (byte?)registerDto.JerseyNumber,
-                //BlockRange = registerDto.BlockRange,
-                //AttackRange = registerDto.AttackRange,
-                //VolleyballIdol = registerDto.VolleyballIdol,
-                //AdditionalEmail = registerDto.AdditionalEmail,
-                //Hobby = registerDto.Hobby,
-                //Phone = null,
                 PositionId = 6,
                 PhotoWidth = null,
                 PhotoHeight = null,
@@ -683,7 +620,7 @@ namespace VolleyLeague.Services.Services
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Jwt:Key"])),
-                ValidateLifetime = false // Ignorujemy datę wygaśnięcia tokenu
+                ValidateLifetime = false
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -722,8 +659,5 @@ namespace VolleyLeague.Services.Services
                 throw new SecurityTokenException("Invalid token");
             }
         }
-
-
-
     }
 }

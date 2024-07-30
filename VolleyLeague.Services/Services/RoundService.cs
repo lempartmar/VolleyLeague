@@ -97,7 +97,5 @@ namespace VolleyLeague.Services.Services
                 return "Wystąpił błąd podczas usuwania rundy";
             }
         }
-
-
     }
 }

@@ -68,12 +68,6 @@ namespace VolleyLeague.Services.Services
                 .Include(t => t.League)
                 .FirstOrDefaultAsync(t => t.Id == Id);
 
-            //var team = await _teamRepository.GetAll()
-            //    .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
-            //    .Include(t => t.Captain).ThenInclude(c => c.Position)
-            //    .Include(t => t.League)
-            //    .FirstOrDefaultAsync(t => t.Id == Id);
-
             if (team == null)
             {
                 return null;
@@ -86,100 +80,6 @@ namespace VolleyLeague.Services.Services
         }
             return teamDto;
         }
-
-        //public async Task AddTeam(NewTeamDto team, string email)
-        //{
-        //    var teamPlayers = new List<TeamPlayer>();
-        //    var newUsersToSendInvitation = new List<TeamPlayerDto>();
-
-        //    foreach (var player in team.Players)
-        //    {
-        //        if (!string.IsNullOrEmpty(player.Email))
-        //        {
-        //            var existingUser = await _userRepository.GetAll()
-        //                                                    .Include(u => u.Credentials)
-        //                                                    .FirstOrDefaultAsync(u => u.Credentials.Email == player.Email);
-
-        //            if (existingUser != null)
-        //            {
-        //                teamPlayers.Add(new TeamPlayer
-        //                {
-        //                    Player = existingUser,
-        //                    JoinDate = DateTime.UtcNow
-        //                });
-        //                continue;
-        //            }
-        //        }
-
-        //        // Add new user to the list to send an invitation
-        //        newUsersToSendInvitation.Add(player);
-        //        teamPlayers.Add(new TeamPlayer
-        //        {
-        //            Player = new User
-        //            {
-        //                FirstName = player.FirstName,
-        //                LastName = player.LastName,
-        //                Height = (byte?)player.Height,
-        //                JerseyNumber = (byte?)player.JerseyNumber,
-        //                AdditionalEmail = player.Email,
-        //                PositionId = 2,
-        //                Credentials = null 
-        //            },
-        //            JoinDate = DateTime.UtcNow
-        //        });
-        //    }
-
-        //    // Find the captain by email
-        //    var captainCredentials = await _credentialsRepository.GetAll()
-        //                                   .Include(c => c.User)
-        //                                   .FirstOrDefaultAsync(c => c.Email == email);
-
-        //    if (captainCredentials?.User == null)
-        //    {
-        //        throw new Exception("Captain not found.");
-        //    }
-
-        //    // Create new team
-        //    var newTeam = new Team
-        //    {
-        //        Name = team.Name,
-        //        CreationDate = DateTime.UtcNow,
-        //        Image = team.Image,
-        //        LeagueId = 7,
-        //        //    LeagueId = team.LeagueId, // Ensure this is a valid LeagueId
-        //        CaptainId = captainCredentials.User.Id,
-        //        TeamPlayers = teamPlayers,
-        //        Email = team.Email,
-        //        Logo = team.Logo,
-        //        Phone = team.Phone,
-        //        TeamDescription = team.TeamDescription,
-        //        Website = team.Website,
-        //        IsReportedToPlay = false
-        //    };
-
-        //    try
-        //    {
-        //        await _teamRepository.InsertAsync(newTeam);
-        //        await _teamRepository.SaveChangesAsync();
-
-        //        foreach (var player in teamPlayers)
-        //        {
-        //            player.Team = newTeam;
-        //            await _teamRepository.SaveChangesAsync();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception
-        //        Console.WriteLine($"An error occurred while inserting the team: {ex}");
-        //        throw;
-        //    }
-
-        //    foreach (var newUser in newUsersToSendInvitation)
-        //    {
-        //        await SendEmailAddedToTeam(newUser, newTeam.Name);
-        //    }
-        //}
 
         public async Task<(bool Success, string Message)> AddTeam(NewTeamDto team, string email)
         {
@@ -234,11 +134,6 @@ namespace VolleyLeague.Services.Services
                                 JoinDate = DateTime.UtcNow
                             });
 
-                            //teamPlayers.Add(new TeamPlayer
-                            //{
-                            //    Player = existingUser,
-                            //    JoinDate = DateTime.UtcNow
-                            //});
                             continue;
                         }
 
@@ -347,30 +242,6 @@ namespace VolleyLeague.Services.Services
             return (true, "Image deleted successfully.");
         }
 
-
-        //public async Task<bool> DeleteTeam(int teamId)
-        //{
-        //    var teamToDelete = await _teamRepository.GetAll().FirstOrDefaultAsync(t => t.Id == teamId);
-
-        //    if (teamToDelete == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    try
-        //    {
-        //        await _teamRepository.Delete(teamToDelete);
-        //        await _teamRepository.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-
-
         public async Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file)
         {
             var team = await _teamRepository.GetAll().Include(t => t.TeamImage).FirstOrDefaultAsync(t => t.Id == teamId);
@@ -389,10 +260,8 @@ namespace VolleyLeague.Services.Services
                     ImageType = file.ContentType
                 };
 
-                // Logowanie typu MIME
                 Console.WriteLine($"Uploading image with MIME type: {file.ContentType}");
 
-                // Check if the team already has an image and update it
                 if (team.TeamImage != null)
                 {
                     team.TeamImage.Image = teamImage.Image;
@@ -473,76 +342,18 @@ namespace VolleyLeague.Services.Services
             {
                 var teamToUpdate = await _teamRepository.GetAll()
                     .FirstOrDefaultAsync(t => t.Id == extendedTeamDto.Id);
-                if (teamToUpdate == null) return false;  // Zespół nie został znaleziony
+                if (teamToUpdate == null) return false;  
 
-                _mapper.Map(extendedTeamDto, teamToUpdate); // Mapuj zaktualizowane wartości na pobrany obiekt zespołu
+                _mapper.Map(extendedTeamDto, teamToUpdate);
 
-                _teamRepository.Update(teamToUpdate); // Aktualizacja zespołu
-                //await _teamRepository.SaveChangesAsync(); // Zapisz zmiany w bazie danych
+                _teamRepository.Update(teamToUpdate); 
                 return true;
             }
             catch (Exception ex)
             {
-                // Logowanie szczegółów wyjątku
-                // Obsługa nieoczekiwanych wyjątków
                 return false;
             }
         }
-
-
-        //public async Task<bool> UpdateTeam(ManageTeamDto teamDto)
-        //{
-        //    var teamToUpdate = await _teamRepository.GetAll()
-        //        .Include(u => u.Captain).ThenInclude(c => c.Credentials)
-        //        .Include(t => t.TeamPlayers).ThenInclude(tp => tp.Player).ThenInclude(p => p.Credentials)
-        //        .FirstOrDefaultAsync(t => t.Captain.Credentials.Email == "nowy@mail.com");
-
-        //    if (teamToUpdate == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    _mapper.Map(teamDto, teamToUpdate);
-
-        //    var existingPlayerIds = teamToUpdate.TeamPlayers.Select(tp => tp.PlayerId).ToList();
-        //    foreach (var playerDto in teamDto.Players.Where(p => existingPlayerIds.Contains((int)p.Id)))
-        //    {
-        //        var player = teamToUpdate.TeamPlayers.FirstOrDefault(tp => tp.PlayerId == playerDto.Id)?.Player;
-        //        if (player != null)
-        //        {
-        //            _mapper.Map(playerDto, player);
-        //        }
-        //    }
-
-        //    foreach (var newPlayerDto in teamDto.NewPlayers)
-        //    {
-        //        if (!existingPlayerIds.Contains((int)newPlayerDto.Id))
-        //        {
-        //            var newPlayer = _mapper.Map<User>(newPlayerDto);
-        //            teamToUpdate.TeamPlayers.Add(new TeamPlayer { Player = newPlayer, JoinDate = DateTime.UtcNow });
-        //        }
-        //    }
-
-        //    foreach (var player in teamDto.RemovedPlayers)
-        //    {
-        //        var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Player.Id == player.Id);
-        //        if (playerToRemove != null)
-        //        {
-        //            teamToUpdate.TeamPlayers.Remove(playerToRemove);
-        //        }
-        //    }
-
-        //    try
-        //    {
-        //        await _teamRepository.UpdateAsync(teamToUpdate);
-        //        await _teamRepository.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         public async Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team, string email)
         {
@@ -556,14 +367,12 @@ namespace VolleyLeague.Services.Services
                 return (false, "Nie znaleziono drużyny.");
             }
 
-            // Sprawdź, czy liczba zawodników będzie mniejsza niż 6 po usunięciu
             var remainingPlayersCount = team.Players.Count + team.NewPlayers.Count - team.RemovedPlayers.Count;
             if (remainingPlayersCount < 6)
             {
                 return (false, "Drużyna musi mieć co najmniej 6 zawodników.");
             }
 
-            // Zaktualizuj dane drużyny
             teamToUpdate.Image = team.Photo;
             teamToUpdate.Email = team.Email;
             teamToUpdate.Logo = team.Logo;
@@ -571,13 +380,11 @@ namespace VolleyLeague.Services.Services
             teamToUpdate.TeamDescription = team.TeamDescription;
             teamToUpdate.Website = team.Website;
 
-            // Zaktualizuj dane kapitana
             teamToUpdate.Captain.JerseyNumber = (byte?)team.Captain.JerseyNumber;
             teamToUpdate.Captain.Height = (byte?)team.Captain.Height;
             teamToUpdate.Captain.PositionId = team.Captain.PositionId;
             teamToUpdate.Captain.Gender = team.Captain.Gender;
 
-            // Zaktualizuj istniejących zawodników
             foreach (var player in team.Players)
             {
                 var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
@@ -594,7 +401,6 @@ namespace VolleyLeague.Services.Services
                 }
             }
 
-            // Dodaj nowych zawodników do drużyny
             foreach (var player in team.NewPlayers)
             {
                 var newTeamPlayer = new TeamPlayer();
@@ -627,7 +433,6 @@ namespace VolleyLeague.Services.Services
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
-            // Usuń zawodników z drużyny
             foreach (var player in team.RemovedPlayers)
             {
                 var playerToRemove = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
@@ -637,10 +442,8 @@ namespace VolleyLeague.Services.Services
                 }
             }
 
-            // Zapisz zmiany w bazie danych
             await _teamRepository.SaveChangesAsync();
 
-            // Dodaj logi po zapisaniu do bazy danych
             foreach (var player in team.NewPlayers)
             {
                 var user = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == player.Email);
@@ -781,7 +584,6 @@ namespace VolleyLeague.Services.Services
         }
         public async Task<(bool Success, string Message)> LeaveTeamByEmail(string email)
         {
-            // Znajdź użytkownika na podstawie adresu email
             var user = await _userRepository.GetAll()
                                             .Include(u => u.TeamPlayers)
                                             .Include(u => u.Team)
@@ -792,7 +594,6 @@ namespace VolleyLeague.Services.Services
                 return (false, "Użytkownik nie znaleziony.");
             }
 
-            // Sprawdź, czy użytkownik jest kapitanem drużyny
             var isCaptain = await _teamRepository.GetAll()
                                                  .AnyAsync(t => t.CaptainId == user.Id);
 
@@ -801,7 +602,6 @@ namespace VolleyLeague.Services.Services
                 return (false, "Kapitan nie może opuścić drużyny. Przekaż drużynę innemu kapitanowi i wtedy opuść drużynę.");
             }
 
-            // Znajdź powiązania użytkownika z drużyną
             var teamPlayer = user.TeamPlayers.FirstOrDefault();
             if (teamPlayer == null)
             {

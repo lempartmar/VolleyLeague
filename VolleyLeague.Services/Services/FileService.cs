@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
@@ -112,8 +111,6 @@ namespace VolleyLeague.Services.Services
                 servicesPath2 = servicesPath2.Replace("VolleyLeague.API", "VolleyLeague.Shared/Images/Teams");
             }
             var fileNames = Directory.EnumerateFiles(servicesPath2, "*.jpg");
-
-            // List of files to be processed
             
             foreach (var fileName in fileNames)
             {

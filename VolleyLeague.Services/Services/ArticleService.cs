@@ -29,8 +29,6 @@ namespace VolleyLeague.Services.Services
             return allArticles;
         }
 
-
-
         public async Task<ArticleDto> GetArticleById(int id)
         {
             var result = await _articleRepository.GetAll().Include(a => a.Author).FirstOrDefaultAsync(a => a.Id == id);

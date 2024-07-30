@@ -51,23 +51,5 @@ namespace VolleyLeague.Client.Blazor.Services
                 Token = apiResponse
             };
         }
-
-
-        //public async Task<LoginResponse> LoginAccount(LoginDto loginDTO)
-        //    {
-        //    var response = await httpClient.PostAsJsonAsync("api/User/login", loginDTO);
-        //    //var response = await httpClient
-        //    //       .PostAsync("https://localhost:7068/api/User/login",
-        //    //       AuthService.GenerateStringContent(
-        //    //       AuthService.SerializeObj(loginDTO)));
-
-        //        //Read Response
-        //        if (!response.IsSuccessStatusCode)
-        //            return new LoginResponse(false, null!, "Error occured. Try again later...");
-        //        Console.WriteLine(response);
-        //        var apiResponse = await response.Content.ReadAsStringAsync();
-        //        return AuthService.DeserializeJsonString<LoginResponse>(apiResponse);
-
-        //    }
     }
 }

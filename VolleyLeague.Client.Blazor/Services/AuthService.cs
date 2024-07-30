@@ -16,16 +16,13 @@ namespace VolleyLeague.Client.Blazor.Services
         new Claim(ClaimTypes.Name, model.Name!)
     };
 
-            // Dodaj każdą rolę jako oddzielne roszczenie
             foreach (var role in model.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            // Utwórz ClaimsIdentity z listą roszczeń
             var identity = new ClaimsIdentity(claims, "JwtAuth");
 
-            // Utwórz i zwróć ClaimsPrincipal z powyższym identity
             return new ClaimsPrincipal(identity);
         }
         public static UserSession GetClaimsFromToken(string jwtToken)
@@ -53,9 +50,11 @@ namespace VolleyLeague.Client.Blazor.Services
             };
         }
         public static string SerializeObj<T>(T modelObject) => JsonSerializer.Serialize(modelObject, JsonOptions());
-        public static T DeserializeJsonString<T>(string jsonString) => JsonSerializer.Deserialize<T>(jsonString, JsonOptions())!;
-        public static IList<T> DeserializeJsonStringList<T>(string jsonString) => JsonSerializer.Deserialize<IList<T>>(jsonString, JsonOptions())!;
 
+        public static T DeserializeJsonString<T>(string jsonString) => JsonSerializer.Deserialize<T>(jsonString, JsonOptions())!;
+        
+        public static IList<T> DeserializeJsonStringList<T>(string jsonString) => JsonSerializer.Deserialize<IList<T>>(jsonString, JsonOptions())!;
+        
         public static StringContent GenerateStringContent(string serialiazedObj) => new(serialiazedObj, System.Text.Encoding.UTF8, "application/json");
     }
 }

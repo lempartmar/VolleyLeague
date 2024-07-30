@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
@@ -96,18 +94,16 @@ namespace VolleyLeague.Services.Services
             {
                 return false;
             }
+
             var playerId = userWithoutCredentials.Id;
             var teamPlayerUser = await _teamPlayerRepository.GetAll().Where(x => x.PlayerId == playerId).FirstOrDefaultAsync();
 
             playerWithoutCredentials.TeamPlayers.FirstOrDefault().PlayerId = userWithCredentials.Id;
-            //    await _teamPlayerRepository.UpdateAsync(teamPlayer);
-            
-
+          
             await _usersRepository.Delete(userWithoutCredentials);
             await _usersRepository.SaveChangesAsync();
 
             return true;
         }
-
     }
 }

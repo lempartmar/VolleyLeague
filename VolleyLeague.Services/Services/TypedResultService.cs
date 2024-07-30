@@ -22,8 +22,6 @@ namespace VolleyLeague.Services.Services
 
         public async Task CreateTypedResult(TypedResultDto typedResult)
         {
-            // var newScore = _mapper.Map<TypedResult>(typedResult);
-
             var userId = _credentialsRepository.GetAll().Where(x => x.Email == typedResult.UserId).FirstOrDefault();
             TypedResult newScore = new TypedResult()
             {
