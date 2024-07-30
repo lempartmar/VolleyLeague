@@ -39,18 +39,18 @@
             @if (standingsLoading)
             {
                 <div class="d-flex justify-content-center">
-                    <div class="standings-spinner"></div>
+                    <div class="table-spinner"></div>
                 </div>
             }
             else if (!string.IsNullOrEmpty(standingsErrorMessage))
             {
-                <div class="alert alert-danger">
+                <div class="alert alert-danger standings-alert-danger">
                     @standingsErrorMessage
                 </div>
             }
             else if (StandingsList.Count == 0)
             {
-                <div class="alert alert-info" role="alert">
+                <div class="alert alert-info standings-alert-info" role="alert">
                     Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
                 </div>
             }
@@ -60,8 +60,8 @@
                     <h2 class="title text-center">TABELA GŁÓWNA WYNIKÓW LIGI</h2>
                 </div>
                 <div class="table-area table-full">
-                    <table class="table standings-table-bordered">
-                        <thead class="standings-thead standings-thead-dark">
+                    <table class="table table-table-bordered">
+                        <thead class="table-thead table-thead-dark">
                             <tr>
                                 <th rowspan="2">LP</th>
                                 <th rowspan="2">DRUŻYNA</th>
@@ -95,7 +95,7 @@
                                         @{
                                             var imgSrc = team.Team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Team.Logo)}" : "/assets/images/Logo_alternative.png";
                                         }
-                                        <div class="product-title-area">
+                                        <div class="table-title-area">
                                             <h4 class="player-name">
                                                 <a href="/team/@team.Team.Id/">@team.Team.Name</a>
                                             </h4>
@@ -127,11 +127,11 @@
                     </ul>
                 </div>
 
-                <h2 class="title text-center margin-top-xs margin-bottom-xs">TABELA POMOCNICZA</h2>
+                <h2 class="title text-center margin-top-xs margin-bottom-xs">TABELA SZCZEGÓŁOWA</h2>
                 <div class="table-area table-full">
-                    <table class="table standings-table-bordered">
-                        <thead class="standings-thead standings-thead-dark">
-                            <tr class="standings-head-tr">
+                    <table class="table table-table-bordered">
+                        <thead class="table-thead table-thead-dark">
+                            <tr class="table-head-tr">
                                 <th scope="col">LP</th>
                                 <th scope="col">DRUŻYNA</th>
                                 <th scope="col">PUNKTY</th>
