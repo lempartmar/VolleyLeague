@@ -432,3 +432,24 @@ th, td {
     vertical-align: middle; 
 }
 
+.blog-details h3, .blog-details h4, .blog-details h6 {
+    text-align: center;
+}
+
+.blog-details h3, .blog-details h4, .blog-details h6 {
+    margin-top: 20px;
+}
+
+.blog-details ol {
+    margin-left: 20px;
+    list-style-position: inside;
+}
+
+.numbered-list {
+    list-style-type: decimal;
+}
+
+.issue-date {
+    text-align: right;
+    font-style: italic;
+}
