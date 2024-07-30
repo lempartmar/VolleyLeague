@@ -1,11 +1,15 @@
 ﻿@page "/cookie-policy"
 @using Microsoft.AspNetCore.Components.Web
 
+<head>
+    <link rel="stylesheet" href="/assets/css/custom-cookie-policy.css" />
+</head>
+
 <section class="category_section">
     <div class="container">
-        <div class="row" id="contact_row" style="align-items: center; margin-top: 30px">
+        <div class="row" id="contact_row">
             <div class="col-xs-12">
-                <div class="regulamin">
+                <div class="policies">
                     <h3>Polityka Plików Cookies</h3>
                     <p>Serwis nie zbiera w sposób automatyczny żadnych informacji, z wyjątkiem informacji zawartych w plikach cookies.</p>
                     <p>Pliki cookies (tzw. „ciasteczka”) stanowią dane informatyczne, w szczególności pliki tekstowe, które przechowywane są w urządzeniu końcowym Użytkownika Serwisu i przeznaczone są do korzystania ze stron internetowych Serwisu. Cookies zazwyczaj zawierają nazwę strony internetowej, z której pochodzą, czas przechowywania ich na urządzeniu końcowym oraz unikalny numer.</p>
@@ -25,22 +29,3 @@
         </div>
     </div>
 </section>
-
-<style>
-    .regulamin h3, .regulamin h4, .regulamin h6 {
-        text-align: center;
-    }
-
-    .regulamin h3, .regulamin h4, .regulamin h6 {
-        margin-top: 20px;
-    }
-
-    .regulamin ol, .regulamin ul {
-        margin-left: 20px;
-    }
-
-    .data-wydania {
-        text-align: right;
-        font-style: italic;
-    }
-</style>
