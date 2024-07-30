@@ -1,0 +1,90 @@
+﻿#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.account-main {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.section-title h2 {
+    margin-bottom: 20px;
+}
+
+.login-form .card {
+    margin-bottom: 20px;
+}
+
+.login-form .card-body {
+    padding: 30px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    width: 100%;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .account-main {
+        padding: 4px !important;
+    }
+
+    .login-form .card-body {
+        padding: 4px !important;
+    }
+
+    .img.user-profile-image {
+        width: 80% !important;
+    }
+
+    .btn {
+        padding: 5px 5px !important;
+        flex: 1;
+    }
+
+    .content-referee{
+        flex: 1;
+    }
+}

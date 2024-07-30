@@ -7,9 +7,13 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
+<head>
+    <link href="assets/css/custom-referees.css" rel="stylesheet" />
+</head>
+
 @if (!_isPageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section mt-150">
         <div class="container">
             <div id="spinner"></div>
         </div>
@@ -36,7 +40,7 @@ else
                             @foreach (PlayerSummaryDto referee in _referees)
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>@referee.Name</span>
+                                    <span class="content-referee">@referee.Name</span>
                                     <button class="btn btn-danger btn-sm" @onclick="() => RemoveReferee(referee.Id)">Usuń</button>
                                 </li>
                             }
@@ -68,66 +72,6 @@ else
         </div>
     </div>
 }
-
-<style>
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .account-main {
-        padding: 20px;
-        background-color: #f9f9f9;
-    }
-
-    .section-title h2 {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card-body {
-        padding: 30px;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .form-label {
-        display: block;
-        width: 100%;
-    }
-
-    .list-group-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 5px;
-    }
-
-    .form-control {
-        width: 100%;
-        height: 40px;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-    }
-</style>
 
 @code {
     private IEnumerable<PlayerSummaryDto> _referees = Enumerable.Empty<PlayerSummaryDto>();
