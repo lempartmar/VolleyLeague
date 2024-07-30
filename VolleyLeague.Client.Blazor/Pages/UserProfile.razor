@@ -11,9 +11,13 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider authStateProvider
 
+<head>
+    <link href="/assets/css/custom-user-profile.css" rel="stylesheet" />
+</head>
+
 @if (!PageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section mt-150">
         <div class="container">
             <div id="spinner"></div>
         </div>
@@ -30,8 +34,6 @@ else
                 <div class="card-body">
                     @if (UserProfileData != null)
                     {
-
-                        
                         <div class="text-center">
                             @{
                                 var imgSrc = UserProfileData.Photo != null && UserProfileData.Photo.Length > 0
@@ -96,7 +98,7 @@ else
                                 </tbody>
                             </table>
 
-                            <div class="p-2" style="margin-top: 25px">
+                            <div class="p-2 mt-25">
                                 <h3>Drużyna użytkownika</h3>
                                 <table class="table table-striped">
                                     <tbody>
@@ -108,14 +110,14 @@ else
                                 </table>
                                 @if (!string.IsNullOrWhiteSpace(UserProfileData.TeamName))
                                 {
-                                    <button class="btn btn-danger" @onclick="ShowLeaveTeamConfirmation">Opuść drużynę</button>
+                                    <button class="btn btn-danger mt-25" @onclick="ShowLeaveTeamConfirmation">Opuść drużynę</button>
                                 }
                                 else
                                 {
-                                    <div class="alert alert-info" role="alert">
+                                    <div class="alert alert-info mt-25" role="alert">
                                         Użytkownik nie należy do żadnej drużyny.
                                     </div>
-                                    <div class="p-2" style="margin-top: 25px">
+                                    <div class="p-2 mt-25">
                                         <h3>Zaproszenia do drużyny</h3>
                                         @if (HasTeamInvitations != null && HasTeamInvitations.Status)
                                         {
@@ -126,7 +128,7 @@ else
                                         }
                                         else
                                         {
-                                            <div class="alert alert-info" role="alert">
+                                            <div class="alert alert-info mt-25" role="alert">
                                                 Użytkownik nie ma zaproszeń do drużyny.
                                             </div>
                                         }
@@ -136,7 +138,7 @@ else
 
                             @if (!string.IsNullOrEmpty(ErrorMessage))
                             {
-                                <div class="alert alert-danger" style="margin-top: 30px;" role="alert">
+                                <div class="alert alert-danger mt-30" role="alert">
                                     @ErrorMessage
                                 </div>
                             }
@@ -152,7 +154,6 @@ else
     </div>
 }
 
-<!-- Modal for leave team confirmation -->
 <div class="modal" tabindex="-1" role="dialog" style="@(ShowLeaveModal ? "display:block" : "display:none")">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -169,75 +170,6 @@ else
         </div>
     </div>
 </div>
-
-<style>
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-dialog-centered {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
-    .modal-content {
-        background: white;
-        padding: 1em;
-        max-width: 500px;
-        width: 100%;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .form-text.text-muted {
-        margin-top: 0.5em;
-    }
-
-    .account-main {
-        padding: 20px;
-        background-color: #f9f9f9;
-    }
-
-    .section-title h2 {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card-body {
-        padding: 30px;
-    }
-
-    .form {
-        margin-bottom: 15px;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
 
 @code {
     [Parameter]

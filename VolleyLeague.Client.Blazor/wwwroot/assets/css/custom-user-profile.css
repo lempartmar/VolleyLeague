@@ -1,0 +1,100 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.modal-content {
+    background: white;
+    padding: 1em;
+    max-width: 500px;
+    width: 100%;
+}
+
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.form-text.text-muted {
+    margin-top: 0.5em;
+}
+
+.account-main {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.section-title h2 {
+    margin-bottom: 20px;
+}
+
+.login-form .card {
+    margin-bottom: 20px;
+}
+
+.login-form .card-body {
+    padding: 30px;
+}
+
+.form {
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile-image {
+    margin-top: 25px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-25 {
+    margin-top: 25px;
+}
+
+.alert-info {
+    margin-top: 25px;
+}
+
+.btn-danger {
+    margin-top: 25px;
+}
+
+@media (max-width: 768px) {
+    .account-main {
+        padding: 0px !important;
+    }
+
+    .login-form .card-body {
+        padding: 0px !important;
+    }
+
+    .img.user-profile-image{
+        width:80% !important;
+    }
+}
