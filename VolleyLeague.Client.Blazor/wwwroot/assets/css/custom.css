@@ -29,6 +29,15 @@ a.display-menu {
     display: none !important;
 }
 
+.custom-button {
+    color: white;
+    background-color: #015293;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     .hamburger-menu {
         display: block;
