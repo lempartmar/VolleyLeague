@@ -4,9 +4,11 @@
 @inject HttpClient Http
 @inject ITeamService TeamService
 
+<link href="team-list.css" rel="stylesheet">
+
 @if (!PageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section">
         <div class="container">
             <div id="spinner"></div>
         </div>
@@ -26,7 +28,7 @@ else
 
             <div class="filterd-items">
                 <div class="team-section-inner inner">
-                    <div class="row margin-top-min">
+                    <div class="row team-list-margin-top">
                         @foreach (var team in Teams)
                         {
                             var imgSrc = team.Logo != null ? $"data:image/png;base64,{Convert.ToBase64String(team.Logo)}" : "/assets/images/Logo_alternative.png";
@@ -37,13 +39,13 @@ else
                                             <img src="@imgSrc" alt="Logo" class="team-logo">
                                         </a>
                                     </div>
-                                    <a href="#" class="name header-text margin-top-xs">@team.Name.ToUpper()</a>
-                                    <div class="display-flex-row-center">
-                                        <div class="form">
-                                            <a href="/team/@team.Id/" class="btn btn-primary custom-button btn-spacing btn-hover">PROFIL</a>
+                                    <a href="#" class="team-list-header-text">@team.Name.ToUpper()</a>
+                                    <div class="team-list-flex-row-center">
+                                        <div class="team-list-form">
+                                            <a href="/team/@team.Id/" class="btn btn-primary custom-button team-list-btn-spacing team-list-btn-hover">PROFIL</a>
                                         </div>
-                                        <div class="form">
-                                            <a href="/team-result/@team.Id/" class="btn btn-primary custom-button btn-spacing btn-hover">WYNIKI</a>
+                                        <div class="team-list-form">
+                                            <a href="/team-result/@team.Id/" class="btn btn-primary custom-button team-list-btn-spacing team-list-btn-hover">WYNIKI</a>
                                         </div>
                                     </div>
                                 </div>
@@ -55,90 +57,6 @@ else
         </div>
     </div>
 }
-
-<style>
-    .nav-item.nav-user {
-        color: #7d7d7d;
-        text-decoration: none;
-        font-size: 9px;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .team-wraper {
-        width: 100%;
-        text-align: center; /* Center content */
-    }
-
-    .display-flex-column-center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .display-flex-row {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .display-flex-row-center {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .team-list-check {
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-decoration: none;
-        color: #000;
-        font-weight: bold;
-    }
-
-    .name.header-text {
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        text-align: center; /* Center align text */
-    }
-
-    .custom-button {
-        color: white;
-        background-color: #015293;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
-        .custom-button:hover {
-            background-color: black;
-        }
-
-    .btn-spacing {
-        margin: 0 5px;
-    }
-
-    .btn.btn-primary.custom-button.btn-spacing.btn-hover:hover{
-        color: white;
-    }
-</style>
 
 @code {
     public bool PageReady = false;

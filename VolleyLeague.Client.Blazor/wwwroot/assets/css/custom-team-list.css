@@ -1,0 +1,99 @@
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.team-wraper {
+    width: 100%;
+    text-align: center; /* Center content */
+}
+
+.display-flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.team-list-flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.team-list-check {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+.team-list-header-text {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center; /* Center align text */
+}
+
+.custom-button {
+    color: white;
+    background-color: #015293;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+    .custom-button:hover {
+        background-color: black;
+    }
+
+.team-list-btn-spacing {
+    margin: 0 5px;
+}
+
+.btn.btn-primary.custom-button.team-list-btn-spacing.team-list-btn-hover:hover {
+    color: white;
+}
+
+.team-list-margin-top {`
+    margin-top: 10px;
+}
+
+.team-list-form {
+    margin-top: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-btn.team-list {
+        font-size: 95% !important;
+    }
+}
