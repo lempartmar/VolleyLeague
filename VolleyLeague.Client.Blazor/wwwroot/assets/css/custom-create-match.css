@@ -1,0 +1,89 @@
+
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.account-main {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.section-title h2 {
+    margin-bottom: 20px;
+}
+
+.login-form .card {
+    margin-bottom: 20px;
+}
+
+.login-form .card-body {
+    padding: 30px;
+}
+
+.form {
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    width: 100%;
+}
+
+.form-floating {
+    position: relative;
+}
+
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        height: calc(3.5rem + 2px);
+        padding: 1rem .75rem;
+    }
+
+    .form-floating > label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        padding: 1rem .75rem;
+        pointer-events: none;
+        border: 1px solid transparent;
+        transform-origin: 0 0;
+        transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+    }
+
+    .form-floating > .form-control:focus,
+    .form-floating > .form-control:not(:placeholder-shown),
+    .form-floating > .form-select:focus,
+    .form-floating > .form-select:not(:placeholder-shown) {
+        padding-top: 1.625rem;
+        padding-bottom: .625rem;
+    }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select:focus ~ label,
+        .form-floating > .form-select:not(:placeholder-shown) ~ label {
+            opacity: .65;
+            transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+        }
+
+
+.margin-top-xs {
+    margin-top: 150px
+}
