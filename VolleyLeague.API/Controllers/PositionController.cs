@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Services.Services;
 using VolleyLeague.Shared.Dtos.Teams;
 
@@ -18,6 +19,7 @@ namespace VolleyLeague.API.Controllers
             _positionService = positionService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllPositions")]
         public async Task<IActionResult> GetAllPositions()
         {
@@ -25,6 +27,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}", Name = "GetPositionById")]
         public async Task<IActionResult> GetPositionById(int id)
         {
@@ -32,6 +35,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreatePosition(PositionDto position)
         {
@@ -39,6 +43,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeletePosition(int id)
         {

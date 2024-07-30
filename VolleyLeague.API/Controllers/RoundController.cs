@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Matches;
 
@@ -18,6 +19,7 @@ namespace VolleyLeague.API.Controllers
             _roundService = roundService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllRounds")]
         public async Task<IActionResult> GetAllRounds()
         {
@@ -25,6 +27,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetRoundsBySeasonId/{seasonId}")]
         public async Task<IActionResult> GetRoundsBySeasonId(int? seasonId)
         {
@@ -32,6 +35,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateRound")]
         public IActionResult CreateSeason([FromBody] RoundDto round)
         {
@@ -39,6 +43,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRound(RoundDto roundDto)
         {
@@ -46,7 +51,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRound(int id)
         {

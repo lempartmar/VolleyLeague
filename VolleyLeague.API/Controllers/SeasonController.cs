@@ -19,6 +19,7 @@ namespace VolleyLeague.API.Controllers
             _seasonService = seasonService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllSeasons")]
         public async Task<IActionResult> GetAllSeasons()
         {
@@ -26,6 +27,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateSeason")]
         public IActionResult CreateSeason([FromBody] SeasonDto season)
         {
@@ -33,7 +35,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSeason(SeasonDto updatedSeason)
         {
@@ -60,7 +62,6 @@ namespace VolleyLeague.API.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error deleting season");
                 return StatusCode(500, "Internal server error");
             }
         }

@@ -20,6 +20,7 @@ namespace VolleyLeague.API.Controllers
             _teamService = teamService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllTeams")]
         public async Task<IActionResult> GetAllTeams()
         {
@@ -27,6 +28,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllTeamsForEdit")]
         public async Task<IActionResult> GetAllTeamsForEdit()
         {
@@ -34,8 +36,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
-
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddTeam")]
         public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team)
         {
@@ -44,6 +45,7 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet("GetTeamById/{Id}")]
         public async Task<IActionResult> GetTeamById(int Id)
         {
@@ -51,13 +53,13 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetTeamsByLeagueId/{Id}")]
         public async Task<IActionResult> GetTeamsByLeagueId(int Id)
         {
             var result = await _teamService.GetTeamsByLeagueId(Id);
             return Ok(result);
         }
-
 
         [Authorize]
         [HttpGet("GetManagedTeam")]
@@ -94,8 +96,8 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("UpdateTeam")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateTeam([FromBody] ManageTeamDto team)
         {
             string? id = User.Identity?.Name;
@@ -112,7 +114,7 @@ namespace VolleyLeague.API.Controllers
             return BadRequest(result.Message);
         }
 
-
+        [Authorize]
         [HttpPut("UpdateExtendedTeam")]
         public async Task<IActionResult> UpdateExtendedTeam([FromBody] ExtendedTeamDto team)
         {
@@ -153,6 +155,7 @@ namespace VolleyLeague.API.Controllers
             return BadRequest("Failed to delete the team.");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("getallteamsimagesstatus")]
         public async Task<IActionResult> GetAllTeamsImagesStatus()
         {
@@ -160,6 +163,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("DownloadTeamImage/{teamId}")]
         public async Task<IActionResult> DownloadTeamImage(int teamId)
         {
@@ -174,6 +178,7 @@ namespace VolleyLeague.API.Controllers
             return File(memoryStream, teamImage.ImageType, $"{teamId}.jpg");
         }
 
+        [Authorize]
         [HttpPost("UploadTeamImage/{teamId}")]
         public async Task<IActionResult> UploadTeamImage(int teamId, IFormFile file)
         {
@@ -188,6 +193,7 @@ namespace VolleyLeague.API.Controllers
             return BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpDelete("DeleteTeamImage/{teamId}")]
         public async Task<IActionResult> DeleteTeamImage(int teamId)
         {
@@ -199,6 +205,7 @@ namespace VolleyLeague.API.Controllers
             return BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpDelete("LeaveTeamByEmail")]
         public async Task<IActionResult> LeaveTeamByEmail([FromQuery] string email)
         {

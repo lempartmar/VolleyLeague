@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Matches;
 
@@ -17,12 +18,14 @@ namespace VolleyLeague.API.Controllers
             _typedResultService = typedResultService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetTypedResults")]
         public async Task<IActionResult> GetTypedResults(int seasonId)
         {
             return Ok(await _typedResultService.GetTypedResults(seasonId));
         }
 
+        [Authorize]
         [HttpPost("CreateTypedResult")]
         public async Task<IActionResult> CreateTypedResults([FromBody] TypedResultDto typedResult)
         {

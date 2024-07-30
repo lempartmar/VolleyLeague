@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Matches;
 
@@ -18,6 +19,7 @@ namespace VolleyLeague.API.Controllers
             _matchService = matchService;
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMatchById(int id)
         {
@@ -25,6 +27,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetNextTwoMatches")]
         public async Task<IActionResult> GetNextTwoMatches()
         {
@@ -32,6 +35,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetLastMatch")]
         public async Task<IActionResult> GetLastMatch()
         {
@@ -39,6 +43,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllMatches")]
         public async Task<IActionResult> GetAllMatches()
         {
@@ -46,6 +51,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost("createMatch")]
         public async Task<IActionResult> CreateMatch([FromBody] NewMatchDto match)
         {
@@ -75,6 +81,7 @@ namespace VolleyLeague.API.Controllers
         //    return BadRequest(result);
         //}
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteMatch(int id)
         {
@@ -87,6 +94,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetTeamsInRound/{roundId}")]
         public async Task<IActionResult> GetTeamsInRound(int roundId)
         {
@@ -98,6 +106,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(teamsInRound);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetReferees")]
         public async Task<IActionResult> GetReferees()
         {
@@ -110,6 +119,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.GetReferees());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("RemoveReferee/{userId}")]
         public async Task<IActionResult> DeleteReferee(int userId)
         {
@@ -124,12 +134,14 @@ namespace VolleyLeague.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetPotentialReferees")]
         public async Task<IActionResult> GetPotentialReferees()
         {
             return Ok(await _matchService.GetPotentialReferees());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("AddReferee")]
         public async Task<IActionResult> AddReferee(int userId)
         {
@@ -142,6 +154,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.AddReferee(userId));
         }
 
+        [AllowAnonymous]
         [HttpGet("matchesByCriteria")]
         public async Task<IActionResult> GetMatches([FromQuery] int leagueId, [FromQuery] int seasonId, [FromQuery] int roundId, [FromQuery] int teamId)
         {
@@ -158,6 +171,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.GetMatches(leagueId, seasonId, roundId));
         }
 
+        [AllowAnonymous]
         [HttpGet("matchesByCriteria2")]
         public async Task<IActionResult> GetMatches([FromQuery] int leagueId, [FromQuery] int seasonId, [FromQuery] int roundId)
         {
@@ -169,6 +183,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.GetMatches(leagueId, seasonId, roundId));
         }
 
+        [AllowAnonymous]
         [HttpGet("getStandings")]
         public async Task<IActionResult> GetStandings([FromQuery] int leagueId, [FromQuery] int seasonId)
         {
@@ -180,12 +195,14 @@ namespace VolleyLeague.API.Controllers
             return Ok(await _matchService.GetStandings(seasonId, leagueId));
         }
 
+        [AllowAnonymous]
         [HttpGet("get10LastMatches")]
         public async Task<IActionResult> Get10LastMatches()
         {
             return Ok(await _matchService.GetLast10Matches());
         }
 
+        [AllowAnonymous]
         [HttpGet("getMvpBySeasonAndLeague")]
         public async Task<IActionResult> GetMvpBySeasonAndLeague([FromQuery] int seasonId, [FromQuery] int leagueId)
         {
