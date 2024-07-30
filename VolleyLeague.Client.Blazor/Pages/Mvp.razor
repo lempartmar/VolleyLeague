@@ -3,156 +3,93 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
-    <div class="rts-point-table-section section-gap">
-        <div class="container">
-            <div class="table-area table-full">
-                <form class="checkout-form">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="seasonSelect" class="form-label">SEZON:</label>
-                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
-                                    @foreach (var season in Filter.SeasonList)
-                                    {
-                                        <option value="@season.Id">@season.Name</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="leagueSelect" class="form-label">LIGA:</label>
-                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
-                                    @foreach (var league in Filter.LeagueList)
-                                    {
-                                        <option value="@league.Id">@league.Name</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+<link href="mvp.css" rel="stylesheet">
 
-                @if (mvpLoading)
-                {
-                    <div class="d-flex justify-content-center">
-                        <div id="spinner"></div>
-                    </div>
-                }
-                else if (!string.IsNullOrEmpty(mvpErrorMessage))
-                {
-                    <div class="alert alert-danger">
-                        @mvpErrorMessage
-                    </div>
-                }
-                else if (MvpList.Count == 0)
-                {
-                    <div class="alert alert-info" role="alert">
-                        Nie znaleziono MVP dla danego sezonu.
-                    </div>
-                }
-                else if (MvpList.Count > 0)
-                {
-                    <div class="table-area table-full">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr class="head-tr">
-                                    <th scope="col">LP</th>
-                                    <th scope="col">Zawodnik</th>
-                                    <th scope="col">Drużyna</th>
-                                    <th scope="col">Ilość MVP</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int rank = 1;
-                                }
-                                @foreach (var player in MvpList)
+<div class="rts-point-table-section section-gap">
+    <div class="container">
+        <div class="table-area table-full">
+            <form class="checkout-form">
+                <div class="row">
+                    <div class="col-xl-3 col-md-3">
+                        <div class="form-group">
+                            <label for="seasonSelect" class="form-label">SEZON:</label>
+                            <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                @foreach (var season in Filter.SeasonList)
                                 {
-                                    <tr>
-                                        <td><span class="position-number">@rank</span></td>
-                                        <td>
-                                            <div class="player-name-area">
-                                            <h4 class="player-name"><a href="/user/@player.Id/">@player.Name</a></h4>
-                                            </div>
-                                        </td>
-                                        <td><span class="team-name">@player.TeamName</span></td>
-                                        <td><span class="mvp-count">@player.TotalMvpCount</span></td>
-                                    </tr>
-                                    rank++;
+                                    <option value="@season.Id">@season.Name</option>
                                 }
-                            </tbody>
-                        </table>
+                            </select>
+                        </div>
                     </div>
-                }
-            </div>
+                    <div class="col-xl-3 col-md-3">
+                        <div class="form-group">
+                            <label for="leagueSelect" class="form-label">LIGA:</label>
+                            <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                @foreach (var league in Filter.LeagueList)
+                                {
+                                    <option value="@league.Id">@league.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            @if (mvpLoading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="table-spinner"></div>
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(mvpErrorMessage))
+            {
+                <div class="alert alert-danger mvp-alert-danger">
+                    @mvpErrorMessage
+                </div>
+            }
+            else if (MvpList.Count == 0)
+            {
+                <div class="alert alert-info mvp-alert-info" role="alert">
+                    Nie znaleziono MVP dla danego sezonu.
+                </div>
+            }
+            else if (MvpList.Count > 0)
+            {
+                <div class="table-area table-full">
+                    <table class="table table-table-bordered">
+                        <thead class="table-thead table-thead-dark">
+                            <tr class="table-head-tr">
+                                <th scope="col">LP</th>
+                                <th scope="col">Zawodnik</th>
+                                <th scope="col">Drużyna</th>
+                                <th scope="col">Ilość MVP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rank = 1;
+                            }
+                            @foreach (var player in MvpList)
+                            {
+                                <tr>
+                                    <td><span class="position-number">@rank</span></td>
+                                    <td>
+                                        <div class="player-name-area">
+                                            <h4 class="player-name"><a href="/user/@player.Id/">@player.Name</a></h4>
+                                        </div>
+                                    </td>
+                                    <td><span class="team-name">@player.TeamName</span></td>
+                                    <td><span class="mvp-count">@player.TotalMvpCount</span></td>
+                                </tr>
+                                rank++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     </div>
-
-<style>
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-/*     .form-select {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    } */
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    thead {
-        border: 1px solid #e7e7e7; /* Ensure thead has a border */
-    }
-
-    th, td {
-        border: 1px solid #e7e7e7; /* Set border for table headers and cells */
-    }
-
-    .head-tr th {
-        border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
-    }
-
-    .table-bordered {
-        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
-    }
-
-    .player-name-area {
-        display: flex;
-        align-items: center;
-    }
-
-    .alert-info, .alert-danger {
-        margin-top: 20px;
-    }
-</style>
+</div>
 
 @code {
     private bool pageReady = false;

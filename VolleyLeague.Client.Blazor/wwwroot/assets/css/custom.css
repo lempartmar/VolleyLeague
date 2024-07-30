@@ -217,3 +217,150 @@ a.display-menu {
 /* Spinner animation */
 
 }
+
+/* MVP Page Styles */
+
+.mvp-btn-label {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
+.mvp-dropdown-toggle {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.mvp-card {
+    margin-bottom: 50px;
+}
+
+.mvp-btn-default {
+    background: #e5e7eb;
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+    text-align: left;
+}
+
+.mvp-spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.mvp-thead {
+    border: 1px solid #e7e7e7; /* Ensure thead has a border */
+}
+
+.mvp-th, .mvp-td {
+    border: 1px solid #e7e7e7; /* Set border for table headers and cells */
+}
+
+.mvp-head-tr th {
+    border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
+}
+
+.mvp-table-bordered {
+    border: 1px solid #e7e7e7; /* Ensure table itself has a border */
+}
+
+.mvp-thead-dark {
+    background: #015293;
+    color: white;
+}
+
+.mvp-alert-info, .mvp-alert-danger {
+    margin-top: 20px;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.table-btn-label {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
+.table-dropdown-toggle {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.table-card {
+    margin-bottom: 50px;
+}
+
+.table-btn-default {
+    background: #e5e7eb;
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+    text-align: left;
+}
+
+.table-spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.table-thead {
+    border: 1px solid #e7e7e7; /* Ensure thead has a border */
+}
+
+.table-th,
+.table-td {
+    border: none; /* Set border for table headers and cells */
+}
+
+.table-head-tr th {
+    border-bottom: none; /* Ensure thicker border for header row */
+}
+
+.table-table-bordered {
+    border: none; /* Ensure table itself has a border */
+}
+
+.table-thead-dark {
+    background: #015293;
+    color: white;
+}
+
+.mvp-alert-info, .mvp-alert-danger {
+    margin-top: 20px;
+}
+
+.player-name-area {
+    display: flex;
+    align-items: center;
+}
