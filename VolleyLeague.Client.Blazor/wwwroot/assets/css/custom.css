@@ -453,3 +453,85 @@ th, td {
     text-align: right;
     font-style: italic;
 }
+
+.contact-area {
+    margin-top: 40px;
+}
+
+.address-box {
+    margin-bottom: 40px;
+}
+
+.address {
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+}
+
+    .address .icon {
+        font-size: 24px;
+        margin-right: 15px;
+        color: #0066cc;
+    }
+
+    .address .content {
+        flex: 1;
+    }
+
+    .address .heading {
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .address .desc {
+        color: #666;
+    }
+
+        .address .desc a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+
+            .address .desc a:hover {
+                text-decoration: underline;
+            }
+
+.contact-area-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    width: 100%;
+}
+
+.post-title {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-form .input-box {
+    margin-bottom: 20px;
+}
+
+.form-btn {
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .form-btn:hover {
+        background-color: #004999;
+    }
