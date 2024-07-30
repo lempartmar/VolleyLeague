@@ -4,64 +4,64 @@
 @using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
 
-    <div class="rts-point-table-section section-gap">
-        <div class="container">
-            <div class="table-area table-full">
-                <form class="checkout-form">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="seasonSelect" class="form-label">SEZON:</label>
-                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
-                                    @foreach (var season in Filter.SeasonList)
-                                    {
-                                        <option value="@season.Id">@season.Name</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="leagueSelect" class="form-label">LIGA:</label>
-                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
-                                    @foreach (var league in Filter.LeagueList)
-                                    {
-                                        <option value="@league.Id">@league.Name</option>
-                                    }
-                                </select>
-                            </div>
+<link href="standings.css" rel="stylesheet">
+
+<div class="rts-point-table-section section-gap">
+    <div class="container">
+        <div class="table-area table-full">
+            <form class="checkout-form">
+                <div class="row">
+                    <div class="col-xl-3 col-md-3">
+                        <div class="form-group">
+                            <label for="seasonSelect" class="form-label">SEZON:</label>
+                            <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                @foreach (var season in Filter.SeasonList)
+                                {
+                                    <option value="@season.Id">@season.Name</option>
+                                }
+                            </select>
                         </div>
                     </div>
-                </form>
+                    <div class="col-xl-3 col-md-3">
+                        <div class="form-group">
+                            <label for="leagueSelect" class="form-label">LIGA:</label>
+                            <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                @foreach (var league in Filter.LeagueList)
+                                {
+                                    <option value="@league.Id">@league.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
-                @if (standingsLoading)
-                {
-                    <div class="d-flex justify-content-center">
-                        <div id="spinner"></div>
-                    </div>
-                }
-                else if (!string.IsNullOrEmpty(standingsErrorMessage))
-                {
-                    <div class="alert alert-danger">
-                        @standingsErrorMessage
-                    </div>
-                }
-                else if (StandingsList.Count == 0)
-                {
-                    <div class="alert alert-info" role="alert">
-                        Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
-                    </div>
-                }
-
+            @if (standingsLoading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="standings-spinner"></div>
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(standingsErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    @standingsErrorMessage
+                </div>
+            }
+            else if (StandingsList.Count == 0)
+            {
+                <div class="alert alert-info" role="alert">
+                    Brak tabeli do wyświetlenia dla wybranej ligi i sezonu.
+                </div>
+            }
             else if (StandingsList.Count > 0)
             {
                 <div class="title-area margin-top-xs">
                     <h2 class="title text-center">TABELA GŁÓWNA WYNIKÓW LIGI</h2>
                 </div>
-                <!-- First Table -->
                 <div class="table-area table-full">
-                    <table class="table">
-                        <thead class="thead-dark" style="background: #015293; color: white;">
+                    <table class="table standings-table-bordered">
+                        <thead class="standings-thead standings-thead-dark">
                             <tr>
                                 <th rowspan="2">LP</th>
                                 <th rowspan="2">DRUŻYNA</th>
@@ -97,7 +97,6 @@
                                         }
                                         <div class="product-title-area">
                                             <h4 class="player-name">
-                                                @* <img src="@imgSrc" alt="Logo" style="width: 30px; height: 30px; margin-right: 10px;"> *@
                                                 <a href="/team/@team.Team.Id/">@team.Team.Name</a>
                                             </h4>
                                         </div>
@@ -130,9 +129,9 @@
 
                 <h2 class="title text-center margin-top-xs margin-bottom-xs">TABELA POMOCNICZA</h2>
                 <div class="table-area table-full">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr class="head-tr">
+                    <table class="table standings-table-bordered">
+                        <thead class="standings-thead standings-thead-dark">
+                            <tr class="standings-head-tr">
                                 <th scope="col">LP</th>
                                 <th scope="col">DRUŻYNA</th>
                                 <th scope="col">PUNKTY</th>
@@ -172,68 +171,9 @@
                 </div>
             }
 
-
-
-            </div>
         </div>
     </div>
-
-<style>
-    .btn-label {
-        background: none;
-        border: none;
-        padding: 6px 12px;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-    }
-
-    .dropdown-toggle {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    }
-
-    .card {
-        margin-bottom: 50px;
-    }
-
-    .btn.btn-default.dropdown-toggle {
-        background: #e5e7eb;
-        font-size: 12px;
-        color: black;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    thead {
-        border: 1px solid #e7e7e7; /* Ensure thead has a border */
-    }
-
-    th, td {
-        border: 1px solid #e7e7e7; /* Set border for table headers and cells */
-    }
-
-    .head-tr th {
-        border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
-    }
-
-    .table-bordered {
-        border: 1px solid #e7e7e7; /* Ensure table itself has a border */
-    }
-</style>
-
+</div>
 
 @code {
     private bool pageReady = false;
