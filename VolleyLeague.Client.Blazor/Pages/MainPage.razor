@@ -17,7 +17,7 @@
 
 @if (isLoading)
 {
-<Preloader />
+    <Preloader />
 }
 else
 {
@@ -89,7 +89,7 @@ else
                                         <a href="/article/@thirdArticle.Id" class="gallery-picture" style="flex: 60%"><img src="@imageSrc3" alt=""></a>
                                         <div class="bottom-content" style="flex: 40%">
                                             <span class="blog-category-tag-main-page">@thirdArticle.CreationDate.ToString("dd.MM.yyyy") <span></span> Informacje</span>
-                                            <div class="gallery-title" >
+                                            <div class="gallery-title">
                                                 <a href="/article/@thirdArticle.Id">@thirdArticle.Title</a>
                                             </div>
                                             <div class="author-info">
@@ -107,7 +107,6 @@ else
             </div>
         </section>
 
-
         <section class="rts-player-static baseball volleyball">
             <div class="container">
                 <div class="section-inner">
@@ -118,7 +117,9 @@ else
                                     <div class="stat-table">
                                         <div class="table-area">
                                             <div style="display: flex; width: 100%;justify-content: space-between;">
-                                                <h3 style="flex: 1;"class="top">Pierwsza Liga BLS</h3><h3 class="top">|</h3><h3 class="top" style="flex:1;">Pierwsza Liga BLSK</h3>
+                                                <h3 style="flex: 1; cursor: pointer;" class="top" @onclick="ShowStandingsBLS">Pierwsza Liga BLS</h3>
+                                                <h3 class="top">|</h3>
+                                                <h3 style="flex:1; cursor: pointer;" class="top" @onclick="ShowStandingsBLSK">Pierwsza Liga BLSK</h3>
                                             </div>
                                             <table class="table table-bordered">
                                                 <thead>
@@ -133,13 +134,13 @@ else
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (StandingsListShortBLS != null)
+                                                    @if (currentStandings != null)
                                                     {
-                                                        @foreach (var team in StandingsListShortBLS)
+                                                        @foreach (var team in currentStandings)
                                                         {
                                                             <tr>
                                                                 <td>
-                                                                    <span class="position-number">@(StandingsListShortBLS.IndexOf(team) + 1)</span>
+                                                                    <span class="position-number">@(currentStandings.IndexOf(team) + 1)</span>
                                                                 </td>
                                                                 <td>
                                                                     @{
@@ -218,10 +219,6 @@ else
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -316,31 +313,31 @@ else
 }
 
 <script>
-window.initializeSwiper = () => {
-    new Swiper('.swiper.bannerSlide2', {
-        loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        autoplay: {
-            delay: 5000, // 5000ms = 5 seconds
-            disableOnInteraction: false,
-        },
-        speed: 2000, // 2000ms = 2 seconds for transition speed
-    });
-};
+    window.initializeSwiper = () => {
+        new Swiper('.swiper.bannerSlide2', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 5000, // 5000ms = 5 seconds
+                disableOnInteraction: false,
+            },
+            speed: 2000, // 2000ms = 2 seconds for transition speed
+        });
+    };
 </script>
-
 
 <style>
     li.no-matches {
         justify-content: center;
     }
+
     .nav-item.nav-user {
         color: #7d7d7d;
         text-decoration: none;
@@ -386,6 +383,7 @@ window.initializeSwiper = () => {
         font-weight: bold;
         color: #333;
     }
+
     .cookie-consent-overlay {
         position: fixed;
         top: 0;
@@ -450,6 +448,7 @@ window.initializeSwiper = () => {
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShortBLS = new List<StandingsDto>();
+    private List<StandingsDto> StandingsListShortBLSK = new List<StandingsDto>();
     private ScheduleFilter Filter = new ScheduleFilter();
     private List<MinimalArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
@@ -460,8 +459,9 @@ window.initializeSwiper = () => {
     private bool cookiesAccepted = false;
     private bool isLoading = true;
     private List<NextMatchMinDto> nextMatches;
+    private List<StandingsDto> currentStandings;
 
-     protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
@@ -527,12 +527,11 @@ window.initializeSwiper = () => {
     private async Task LoadStandings()
     {
         StandingsListShortBLS = await matchService.GetStandings(37, 1);
-        StandingsListShortBLSK = await matchService.GetStandings(37, 1);
+        StandingsListShortBLSK = await matchService.GetStandings(37, 2); // Assumed league ID for BLSK is 2, adjust accordingly
+        currentStandings = StandingsListShortBLS; // Initialize with BLS standings
         standingsLoad = true;
         UpdatePageReadiness();
     }
-
-
 
     private async Task LoadArticles()
     {
@@ -604,5 +603,15 @@ window.initializeSwiper = () => {
     private string ConvertImageToBase64(byte[] image)
     {
         return image != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(image)}" : string.Empty;
+    }
+
+    private void ShowStandingsBLS()
+    {
+        currentStandings = StandingsListShortBLS;
+    }
+
+    private void ShowStandingsBLSK()
+    {
+        currentStandings = StandingsListShortBLSK;
     }
 }
