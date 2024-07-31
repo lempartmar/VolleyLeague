@@ -117,7 +117,9 @@ else
                                 <div class="content-area">
                                     <div class="stat-table">
                                         <div class="table-area">
-                                            <h3 class="top">Pierwsza Liga BLS</h3>
+                                            <div style="display: flex; width: 100%;justify-content: space-between;">
+                                                <h3 style="flex: 1;"class="top">Pierwsza Liga BLS</h3><h3 class="top">|</h3><h3 class="top" style="flex:1;">Pierwsza Liga BLSK</h3>
+                                            </div>
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr class="head-tr">
@@ -131,13 +133,13 @@ else
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (StandingsListShort != null)
+                                                    @if (StandingsListShortBLS != null)
                                                     {
-                                                        @foreach (var team in StandingsListShort)
+                                                        @foreach (var team in StandingsListShortBLS)
                                                         {
                                                             <tr>
                                                                 <td>
-                                                                    <span class="position-number">@(StandingsListShort.IndexOf(team) + 1)</span>
+                                                                    <span class="position-number">@(StandingsListShortBLS.IndexOf(team) + 1)</span>
                                                                 </td>
                                                                 <td>
                                                                     @{
@@ -447,7 +449,7 @@ window.initializeSwiper = () => {
     private LastMatchDto lastMatch;
     public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
-    private List<StandingsDto> StandingsListShort = new List<StandingsDto>();
+    private List<StandingsDto> StandingsListShortBLS = new List<StandingsDto>();
     private ScheduleFilter Filter = new ScheduleFilter();
     private List<MinimalArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
@@ -524,7 +526,8 @@ window.initializeSwiper = () => {
 
     private async Task LoadStandings()
     {
-        StandingsListShort = await matchService.GetStandings(37, 1);
+        StandingsListShortBLS = await matchService.GetStandings(37, 1);
+        StandingsListShortBLSK = await matchService.GetStandings(37, 1);
         standingsLoad = true;
         UpdatePageReadiness();
     }
