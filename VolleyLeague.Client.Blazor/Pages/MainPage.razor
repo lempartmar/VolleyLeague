@@ -493,6 +493,11 @@ else
         {
             await InitializeData();
         }
+        else
+        {
+            // Ensure the default tab is set even if cookies are not accepted yet
+            ShowStandingsBLS();
+        }
         isLoading = false;
     }
 
@@ -508,6 +513,8 @@ else
         };
 
         await Task.WhenAll(tasks);
+
+        ShowStandingsBLS(); // Ensure the default tab is set after data initialization
 
         await CheckAndSetToken();
 
