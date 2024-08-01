@@ -1,5 +1,6 @@
 ﻿@page "/mvp"
 @inject IMatchService matchService
+@inject IAdminDefinedCodeService adminDefinedCodeService
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
@@ -96,7 +97,7 @@
     private bool mvpLoading = false;
     private string mvpErrorMessage = "";
     private List<PlayerSummaryDto> MvpList = new List<PlayerSummaryDto>();
-    private ScheduleFilter Filter = new ScheduleFilter();
+    private ScheduleFilter Filter;
 
     private class ScheduleFilter
     {
@@ -105,15 +106,18 @@
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
 
-        public ScheduleFilter()
+        public ScheduleFilter(int startingSeasonId, int startingLeagueId)
         {
-            SeasonId = 37;
-            LeagueId = 1;
+            SeasonId = startingSeasonId;
+            LeagueId = startingLeagueId;
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
+        int startingSeasonId = int.Parse(await adminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
+        int startingLeagueId = int.Parse(await adminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
+        Filter = new ScheduleFilter(startingSeasonId, startingLeagueId);
         await LoadInitialDataAsync();
         await ApplyFilter();
     }
