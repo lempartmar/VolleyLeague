@@ -180,6 +180,8 @@
 
 @code {
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
+    public AdminDefinedCodeDto leagueCodeDto { get; set; } = new AdminDefinedCodeDto();
+    public AdminDefinedCodeDto seasonCodeDto { get; set; } = new AdminDefinedCodeDto();
     private string message = string.Empty;
     private ScheduleFilter Filter = new ScheduleFilter();
 
@@ -187,6 +189,11 @@
     {
         codeDto.Value = await AdminDefinedCodeService.GetValueByKey("current-season-for-main-page");
         codeDto.Key = "current-season-for-main-page";
+
+        leagueCodeDto.Value = await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page");
+        leagueCodeDto.Key = "leagueId-for-main-page";
+        seasonCodeDto.Value = await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page");
+        seasonCodeDto.Key = "seasonId-for-main-page";
         await LoadInitialDataAsync();
     }
 
