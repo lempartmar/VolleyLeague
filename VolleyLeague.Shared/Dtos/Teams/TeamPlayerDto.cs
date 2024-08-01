@@ -12,7 +12,7 @@ namespace VolleyLeague.Shared.Dtos.Teams
 
         [Required(ErrorMessage = "Nazwisko zawodnika jest wymagane.")]
         public string LastName { get; set; } = null!;
-        [Required(ErrorMessage = "Adres Email jest wymagany")]
+
         public string? Email { get; set; }
 
         public int Height { get; set; }

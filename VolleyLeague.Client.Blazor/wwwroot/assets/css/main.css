@@ -28132,3 +28132,7 @@ div.label-instruction {
 .row.margin-top-xm {
     margin-top: 30px !important;
 }
+
+img.img-half {
+    width: 50% !important;
+}

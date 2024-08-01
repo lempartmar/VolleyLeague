@@ -62,7 +62,28 @@
                         @{
                             var imgSrc = "/assets/images/standings-view-page.png";
                         }
-                        <img style="" src=@imgSrc alt="club-logo">
+                        <img class="img-half" src=@imgSrc alt="club-logo">
+                    </div>
+                    <div>
+                        <div>Dotyczy również tabeli na stronie głównej (sezon): </div>
+                        @{
+                            var imgSrc2 = "/assets/images/main-page-standings.png";
+                        }
+                        <img class="img-half" src=@imgSrc2 alt="club-logo">
+                    </div>
+                    <div>
+                        <div>Dotyczy również tabeli mvp (sezon oraz liga): </div>
+                        @{
+                            var imgSrc3 = "/assets/images/mvp-standings.png";
+                        }
+                        <img class="img-half" src=@imgSrc3 alt="club-logo">
+                    </div>
+                    <div>
+                        <div>Dotyczy również tabeli wyników typermanii (sezon): </div>
+                        @{
+                            var imgSrc4 = "/assets/images/typermania-standings.png";
+                        }
+                        <img class="img-half" src=@imgSrc4 alt="club-logo">
                     </div>
                     <div class="row margin-top-xm">
                         <div class="col-md-6">
@@ -192,11 +213,11 @@
         var result = await AdminDefinedCodeService.UpdateCode(codeDto);
         if (result.Success)
         {
-            message = "Code updated successfully.";
+            message = "Aktualizacja tekstu zakończona z sukcesem.";
         }
         else
         {
-            message = "Failed to update the code.";
+            message = "Niestety nie udało się zaktualizować kodu.";
         }
     }
 
@@ -207,11 +228,11 @@
 
         if (leagueUpdateResult.Success && seasonUpdateResult.Success)
         {
-            message = "League and Season updated successfully.";
+            message = "Sezon oraz Liga zaktualizowane.";
         }
         else
         {
-            message = "Failed to update the League or Season.";
+            message = "Nie udało się zaktualizować ligi oraz sezonu.";
         }
     }
 
