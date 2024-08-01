@@ -196,7 +196,7 @@
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
     public LeagueAndSeasonDto leagueAndSeasonDto { get; set; } = new LeagueAndSeasonDto();
     private string message = string.Empty;
-    private ScheduleFilter Filter = new ScheduleFilter();
+    private ScheduleFilter Filter;
 
     protected override async Task OnInitializedAsync()
     {
@@ -205,6 +205,7 @@
 
         leagueAndSeasonDto.LeagueId = int.Parse(await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
         leagueAndSeasonDto.SeasonId = int.Parse(await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
+        Filter = new ScheduleFilter(leagueAndSeasonDto.SeasonId, leagueAndSeasonDto.LeagueId);
         await LoadInitialDataAsync();
     }
 
@@ -259,10 +260,10 @@
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
 
-        public ScheduleFilter()
+        public ScheduleFilter(int startingSeasonId, int startingLeagueId)
         {
-            SeasonId = 37;
-            LeagueId = 1;
+            SeasonId = startingSeasonId;
+            LeagueId = startingLeagueId;
         }
     }
 
