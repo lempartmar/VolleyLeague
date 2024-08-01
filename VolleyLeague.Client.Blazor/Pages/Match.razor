@@ -66,7 +66,10 @@
                             <div class="card-text d-flex align-content-center justify-content-center">
                                 @if (MatchData.HomeTeam.Logo != null)
                                 {
-                                    <img src="@GetLogoSrc(MatchData.HomeTeam.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                                    var imgSrcLogo = (MatchData.HomeTeam.Logo != null && MatchData.HomeTeam.Logo.Length > 0)
+                                    ? $"data:image/png;base64,{Convert.ToBase64String(MatchData.HomeTeam.Logo)}"
+                                    : "/assets/images/Logo_alternative.png";
+                                    <img src="@imgSrcLogo" style="width: 200px; height: 200px; margin-bottom: 30px">
                                 }
                                 else
                                 {
@@ -108,7 +111,10 @@
                             <div class="card-text d-flex align-content-center justify-content-center" style="margin-bottom: 15px;">
                                 @if (MatchData.GuestTeam.Logo != null)
                                 {
-                                    <img src="@GetLogoSrc(MatchData.GuestTeam.Logo)" style="width: 200px; height: 200px; margin-bottom: 30px">
+                                    var imgSrcLogo = (MatchData.GuestTeam.Logo != null && MatchData.GuestTeam.Logo.Length > 0)
+                                    ? $"data:image/png;base64,{Convert.ToBase64String(MatchData.GuestTeam.Logo)}"
+                                    : "/assets/images/Logo_alternative.png";
+                                    <img src="@imgSrcLogo" style="width: 200px; height: 200px; margin-bottom: 30px">
                                 }
                                 else
                                 {
