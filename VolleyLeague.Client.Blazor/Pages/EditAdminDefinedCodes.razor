@@ -10,6 +10,10 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
+<head>
+    <link rel="stylesheet" href="/assets/css/custom-create-match.css" />
+</head>
+
 <h3>Dodatkowy panel zarządzania portalem</h3>
 
 <div class="legend margin-top-xs">
@@ -23,7 +27,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
+                <EditForm Model="codeDto" OnValidSubmit="HandleValidSubmit">
                     <h3>Edytuj opis</h3>
                     <div class="row margin-top-xs">
                         <div class="col-md-6">
@@ -47,58 +51,36 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
-                    <h3>Edytuj opis</h3>
+                <EditForm Model="leagueAndSeasonDto" OnValidSubmit="HandleLeagueAndSeasonSubmit">
+                    <h3>Edytuj Ligę oraz Sezon</h3>
                     <div class="row margin-top-xs">
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
-                                <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
-                                <label for="Value">Value</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div>Dotyczy poniższego tekstu na stronie głównej: </div>
-                        @{
-                            var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
-                        }
-                        <img style="" src=@imgSrc alt="club-logo">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                </EditForm>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>Edytuj Ligę oraz Sezon</h3>
-                <form class="checkout-form">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="seasonSelect" class="form-label">SEZON:</label>
-                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                <Select id="seasonSelect" class="form-select" @onchange="OnSeasonChanged">
                                     @foreach (var season in Filter.SeasonList)
                                     {
                                         <option value="@season.Id">@season.Name</option>
                                     }
-                                </select>
+                                </Select>
+                                <label for="seasonSelect">Sezon</label>
+                                <ValidationMessage For="@(() => leagueAndSeasonDto.SeasonId)" />
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="form-group">
-                                <label for="leagueSelect" class="form-label">LIGA:</label>
-                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4">
+                                <Select id="leagueSelect" class="form-select" @onchange="OnLeagueChanged">
                                     @foreach (var league in Filter.LeagueList)
                                     {
                                         <option value="@league.Id">@league.Name</option>
                                     }
-                                }
-                                </select>
+                                </Select>
+                                <label for="leagueSelect">Liga</label>
+                                <ValidationMessage For="@(() => leagueAndSeasonDto.LeagueId)" />
                             </div>
                         </div>
                     </div>
-                </form>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
             </div>
         </div>
     </div>
@@ -180,8 +162,7 @@
 
 @code {
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
-    public AdminDefinedCodeDto leagueCodeDto { get; set; } = new AdminDefinedCodeDto();
-    public AdminDefinedCodeDto seasonCodeDto { get; set; } = new AdminDefinedCodeDto();
+    public LeagueAndSeasonDto leagueAndSeasonDto { get; set; } = new LeagueAndSeasonDto();
     private string message = string.Empty;
     private ScheduleFilter Filter = new ScheduleFilter();
 
@@ -190,10 +171,8 @@
         codeDto.Value = await AdminDefinedCodeService.GetValueByKey("current-season-for-main-page");
         codeDto.Key = "current-season-for-main-page";
 
-        leagueCodeDto.Value = await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page");
-        leagueCodeDto.Key = "leagueId-for-main-page";
-        seasonCodeDto.Value = await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page");
-        seasonCodeDto.Key = "seasonId-for-main-page";
+        leagueAndSeasonDto.LeagueId = int.Parse(await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
+        leagueAndSeasonDto.SeasonId = int.Parse(await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
         await LoadInitialDataAsync();
     }
 
@@ -210,6 +189,21 @@
         }
     }
 
+    private async Task HandleLeagueAndSeasonSubmit()
+    {
+        var leagueUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "leagueId-for-main-page", Value = leagueAndSeasonDto.LeagueId.ToString() });
+        var seasonUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "seasonId-for-main-page", Value = leagueAndSeasonDto.SeasonId.ToString() });
+
+        if (leagueUpdateResult.Success && seasonUpdateResult.Success)
+        {
+            message = "League and Season updated successfully.";
+        }
+        else
+        {
+            message = "Failed to update the League or Season.";
+        }
+    }
+
     private async Task LoadInitialDataAsync()
     {
         Filter.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
@@ -218,14 +212,12 @@
 
     private async Task OnSeasonChanged(ChangeEventArgs e)
     {
-        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
-        // Perform necessary actions when season changes
+        leagueAndSeasonDto.SeasonId = Convert.ToInt32(e.Value.ToString());
     }
 
     private async Task OnLeagueChanged(ChangeEventArgs e)
     {
-        Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
-        // Perform necessary actions when league changes
+        leagueAndSeasonDto.LeagueId = Convert.ToInt32(e.Value.ToString());
     }
 
     private class ScheduleFilter
@@ -240,5 +232,11 @@
             SeasonId = 37;
             LeagueId = 1;
         }
+    }
+
+    public class LeagueAndSeasonDto
+    {
+        public int LeagueId { get; set; }
+        public int SeasonId { get; set; }
     }
 }
