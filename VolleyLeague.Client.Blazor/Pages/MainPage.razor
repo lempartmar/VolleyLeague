@@ -117,9 +117,8 @@ else
                                     <div class="stat-table">
                                         <div class="table-area">
                                             <div style="display: flex; width: 100%;justify-content: space-between;">
-                                                <h3 style="flex: 1; cursor: pointer;" class="top" @onclick="ShowStandingsBLS">Pierwsza Liga BLS</h3>
-                                                <h3 class="top">|</h3>
-                                                <h3 style="flex:1; cursor: pointer;" class="top" @onclick="ShowStandingsBLSK">Pierwsza Liga BLSK</h3>
+                                                <h3 class="@blsClass" style="flex: 1; cursor: pointer;" @onclick="ShowStandingsBLS">Pierwsza Liga BLS</h3>
+                                                <h3 class="@blskClass" style="flex:1; cursor: pointer;" @onclick="ShowStandingsBLSK">Pierwsza Liga BLSK</h3>
                                             </div>
                                             <table class="table table-bordered">
                                                 <thead>
@@ -441,6 +440,15 @@ else
         height: 100vh;
         font-size: 24px;
     }
+
+    .active-tab {
+        color: white !important;
+        background: #C10F18 !important;
+    }
+
+    .top {
+        color: white !important;
+    }
 </style>
 
 @code {
@@ -460,6 +468,8 @@ else
     private bool isLoading = true;
     private List<NextMatchMinDto> nextMatches;
     private List<StandingsDto> currentStandings;
+    private string blsClass = "active-tab";
+    private string blskClass = "";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -608,10 +618,14 @@ else
     private void ShowStandingsBLS()
     {
         currentStandings = StandingsListShortBLS;
+        blsClass = "active-tab top";
+        blskClass = "top";
     }
 
     private void ShowStandingsBLSK()
     {
         currentStandings = StandingsListShortBLSK;
+        blsClass = "top";
+        blskClass = "active-tab top";
     }
 }
