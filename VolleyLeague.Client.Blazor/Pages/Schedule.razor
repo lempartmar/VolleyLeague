@@ -157,7 +157,6 @@ else
     private int startLeagueId;
     private int startRoundId;
 
-
     private ScheduleFilter Filter;
 
     public class ScheduleFilter
@@ -192,7 +191,8 @@ else
         int startingSeasonId = int.Parse(await adminDefinedCodeService.GetValueByKey("seasonId-for-schedule"));
         int startingRoundId = int.Parse(await adminDefinedCodeService.GetValueByKey("roundId-for-schedule"));
         int startingLeagueId = int.Parse(await adminDefinedCodeService.GetValueByKey("leagueId-for-schedule"));
-        Filter = new ScheduleFilter(startingSeasonId, startingLeagueId, startingLeagueId);
+        Filter = new ScheduleFilter(startingSeasonId, startingRoundId, startingLeagueId);
+
         scheduleLoading = true;
         var result = await matchService.GetMatches(startingSeasonId, startingLeagueId, startingRoundId);
         if (result != null)
@@ -273,6 +273,8 @@ else
     private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
     {
         Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
+        Filter.RoundList = AllRounds.Where(x => x.SeasonId == Filter.SeasonId).ToList();
+        Filter.RoundId = Filter.RoundList.FirstOrDefault()?.Id ?? 0;
         await ApplyFilter();
     });
 
