@@ -145,7 +145,7 @@ else
             if (result.IsSuccessStatusCode)
             {
                 _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
-                _currentPage = 1;  // Reset the page number for search results
+                _currentPage = 1;  
             }
         }
     }
