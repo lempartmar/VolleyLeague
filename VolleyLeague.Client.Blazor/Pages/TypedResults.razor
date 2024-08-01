@@ -1,6 +1,7 @@
 ﻿@page "/typedResults"
 @inject ITypedResultService typedResultService
 @inject IMatchService matchService
+@inject IAdminDefinedCodeService adminDefinedCodeService
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
@@ -107,21 +108,25 @@ else
     private bool resultsLoading = false;
     private string resultsErrorMessage = "";
     private List<TypedUserDto> TypedUserList = new List<TypedUserDto>();
-    private ScheduleFilter Filter = new ScheduleFilter();
+    private ScheduleFilter Filter;
+
+
 
     private class ScheduleFilter
     {
         public int SeasonId { get; set; }
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
 
-        public ScheduleFilter()
+        public ScheduleFilter(int startingSeasonId)
         {
-            SeasonId = 37;
+            SeasonId = startingSeasonId;
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
+        int startingSeasonId = int.Parse(await adminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
+        Filter = new ScheduleFilter(startingSeasonId);
         await LoadInitialDataAsync();
         await ApplyFilter();
         pageReady = true;
