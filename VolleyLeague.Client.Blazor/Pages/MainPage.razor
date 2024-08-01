@@ -4,15 +4,18 @@
 @using System.IdentityModel.Tokens.Jwt
 @using VolleyLeague.Client.Blazor.Authentication
 @using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Client.Blazor.Shared.Helpers
 @using VolleyLeague.Shared.Dtos.Discussion
 @using VolleyLeague.Shared.Dtos.Matches
 @using Microsoft.JSInterop
+@using VolleyLeague.Shared.Dtos.Teams
 @inject HttpClient Http
 @inject IMatchService matchService
 @inject ILogService logService
 @inject ILocalStorageService _localStorageService
 @inject AuthenticationStateProvider _authStateProvider
 @inject IJSRuntime JS
+@inject IAdminDefinedCodeService adminDefinedCodeService
 @inject AuthenticationStateProvider authStateProvider
 
 @if (isLoading)
@@ -324,10 +327,10 @@ else
                 prevEl: '.swiper-button-prev',
             },
             autoplay: {
-                delay: 5000, // 5000ms = 5 seconds
+                delay: 5000,
                 disableOnInteraction: false,
             },
-            speed: 2000, // 2000ms = 2 seconds for transition speed
+            speed: 2000, 
         });
     };
 </script>
@@ -457,7 +460,7 @@ else
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShortBLS = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShortBLSK = new List<StandingsDto>();
-    private ScheduleFilter Filter = new ScheduleFilter();
+    private ScheduleFilter Filter;
     private List<MinimalArticleDto> _articles;
     private IEnumerable<LogDto> _logs;
     public bool pageReady = false;
@@ -466,6 +469,8 @@ else
     public bool matchResultsLoad = false;
     private bool cookiesAccepted = false;
     private bool isLoading = true;
+    private int startingSeasonId = 0;
+    private int startingLeagueId = 0;
     private List<NextMatchMinDto> nextMatches;
     private List<StandingsDto> currentStandings;
     private string blsClass = "active-tab";
@@ -481,13 +486,24 @@ else
 
     private class ScheduleFilter
     {
-        public int SeasonId { get; set; } = 37;
-        public int LeagueId { get; set; } = 1;
+        public int SeasonId { get; set; }
+        public int LeagueId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+        public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+
+        public ScheduleFilter(int startingSeasonId, int startingLeagueId)
+        {
+            SeasonId = startingSeasonId;
+            LeagueId = startingLeagueId;
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
+        startingSeasonId = int.Parse(await adminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
+        startingLeagueId = int.Parse(await adminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
+        Filter = new ScheduleFilter(startingSeasonId, startingLeagueId);
         cookiesAccepted = await _localStorageService.GetItemAsync<bool>("cookiesAccepted");
         if (cookiesAccepted)
         {
@@ -495,7 +511,6 @@ else
         }
         else
         {
-            // Ensure the default tab is set even if cookies are not accepted yet
             ShowStandingsBLS();
         }
         isLoading = false;
@@ -514,7 +529,7 @@ else
 
         await Task.WhenAll(tasks);
 
-        ShowStandingsBLS(); // Ensure the default tab is set after data initialization
+        ShowStandingsBLS(); 
 
         await CheckAndSetToken();
 
@@ -543,9 +558,12 @@ else
 
     private async Task LoadStandings()
     {
-        StandingsListShortBLS = await matchService.GetStandings(37, 1);
-        StandingsListShortBLSK = await matchService.GetStandings(37, 2); // Assumed league ID for BLSK is 2, adjust accordingly
-        currentStandings = StandingsListShortBLS; // Initialize with BLS standings
+        int leagueBLSId = (await matchService.GetLeagues()).Where(x => x.Name == RazorComponentsConsts.BLSLeagueName).FirstOrDefault().Id;
+        int leagueBLSKId = (await matchService.GetLeagues()).Where(x => x.Name == RazorComponentsConsts.BLSKLeagueName).FirstOrDefault().Id;
+
+        StandingsListShortBLS = await matchService.GetStandings(startingSeasonId, leagueBLSId);
+        StandingsListShortBLSK = await matchService.GetStandings(startingSeasonId, leagueBLSKId);
+        currentStandings = StandingsListShortBLS;
         standingsLoad = true;
         UpdatePageReadiness();
     }
@@ -585,24 +603,6 @@ else
         pageReady = standingsLoad && articlesLoad && matchResultsLoad;
     }
 
-    private int _currentPage = 1;
-    private int _articlesPerPage = 5;
-
-    private async Task LoadNextPage()
-    {
-        _currentPage++;
-        await LoadArticles();
-    }
-
-    private async Task LoadPreviousPage()
-    {
-        if (_currentPage > 1)
-        {
-            _currentPage--;
-            await LoadArticles();
-        }
-    }
-
     private async Task AcceptCookies()
     {
         cookiesAccepted = true;
@@ -610,11 +610,6 @@ else
         isLoading = true;
         await InitializeData();
         isLoading = false;
-    }
-
-    private string GetTeamLogoSrc(byte[] logo)
-    {
-        return logo != null ? $"data:image/png;base64,{Convert.ToBase64String(logo)}" : "/assets/images/Logo_alternative.png.";
     }
 
     private string ConvertImageToBase64(byte[] image)
