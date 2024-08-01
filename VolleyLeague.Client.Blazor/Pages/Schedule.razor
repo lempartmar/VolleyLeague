@@ -201,6 +201,7 @@ else
         }
         scheduleLoading = false;
         await LoadInitialDataAsync();
+        Filter.RoundId = startingRoundId;
     }
 
     private async Task LoadInitialDataAsync()
