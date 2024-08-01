@@ -44,6 +44,31 @@
                 </EditForm>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
+                    <h3>Edytuj opis</h3>
+                    <div class="row margin-top-xs">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
+                                <label for="Value">Value</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <div>Dotyczy poniższego tekstu na stronie głównej: </div>
+                        @{
+                            var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
+                        }
+                        <img style="" src=@imgSrc alt="club-logo">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
+            </div>
+        </div>
     </div>
 </div>
 

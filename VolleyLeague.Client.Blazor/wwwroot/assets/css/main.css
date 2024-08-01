@@ -28124,3 +28124,7 @@ img.user-profile-image {
     margin-top: 60px;
     margin-bottom: 60px;
 }
+
+div.label-instruction {
+    font-size: 12px !important;
+}

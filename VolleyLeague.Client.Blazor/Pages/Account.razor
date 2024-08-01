@@ -60,7 +60,7 @@
                     <button class="filter-btn @GetActiveClass(InfoPages.AddArticle)" @onclick="() => ShowSection(InfoPages.AddArticle)">
                         <i class="fal fa-newspaper"></i> Dodaj Artykuł
                     </button>
-                    <button class="filter-btn @GetActiveClass(InfoPages.EditUserDefinedCode)" @onclick="() => ShowSection(InfoPages.EditUserDefinedCode)">
+                    <button class="filter-btn @GetActiveClass(InfoPages.EditAdminDefinedCode)" @onclick="() => ShowSection(InfoPages.EditAdminDefinedCode)">
                         <i class="fal fa-code"></i> Zarządzaj Portalem
                     </button>
                 }
@@ -101,7 +101,7 @@
                     case InfoPages.AddArticle:
                         <AddArticle />
                         break;
-                    case InfoPages.EditUserDefinedCode:
+                    case InfoPages.EditAdminDefinedCode:
                         <EditAdminDefinedCodes />
                         break;
                 }
@@ -124,7 +124,7 @@
         ManageTeams,
         TeamsImages,
         AddArticle,
-        EditUserDefinedCode
+        EditAdminDefinedCode
     }
 
     private InfoPages currentSection = InfoPages.UserProfile;
