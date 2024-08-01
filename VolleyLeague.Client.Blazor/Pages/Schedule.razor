@@ -3,6 +3,7 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
+@inject IAdminDefinedCodeService adminDefinedCodeService
 
 @if (!pageReady)
 {
@@ -152,8 +153,12 @@ else
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private static List<RoundDto> AllRounds { get; set; } = new List<RoundDto>();
     private string errorMessage = string.Empty;
+    private int startSeasonId;
+    private int startLeagueId;
+    private int startRoundId;
 
-    private ScheduleFilter Filter = new ScheduleFilter();
+
+    private ScheduleFilter Filter;
 
     public class ScheduleFilter
     {
@@ -174,18 +179,22 @@ else
         public List<RoundDto> RoundList { get; set; } = new List<RoundDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
 
-        public ScheduleFilter()
+        public ScheduleFilter(int seasonId, int roundId, int leagueId)
         {
-            SeasonId = 37;
-            RoundId = 1237;
-            LeagueId = 1;
+            SeasonId = seasonId;
+            RoundId = roundId;
+            LeagueId = leagueId;
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
+        int startingSeasonId = int.Parse(await adminDefinedCodeService.GetValueByKey("seasonId-for-schedule"));
+        int startingRoundId = int.Parse(await adminDefinedCodeService.GetValueByKey("roundId-for-schedule"));
+        int startingLeagueId = int.Parse(await adminDefinedCodeService.GetValueByKey("leagueId-for-schedule"));
+        Filter = new ScheduleFilter(startingSeasonId, startingLeagueId, startingLeagueId);
         scheduleLoading = true;
-        var result = await matchService.GetMatches(37, 1, 1237);
+        var result = await matchService.GetMatches(startingSeasonId, startingLeagueId, startingRoundId);
         if (result != null)
         {
             Games = result;
