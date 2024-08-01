@@ -16,7 +16,7 @@
 
 <h3>Dodatkowy panel zarządzania portalem</h3>
 
-<div class="legend margin-top-xs">
+<div class="legend margin-top-xm">
     <li>Panel ten umożliwia zarządzanie sekcjami niezdefiniowanymi w pozostałych zakładkach</li>
 </div>
 
@@ -26,54 +26,65 @@
             <h2>Opis aktualnego sezonu (strona główna)</h2>
         </div>
         <div class="card">
-            <div class="card-body">
-                <EditForm Model="codeDto" OnValidSubmit="HandleValidSubmit">
-                    <h3>Edytuj opis</h3>
-                    <div class="row margin-top-xs">
-                        <div class="col-md-6">
-                            <div class="form-floating mb-4">
-                                <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
-                                <label for="Value">Value</label>
-                            </div>
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
+                        <h3>Edytuj opis</h3>
+                        <div>
+                            <div>Dotyczy poniższego tekstu na stronie głównej: </div>
+                            @{
+                                var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
+                            }
+                            <img style="" src=@imgSrc alt="club-logo">
                         </div>
-                    </div>
+                        <div class="row margin-top-xm">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
+                                    <label for="Value">Value</label>
+                                </div>
+                            </div>
 
-                    <div>
-                        <div>Dotyczy poniższego tekstu na stronie głównej: </div>
-                        @{
-                            var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
-                        }
-                        <img style="" src=@imgSrc alt="club-logo">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                </EditForm>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                    </EditForm>
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
                 <EditForm Model="leagueAndSeasonDto" OnValidSubmit="HandleLeagueAndSeasonSubmit">
                     <h3>Edytuj Ligę oraz Sezon</h3>
-                    <div class="row margin-top-xs">
+                    <div>
+                        <div>Dotyczy poniższej strony z wynikami (konfiguracja startowa tabeli): </div>
+                        @{
+                            var imgSrc = "/assets/images/standings-view-page.png";
+                        }
+                        <img style="" src=@imgSrc alt="club-logo">
+                    </div>
+                    <div class="row margin-top-xm">
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
-                                <Select id="seasonSelect" class="form-select" @onchange="OnSeasonChanged">
+                                <select id="seasonSelect" class="form-select" @bind="leagueAndSeasonDto.SeasonId" >
                                     @foreach (var season in Filter.SeasonList)
                                     {
                                         <option value="@season.Id">@season.Name</option>
                                     }
-                                </Select>
+                                </select>
                                 <label for="seasonSelect">Sezon</label>
                                 <ValidationMessage For="@(() => leagueAndSeasonDto.SeasonId)" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
-                                <Select id="leagueSelect" class="form-select" @onchange="OnLeagueChanged">
+                                <select id="leagueSelect" class="form-select" @bind="leagueAndSeasonDto.LeagueId" >
                                     @foreach (var league in Filter.LeagueList)
                                     {
                                         <option value="@league.Id">@league.Name</option>
                                     }
-                                </Select>
+                                </select>
                                 <label for="leagueSelect">Liga</label>
                                 <ValidationMessage For="@(() => leagueAndSeasonDto.LeagueId)" />
                             </div>
