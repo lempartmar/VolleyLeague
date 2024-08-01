@@ -1,0 +1,79 @@
+.bold-header {
+    font-weight: bold;
+    text-align: center;
+}
+
+.score-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1rem;
+}
+
+.match-result-header {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.team-name {
+    font-weight: bold;
+    color: black;
+    font-size: 1.25rem;
+}
+
+.team-cards-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.team-logo {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 30px;
+}
+
+.team-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    background-color: #f8f9fa;
+}
+
+.info-card {
+    margin-top: 30px;
+}
+
+.score-inputs-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.score-label {
+    color: black;
+}
+
+.edit-match-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-match-button {
+    width: 25%;
+    margin-top: 100px;
+}
+
+.player-index {
+    border-bottom: 1px solid #eceeef;
+}
+
+.player-name {
+    border-bottom: 1px solid #eceeef;
+}
+
+.move-top {
+    align-items: start !important;
+    margin-top: 50px;
+}
