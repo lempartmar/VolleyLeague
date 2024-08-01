@@ -3,16 +3,18 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Models
 @using VolleyLeague.Shared.Dtos
+@using VolleyLeague.Shared.Dtos.Teams
 @inject IAdminDefinedCodeService AdminDefinedCodeService
+@inject IMatchService matchService
 @inject NavigationManager NavigationManager
 
 @attribute [Authorize(Roles = "Admin")]
 
 <h3>Dodatkowy panel zarządzania portalem</h3>
 
-                <div class="legend margin-top-xs">
-                        <li>Panel ten umożliwia zarządzanie sekcjami niezdefiniowanymi w pozostałych zakładkach</li>
-                </div>
+<div class="legend margin-top-xs">
+    <li>Panel ten umożliwia zarządzanie sekcjami niezdefiniowanymi w pozostałych zakładkach</li>
+</div>
 
 <div class="account-main accountdtls filterd-items mt-5">
     <div class="login-form">
@@ -30,7 +32,6 @@
                                 <label for="Value">Value</label>
                             </div>
                         </div>
-
                     </div>
 
                     <div>
@@ -55,7 +56,6 @@
                                 <label for="Value">Value</label>
                             </div>
                         </div>
-
                     </div>
 
                     <div>
@@ -67,6 +67,38 @@
                     </div>
                     <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
                 </EditForm>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>Edytuj Ligę oraz Sezon</h3>
+                <form class="checkout-form">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="seasonSelect" class="form-label">SEZON:</label>
+                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                                    @foreach (var season in Filter.SeasonList)
+                                    {
+                                        <option value="@season.Id">@season.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="leagueSelect" class="form-label">LIGA:</label>
+                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                                    @foreach (var league in Filter.LeagueList)
+                                    {
+                                        <option value="@league.Id">@league.Name</option>
+                                    }
+                                }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -149,11 +181,13 @@
 @code {
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
     private string message = string.Empty;
+    private ScheduleFilter Filter = new ScheduleFilter();
 
     protected override async Task OnInitializedAsync()
     {
         codeDto.Value = await AdminDefinedCodeService.GetValueByKey("current-season-for-main-page");
         codeDto.Key = "current-season-for-main-page";
+        await LoadInitialDataAsync();
     }
 
     private async Task HandleValidSubmit()
@@ -166,6 +200,38 @@
         else
         {
             message = "Failed to update the code.";
+        }
+    }
+
+    private async Task LoadInitialDataAsync()
+    {
+        Filter.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
+        Filter.LeagueList = await matchService.GetLeagues();
+    }
+
+    private async Task OnSeasonChanged(ChangeEventArgs e)
+    {
+        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
+        // Perform necessary actions when season changes
+    }
+
+    private async Task OnLeagueChanged(ChangeEventArgs e)
+    {
+        Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
+        // Perform necessary actions when league changes
+    }
+
+    private class ScheduleFilter
+    {
+        public int SeasonId { get; set; }
+        public int LeagueId { get; set; }
+        public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
+        public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+
+        public ScheduleFilter()
+        {
+            SeasonId = 37;
+            LeagueId = 1;
         }
     }
 }
