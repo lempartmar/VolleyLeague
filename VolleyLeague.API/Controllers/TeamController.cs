@@ -41,8 +41,8 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> AddTeam([FromBody] NewTeamDto team)
         {
             string? email = User.Identity?.Name;
-            await _teamService.AddTeam(team, email);
-            return Ok();
+            var result =  await _teamService.AddTeam(team, email);
+            return Ok(result);
         }
 
         [AllowAnonymous]
@@ -91,9 +91,13 @@ namespace VolleyLeague.API.Controllers
                 return Unauthorized();
             }
 
-            await _teamService.AddTeam(team, email);
+            var result = await _teamService.AddTeam(team, email);
 
-            return Ok();
+            if (result.Success)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Message);
         }
 
         [Authorize]

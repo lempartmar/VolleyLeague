@@ -231,10 +231,17 @@ else
         PageReady = false;
         IsLoading = true;
         bool response = false;
+
         try
         {
-            response = await teamService.CreateTeam(NewTeam);
-        }catch(Exception ex)
+            var result = await teamService.CreateTeam(NewTeam);
+            response = result.Success;
+            if (!result.Success)
+            {
+                ErrorMessage = result.Message;
+            }
+        }
+        catch (Exception ex)
         {
             Console.WriteLine(ex);   
         }
@@ -247,9 +254,8 @@ else
         }
         else
         {
-            PageReady = true;
             ShowErrorMessage = true;
-            ErrorMessage = "Wystąpił błąd podczas tworzenia drużyny.";
+            ErrorMessage = ErrorMessage ?? "Wystąpił błąd podczas tworzenia drużyny.";
             StateHasChanged();
         }
     }
