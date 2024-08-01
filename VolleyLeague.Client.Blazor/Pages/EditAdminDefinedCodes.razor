@@ -52,6 +52,10 @@
                     </EditForm>
                 </div>
             </div>
+            @if (!string.IsNullOrEmpty(messageEditDescription))
+            {
+                <div class="alert alert-info mt-3">@messageEditDescription</div>
+            }
         </div>
         <div class="card">
             <div class="card-body">
@@ -114,15 +118,67 @@
                     <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
                 </EditForm>
             </div>
+            @if (!string.IsNullOrEmpty(messageLeagueAndSeason))
+            {
+                <div class="alert alert-info mt-3">@messageLeagueAndSeason</div>
+            }
+        </div>
+        <div class="card">
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="@codeYTLink1Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                        <h3>Edytuj linki do mediów YT (strona główna)</h3>
+                        <div>
+                            <div>Dotyczy poniższych trzech filmów YT na stronie głównej (link 1): </div>
+                            @{
+                                var imgSrc = "/assets/images/yt-link-main-page.png";
+                            }
+                            <img style="" src=@imgSrc alt="club-logo">
+                        </div>
+                        <div class="row margin-top-xm">
+                            <div class="col-md-6">
+                                <div>Link1: </div>
+                                <div class="form-floating mb-4">
+                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink1Dto.Value" placeholder="Imię" />
+                                    <label for="Value">Value</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                    </EditForm>
+                    <EditForm Model="@codeYTLink2Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                        <div class="row margin-top-xm">
+                            <div class="col-md-6">
+                                <div>Link2: </div>
+                                <div class="form-floating mb-4">
+                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink2Dto.Value" placeholder="Imię" />
+                                    <label for="Value">Value</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                    </EditForm>
+                    <EditForm Model="@codeYTLink3Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                        <div class="row margin-top-xm">
+                            <div class="col-md-6">
+                                <div>Link3: </div>
+                                <div class="form-floating mb-4">
+                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink3Dto.Value" placeholder="Imię" />
+                                    <label for="Value">Value</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                    </EditForm>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(messageEditYTLink))
+            {
+                <div class="alert alert-info mt-3">@messageEditYTLink</div>
+            }
         </div>
     </div>
 </div>
-
-@if (!string.IsNullOrEmpty(message))
-{
-    <div class="alert alert-info mt-3">@message</div>
-}
-
 <style>
     .modal {
         position: fixed;
@@ -194,14 +250,28 @@
 
 @code {
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
+     public AdminDefinedCodeDto codeYTLink1Dto { get; set; } = new AdminDefinedCodeDto();
+    public AdminDefinedCodeDto codeYTLink2Dto { get; set; } = new AdminDefinedCodeDto();
+    public AdminDefinedCodeDto codeYTLink3Dto { get; set; } = new AdminDefinedCodeDto();
     public LeagueAndSeasonDto leagueAndSeasonDto { get; set; } = new LeagueAndSeasonDto();
-    private string message = string.Empty;
+    private string messageEditDescription = string.Empty;
+        private string messageLeagueAndSeason = string.Empty;
+    private string messageEditYTLink = string.Empty;
     private ScheduleFilter Filter;
 
     protected override async Task OnInitializedAsync()
     {
         codeDto.Value = await AdminDefinedCodeService.GetValueByKey("current-season-for-main-page");
         codeDto.Key = "current-season-for-main-page";
+
+        codeYTLink1Dto.Value = await AdminDefinedCodeService.GetValueByKey("youtube-link1");
+        codeYTLink1Dto.Key = "youtube-link1";
+
+        codeYTLink2Dto.Value = await AdminDefinedCodeService.GetValueByKey("youtube-link2");
+        codeYTLink2Dto.Key = "youtube-link2";
+
+        codeYTLink3Dto.Value = await AdminDefinedCodeService.GetValueByKey("youtube-link3");
+        codeYTLink3Dto.Key = "youtube-link3";
 
         leagueAndSeasonDto.LeagueId = int.Parse(await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
         leagueAndSeasonDto.SeasonId = int.Parse(await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
@@ -214,11 +284,27 @@
         var result = await AdminDefinedCodeService.UpdateCode(codeDto);
         if (result.Success)
         {
-            message = "Aktualizacja tekstu zakończona z sukcesem.";
+            messageEditDescription = "Aktualizacja tekstu zakończona z sukcesem.";
         }
         else
         {
-            message = "Niestety nie udało się zaktualizować kodu.";
+            messageEditDescription = "Niestety nie udało się zaktualizować kodu.";
+        }
+    }
+
+
+    private async Task HandleValidSubmitYTLinks()
+    {
+        var result1 = await AdminDefinedCodeService.UpdateCode(codeYTLink1Dto);
+        var result2 = await AdminDefinedCodeService.UpdateCode(codeYTLink2Dto);
+        var result3 = await AdminDefinedCodeService.UpdateCode(codeYTLink3Dto);
+        if (result1.Success && result2.Success && result3.Success )
+        {
+            messageEditYTLink = "Aktualizacja Linku YT zakończona sukcesem.";
+        }
+        else
+        {
+            messageEditYTLink = "Niestety nie udało się zaktualizować YT Linku.";
         }
     }
 
@@ -229,11 +315,11 @@
 
         if (leagueUpdateResult.Success && seasonUpdateResult.Success)
         {
-            message = "Sezon oraz Liga zaktualizowane.";
+            messageLeagueAndSeason = "Sezon oraz Liga zaktualizowane.";
         }
         else
         {
-            message = "Nie udało się zaktualizować ligi oraz sezonu.";
+            messageLeagueAndSeason = "Nie udało się zaktualizować ligi oraz sezonu.";
         }
     }
 
