@@ -3,6 +3,7 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Entities.Models
 @using VolleyLeague.Shared.Dtos
+@using VolleyLeague.Shared.Dtos.Matches
 @using VolleyLeague.Shared.Dtos.Teams
 @inject IAdminDefinedCodeService AdminDefinedCodeService
 @inject IMatchService matchService
@@ -26,36 +27,35 @@
             <h2>Opis aktualnego sezonu (strona główna)</h2>
         </div>
         <div class="card">
-            <div class="card">
-                <div class="card-body">
-                    <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
-                        <h3>Edytuj opis</h3>
-                        <div>
-                            <div>Dotyczy poniższego tekstu na stronie głównej: </div>
-                            @{
-                                var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
-                            }
-                            <img style="" src=@imgSrc alt="club-logo">
-                        </div>
-                        <div class="row margin-top-xm">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-4">
-                                    <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Imię" />
-                                    <label for="Value">Value</label>
-                                </div>
+            <div class="card-body">
+                <EditForm Model="@codeDto" OnValidSubmit="HandleValidSubmit">
+                    <h3>Edytuj opis</h3>
+                    <div>
+                        <div>Dotyczy poniższego tekstu na stronie głównej: </div>
+                        @{
+                            var imgSrc = "/assets/images/main-page-aktualny-sezon.png";
+                        }
+                        <img src=@imgSrc alt="main-page-description">
+                    </div>
+                    <div class="row margin-top-xm">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeDto.Value" placeholder="Value" />
+                                <label for="Value">Value</label>
                             </div>
-
                         </div>
-
-
-                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                    </EditForm>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
             </div>
             @if (!string.IsNullOrEmpty(messageEditDescription))
             {
                 <div class="alert alert-info mt-3">@messageEditDescription</div>
             }
+        </div>
+
+        <div class="section-title">
+            <h2>Edytuj Ligę oraz Sezon</h2>
         </div>
         <div class="card">
             <div class="card-body">
@@ -66,33 +66,33 @@
                         @{
                             var imgSrc = "/assets/images/standings-view-page.png";
                         }
-                        <img class="img-half" src=@imgSrc alt="club-logo">
+                        <img class="img-half" src=@imgSrc alt="standings-view-page">
                     </div>
                     <div>
                         <div>Dotyczy również tabeli na stronie głównej (sezon): </div>
                         @{
                             var imgSrc2 = "/assets/images/main-page-standings.png";
                         }
-                        <img class="img-half" src=@imgSrc2 alt="club-logo">
+                        <img class="img-half" src=@imgSrc2 alt="main-page-standings">
                     </div>
                     <div>
                         <div>Dotyczy również tabeli mvp (sezon oraz liga): </div>
                         @{
                             var imgSrc3 = "/assets/images/mvp-standings.png";
                         }
-                        <img class="img-half" src=@imgSrc3 alt="club-logo">
+                        <img class="img-half" src=@imgSrc3 alt="mvp-standings">
                     </div>
                     <div>
                         <div>Dotyczy również tabeli wyników typermanii (sezon): </div>
                         @{
                             var imgSrc4 = "/assets/images/typermania-standings.png";
                         }
-                        <img class="img-half" src=@imgSrc4 alt="club-logo">
+                        <img class="img-half" src=@imgSrc4 alt="typermania-standings">
                     </div>
                     <div class="row margin-top-xm">
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
-                                <select id="seasonSelect" class="form-select" @bind="leagueAndSeasonDto.SeasonId" >
+                                <select id="seasonSelect" class="form-select" @bind="leagueAndSeasonDto.SeasonId">
                                     @foreach (var season in Filter.SeasonList)
                                     {
                                         <option value="@season.Id">@season.Name</option>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
-                                <select id="leagueSelect" class="form-select" @bind="leagueAndSeasonDto.LeagueId" >
+                                <select id="leagueSelect" class="form-select" @bind="leagueAndSeasonDto.LeagueId">
                                     @foreach (var league in Filter.LeagueList)
                                     {
                                         <option value="@league.Id">@league.Name</option>
@@ -123,141 +123,132 @@
                 <div class="alert alert-info mt-3">@messageLeagueAndSeason</div>
             }
         </div>
+
+        <div class="section-title">
+            <h2>Edytuj linki do mediów YT (strona główna)</h2>
+        </div>
         <div class="card">
-            <div class="card">
-                <div class="card-body">
-                    <EditForm Model="@codeYTLink1Dto" OnValidSubmit="HandleValidSubmitYTLinks">
-                        <h3>Edytuj linki do mediów YT (strona główna)</h3>
-                        <div>
-                            <div>Dotyczy poniższych trzech filmów YT na stronie głównej (link 1): </div>
-                            @{
-                                var imgSrc = "/assets/images/yt-link-main-page.png";
-                            }
-                            <img style="" src=@imgSrc alt="club-logo">
-                        </div>
-                        <div class="row margin-top-xm">
-                            <div class="col-md-6">
-                                <div>Link1: </div>
-                                <div class="form-floating mb-4">
-                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink1Dto.Value" placeholder="Imię" />
-                                    <label for="Value">Value</label>
-                                </div>
+            <div class="card-body">
+                <EditForm Model="@codeYTLink1Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                    <h3>Edytuj linki do mediów YT (strona główna)</h3>
+                    <div>
+                        <div>Dotyczy poniższych trzech filmów YT na stronie głównej (link 1): </div>
+                        @{
+                            var imgSrc = "/assets/images/yt-link-main-page.png";
+                        }
+                        <img src=@imgSrc alt="yt-link-main-page">
+                    </div>
+                    <div class="row margin-top-xm">
+                        <div class="col-md-6">
+                            <div>Link1: </div>
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeYTLink1Dto.Value" placeholder="Value" />
+                                <label for="Value">Value</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                    </EditForm>
-                    <EditForm Model="@codeYTLink2Dto" OnValidSubmit="HandleValidSubmitYTLinks">
-                        <div class="row margin-top-xm">
-                            <div class="col-md-6">
-                                <div>Link2: </div>
-                                <div class="form-floating mb-4">
-                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink2Dto.Value" placeholder="Imię" />
-                                    <label for="Value">Value</label>
-                                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
+                <EditForm Model="@codeYTLink2Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                    <div class="row margin-top-xm">
+                        <div class="col-md-6">
+                            <div>Link2: </div>
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeYTLink2Dto.Value" placeholder="Value" />
+                                <label for="Value">Value</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                    </EditForm>
-                    <EditForm Model="@codeYTLink3Dto" OnValidSubmit="HandleValidSubmitYTLinks">
-                        <div class="row margin-top-xm">
-                            <div class="col-md-6">
-                                <div>Link3: </div>
-                                <div class="form-floating mb-4">
-                                    <InputText id="Value" class="form-control" @bind-Value="codeYTLink3Dto.Value" placeholder="Imię" />
-                                    <label for="Value">Value</label>
-                                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
+                <EditForm Model="@codeYTLink3Dto" OnValidSubmit="HandleValidSubmitYTLinks">
+                    <div class="row margin-top-xm">
+                        <div class="col-md-6">
+                            <div>Link3: </div>
+                            <div class="form-floating mb-4">
+                                <InputText id="Value" class="form-control" @bind-Value="codeYTLink3Dto.Value" placeholder="Value" />
+                                <label for="Value">Value</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
-                    </EditForm>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
             </div>
             @if (!string.IsNullOrEmpty(messageEditYTLink))
             {
                 <div class="alert alert-info mt-3">@messageEditYTLink</div>
             }
         </div>
+
+        <div class="section-title">
+            <h2>Wybierz sezon, ligę oraz rundę</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="leagueSeasonAndRoundDto" OnValidSubmit="HandleLeagueSeasonAndRoundSubmit">
+                    <h3>Edytuj Ligę, Sezon oraz Rundę</h3>
+                    <div class="row margin-top-xm">
+                        <div class="col-md-4">
+                            <div class="form-floating mb-4">
+                                <select id="seasonSelectRound" class="form-select" @bind="leagueSeasonAndRoundDto.SeasonId">
+                                    @foreach (var season in FilterWithRound.SeasonList)
+                                    {
+                                        <option value="@season.Id">@season.Name</option>
+                                    }
+                                </select>
+                                <label for="seasonSelectRound">Sezon</label>
+                                <ValidationMessage For="@(() => leagueSeasonAndRoundDto.SeasonId)" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating mb-4">
+                                <select id="leagueSelectRound" class="form-select" @bind="leagueSeasonAndRoundDto.LeagueId">
+                                    @foreach (var league in FilterWithRound.LeagueList)
+                                    {
+                                        <option value="@league.Id">@league.Name</option>
+                                    }
+                                </select>
+                                <label for="leagueSelectRound">Liga</label>
+                                <ValidationMessage For="@(() => leagueSeasonAndRoundDto.LeagueId)" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating mb-4">
+                                <select id="roundSelectRound" class="form-select" @bind="leagueSeasonAndRoundDto.RoundId">
+                                    @foreach (var round in FilterWithRound.RoundList)
+                                    {
+                                        <option value="@round.Id">@round.Name</option>
+                                    }
+                                </select>
+                                <label for="roundSelectRound">Runda</label>
+                                <ValidationMessage For="@(() => leagueSeasonAndRoundDto.RoundId)" />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Zapisz</button>
+                </EditForm>
+            </div>
+            @if (!string.IsNullOrEmpty(messageLeagueSeasonAndRound))
+            {
+                <div class="alert alert-info mt-3">@messageLeagueSeasonAndRound</div>
+            }
+        </div>
     </div>
 </div>
-<style>
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-dialog-centered {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
-    .modal-content {
-        background: white;
-        padding: 1em;
-        max-width: 500px;
-        width: 100%;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .form-text.text-muted {
-        margin-top: 0.5em;
-    }
-
-    .account-main {
-        padding: 20px;
-        background-color: #f9f9f9;
-    }
-
-    .section-title h2 {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card-body {
-        padding: 30px;
-    }
-
-    .form {
-        margin-bottom: 15px;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
 
 @code {
     public AdminDefinedCodeDto codeDto { get; set; } = new AdminDefinedCodeDto();
-     public AdminDefinedCodeDto codeYTLink1Dto { get; set; } = new AdminDefinedCodeDto();
+    public AdminDefinedCodeDto codeYTLink1Dto { get; set; } = new AdminDefinedCodeDto();
     public AdminDefinedCodeDto codeYTLink2Dto { get; set; } = new AdminDefinedCodeDto();
     public AdminDefinedCodeDto codeYTLink3Dto { get; set; } = new AdminDefinedCodeDto();
     public LeagueAndSeasonDto leagueAndSeasonDto { get; set; } = new LeagueAndSeasonDto();
+    public LeagueSeasonAndRoundDto leagueSeasonAndRoundDto { get; set; } = new LeagueSeasonAndRoundDto();
     private string messageEditDescription = string.Empty;
-        private string messageLeagueAndSeason = string.Empty;
+    private string messageLeagueAndSeason = string.Empty;
     private string messageEditYTLink = string.Empty;
+    private string messageLeagueSeasonAndRound = string.Empty;
     private ScheduleFilter Filter;
+    private ScheduleFilter FilterWithRound;
 
     protected override async Task OnInitializedAsync()
     {
@@ -275,68 +266,70 @@
 
         leagueAndSeasonDto.LeagueId = int.Parse(await AdminDefinedCodeService.GetValueByKey("leagueId-for-main-page"));
         leagueAndSeasonDto.SeasonId = int.Parse(await AdminDefinedCodeService.GetValueByKey("seasonId-for-main-page"));
+
+        leagueSeasonAndRoundDto.LeagueId = int.Parse(await AdminDefinedCodeService.GetValueByKey("leagueId-for-schedule"));
+        leagueSeasonAndRoundDto.SeasonId = int.Parse(await AdminDefinedCodeService.GetValueByKey("seasonId-for-schedule"));
+        leagueSeasonAndRoundDto.RoundId = int.Parse(await AdminDefinedCodeService.GetValueByKey("roundId-for-schedule"));
+
         Filter = new ScheduleFilter(leagueAndSeasonDto.SeasonId, leagueAndSeasonDto.LeagueId);
+        FilterWithRound = new ScheduleFilter(leagueSeasonAndRoundDto.LeagueId, leagueSeasonAndRoundDto.SeasonId, leagueSeasonAndRoundDto.RoundId);
         await LoadInitialDataAsync();
     }
 
     private async Task HandleValidSubmit()
     {
         var result = await AdminDefinedCodeService.UpdateCode(codeDto);
-        if (result.Success)
-        {
-            messageEditDescription = "Aktualizacja tekstu zakończona z sukcesem.";
-        }
-        else
-        {
-            messageEditDescription = "Niestety nie udało się zaktualizować kodu.";
-        }
+        messageEditDescription = result.Success ? "Aktualizacja tekstu zakończona z sukcesem." : "Niestety nie udało się zaktualizować kodu.";
     }
-
 
     private async Task HandleValidSubmitYTLinks()
     {
         var result1 = await AdminDefinedCodeService.UpdateCode(codeYTLink1Dto);
         var result2 = await AdminDefinedCodeService.UpdateCode(codeYTLink2Dto);
         var result3 = await AdminDefinedCodeService.UpdateCode(codeYTLink3Dto);
-        if (result1.Success && result2.Success && result3.Success )
-        {
-            messageEditYTLink = "Aktualizacja Linku YT zakończona sukcesem.";
-        }
-        else
-        {
-            messageEditYTLink = "Niestety nie udało się zaktualizować YT Linku.";
-        }
+        messageEditYTLink = (result1.Success && result2.Success && result3.Success) ? "Aktualizacja Linku YT zakończona sukcesem." : "Niestety nie udało się zaktualizować YT Linku.";
     }
 
     private async Task HandleLeagueAndSeasonSubmit()
     {
         var leagueUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "leagueId-for-main-page", Value = leagueAndSeasonDto.LeagueId.ToString() });
         var seasonUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "seasonId-for-main-page", Value = leagueAndSeasonDto.SeasonId.ToString() });
+        messageLeagueAndSeason = (leagueUpdateResult.Success && seasonUpdateResult.Success) ? "Sezon oraz Liga zaktualizowane." : "Nie udało się zaktualizować ligi oraz sezonu.";
+    }
 
-        if (leagueUpdateResult.Success && seasonUpdateResult.Success)
-        {
-            messageLeagueAndSeason = "Sezon oraz Liga zaktualizowane.";
-        }
-        else
-        {
-            messageLeagueAndSeason = "Nie udało się zaktualizować ligi oraz sezonu.";
-        }
+    private async Task HandleLeagueSeasonAndRoundSubmit()
+    {
+        var leagueUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "leagueId-for-schedule", Value = leagueSeasonAndRoundDto.LeagueId.ToString() });
+        var seasonUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "seasonId-for-schedule", Value = leagueSeasonAndRoundDto.SeasonId.ToString() });
+        var roundUpdateResult = await AdminDefinedCodeService.UpdateCode(new AdminDefinedCodeDto { Key = "roundId-for-schedule", Value = leagueSeasonAndRoundDto.RoundId.ToString() });
+        messageLeagueSeasonAndRound = (leagueUpdateResult.Success && seasonUpdateResult.Success && roundUpdateResult.Success) ? "Sezon, Liga oraz Runda zaktualizowane." : "Nie udało się zaktualizować ligi, sezonu oraz rundy.";
     }
 
     private async Task LoadInitialDataAsync()
     {
         Filter.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
         Filter.LeagueList = await matchService.GetLeagues();
+        Filter.RoundList = (await matchService.GetRounds()).Where(x => x.SeasonId == leagueSeasonAndRoundDto.SeasonId).ToList();
+
+        FilterWithRound.SeasonList = (await matchService.GetSeasons()).OrderByDescending(s => s.Id).ToList();
+        FilterWithRound.LeagueList = await matchService.GetLeagues();
+        FilterWithRound.RoundList = (await matchService.GetRounds()).Where(x => x.SeasonId == leagueSeasonAndRoundDto.SeasonId).ToList();
     }
 
     private async Task OnSeasonChanged(ChangeEventArgs e)
     {
-        leagueAndSeasonDto.SeasonId = Convert.ToInt32(e.Value.ToString());
+        leagueSeasonAndRoundDto.SeasonId = Convert.ToInt32(e.Value);
+        Filter.RoundList = (await matchService.GetRounds()).Where(x => x.SeasonId == leagueSeasonAndRoundDto.SeasonId).ToList();
     }
 
     private async Task OnLeagueChanged(ChangeEventArgs e)
     {
-        leagueAndSeasonDto.LeagueId = Convert.ToInt32(e.Value.ToString());
+        leagueSeasonAndRoundDto.LeagueId = Convert.ToInt32(e.Value);
+    }
+
+    private async Task OnRoundChanged(ChangeEventArgs e)
+    {
+        leagueSeasonAndRoundDto.RoundId = Convert.ToInt32(e.Value);
     }
 
     private class ScheduleFilter
@@ -345,11 +338,19 @@
         public int LeagueId { get; set; }
         public List<SeasonDto> SeasonList { get; set; } = new List<SeasonDto>();
         public List<LeagueDto> LeagueList { get; set; } = new List<LeagueDto>();
+        public List<RoundDto> RoundList { get; set; } = new List<RoundDto>();
 
         public ScheduleFilter(int startingSeasonId, int startingLeagueId)
         {
             SeasonId = startingSeasonId;
             LeagueId = startingLeagueId;
+        }
+
+        public ScheduleFilter(int startingSeasonId, int startingLeagueId, int roundId)
+        {
+            SeasonId = startingSeasonId;
+            LeagueId = startingLeagueId;
+            roundId = roundId;
         }
     }
 
@@ -357,5 +358,12 @@
     {
         public int LeagueId { get; set; }
         public int SeasonId { get; set; }
+    }
+
+    public class LeagueSeasonAndRoundDto
+    {
+        public int LeagueId { get; set; }
+        public int SeasonId { get; set; }
+        public int RoundId { get; set; }
     }
 }
