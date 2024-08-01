@@ -456,7 +456,6 @@ else
 
 @code {
     private LastMatchDto lastMatch;
-    public List<MatchSummaryDto> matchResults = new List<MatchSummaryDto>();
     private List<StandingsDto> StandingsList = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShortBLS = new List<StandingsDto>();
     private List<StandingsDto> StandingsListShortBLSK = new List<StandingsDto>();
@@ -528,7 +527,6 @@ else
         {
             LoadStandings(),
             LoadArticles(),
-            LoadMatchResults(),
             LoadNextMatches(),
             LoadLastMatch()
         };
@@ -587,13 +585,6 @@ else
         _logs = await logService.GetLogs();
     }
 
-    private async Task LoadMatchResults()
-    {
-        matchResults = await matchService.GetMatches(Filter.SeasonId, Filter.LeagueId, 1237);
-        matchResultsLoad = true;
-        UpdatePageReadiness();
-    }
-
     private async Task LoadNextMatches()
     {
         nextMatches = await matchService.GetNextTwoMatches();
@@ -606,7 +597,7 @@ else
 
     private void UpdatePageReadiness()
     {
-        pageReady = standingsLoad && articlesLoad && matchResultsLoad;
+        pageReady = standingsLoad && articlesLoad;
     }
 
     private async Task AcceptCookies()
