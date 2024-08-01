@@ -159,6 +159,7 @@ else
 
             var refereesResult = await matchOrganizerService.GetReferees();
             NewMatch.RefereeList = refereesResult;
+            NewMatch.RefereeId = NewMatch.RefereeList.FirstOrDefault()?.Id ?? 0;
 
             var teamsResult = await teamService.GetAllTeams();
             AllTeams = teamsResult;
@@ -194,7 +195,7 @@ else
 
         if (submitResult)
         {
-            NavigationManager.NavigateTo("/createMatch");
+            NavigationManager.NavigateTo("/schedule");
         }
         else
         {
