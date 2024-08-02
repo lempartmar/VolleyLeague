@@ -20,7 +20,6 @@ builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccount, AccountService>();
 builder.Services.AddScoped<IAdminDefinedCodeService, AdminDefinedCodeService>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
@@ -39,8 +38,5 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
-
-
-
 
 await builder.Build().RunAsync();
