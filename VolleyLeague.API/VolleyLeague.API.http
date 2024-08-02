@@ -1,4 +1,4 @@
-@VolleyLeague.API_HostAddress = https://volleyleagueapi20240802125732.azurewebsites.net/
+@VolleyLeague.API_HostAddress = https://volleyleaguedevelop-ckhkc0esgnc0dqc0.eastus2-01.azurewebsites.net/
 
 GET {{VolleyLeague.API_HostAddress}}/api/article/
 Accept: application/json
