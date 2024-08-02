@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://volleyleague.azurewebsites.net;https://volleyleague.azurewebsites.net",
+      "applicationUrl": "https://volleyleagueapi20240802125732.azurewebsites.net/;https://volleyleagueapi20240802125732.azurewebsites.net/",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}"
     },
     "IIS Express": {
