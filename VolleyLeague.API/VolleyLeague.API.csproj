@@ -31,4 +31,8 @@
     <ProjectReference Include="..\VolleyLeague.Services\VolleyLeague.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>
