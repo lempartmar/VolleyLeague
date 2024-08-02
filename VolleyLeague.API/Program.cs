@@ -14,9 +14,11 @@ using VolleyLeague.Services.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+// Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("VolleybalSystemConnection");
 Console.WriteLine(connectionString);
@@ -48,7 +50,6 @@ builder.Services.AddTransient(typeof(ITypedResultService), typeof(TypedResultSer
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient(typeof(ISeasonService), typeof(SeasonService));
 builder.Services.AddTransient(typeof(ILeagueService), typeof(LeagueService));
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,6 +60,8 @@ if (builder.Environment.IsStaging())
 }
 
 builder.WebHost.UseStaticWebAssets();
+
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -82,7 +85,6 @@ builder.Services.AddAuthentication(options =>
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var app = builder.Build();
-
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 var configuration = app.Services.GetRequiredService<IConfiguration>();
 AppSettings.Initialize(configuration);
@@ -112,23 +114,10 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/uploads"
 });
 
-app.UseRouting();
-
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-
-// Map API routes to /api
-app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/api"), builder =>
-{
-    builder.UseRouting();
-    builder.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-});
 
 app.Run();

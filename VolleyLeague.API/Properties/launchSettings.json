@@ -5,7 +5,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5042",
@@ -16,10 +16,10 @@
       "launchBrowser": true,
       "launchUrl": "",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://volleyleaguedevelop-ckhkc0esgnc0dqc0.eastus2-01.azurewebsites.net/;https://volleyleaguedevelop-ckhkc0esgnc0dqc0.eastus2-01.azurewebsites.net/",
+      "applicationUrl": "https://localhost:7068;http://localhost:5042",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}"
     },
     "IIS Express": {
@@ -27,7 +27,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
     "Docker": {
