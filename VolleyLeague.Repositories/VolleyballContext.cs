@@ -10,7 +10,7 @@ namespace VolleyLeague.Repositories
         public VolleyballContext() : base()
         {
             _connectionString = "Data Source=mssql4.webio.pl,2401;Initial Catalog=tomasz1_tomasz1_VolleyballDatabase_test;Persist Security Info=True;User ID=tomasz1_student;Password=SDK#$$O5kfvas21;TrustServerCertificate=true";
-
+        
         }
 
         public VolleyballContext(DbContextOptions<VolleyballContext> options)
