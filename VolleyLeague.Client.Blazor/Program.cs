@@ -30,7 +30,7 @@ builder.Services.AddScoped<ITypedResultService, TypedResultService>();
 
 builder.Services.AddRadzenComponents();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://volleyleagueapi20240804161112.azurewebsites.net") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://volleyleagueapi20240804.azurewebsites.net") });
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
 
