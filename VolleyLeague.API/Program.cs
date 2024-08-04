@@ -90,12 +90,10 @@ var configuration = app.Services.GetRequiredService<IConfiguration>();
 AppSettings.Initialize(configuration);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseWebAssemblyDebugging();
-}
 
 app.UseHttpsRedirection();
 
