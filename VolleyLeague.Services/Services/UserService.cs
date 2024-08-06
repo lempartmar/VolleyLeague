@@ -479,10 +479,8 @@ namespace VolleyLeague.Services.Services
         {
             string resourcePath = "VolleyLeague.Services.EmailTemplates.VerificationEmailTemplate.html";
 
-            // Pobierz bieżące zestawienie
             var assembly = Assembly.GetExecutingAssembly();
 
-            // Znajdź strumień osadzonego zasobu
             using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
             {
                 if (stream == null)
@@ -529,45 +527,51 @@ namespace VolleyLeague.Services.Services
             return true;
         }
 
-
         private async Task SendPasswordResetEmail(string email, string resetToken)
         {
-            var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
+            var resetLink = $"https://volleyleagueapi20240804.azurewebsites.net/reset-password?token={resetToken}";
+            string resourcePath = "VolleyLeague.Services.EmailTemplates.PasswordResetTemplate.html";
 
-            var servicesPath = Path.Combine(_env.ContentRootPath);
-            if (servicesPath.Contains("VolleyLeague.API"))
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
             {
-                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/PasswordResetTemplate.html");
-            }
-
-            var emailBody = await File.ReadAllTextAsync(servicesPath);
-
-            emailBody = emailBody.Replace("https://tabular.email", resetLink);
-
-            var message = new MailMessage("noreply@yourwebsite.com", email)
-            {
-                Subject = "Resetowanie hasła",
-                Body = emailBody,
-                IsBodyHtml = true,
-            };
-
-            try
-            {
-                using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+                if (stream == null)
                 {
-                    Credentials = new NetworkCredential("ligasiatkowkidevelopment@gmail.com", "awonkpobrfhwvvck"),
-                    EnableSsl = true,
-                };
+                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                }
 
-                await smtpClient.SendMailAsync(message);
-            }
-            catch (SmtpException smtpEx)
-            {
-                Console.WriteLine($"SMTP Error: {smtpEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"General Error: {ex.Message}");
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string emailTemplate = await reader.ReadToEndAsync();
+                    string emailBody = emailTemplate.Replace("https://tabular.email", resetLink);
+
+                    var message = new MailMessage("noreply@yourwebsite.com", email)
+                    {
+                        Subject = "Resetowanie hasła",
+                        Body = emailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    try
+                    {
+                        using var smtpClient = new SmtpClient("smtp.gmail.com", 587)
+                        {
+                            Credentials = new NetworkCredential("ligasiatkowkidevelopment@gmail.com", "awonkpobrfhwvvck"),
+                            EnableSsl = true,
+                        };
+
+                        await smtpClient.SendMailAsync(message);
+                    }
+                    catch (SmtpException smtpEx)
+                    {
+                        Console.WriteLine($"SMTP Error: {smtpEx.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"General Error: {ex.Message}");
+                    }
+                }
             }
         }
 

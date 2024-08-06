@@ -18,7 +18,7 @@ namespace VolleyLeague.Services.Services
 
         public async Task SendEmail(string email, string? additionalInformation)
         {
-            var resetLink = $"https://localhost:7068/reset-password?token={additionalInformation}";
+            var resetLink = $"https://volleyleagueapi20240804.azurewebsites.net/reset-password?token={additionalInformation}";
             var message = new MailMessage("noreply@yourwebsite.com", email)
             {
                 Subject = "Resetowanie hasła",

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
+using System.Reflection;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Interfaces;
@@ -642,25 +643,33 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendEmailAddedToTeam(TeamPlayerDto newUser, string teamName)
         {
+            string resourcePath = "VolleyLeague.Services.EmailTemplates.NewTeamMate.html";
 
-            var servicesPath = Path.Combine(_env.ContentRootPath);
-            if (servicesPath.Contains("VolleyLeague.API"))
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
             {
-                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/NewTeamMate.html");
+                if (stream == null)
+                {
+                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                }
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string emailTemplate = await reader.ReadToEndAsync();
+                    string emailBody = emailTemplate.Replace("TeamNameId", teamName);
+
+                    var message = new MailMessage("noreply@volleyleague.com", newUser.Email)
+                    {
+                        Subject = "Welcome to the Team!",
+                        Body = emailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    await _emailService.Send(newUser.Email, message);
+                }
             }
-
-            string emailTemplate = await File.ReadAllTextAsync(servicesPath);
-
-            string emailBody = emailTemplate.Replace("TeamNameId", teamName);
-
-            var message = new MailMessage("noreply@volleyleague.com", newUser.Email)
-            {
-                Subject = "Verification Code",
-                Body = emailBody,
-                IsBodyHtml = true,
-            };
-
-            await _emailService.Send(newUser.Email, message);
         }
+
     }
 }
