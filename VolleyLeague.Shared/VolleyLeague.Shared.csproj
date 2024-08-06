@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-		<ItemGroup>
-				<EmbeddedResource Include="EmailTemplates\VerificationEmailTemplate.html" />
-		</ItemGroup>
-
   <ItemGroup>
     <None Remove="Images\Teams\1061.jpg" />
     <None Remove="Images\Teams\1062.jpg" />

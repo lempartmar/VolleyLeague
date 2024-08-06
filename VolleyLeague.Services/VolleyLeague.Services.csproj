@@ -7,10 +7,15 @@
 		</PropertyGroup>
 
 		<ItemGroup>
+		  <None Remove="EmailTemplates\newTeamMate.html" />
+		  <None Remove="EmailTemplates\PasswordResetTemplate.html" />
+		  <None Remove="EmailTemplates\VerificationEmailTemplate.html" />
 		  <None Remove="Services\VerificationEmailTemplate2.html" />
 		</ItemGroup>
 
 		<ItemGroup>
+				<EmbeddedResource Include="EmailTemplates\PasswordResetTemplate.html" />
+				<EmbeddedResource Include="EmailTemplates\VerificationEmailTemplate.html" />
 				<EmbeddedResource Include="Services\VerificationEmailTemplate.html" />
 		</ItemGroup>
 
@@ -25,6 +30,10 @@
 		<ItemGroup>
 				<ProjectReference Include="..\VolleyLeague.Repositories\VolleyLeague.Repositories.csproj" />
 				<ProjectReference Include="..\VolleyLeague.Shared\VolleyLeague.Shared.csproj" />
+		</ItemGroup>
+
+		<ItemGroup>
+		  <EmbeddedResource Include="EmailTemplates\newTeamMate.html" />
 		</ItemGroup>
 
 </Project>
