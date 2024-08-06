@@ -81,7 +81,6 @@ namespace VolleyLeague.Services.Services
 
             if (rehashNeeded)
             {
-                // Ponowne hashowanie hasła i zapisanie go w bazie danych
                 credentials.Password = passwordHasher.HashPassword(null, PepperPassword(loginDto.Password));
                 _credentialsRepository.Update(credentials);
                 _credentialsRepository.SaveChangesAsync();
@@ -104,7 +103,20 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
-        public async Task<PlayerSummaryDto> GetPlayerSummary(string email)
+        public async Task<bool> GetHasUserEmail(string identity)
+        {
+
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity && c.UserName == identity);
+
+            if (credentials?.Email != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+            public async Task<PlayerSummaryDto> GetPlayerSummary(string email)
         {
             var response = new PlayerSummaryDto();
 

@@ -8,6 +8,7 @@ namespace VolleyLeague.Client.Blazor.Services
     {
         Task<(bool Success, string Message)> Register(RegisterDto registerDto);
 
+        Task<bool> GetHasUserEmail();
         Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto);
         Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto);
 
@@ -109,6 +110,16 @@ namespace VolleyLeague.Client.Blazor.Services
 
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<PlayerSummaryDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return result;
+        }
+
+        public async Task<bool> GetHasUserEmail()
+        {
+            var response = await _httpClient.GetAsync("api/user/GetHasUserEmail");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<bool>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return result;
         }
 

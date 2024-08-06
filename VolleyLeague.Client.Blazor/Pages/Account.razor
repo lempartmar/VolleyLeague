@@ -1,7 +1,7 @@
 ﻿@page "/account"
 @using Microsoft.AspNetCore.WebUtilities
-@using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
+@using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Client.Blazor.Authentication
 @using VolleyLeague.Client.Blazor.Shared.Dtos
 @using static VolleyLeague.Client.Blazor.Services.AccountService
@@ -11,6 +11,8 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
 @inject ITeamService teamService
+@inject IUserService userService
+@inject AuthenticationStateProvider authStateProvider
 
 <section class="rts-account-section section-gap">
     <div class="container">
@@ -66,44 +68,53 @@
                 }
             </div>
             <div class="account-main-area">
-                @switch (currentSection)
+                @if (!HasUserEmail)
                 {
-                    case InfoPages.UserProfile:
-                        <UserProfile Id="@playerSummary.Id" />
-                        break;
-                    case InfoPages.EditProfile:
-                        <EditProfile Id="@playerSummary.Id" />
-                        break;
-                    case InfoPages.CreateTeam:
-                        <CreateTeam />
-                        break;
-                    case InfoPages.ChangePassword:
-                        <ChangePassword />
-                        break;
-                    case InfoPages.ManageTeam:
-                        <ManageTeam />
-                        break;
-                    case InfoPages.Referees:
-                        <Referees />
-                        break;
-                    case InfoPages.HandleSeason:
-                        <HandleSeason />
-                        break;
-                    case InfoPages.CreateMatch:
-                        <CreateMatch />
-                        break;
-                    case InfoPages.ManageTeams:
-                        <ManageTeams />
-                        break;
-                    case InfoPages.TeamsImages:
-                        <TeamImages />
-                        break;
-                    case InfoPages.AddArticle:
-                        <AddArticle />
-                        break;
-                    case InfoPages.EditAdminDefinedCode:
-                        <EditAdminDefinedCodes />
-                        break;
+                    <div class="alert alert-warning">
+                        Użytkownik musi zidentyfikować maila.
+                    </div>
+                }
+                else
+                {
+                    @switch (currentSection)
+                    {
+                        case InfoPages.UserProfile:
+                            <UserProfile Id="@playerSummary.Id" />
+                            break;
+                        case InfoPages.EditProfile:
+                            <EditProfile Id="@playerSummary.Id" />
+                            break;
+                        case InfoPages.CreateTeam:
+                            <CreateTeam />
+                            break;
+                        case InfoPages.ChangePassword:
+                            <ChangePassword />
+                            break;
+                        case InfoPages.ManageTeam:
+                            <ManageTeam />
+                            break;
+                        case InfoPages.Referees:
+                            <Referees />
+                            break;
+                        case InfoPages.HandleSeason:
+                            <HandleSeason />
+                            break;
+                        case InfoPages.CreateMatch:
+                            <CreateMatch />
+                            break;
+                        case InfoPages.ManageTeams:
+                            <ManageTeams />
+                            break;
+                        case InfoPages.TeamsImages:
+                            <TeamImages />
+                            break;
+                        case InfoPages.AddArticle:
+                            <AddArticle />
+                            break;
+                        case InfoPages.EditAdminDefinedCode:
+                            <EditAdminDefinedCodes />
+                            break;
+                    }
                 }
             </div>
         </div>
@@ -132,12 +143,13 @@
     private bool IsAdmin { get; set; }
     private PlayerSummaryDto playerSummary = new PlayerSummaryDto();
     private bool HasTeam { get; set; } = false;
-
-    [Inject] private IUserService userService { get; set; }
-    [Inject] private AuthenticationStateProvider authStateProvider { get; set; }
+    private bool HasUserEmail { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
+        HasUserEmail = await userService.GetHasUserEmail();
+
+        if (HasUserEmail) { 
         var authState = await authStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
@@ -149,6 +161,7 @@
             playerSummary = await userService.GetUserSummary();
             HasTeam = await userService.IsTeamCaptain();
 
+
             var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("section", out var section))
             {
@@ -158,6 +171,7 @@
                 }
             }
         }
+    }
     }
 
     private void ShowSection(InfoPages section)

@@ -134,6 +134,19 @@ namespace VolleyLeague.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("GetHasUserEmail")]
+        public async Task<IActionResult> GetHasUserEmail()
+        {
+            string? id = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+            var result = await _userService.GetHasUserEmail(id);
+            return Ok(result);
+        }
+
+        [Authorize]
         [HttpGet("myprofile")]
         public async Task<IActionResult> GetMyProfile()
         {
