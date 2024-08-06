@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VolleyLeague.Repositories;
 
@@ -11,9 +12,11 @@ using VolleyLeague.Repositories;
 namespace VolleyLeague.Repositories.Migrations
 {
     [DbContext(typeof(VolleyballContext))]
-    partial class VolleyballContextModelSnapshot : ModelSnapshot
+    [Migration("20240806130338_AddCorrectionToUserNameToCredentials")]
+    partial class AddCorrectionToUserNameToCredentials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,18 +211,17 @@ namespace VolleyLeague.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoweredUserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OldPassword")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
@@ -228,8 +230,7 @@ namespace VolleyLeague.Repositories.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Credentials", "tomasz1_voladmin");
                 });
@@ -905,7 +906,8 @@ namespace VolleyLeague.Repositories.Migrations
                 {
                     b.HasOne("VolleyLeague.Entities.Models.User", "User")
                         .WithOne("Credentials")
-                        .HasForeignKey("VolleyLeague.Entities.Models.Credentials", "UserId");
+                        .HasForeignKey("VolleyLeague.Entities.Models.Credentials", "UserId")
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

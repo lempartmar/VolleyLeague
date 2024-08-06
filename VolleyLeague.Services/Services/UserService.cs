@@ -67,21 +67,36 @@ namespace VolleyLeague.Services.Services
         public List<Role> Login(LoginDto loginDto, out Credentials? credentials)
         {
             var response = new List<Role>();
-            credentials = _credentialsRepository.GetAll().Include(c => c.Roles).Include(c => c.User).FirstOrDefault(c => c.Email == loginDto.Email);
+            var rehashNeeded = false;
 
-            if (credentials == null || !VerifyPassword(loginDto.Email, loginDto.Password, credentials.Password))
+            credentials = _credentialsRepository.GetAll()
+                .Include(c => c.Roles)
+                .Include(c => c.User)
+                .FirstOrDefault(c => c.Email == loginDto.Identifier || c.UserName == loginDto.Identifier);
+
+            if (credentials == null || !VerifyPassword(credentials, loginDto.Password, out rehashNeeded))
             {
                 return null;
             }
 
-            AddAdditionalEmailIfMissing(credentials);
+            if (rehashNeeded)
+            {
+                // Ponowne hashowanie hasła i zapisanie go w bazie danych
+                credentials.Password = passwordHasher.HashPassword(null, PepperPassword(loginDto.Password));
+                _credentialsRepository.Update(credentials);
+                _credentialsRepository.SaveChangesAsync();
+            }
 
+            if (credentials.Email != null)
+            {
+                AddAdditionalEmailIfMissing(credentials);
+            }
             response = credentials.Roles.ToList();
 
             return response;
         }
 
-        public async Task<UserProfileDto> GetUserProfileByEmail(string email)
+            public async Task<UserProfileDto> GetUserProfileByEmail(string email)
         {
             var user = await _userRepository.GetAll()
                 .Include(u => u.Credentials)
@@ -146,8 +161,17 @@ namespace VolleyLeague.Services.Services
         private bool VerifyPassword(string email, string password, string hashedPassword)
         {
             string hash = PepperPassword(password);
-            var result = passwordHasher.VerifyHashedPassword(email, hashedPassword, hash);
+            var result = passwordHasher.VerifyHashedPassword(null, hashedPassword, hash);
             return result == PasswordVerificationResult.Success;
+        }
+
+        private bool VerifyPassword(Credentials credentials, string providedPassword, out bool rehashNeeded)
+        {
+            string pepperedPassword = PepperPassword(providedPassword);
+            // Weryfikacja hasła
+            var result = passwordHasher.VerifyHashedPassword(null, credentials.Password, pepperedPassword);
+            rehashNeeded = result == PasswordVerificationResult.SuccessRehashNeeded;
+            return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded;
         }
 
         private string PepperPassword(string password)
@@ -185,7 +209,7 @@ namespace VolleyLeague.Services.Services
             var credentials = new Credentials
             {
                 Email = registerDto.Email,
-                Password = HashPassword(registerDto.Email, registerDto.Password),
+                Password = HashPassword(registerDto.Password),
                 User = user,
                 Roles = new List<Role> { playerRole }
             };
@@ -324,7 +348,7 @@ namespace VolleyLeague.Services.Services
                     return false;
                 }
 
-                user.Credentials.Password = HashPassword(user.Credentials.Email, newPassword);
+                user.Credentials.Password = HashPassword(newPassword);
 
                 await _userRepository.SaveChangesAsync();
                 return true;
@@ -431,7 +455,7 @@ namespace VolleyLeague.Services.Services
                 var credentials = new Credentials
                 {
                     Email = completeRegistrationDto.Email,
-                    Password = HashPassword(completeRegistrationDto.Email, completeRegistrationDto.Password),
+                    Password = HashPassword(completeRegistrationDto.Password),
                     User = user,
                     Roles = new List<Role> { playerRole }
                 };
@@ -518,7 +542,7 @@ namespace VolleyLeague.Services.Services
                 return false;
             }
 
-            credentials.Password = HashPassword(email, newPassword);
+            credentials.Password = HashPassword(newPassword);
             await _credentialsRepository.SaveChangesAsync();
             return true;
         }
@@ -589,10 +613,10 @@ namespace VolleyLeague.Services.Services
             };
         }
 
-        private string HashPassword(string email, string password)
+        private string HashPassword(string password)
         {
             string hash = PepperPassword(password);
-            hash = passwordHasher.HashPassword(email, hash);
+            hash = passwordHasher.HashPassword(null, hash);
             return hash;
         }
 

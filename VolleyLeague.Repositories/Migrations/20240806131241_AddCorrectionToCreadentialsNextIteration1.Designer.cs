@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VolleyLeague.Repositories;
 
@@ -11,9 +12,11 @@ using VolleyLeague.Repositories;
 namespace VolleyLeague.Repositories.Migrations
 {
     [DbContext(typeof(VolleyballContext))]
-    partial class VolleyballContextModelSnapshot : ModelSnapshot
+    [Migration("20240806131241_AddCorrectionToCreadentialsNextIteration1")]
+    partial class AddCorrectionToCreadentialsNextIteration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,9 +214,6 @@ namespace VolleyLeague.Repositories.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoweredUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OldPassword")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

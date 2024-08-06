@@ -25,9 +25,9 @@
                             <EditForm Model="User" OnValidSubmit="HandleLogin">
                                 <DataAnnotationsValidator />
                                 <div class="form">
-                                    <label for="username" class="form-label">Adres e-mail</label>
-                                    <InputText id="username" class="form-control" @bind-Value="User.Email" />
-                                    <ValidationMessage For="@(() => User.Email)" />
+                                    <label for="identifier" class="form-label">Adres e-mail lub nazwa użytkownika</label>
+                                    <InputText id="identifier" class="form-control" @bind-Value="User.Identifier" />
+                                    <ValidationMessage For="@(() => User.Identifier)" />
                                 </div>
                                 <div class="form">
                                     <label for="password" class="form-label">Hasło</label>

@@ -25,7 +25,7 @@ namespace VolleyLeague.Services.Services
             var userId = _credentialsRepository.GetAll().Where(x => x.Email == typedResult.UserId).FirstOrDefault();
             TypedResult newScore = new TypedResult()
             {
-                UserId = userId.UserId,
+                UserId = (int)userId.UserId,
                 Score1 = (byte)typedResult.Score1,
                 Score2 = (byte)typedResult.Score2,
                 MatchId = typedResult.MatchId,

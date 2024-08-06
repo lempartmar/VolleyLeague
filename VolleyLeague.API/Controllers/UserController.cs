@@ -35,6 +35,7 @@ namespace VolleyLeague.API.Controllers
             return Ok(result);
         }
 
+
         [HttpPost("login")]
         public IActionResult Login(LoginDto loginDto)
         {
@@ -43,6 +44,13 @@ namespace VolleyLeague.API.Controllers
             if (serviceResult == null || credentials == null)
             {
                 return Unauthorized();
+            }
+
+            // U¿ycie Email lub UserName jako alternatywy, jeœli Email jest null
+            var identifier = credentials.Email ?? credentials.UserName;
+            if (string.IsNullOrEmpty(identifier))
+            {
+                return BadRequest("Email or Username cannot be null or empty.");
             }
 
             string issuer = _config.GetValue<string>("Jwt:Issuer");
@@ -55,9 +63,9 @@ namespace VolleyLeague.API.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, credentials.Email),
-                    new Claim(ClaimTypes.NameIdentifier, credentials.Email),
-                }),
+            new Claim(ClaimTypes.Name, identifier),
+            new Claim(ClaimTypes.NameIdentifier, identifier),
+        }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 Issuer = issuer,
                 Audience = audience,
