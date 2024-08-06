@@ -4,8 +4,6 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
-<link href="mvp.css" rel="stylesheet">
-
 <div class="rts-point-table-section section-gap">
     <div class="container">
         <div class="table-area table-full">
@@ -14,7 +12,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="form-group">
                             <label for="seasonSelect" class="form-label">SEZON:</label>
-                            <select id="seasonSelect" value="@Filter.SeasonId" @onchange="OnSeasonChanged" class="form-select">
+                            <select id="seasonSelect" value="@Filter.SeasonId" @onchange="@(e => OnSeasonOrLeagueChanged(e, true))" class="form-select">
                                 @foreach (var season in Filter.SeasonList)
                                 {
                                     <option value="@season.Id">@season.Name</option>
@@ -25,7 +23,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="form-group">
                             <label for="leagueSelect" class="form-label">LIGA:</label>
-                            <select id="leagueSelect" value="@Filter.LeagueId" @onchange="OnLeagueChanged" class="form-select">
+                            <select id="leagueSelect" value="@Filter.LeagueId" @onchange="@(e => OnSeasonOrLeagueChanged(e, false))" class="form-select">
                                 @foreach (var league in Filter.LeagueList)
                                 {
                                     <option value="@league.Id">@league.Name</option>
@@ -54,7 +52,7 @@
                     Nie znaleziono MVP dla danego sezonu.
                 </div>
             }
-            else if (MvpList.Count > 0)
+            else
             {
                 <div class="table-area table-full">
                     <table class="table table-table-bordered">
@@ -97,7 +95,7 @@
     private bool mvpLoading = false;
     private string mvpErrorMessage = "";
     private List<PlayerSummaryDto> MvpList = new List<PlayerSummaryDto>();
-    private ScheduleFilter Filter;
+    private ScheduleFilter Filter = new ScheduleFilter(0, 0);
 
     private class ScheduleFilter
     {
@@ -153,18 +151,10 @@
         {
             mvpErrorMessage = "Nie znaleziono MVP dla danego sezonu.";
         }
+        else
+        {
+            mvpErrorMessage = string.Empty;
+        }
         mvpLoading = false;
     }
-
-    private EventCallback<ChangeEventArgs> OnSeasonChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
-    {
-        Filter.SeasonId = Convert.ToInt32(e.Value.ToString());
-        await ApplyFilter();
-    });
-
-    private EventCallback<ChangeEventArgs> OnLeagueChanged => EventCallback.Factory.Create<ChangeEventArgs>(this, async e =>
-    {
-        Filter.LeagueId = Convert.ToInt32(e.Value.ToString());
-        await ApplyFilter();
-    });
 }

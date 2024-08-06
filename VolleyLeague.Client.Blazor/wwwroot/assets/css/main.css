@@ -28136,3 +28136,9 @@ div.label-instruction {
 img.img-half {
     width: 50% !important;
 }
+
+@media screen and (max-width: 1930px) {
+    body {
+        zoom: 0.8;
+    }
+}
