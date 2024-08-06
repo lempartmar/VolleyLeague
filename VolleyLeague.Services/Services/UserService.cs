@@ -476,14 +476,14 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
-            var servicesPath = Path.Combine(_env.ContentRootPath);
-            if (servicesPath.Contains("VolleyLeague.API"))
+            string servicesPath = Path.Combine(_env.ContentRootPath, "VolleyLeague.Shared", "EmailTemplates", "VerificationEmailTemplate.html");
+
+            if (!File.Exists(servicesPath))
             {
-                servicesPath = servicesPath.Replace("VolleyLeague.API", "VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html");
+                throw new FileNotFoundException($"Email template file not found: {servicesPath}");
             }
 
             string emailTemplate = await File.ReadAllTextAsync(servicesPath);
-
             string emailBody = emailTemplate.Replace("623123", verificationCode);
 
             var message = new MailMessage("noreply@yourwebsite.com", email)
@@ -495,6 +495,7 @@ namespace VolleyLeague.Services.Services
 
             await _emailService.Send(email, message);
         }
+
 
         public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
         {

@@ -317,6 +317,27 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+		<ItemGroup>
+				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
+						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				</Content>
+		</ItemGroup>
+		<ItemGroup>
+  <Content Include="VolleyLeague.Shared/EmailTemplates/newTeamMate.html">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
+						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				</Content>
+		
+		<ItemGroup>
+  <Content Include="VolleyLeague.Shared/EmailTemplates/PasswordResetTemplate.html">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
+						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				</Content>
+		
 
   <ItemGroup>
     <Folder Include="Images\Logos\" />
