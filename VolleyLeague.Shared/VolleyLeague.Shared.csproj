@@ -306,11 +306,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-		<ItemGroup>
-				<Content Include="EmailTemplates\VerificationEmailTemplate.html">
-						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-				</Content>
-		</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VolleyLeague.Entities\VolleyLeague.Entities.csproj" />
   </ItemGroup>

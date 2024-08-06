@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using VolleyLeague.Entities.Models;
@@ -476,25 +477,36 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
-            string servicesPath = Path.Combine(_env.ContentRootPath, "VolleyLeague.Shared", "EmailTemplates", "VerificationEmailTemplate.html");
+            string resourcePath = "VolleyLeague.Services.VerificationEmailTemplate.html";
 
-            if (!File.Exists(servicesPath))
+            // Pobierz bieżące zestawienie
+            var assembly = Assembly.GetExecutingAssembly();
+
+            // Znajdź strumień osadzonego zasobu
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
             {
-                throw new FileNotFoundException($"Email template file not found: {servicesPath}");
+                if (stream == null)
+                {
+                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                }
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string emailTemplate = await reader.ReadToEndAsync();
+                    string emailBody = emailTemplate.Replace("623123", verificationCode);
+
+                    var message = new MailMessage("noreply@yourwebsite.com", email)
+                    {
+                        Subject = "Verification Code",
+                        Body = emailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    await _emailService.Send(email, message);
+                }
             }
-
-            string emailTemplate = await File.ReadAllTextAsync(servicesPath);
-            string emailBody = emailTemplate.Replace("623123", verificationCode);
-
-            var message = new MailMessage("noreply@yourwebsite.com", email)
-            {
-                Subject = "Verification Code",
-                Body = emailBody,
-                IsBodyHtml = true,
-            };
-
-            await _emailService.Send(email, message);
         }
+
 
 
         public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
