@@ -186,7 +186,6 @@ namespace VolleyLeague.API.Controllers
             return Ok("Password reset email sent");
         }
 
-        [Authorize]
         [HttpPost("resetPassword")]
         public async Task<IActionResult> ResetPassword(PasswordResetDto resetDto)
         {

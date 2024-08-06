@@ -301,17 +301,14 @@ namespace VolleyLeague.Services.Services
                     return false;
                 }
 
-                var email = principal.FindFirst("email").ToString();
-
-                string input = "email: liga.siatkowki12345@interia.pl";
-                string prefix = "email: ";
-
-                if (input.StartsWith(prefix))
+                var emailClaim = principal.FindFirst("email");
+                if (emailClaim == null)
                 {
-                    email = input.Substring(prefix.Length);
-                    Console.WriteLine(email);
+                    Console.WriteLine("Email claim not found in token.");
+                    return false;
                 }
 
+                var email = emailClaim.Value;
                 if (string.IsNullOrEmpty(email))
                 {
                     Console.WriteLine("Email claim is null or empty.");
@@ -338,7 +335,6 @@ namespace VolleyLeague.Services.Services
                 return false;
             }
         }
-
 
         public async Task<bool> IsTokenValid(string token)
         {
