@@ -383,7 +383,7 @@ namespace VolleyLeague.Services.Services
             await _verificationCodeRepository.InsertAsync(verificationEntity);
             await _verificationCodeRepository.SaveChangesAsync();
 
-          ////  await SendVerificationEmail(registerDto.Email, verificationCode);
+            await SendVerificationEmail(registerDto.Email, verificationCode);
 
             return (true, "Verification code sent to email.");
         }
@@ -477,7 +477,7 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
-            string resourcePath = "VolleyLeague.Services.VerificationEmailTemplate.html";
+            string resourcePath = "VolleyLeague.Services.Services.VerificationEmailTemplate.html";
 
             // Pobierz bieżące zestawienie
             var assembly = Assembly.GetExecutingAssembly();
