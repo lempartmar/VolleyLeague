@@ -525,7 +525,7 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendPasswordResetEmail(string email, string resetToken)
         {
-            var resetLink = $"https://localhost:7068/reset-password?token={resetToken}";
+            var resetLink = $"https://volleyleagueapi20240804.azurewebsites.net/reset-password?token={resetToken}";
             string resourcePath = "VolleyLeague.Services.EmailTemplates.PasswordResetTemplate.html";
 
             var assembly = Assembly.GetExecutingAssembly();
