@@ -477,7 +477,7 @@ namespace VolleyLeague.Services.Services
 
         private async Task SendVerificationEmail(string email, string verificationCode)
         {
-            string resourcePath = "VolleyLeague.Services.Services.VerificationEmailTemplate.html";
+            string resourcePath = "VolleyLeague.Shared.EmailTemplates.VerificationEmailTemplate.html";
 
             // Pobierz bieżące zestawienie
             var assembly = Assembly.GetExecutingAssembly();

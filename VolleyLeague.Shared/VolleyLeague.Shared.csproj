@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+		<ItemGroup>
+				<EmbeddedResource Include="EmailTemplates\VerificationEmailTemplate.html" />
+		</ItemGroup>
+
   <ItemGroup>
     <None Remove="Images\Teams\1061.jpg" />
     <None Remove="Images\Teams\1062.jpg" />
@@ -309,6 +313,7 @@
   <ItemGroup>
     <ProjectReference Include="..\VolleyLeague.Entities\VolleyLeague.Entities.csproj" />
   </ItemGroup>
+		
 
   <ItemGroup>
     <None Update="Images\Teams\23.jpg">
