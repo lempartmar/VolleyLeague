@@ -383,7 +383,7 @@ namespace VolleyLeague.Services.Services
             await _verificationCodeRepository.InsertAsync(verificationEntity);
             await _verificationCodeRepository.SaveChangesAsync();
 
-            await SendVerificationEmail(registerDto.Email, verificationCode);
+          ////  await SendVerificationEmail(registerDto.Email, verificationCode);
 
             return (true, "Verification code sent to email.");
         }
