@@ -306,7 +306,11 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-
+		<ItemGroup>
+				<Content Include="EmailTemplates\VerificationEmailTemplate.html">
+						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				</Content>
+		</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VolleyLeague.Entities\VolleyLeague.Entities.csproj" />
   </ItemGroup>
@@ -317,27 +321,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-		<ItemGroup>
-				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
-						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-				</Content>
-		</ItemGroup>
-		<ItemGroup>
-  <Content Include="VolleyLeague.Shared/EmailTemplates/newTeamMate.html">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
-						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-				</Content>
-		
-		<ItemGroup>
-  <Content Include="VolleyLeague.Shared/EmailTemplates/PasswordResetTemplate.html">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>				<Content Include="VolleyLeague.Shared/EmailTemplates/VerificationEmailTemplate.html">
-						<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-				</Content>
-		
 
   <ItemGroup>
     <Folder Include="Images\Logos\" />
