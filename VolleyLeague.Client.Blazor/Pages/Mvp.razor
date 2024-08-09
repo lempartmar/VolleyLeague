@@ -4,6 +4,16 @@
 @using VolleyLeague.Client.Blazor.Services
 @using VolleyLeague.Shared.Dtos.Teams
 
+@if (!pageReady)
+{
+    <section id="loading_section" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else
+{
 <div class="rts-point-table-section section-gap">
     <div class="container">
         <div class="table-area table-full">
@@ -89,6 +99,7 @@
         </div>
     </div>
 </div>
+}
 
 @code {
     private bool pageReady = false;
