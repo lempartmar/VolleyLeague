@@ -132,7 +132,7 @@ namespace VolleyLeague.Services.Services
         public async Task<bool> GetHasUserEmail(string identity)
         {
 
-            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity);
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity || c.UserName == identity || c.LoweredUserName == identity);
 
             if (credentials?.Email != null)
             {
