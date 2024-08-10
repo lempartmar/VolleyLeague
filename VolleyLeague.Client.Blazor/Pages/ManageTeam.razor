@@ -115,8 +115,8 @@ else
                                                 <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
                                                              @bind-Value="captain.Gender" 
                                                              disabled>
-                                                    <option value="false">M</option>
-                                                    <option value="true">K</option>
+                                                    <option value="true">Mężczyzna</option>
+                                                    <option value="false">Kobieta</option>
                                                 </InputSelect>
                                                 <ValidationMessage For="@(() => captain.Gender)" class="text-danger" />
                                             </td>
@@ -167,8 +167,8 @@ else
                                                 <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
                                                              @bind-Value="player.Gender" 
                                                              disabled="@player.IsRegisteredUser">
-                                                    <option value="false">M</option>
-                                                    <option value="true">K</option>
+                                                    <option value="true">Mężczyzna</option>
+                                                    <option value="false">Kobieta</option>
                                                 </InputSelect>
                                                 <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
                                             </td>
@@ -220,8 +220,8 @@ else
                                             <td style="margin-bottom: 8px;">
                                                 <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
                                                              @bind-Value="newPlayer.Gender">
-                                                    <option value="false">M</option>
-                                                    <option value="true">K</option>
+                                                    <option value="true">Mężczyzna</option>
+                                                    <option value="false">Kobieta</option>
                                                 </InputSelect>
                                                 <ValidationMessage For="@(() => newPlayer.Gender)" class="text-danger" />
                                             </td>
@@ -269,8 +269,8 @@ else
                                             <td style="margin-bottom: 8px;">
                                                 <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
                                                              @bind-Value="removedPlayer.Gender" readonly>
-                                                    <option value="false">M</option>
-                                                    <option value="true">K</option>
+                                                    <option value="true">Mężczyzna</option>
+                                                    <option value="false">Kobieta</option>
                                                 </InputSelect>
                                                 <ValidationMessage For="@(() => removedPlayer.Gender)" class="text-danger" />
                                             </td>
