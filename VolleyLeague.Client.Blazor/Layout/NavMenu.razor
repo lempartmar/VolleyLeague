@@ -107,7 +107,7 @@
                                 <div class="search-input-inner">
                                     <div class="input-div">
                                         <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Wyszukaj po haśle" @onkeydown="HandleKeyDown">
+                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Wyszukaj artykuł wg hasła" @onkeydown="HandleKeyDown">
                                     </div>
                                     <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                 </div>
@@ -426,16 +426,22 @@
 
     public async Task Logout()
     {
-        isLoading = true;
-        // Wywołanie metody NotifyUserLogout
-        await ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+        try
+        {
+            isLoading = true;
+            StateHasChanged();
 
-        // Usunięcie tokenu z lokalnego magazynu
-        await localStorage.RemoveItemAsync("token");
+            await ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
 
-        // Nawigacja do strony głównej
-        NavigationManager.NavigateTo("/", forceLoad: true);
-        isLoading = false;
+            await localStorage.RemoveItemAsync("token");
+
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
     }
 
     private string GetDayName(DateTime date)
