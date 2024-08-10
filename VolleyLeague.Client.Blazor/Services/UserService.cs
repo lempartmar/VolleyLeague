@@ -9,9 +9,14 @@ namespace VolleyLeague.Client.Blazor.Services
         Task<(bool Success, string Message)> Register(RegisterDto registerDto);
 
         Task<bool> GetHasUserEmail();
+
         Task<(bool Success, string Message)> StartRegistration(RegisterDto registerDto);
+
         Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto);
 
+        Task<(bool Success, string Message)> CompleteEmailVerification(CompleteEmailRegistrationDto completeRegistrationDto);
+
+        Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto);
 
         //Task<string> Login(LoginDto loginDto);
         //Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto);
@@ -57,9 +62,37 @@ namespace VolleyLeague.Client.Blazor.Services
             }
         }
 
+        public async Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/startemailverification", registerDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, string.Empty);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return (false, errorMessage);
+            }
+        }
+
         public async Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto)
         {
             var response = await _httpClient.PostAsJsonAsync("api/user/completeregistration", completeRegistrationDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, string.Empty);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return (false, errorMessage);
+            }
+        }
+
+        public async Task<(bool Success, string Message)> CompleteEmailVerification(CompleteEmailRegistrationDto completeRegistrationDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/user/completeemailverification", completeRegistrationDto);
             if (response.IsSuccessStatusCode)
             {
                 return (true, string.Empty);

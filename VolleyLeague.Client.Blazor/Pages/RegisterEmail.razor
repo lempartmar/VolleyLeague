@@ -1,0 +1,217 @@
+﻿@page "/registerEmail"
+@using System.ComponentModel.DataAnnotations
+@using VolleyLeague.Client.Blazor.Services
+@using VolleyLeague.Shared.Dtos.Teams
+@using VolleyLeague.Shared.Dtos.Users
+@inject IUserService UserService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+@if (!pageReady)
+{
+    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
+}
+else if (!isVerificationStep)
+{
+    <div class="login-area">
+        <div class="container">
+            <div class="row display-flex-column-center">
+                <div class="col-lg-6 col-md-12 mr-10">
+                    <div class="login-form">
+                        <div class="card">
+                            <div class="card-body">
+                                <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form">
+                                        <label for="Email" class="control-label"></label>
+                                        <input @bind="registerModel.Email" type="email" class="form-control" id="Email" placeholder="Adres e-mail" required />
+                                        <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
+                                        <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
+                                    </div>
+                                    @if (ShowErrorMessage)
+                                    {
+                                        <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@ErrorMessage</div>
+                                    }
+                                    <div class="form">
+                                        <button type="submit" class="btn btn-primary">Zarejestruj</button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="login-area">
+        <div class="container">
+            <div class="row display-flex-column-center">
+                <div class="col-lg-6 col-md-12 mr-10">
+                    <div class="login-form">
+                        <div class="card">
+                            <div class="card-body">
+                                <EditForm Model="@verificationModel" OnValidSubmit="HandleVerificationSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form">
+                                        <small class="form-text text-muted">Na podany adres e-mail został wysłany kod weryfikacyjny.</small>
+                                        <label for="VerificationCode" class="control-label"></label>
+                                        <input @bind="verificationModel.VerificationCode" type="text" class="form-control" id="VerificationCode" placeholder="Kod weryfikacyjny" required />
+                                        <ValidationMessage class="text-danger" For="@(() => verificationModel.VerificationCode)" />
+                                    </div>
+                                    @if (ShowErrorMessage)
+                                    {
+                                        <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@ErrorMessage</div>
+                                    }
+                                    <div class="form">
+                                        <button type="submit" class="btn btn-primary">Zweryfikuj</button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (IsSubmitted)
+{
+    <div class="modal" style="display:block">
+        <div class="modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dziękujemy za rejestrację!</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Twoje konto zostało pomyślnie zarejestrowane.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="NavigateToLogin">Przejdź do logowania</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog-centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 1em;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    #spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        margin: 50px auto;
+        animation: spin 1s linear infinite;
+    }
+</style>
+
+@code {
+    private RegisterEmailDto registerModel = new RegisterEmailDto();
+    private VerificationCodeDto verificationModel = new VerificationCodeDto();
+
+    private bool IsSubmitted = false;
+    private bool ShowErrorMessage = false;
+    private string ErrorMessage = "";
+    private bool pageReady = false;
+    private bool isVerificationStep = false;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await localStorage.GetItemAsync<string>("token");
+        if (token != null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        pageReady = true;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        pageReady = false;
+        ShowErrorMessage = false;
+
+        var result = await UserService.StartEmailVerification(registerModel);
+
+        if (result.Success)
+        {
+            isVerificationStep = true;
+            verificationModel.Email = registerModel.Email;
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = result.Message;
+        }
+
+        pageReady = true;
+    }
+
+    private async Task HandleVerificationSubmit()
+    {
+        pageReady = false;
+        ShowErrorMessage = false;
+
+        var completeEmailRegistrationDto = new CompleteEmailRegistrationDto
+            {
+                Email = verificationModel.Email,
+                VerificationCode = verificationModel.VerificationCode
+            };
+
+        var result = await UserService.CompleteEmailVerification(completeEmailRegistrationDto);
+
+        if (result.Success)
+        {
+            IsSubmitted = true;
+        }
+        else
+        {
+            ShowErrorMessage = true;
+            ErrorMessage = result.Message;
+        }
+
+        pageReady = true;
+    }
+
+    private void NavigateToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+}

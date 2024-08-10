@@ -71,8 +71,9 @@
                 @if (!HasUserEmail)
                 {
                     <div class="alert alert-warning">
-                        Użytkownik musi zidentyfikować maila.
+                        W celu kontynuacji korzystania z panelu należy zweryfikować adres e-mail.
                     </div>
+                    <button class="btn btn-primary" @onclick="NavigateToEmailRegistration">Zarejestruj e-mail</button>
                 }
                 else
                 {
@@ -174,10 +175,17 @@
     }
     }
 
+
+
     private void ShowSection(InfoPages section)
     {
         currentSection = section;
         Navigation.NavigateTo($"/account?section={section}");
+    }
+
+    private void NavigateToEmailRegistration()
+    {
+        Navigation.NavigateTo("/registerEmail");
     }
 
     private string GetActiveClass(InfoPages section)

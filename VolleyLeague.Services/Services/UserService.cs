@@ -420,6 +420,32 @@ namespace VolleyLeague.Services.Services
             return (true, "Verification code sent to email.");
         }
 
+        public async Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto)
+        {
+            var existingUser = _userRepository.GetAll().Include(u => u.Credentials).FirstOrDefault(u => u.Credentials != null && u.Credentials.Email == registerDto.Email);
+
+            if (existingUser != null)
+            {
+                return (false, "Użytkownik z takim adresem e-mail już istnieje.");
+            }
+
+            var verificationCode = GenerateVerificationCode();
+            var expirationTime = DateTime.UtcNow.AddMinutes(30);
+
+            var verificationEntity = new UserRegistrationVerificationCode
+            {
+                Email = registerDto.Email,
+                Code = verificationCode,
+                ExpirationTime = expirationTime
+            };
+
+            await _verificationCodeRepository.InsertAsync(verificationEntity);
+            await _verificationCodeRepository.SaveChangesAsync();
+
+            await SendVerificationEmail(registerDto.Email, verificationCode);
+
+            return (true, "Verification code sent to email.");
+        }
 
         public async Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto)
         {
