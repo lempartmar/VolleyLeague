@@ -11,6 +11,9 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<TypedUserDto>> GetTypedUserDto(int seasonId);
 
         public Task<bool> CreateTypedResult(TypedResultDto typedResult);
+
+        Task<TypedResultDto?> GetTypedResultByMatchAndUser(int matchId);
+        Task<bool> UpdateTypedResult(TypedResultDto typedResultDto);
     }
     public class TypedResultService : ITypedResultService
     {
@@ -38,5 +41,26 @@ namespace VolleyLeague.Client.Blazor.Services
             var response = await _httpClient.PostAsJsonAsync("api/typedresult/createtypedresult", typedResult);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<TypedResultDto?> GetTypedResultByMatchAndUser(int matchId)
+        {
+            var response = await _httpClient.GetAsync($"api/typedresult/GetTypedResultByMatchAndUser?matchId={matchId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var typedResult = JsonSerializer.Deserialize<TypedResultDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return typedResult;
+            }
+
+            return null;
+        }
+
+        public async Task<bool> UpdateTypedResult(TypedResultDto typedResultDto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/typedresult/UpdateTypedResult", typedResultDto);
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

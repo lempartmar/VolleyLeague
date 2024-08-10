@@ -12,17 +12,19 @@ namespace VolleyLeague.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly IBaseRepository<TypedResult> _typedResultsRepository;
+        private readonly IBaseRepository<Match> _matchRepository;
         private readonly IBaseRepository<Credentials> _credentialsRepository;
-        public TypedResultService(IBaseRepository<TypedResult> typedResult, IMapper mapper, IBaseRepository<Credentials> credentials)
+        public TypedResultService(IBaseRepository<TypedResult> typedResult, IMapper mapper, IBaseRepository<Credentials> credentials, IBaseRepository<Match> matchRepository)
         {
             _typedResultsRepository = typedResult;
             _credentialsRepository = credentials;
             _mapper = mapper;
+            _matchRepository = matchRepository;
         }
 
-        public async Task CreateTypedResult(TypedResultDto typedResult)
+        public async Task CreateTypedResult(TypedResultDto typedResult, string identity)
         {
-            var userId = _credentialsRepository.GetAll().Where(x => x.Email == typedResult.UserId).FirstOrDefault();
+            var userId = _credentialsRepository.GetAll().Where(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity).FirstOrDefault();
             TypedResult newScore = new TypedResult()
             {
                 UserId = (int)userId.UserId,
@@ -103,5 +105,57 @@ namespace VolleyLeague.Services.Services
 
             return typers;
         }
+
+        public async Task<TypedResultDto?> GetTypedResultByMatchAndUserAsync(int matchId, string identity)
+        {
+
+            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity);
+            var userId = user.UserId;
+
+            if (userId == 0)
+            {
+                return null;
+            }
+
+            var typedResult = await _typedResultsRepository.GetAll()
+                .FirstOrDefaultAsync(tr => tr.UserId == userId && tr.MatchId == matchId);
+
+            if (typedResult == null)
+            {
+                return null;
+            }
+
+            var result = _mapper.Map<TypedResultDto>(typedResult);
+
+            return result;
+        }
+
+        public async Task<bool> UpdateTypedResultAsync(TypedResultDto typedResultDto, string identity)
+        {
+            var userId = _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity).Id;
+
+            if (userId == 0)
+            {
+                return false;
+            }
+
+            var existingResult = await _typedResultsRepository.GetAll()
+                .FirstOrDefaultAsync(tr => tr.Id == userId && tr.MatchId == typedResultDto.MatchId);
+
+            if (existingResult == null)
+            {
+                return false;
+            }
+
+            existingResult.Score1 = (byte)typedResultDto.Score1;
+            existingResult.Score2 = (byte)typedResultDto.Score2;
+
+            await _matchRepository.SaveChangesAsync();
+
+            return true;
+        }
+
+
+
     }
 }

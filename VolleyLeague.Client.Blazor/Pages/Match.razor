@@ -207,43 +207,56 @@
                 <div class="order-2">
                     <div class="card m-1 text-center">
                         <div class="card-body table-responsive">
-                            <h2>Typermania</h2>
-
-                            @if (IsOneDayBeforeMatch)
+                            @if (IsDayBeforeMatch)
                             {
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <div class="card m-1 text-center">
-                                        <div class="card-body">
-                                    <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
-                                        <DataAnnotationsValidator />
-
-                                        <h3>Typermania</h3>
-                                        <p class="text-muted">Dodaj wynik swojego typu na nadchodzący mecz</p>
-
-                                        <div class="row margin-top-xs">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-4">
-                                                    <InputNumber id="HomeTeamScore" class="form-control" @bind-Value="typedResult.Score1" Min="0" Max="3" placeholder="Wynik drużyny gospodarzy" />
-                                                    <label for="HomeTeamScore">Wynik @MatchData.HomeTeam.Name</label>
-                                                    <ValidationMessage For="@(() => typedResult.Score1)" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-4">
-                                                    <InputNumber id="GuestTeamScore" class="form-control" @bind-Value="typedResult.Score2" Min="0" Max="3" placeholder="Wynik drużyny gości" />
-                                                    <label for="GuestTeamScore">Wynik @MatchData.GuestTeam.Name</label>
-                                                    <ValidationMessage For="@(() => typedResult.Score2)" />
-                                                </div>
-                                            </div>
+                                    @if (userTypedResult != null)
+                                    {
+                                        <div>
+                                            <h3>Twój typ:</h3>
+                                            <p>Wynik @MatchData.HomeTeam.Name: @userTypedResult.Score1</p>
+                                            <p>Wynik @MatchData.GuestTeam.Name: @userTypedResult.Score2</p>
                                         </div>
+                                        <button @onclick="EnableEditing" class="btn btn-primary mt-3">Zmień typ</button>
+                                    }
+                                    else
+                                    {
+                                        @if (isEditing)
+                                        {
+                                            <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
+                                                <DataAnnotationsValidator />
 
-                                        <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-primary">Dodaj wynik</button>
-                                        </div>
-                                    </EditForm>
-                                    </div>
-                                    </div>
+                                                <h3>Typermania</h3>
+                                                <p class="text-muted">Dodaj wynik swojego typu na nadchodzący mecz</p>
+
+                                                <div class="row margin-top-xs">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-4">
+                                                            <InputNumber id="HomeTeamScore" class="form-control" @bind-Value="typedResult.Score1" Min="0" Max="3" placeholder="Wynik drużyny gospodarzy" />
+                                                            <label for="HomeTeamScore">Wynik @MatchData.HomeTeam.Name</label>
+                                                            <ValidationMessage For="@(() => typedResult.Score1)" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-4">
+                                                            <InputNumber id="GuestTeamScore" class="form-control" @bind-Value="typedResult.Score2" Min="0" Max="3" placeholder="Wynik drużyny gości" />
+                                                            <label for="GuestTeamScore">Wynik @MatchData.GuestTeam.Name</label>
+                                                            <ValidationMessage For="@(() => typedResult.Score2)" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-primary">Dodaj wynik</button>
+                                                </div>
+                                            </EditForm>
+                                        }
+                                        else
+                                        {
+                                            <button @onclick="EnableEditing" class="btn btn-primary">Dodaj typ</button>
+                                        }
+                                    }
                                 }
                                 else
                                 {
@@ -285,11 +298,12 @@
     private string? authMessage;
     private string? surname;
     private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+    ClaimsPrincipal user;
 
     private async Task GetClaimsPrincipalData()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
+        user = authState.User;
 
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
@@ -307,11 +321,14 @@
     private int i2 = 1;
 
     public MatchDto? MatchData { get; set; }
+    public TypedResultDto? userTypedResult { get; set; } = null;
 
     private ClaimsPrincipal User { get; set; }
 
     // Check if it's possible to submit predictions
-    private bool IsOneDayBeforeMatch => MatchData != null && DateTime.Now.Date <= MatchData.Schedule.Date.AddDays(-1);
+    private bool IsDayBeforeMatch => MatchData != null && DateTime.Now.Date <= MatchData.Schedule.Date.AddDays(-1);
+
+    private bool isEditing = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -319,6 +336,7 @@
         User = authState.User;
 
         await GetMatchData();
+        await LoadUserTypedResult();
     }
 
     public async Task GetMatchData()
@@ -327,20 +345,58 @@
         MatchData = matchResult;
     }
 
-    public void EditMatch()
+    public async Task LoadUserTypedResult()
     {
-        NavigationManager.NavigateTo("/managematch/" + Id);
+        if (User?.Identity != null && User.Identity.IsAuthenticated)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                userTypedResult = await typedResultService.GetTypedResultByMatchAndUser(Id);
+
+                if (userTypedResult != null)
+                {
+                    // Copy the existing result to the typedResult model for editing
+                    typedResult.Score1 = userTypedResult.Score1;
+                    typedResult.Score2 = userTypedResult.Score2;
+                }
+            }
+        }
     }
+
 
     private TypedResultDto typedResult = new TypedResultDto();
 
     private async Task HandleValidSubmit()
     {
-        typedResult.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        typedResult.UserId = "";
         typedResult.MatchId = Id;
-        if (await typedResultService.CreateTypedResult(typedResult))
+
+        if (userTypedResult != null)
         {
-            NavigationManager.NavigateTo($"/match/{Id}", forceLoad: true);
+            // Update existing result
+            userTypedResult.Score1 = typedResult.Score1;
+            userTypedResult.Score2 = typedResult.Score2;
+            await typedResultService.UpdateTypedResult(userTypedResult);
         }
+        else
+        {
+            // Create new result
+            await typedResultService.CreateTypedResult(typedResult);
+        }
+
+        await LoadUserTypedResult();
+        isEditing = false;
+        NavigationManager.NavigateTo($"/match/{Id}", forceLoad: true);
+    }
+
+    private void EnableEditing()
+    {
+        isEditing = true;
+    }
+
+    public void EditMatch()
+    {
+        NavigationManager.NavigateTo("/managematch/" + Id);
     }
 }

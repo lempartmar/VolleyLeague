@@ -18,6 +18,7 @@ namespace VolleyLeague.Services.Services
         private readonly ILogService _logService;
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Match> _matchRepository;
+        private readonly IBaseRepository<Credentials> _credentialsRepository;
         private readonly IBaseRepository<Team> _teamRepository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<TeamPlayer> _teamPlayerRepository;
@@ -27,7 +28,8 @@ namespace VolleyLeague.Services.Services
             ILogService logService,
             IBaseRepository<Match> matchRepository,
             IBaseRepository<User> userRepository,
-            IBaseRepository<Team> teamRepository,
+            IBaseRepository<Credentials> credentialsRepository,
+        IBaseRepository<Team> teamRepository,
             IBaseRepository<TeamPlayer> teamPlayerRepository,
             IRoleRepository roleRepository
             )
@@ -38,6 +40,7 @@ namespace VolleyLeague.Services.Services
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _credentialsRepository = credentialsRepository;
             _teamPlayerRepository = teamPlayerRepository;
         }
 

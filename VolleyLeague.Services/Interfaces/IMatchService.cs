@@ -16,6 +16,8 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<List<PlayerSummaryDto>> GetPotentialReferees();
 
+
+
         Task<bool> RemoveReferee(int userId);
 
         Task<List<PlayerSummaryDto>> GetOtherData();

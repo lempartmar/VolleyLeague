@@ -29,7 +29,49 @@ namespace VolleyLeague.API.Controllers
         [HttpPost("CreateTypedResult")]
         public async Task<IActionResult> CreateTypedResults([FromBody] TypedResultDto typedResult)
         {
-            await _typedResultService.CreateTypedResult(typedResult);
+            string? identity = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(identity))
+            {
+                return NotFound();
+            }
+
+            await _typedResultService.CreateTypedResult(typedResult, identity);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("GetTypedResultByMatchAndUser")]
+        public async Task<IActionResult> GetTypedResultByMatchAndUser(int matchId)
+        {
+            string? identity = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(identity))
+            {
+                return NotFound();
+            }
+
+            var result = await _typedResultService.GetTypedResultByMatchAndUserAsync(matchId, identity);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPut("UpdateTypedResult")]
+        public async Task<IActionResult> UpdateTypedResult([FromBody] TypedResultDto typedResultDto)
+        {
+            string? identity = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(identity))
+            {
+                return NotFound();
+            }
+
+            var success = await _typedResultService.UpdateTypedResultAsync(typedResultDto, identity);
+            if (!success)
+            {
+                return BadRequest("Failed to update the typed result.");
+            }
             return Ok();
         }
     }
