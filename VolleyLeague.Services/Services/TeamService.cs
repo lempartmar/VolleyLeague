@@ -539,21 +539,23 @@ namespace VolleyLeague.Services.Services
             return result;
         }
 
-        public async Task<bool> UpdateCaptain(int newCaptainId, string email)
+        public async Task<bool> UpdateCaptain(string newCaptainId, string identity)
         {
             var team = await _teamRepository.GetAll()
                 .Include(t => t.League)
                 .Include(u => u.Captain)
                 .Include(t => t.TeamPlayers)
-                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == email);
+                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == identity 
+                                    || t.Captain.Credentials.LoweredUserName == identity 
+                                    || t.Captain.Credentials.UserName == identity);
 
             if (team == null)
             {
                 return false;
             }
 
-            var newCaptain = await _userRepository.GetAll()
-                .FirstOrDefaultAsync(u => u.Id == newCaptainId);
+            var newCaptain = await _userRepository.GetAll().Include(z => z.Credentials)
+                .FirstOrDefaultAsync(u => u.Credentials.Email == newCaptainId);
 
             var oldCaptainId = team.Captain.Id;
 
@@ -562,14 +564,6 @@ namespace VolleyLeague.Services.Services
                 return false;
             }
             team.Captain = newCaptain;
-            team.TeamPlayers.Remove(team.TeamPlayers.FirstOrDefault(p => p.PlayerId == newCaptainId)!);
-
-
-            team.TeamPlayers.Add(new TeamPlayer
-            {
-                PlayerId = oldCaptainId,
-                JoinDate = DateTime.Now
-            });
 
             try
             {

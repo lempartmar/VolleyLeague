@@ -16,7 +16,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<TeamDto>> GetTeamsByLeague(int leagueId);
         public Task<ManagedTeamDataDto> GetManagedTeam();
         public Task<List<LeagueDto>> GetLeagues();
-        public Task<bool> UpdateCaptain(int playerId);
+        public Task<bool> UpdateCaptain(string newCaptainEmail);
         public Task<ExtendedTeamWithLeagueDto> GetAllTeamsForEdit();
         public Task<bool> UpdateExtendedTeamByAdmin(ExtendedTeamDto team);
         public Task<List<TeamImageDto>> GetAllTeamsImageStatus();
@@ -140,9 +140,9 @@ namespace VolleyLeague.Client.Blazor.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateCaptain(int playerId)
+        public async Task<bool> UpdateCaptain(string newCaptainEmail)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/team/updateCaptain", new { playerId });
+            var response = await _httpClient.PutAsJsonAsync("api/team/updateCaptain", new { newCaptainEmail });
             return response.IsSuccessStatusCode;
         }
         public async Task<List<LeagueDto>> GetLeagues()

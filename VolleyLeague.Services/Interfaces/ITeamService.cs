@@ -32,7 +32,7 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<List<TeamDto>> GetTeamsByLeagueId(int leagueId);
 
-        Task<bool> UpdateCaptain(int newCaptainId, string email);
+        Task<bool> UpdateCaptain(string newCaptainId, string email);
 
         Task<bool> UpdateExtendedTeam(ExtendedTeamDto extendedTeamDto);
 

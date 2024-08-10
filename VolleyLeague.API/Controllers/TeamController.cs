@@ -183,6 +183,27 @@ namespace VolleyLeague.API.Controllers
         }
 
         [Authorize]
+        [HttpPut("UpdateCaptain")]
+        public async Task<IActionResult> UpdateCaptain([FromQuery] string newCaptainId)
+        {
+            string? email = User.Identity?.Name;
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return Unauthorized();
+            }
+
+            var result = await _teamService.UpdateCaptain(newCaptainId, email);
+
+            if (result)
+            {
+                return Ok(new { Success = true, Message = "Captain updated successfully." });
+            }
+            return BadRequest(new { Success = false, Message = "Failed to update captain." });
+        }
+
+
+        [Authorize]
         [HttpPost("UploadTeamImage/{teamId}")]
         public async Task<IActionResult> UploadTeamImage(int teamId, IFormFile file)
         {
