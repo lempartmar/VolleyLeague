@@ -166,7 +166,7 @@
                                 <li><a class="home-page-link" href="/">Strona Główna</a></li>
                             </ul>
                         </div>
-                        <h1 class="banner-heading">@GetPageTitle()</h1>
+                        <h1 class="banner-heading-top">@GetPageTitle()</h1>
                     </div>
                 </div>
             </div>
@@ -350,15 +350,15 @@
 
     private string GetPageTitle()
     {
-        if (string.IsNullOrEmpty(currentPath))
-        {
-            return "STRONA GŁÓWNA";
-        }
+        // if (string.IsNullOrEmpty(currentPath))
+        // {
+        //     return "STRONA GŁÓWNA";
+        // }
 
-        if (currentPath.StartsWith("article"))
-        {
-            return "ARTYKUŁ";
-        }
+        // if (currentPath.StartsWith("article"))
+        // {
+        //     return "ARTYKUŁ";
+        // }
 
         return currentPath switch
         {

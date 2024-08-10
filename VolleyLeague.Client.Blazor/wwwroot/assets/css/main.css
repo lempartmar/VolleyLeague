@@ -28142,3 +28142,13 @@ img.img-half {
         zoom: 0.8;
     }
 }
+
+.banner-heading-top {
+    font-size: 80px;
+    letter-spacing: -2px;
+    color: white !important;
+    margin-top: 20px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0;
+}
