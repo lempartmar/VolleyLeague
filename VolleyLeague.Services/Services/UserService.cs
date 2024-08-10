@@ -106,7 +106,7 @@ namespace VolleyLeague.Services.Services
         public async Task<bool> GetHasUserEmail(string identity)
         {
 
-            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity && c.UserName == identity);
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity);
 
             if (credentials?.Email != null)
             {
@@ -445,6 +445,43 @@ namespace VolleyLeague.Services.Services
             await SendVerificationEmail(registerDto.Email, verificationCode);
 
             return (true, "Verification code sent to email.");
+        }
+
+        public async Task<(bool Success, string Message)> CompleteEmailVerification(CompleteEmailRegistrationDto completeEmailRegistrationDto, string userName)
+        {
+            using var transaction = await _userRepository.BeginTransactionAsync();
+
+            try
+            {
+                using (var verificationContext = _verificationCodeRepository.CreateContext())
+                {
+                    var verificationEntity = await verificationContext.Set<UserRegistrationVerificationCode>()
+                        .FirstOrDefaultAsync(vc => vc.Email == completeEmailRegistrationDto.Email && vc.Code == completeEmailRegistrationDto.VerificationCode);
+
+                    if (verificationEntity == null || verificationEntity.ExpirationTime < DateTime.UtcNow)
+                    {
+                        return (false, "Invalid or expired verification code.");
+                    }
+
+                    var credentials = await _credentialsRepository.GetAll().Where(x => x.UserName == userName || x.Email == userName).FirstOrDefaultAsync();
+                    credentials.Email = completeEmailRegistrationDto.Email;
+
+                    var user = await _userRepository.GetAll().Where(x => x.Id == credentials.UserId).FirstOrDefaultAsync();
+                    user.AdditionalEmail = completeEmailRegistrationDto.Email;
+
+                    await _userRepository.SaveChangesAsync();
+                    await _credentialsRepository.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                }
+
+                return (true, "Zakończono z sukcesem weryfikację adresu e-mail");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return (false, $"Rejestracja e-maila zakończona niepowodzeniem: {ex.Message}");
+            }
         }
 
         public async Task<(bool Success, string Message)> CompleteRegistration(CompleteRegistrationDto completeRegistrationDto)

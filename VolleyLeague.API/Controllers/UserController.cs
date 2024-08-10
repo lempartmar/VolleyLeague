@@ -107,7 +107,7 @@ namespace VolleyLeague.API.Controllers
             return Ok("Verification code sent to email.");
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("startemailverification")]
         public async Task<IActionResult> StartEmailVerification([FromBody] RegisterEmailDto registerDto)
         {
@@ -124,6 +124,24 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> CompleteRegistration([FromBody] CompleteRegistrationDto completeRegistrationDto)
         {
             var result = await _userService.CompleteRegistration(completeRegistrationDto);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok("Registration successful.");
+        }
+
+        [Authorize]
+        [HttpPost("completeemailverification")]
+        public async Task<IActionResult> CompleteEmailVerification([FromBody] CompleteEmailRegistrationDto completeRegistrationDto)
+        {
+            string? userName = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return NotFound();
+            }
+
+            var result = await _userService.CompleteEmailVerification(completeRegistrationDto, userName);
             if (!result.Success)
             {
                 return BadRequest(result.Message);
