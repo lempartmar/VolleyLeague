@@ -184,7 +184,7 @@ namespace VolleyLeague.API.Controllers
 
         [Authorize]
         [HttpPut("UpdateCaptain")]
-        public async Task<IActionResult> UpdateCaptain([FromQuery] string newCaptainId)
+        public async Task<IActionResult> UpdateCaptain([FromQuery] int newCaptainId)
         {
             string? email = User.Identity?.Name;
 

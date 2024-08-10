@@ -539,7 +539,7 @@ namespace VolleyLeague.Services.Services
             return result;
         }
 
-        public async Task<bool> UpdateCaptain(string newCaptainId, string identity)
+        public async Task<bool> UpdateCaptain(int newCaptainId, string identity)
         {
             var team = await _teamRepository.GetAll()
                 .Include(t => t.League)
@@ -555,7 +555,7 @@ namespace VolleyLeague.Services.Services
             }
 
             var newCaptain = await _userRepository.GetAll().Include(z => z.Credentials)
-                .FirstOrDefaultAsync(u => u.Credentials.Email == newCaptainId);
+                .FirstOrDefaultAsync(u => u.Id == newCaptainId);
 
             var oldCaptainId = team.Captain.Id;
 

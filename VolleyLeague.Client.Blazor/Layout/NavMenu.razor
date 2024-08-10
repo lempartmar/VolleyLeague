@@ -373,6 +373,8 @@
         return currentPath switch
         {
             _ when currentPath.StartsWith("account") => "PANEL ADMINISTRACYJNY",
+            _ when currentPath.StartsWith("team-result") => "WYNIKI ZESPOŁU",
+            _ when currentPath.StartsWith("team") => "SZCZEGÓŁY ZESPOŁU",
             "standings" => "TABELA",
             "mvp" => "MVP",
             "typedResults" => "TYPERMANIA",

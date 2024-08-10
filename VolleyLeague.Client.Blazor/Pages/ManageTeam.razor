@@ -326,7 +326,7 @@ else
                                 <InputSelect id="CaptainId" class="form-select form-width" @bind-Value="CaptainId">
                                     @foreach (var player in (ManagedTeam.Players?.Where(p => p.IsRegisteredUser && p.Id != ManagedTeam.Captain.Id) ?? Enumerable.Empty<TeamPlayerDto>()))
                                     {
-                                        <option value="@player.Id">@player.FirstName @player.LastName</option>
+                                        <option value="@player.PlayerId">@player.FirstName @player.LastName</option>
                                     }
                                 </InputSelect>
                                 <label for="CaptainId">Nowy kapitan</label>

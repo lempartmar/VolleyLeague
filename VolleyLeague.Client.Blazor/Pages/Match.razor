@@ -214,6 +214,13 @@
                             {
                                 @if (User.Identity.IsAuthenticated)
                                 {
+                                    <div class="form-floating mb-4">
+                                        <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
+                                        <label class="text-center" for="Name">Nazwa drużyny</label>
+                                        <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
+                                    </div>
+
+
                                     <div class="card-header text-center">Dodaj wynik</div>
                                     <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
                                         <input type="hidden" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" />
@@ -296,7 +303,8 @@
 
     private ClaimsPrincipal User { get; set; }
 
-    private bool IsOneDayBeforeMatch => MatchData != null && MatchData.Schedule.Date == DateTime.Now.Date.AddDays(1);
+    // private bool IsOneDayBeforeMatch => MatchData != null && DateTime.Now.Date == MatchData.Schedule.Date.AddDays(-1);
+    private bool IsOneDayBeforeMatch => true;
 
     protected override async Task OnInitializedAsync()
     {
