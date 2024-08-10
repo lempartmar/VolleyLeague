@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -278,5 +279,19 @@ namespace VolleyLeague.API.Controllers
 
             return BadRequest(new { message = "Failed to change password" });
         }
+
+        [HttpPost("migratePasswords")]
+        public async Task<IActionResult> MigratePasswords()
+        {
+            var result = await _userService.MigratePasswordsAsync();
+
+            if (result.Success)
+            {
+                return Ok(result.Message);
+            }
+
+            return StatusCode(500, result.Message);
+        }
+
     }
 }

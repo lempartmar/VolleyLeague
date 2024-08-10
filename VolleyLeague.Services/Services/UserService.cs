@@ -103,6 +103,32 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
+        public async Task<(bool Success, string Message)> MigratePasswordsAsync()
+        {
+            try
+            {
+                var credentialsList = await _credentialsRepository.GetAll()
+                    .Where(c => !string.IsNullOrEmpty(c.OldPassword))
+                    .ToListAsync();
+
+                foreach (var credentials in credentialsList)
+                {
+                    var hashedPassword = passwordHasher.HashPassword(null, PepperPassword(credentials.OldPassword));
+                    credentials.Password = hashedPassword;
+
+                    credentials.OldPassword = null;
+                }
+
+                await _credentialsRepository.SaveChangesAsync();
+
+                return (true, "Passwords migrated and OldPassword column cleared successfully.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"An error occurred while migrating passwords. {ex}");
+            }
+        }
+
         public async Task<bool> GetHasUserEmail(string identity)
         {
 
