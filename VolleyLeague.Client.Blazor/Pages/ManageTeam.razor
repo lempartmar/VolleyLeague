@@ -72,142 +72,224 @@ else
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @{
-                                    int i = 0;
-                                }
-                                @foreach (var player in ManagedTeam.Players)
-                                {
-                                    <tr style="margin-top: 20px;">
-                                        <td class="text-center">@(++i)</td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="player.FirstName" readonly />
-                                            <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="player.LastName" readonly />
-                                            <ValidationMessage For="@(() => player.LastName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="player.JerseyNumber" />
-                                            <ValidationMessage For="@(() => player.JerseyNumber)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" @bind-Value="player.PositionId">
-                                                @foreach (var position in Positions)
+                                    @{
+                                        int i = 0;
+                                        var captain = ManagedTeam.Players.FirstOrDefault(p => p.PlayerId == Team?.Captain.Id);
+                                        var otherPlayers = ManagedTeam.Players.Where(p => p.PlayerId != Team?.Captain.Id).ToList();
+                                    }
+
+                                    @if (captain != null)
+                                    {
+                                        <tr style="margin-top: 20px;">
+                                            <td class="text-center">@(++i)</td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="captain.FirstName" 
+                                                           readonly />
+                                                <ValidationMessage For="@(() => captain.FirstName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="captain.LastName" 
+                                                           readonly />
+                                                <ValidationMessage For="@(() => captain.LastName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="captain.JerseyNumber" 
+                                                             readonly />
+                                                <ValidationMessage For="@(() => captain.JerseyNumber)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="captain.PositionId" 
+                                                             disabled>
+                                                    @foreach (var position in Positions)
+                                                    {
+                                                        <option value="@position.Id">@position.Name</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => captain.PositionId)" class="text-danger" />
+                                            </td>
+                                            <td style="margin-bottom: 8px;">
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
+                                                             @bind-Value="captain.Gender" 
+                                                             disabled>
+                                                    <option value="false">M</option>
+                                                    <option value="true">K</option>
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => captain.Gender)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                @if (!captain.IsRegisteredUser)
                                                 {
-                                                    <option value="@position.Id">@position.Name</option>
+                                                    <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                               @bind-Value="captain.Email" 
+                                                               readonly />
+                                                    <ValidationMessage For="@(() => captain.Email)" class="text-danger" />
                                                 }
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
-                                        </td>
-                                        <td style="margin-bottom: 8px;">
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="player.Gender">
-                                                <option value="false">M</option>
-                                                <option value="true">K</option>
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            @if (!player.IsRegisteredUser)
-                                            {
-                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="player.Email" />
-                                                <ValidationMessage For="@(() => player.Email)" class="text-danger" />
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (player.Id != Team?.Captain.Id)
-                                            {
-                                                <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" @onclick="@(() => RemovePlayer(player))">Usuń</button>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                                @foreach (var newPlayer in ManagedTeam.NewPlayers)
-                                {
-                                    <tr>
-                                        <td>@(++i)</td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="newPlayer.FirstName" />
-                                            <ValidationMessage For="@(() => newPlayer.FirstName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="newPlayer.LastName" />
-                                            <ValidationMessage For="@(() => newPlayer.LastName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="newPlayer.JerseyNumber" />
-                                            <ValidationMessage For="@(() => newPlayer.JerseyNumber)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" @bind-Value="newPlayer.PositionId">
-                                                @foreach (var position in Positions)
+                                            </td>
+                                            <td></td> <!-- Captain cannot be removed -->
+                                        </tr>
+                                    }
+
+                                    @foreach (var player in otherPlayers)
+                                    {
+                                        <tr style="margin-top: 20px;">
+                                            <td class="text-center">@(++i)</td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="player.FirstName" />
+                                                <ValidationMessage For="@(() => player.FirstName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="player.LastName" />
+                                                <ValidationMessage For="@(() => player.LastName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="player.JerseyNumber" />
+                                                <ValidationMessage For="@(() => player.JerseyNumber)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="player.PositionId">
+                                                    @foreach (var position in Positions)
+                                                    {
+                                                        <option value="@position.Id">@position.Name</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => player.PositionId)" class="text-danger" />
+                                            </td>
+                                            <td style="margin-bottom: 8px;">
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
+                                                             @bind-Value="player.Gender">
+                                                    <option value="false">M</option>
+                                                    <option value="true">K</option>
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => player.Gender)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                @if (!player.IsRegisteredUser)
                                                 {
-                                                    <option value="@position.Id">@position.Name</option>
+                                                    <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                               @bind-Value="player.Email" />
+                                                    <ValidationMessage For="@(() => player.Email)" class="text-danger" />
                                                 }
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => newPlayer.PositionId)" class="text-danger" />
-                                        </td>
-                                        <td style="margin-bottom: 8px;">
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="newPlayer.Gender">
-                                                <option value="false">M</option>
-                                                <option value="true">K</option>
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => newPlayer.Gender)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="newPlayer.Email" />
-                                            <ValidationMessage For="@(() => newPlayer.Email)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" @onclick="@(() => UndoAdd(newPlayer))">Usuń</button>
-                                        </td>
-                                    </tr>
-                                }
-                                @foreach (var removedPlayer in ManagedTeam.RemovedPlayers)
-                                {
-                                    <tr>
-                                        <td>@(++i)</td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="removedPlayer.FirstName" readonly />
-                                            <ValidationMessage For="@(() => removedPlayer.FirstName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="removedPlayer.LastName" readonly />
-                                            <ValidationMessage For="@(() => removedPlayer.LastName)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="removedPlayer.JerseyNumber" readonly />
-                                            <ValidationMessage For="@(() => removedPlayer.JerseyNumber)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" @bind-Value="removedPlayer.PositionId" readonly>
-                                                @foreach (var position in Positions)
+                                            </td>
+                                            <td>
+                                                @if (player.Id != Team?.Captain.Id)
                                                 {
-                                                    <option value="@position.Id">@position.Name</option>
+                                                    <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" 
+                                                            @onclick="@(() => RemovePlayer(player))">Usuń</button>
                                                 }
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => removedPlayer.PositionId)" class="text-danger" />
-                                        </td>
-                                        <td style="margin-bottom: 8px;">
-                                            <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" @bind-Value="removedPlayer.Gender" readonly>
-                                                <option value="false">M</option>
-                                                <option value="true">K</option>
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => removedPlayer.Gender)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" @bind-Value="removedPlayer.Email" readonly />
-                                            <ValidationMessage For="@(() => removedPlayer.Email)" class="text-danger" />
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" @onclick="@(() => UndoRemove(removedPlayer))">Przywróć</button>
-                                        </td>
-                                    </tr>
-                                }
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @foreach (var newPlayer in ManagedTeam.NewPlayers)
+                                    {
+                                        <tr>
+                                            <td>@(++i)</td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="newPlayer.FirstName" />
+                                                <ValidationMessage For="@(() => newPlayer.FirstName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="newPlayer.LastName" />
+                                                <ValidationMessage For="@(() => newPlayer.LastName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="newPlayer.JerseyNumber" />
+                                                <ValidationMessage For="@(() => newPlayer.JerseyNumber)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="newPlayer.PositionId">
+                                                    @foreach (var position in Positions)
+                                                    {
+                                                        <option value="@position.Id">@position.Name</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => newPlayer.PositionId)" class="text-danger" />
+                                            </td>
+                                            <td style="margin-bottom: 8px;">
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
+                                                             @bind-Value="newPlayer.Gender">
+                                                    <option value="false">M</option>
+                                                    <option value="true">K</option>
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => newPlayer.Gender)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="newPlayer.Email" />
+                                                <ValidationMessage For="@(() => newPlayer.Email)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" 
+                                                        @onclick="@(() => UndoAdd(newPlayer))">Usuń</button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @foreach (var removedPlayer in ManagedTeam.RemovedPlayers)
+                                    {
+                                        <tr>
+                                            <td>@(++i)</td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="removedPlayer.FirstName" readonly />
+                                                <ValidationMessage For="@(() => removedPlayer.FirstName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="removedPlayer.LastName" readonly />
+                                                <ValidationMessage For="@(() => removedPlayer.LastName)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputNumber class="form-control text-center" style="max-width:55px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="removedPlayer.JerseyNumber" readonly />
+                                                <ValidationMessage For="@(() => removedPlayer.JerseyNumber)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;  margin-left: auto; margin-right: auto;" 
+                                                             @bind-Value="removedPlayer.PositionId" readonly>
+                                                    @foreach (var position in Positions)
+                                                    {
+                                                        <option value="@position.Id">@position.Name</option>
+                                                    }
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => removedPlayer.PositionId)" class="text-danger" />
+                                            </td>
+                                            <td style="margin-bottom: 8px;">
+                                                <InputSelect class="form-control text-center" style="max-width:100px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px;" 
+                                                             @bind-Value="removedPlayer.Gender" readonly>
+                                                    <option value="false">M</option>
+                                                    <option value="true">K</option>
+                                                </InputSelect>
+                                                <ValidationMessage For="@(() => removedPlayer.Gender)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <InputText class="form-control text-center" style="max-width:120px; padding: 4px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 8px; margin-left: auto; margin-right: auto;" 
+                                                           @bind-Value="removedPlayer.Email" readonly />
+                                                <ValidationMessage For="@(() => removedPlayer.Email)" class="text-danger" />
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" style="padding: 4px 8px; background-color: #dc3545; color: #fff; border: none;  margin-bottom: 8px;border-radius: 4px; margin-left: auto; margin-right: auto;" 
+                                                        @onclick="@(() => UndoRemove(removedPlayer))">Przywróć</button>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                                 <tr>
                                     <td colspan="8" style="text-align: center;">
-                                        <button type="button" class="btn btn-success" style="padding: 8px 16px; background-color: #28a745; color: #fff; border: none; border-radius: 4px; margin-left: auto; margin-right: auto;" @onclick="AddPlayer">Dodaj zawodnika</button>
+                                        <button type="button" class="btn btn-success" style="padding: 8px 16px; background-color: #28a745; color: #fff; border: none; border-radius: 4px; margin-left: auto; margin-right: auto;" 
+                                                @onclick="AddPlayer">Dodaj zawodnika</button>
                                     </td>
                                 </tr>
                             </table>
@@ -220,7 +302,8 @@ else
                             }
                             else
                             {
-                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit">Wyślij</button>
+                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" 
+                                        type="submit">Wyślij</button>
                             }
                         </div>
                     </EditForm>
@@ -247,17 +330,17 @@ else
                                 <p class="text-primary">Zmiana kapitana jest możliwa tylko wtedy, gdy potencjalny nowy kapitan ma założone konto w portalu.</p>
                                 <p class="text-primary">Uwaga: Zmieniając kapitana stracisz dostęp do zarządzania drużyną. Nowy kapitan musi posiadać własne konto.</p>
                                 <div class="card-footer" style="padding: 16px; display: flex; justify-content: center;">
-                                <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" type="submit" disabled="@(CaptainId == 0)">Wyślij</button>
-                            </div>
+                                    <button class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px;" 
+                                            type="submit" disabled="@(CaptainId == 0)">Wyślij</button>
+                                </div>
                             </div>
                         </div>
                     </EditForm>
                     <div class="card-footer text-center">
-                        <button class="btn btn-danger" style="padding: 10px 20px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
+                        <button class="btn btn-danger" style="padding: 10px 20px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px;" 
+                                @onclick="ShowDeleteConfirmationModal">Usuń drużynę</button>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -328,7 +411,7 @@ else
         width: 100%;
     }
 
-    .form-width{
+    .form-width {
         width: 300px;
     }
 </style>

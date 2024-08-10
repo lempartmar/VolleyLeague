@@ -7,6 +7,7 @@ namespace VolleyLeague.Shared.Dtos.Teams
     {
         public int? Id { get; set; }
 
+        public int? PlayerId { get; set; }
         [Required(ErrorMessage = "Imię zawodnika jest wymagane.")]
         public string FirstName { get; set; } = null!;
 
