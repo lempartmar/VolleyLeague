@@ -211,7 +211,7 @@
                             {
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    @if (userTypedResult != null)
+                                    @if (userTypedResult != null && !isEditing)
                                     {
                                         <div>
                                             <h3>Twój typ:</h3>
@@ -222,40 +222,33 @@
                                     }
                                     else
                                     {
-                                        @if (isEditing)
-                                        {
-                                            <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
-                                                <DataAnnotationsValidator />
+                                        <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
+                                            <DataAnnotationsValidator />
 
-                                                <h3>Typermania</h3>
-                                                <p class="text-muted">Dodaj wynik swojego typu na nadchodzący mecz</p>
+                                            <h3>Typermania</h3>
+                                            <p class="text-muted">Dodaj wynik swojego typu na nadchodzący mecz</p>
 
-                                                <div class="row margin-top-xs">
-                                                    <div class="col-md-6">
-                                                        <div class="form-floating mb-4">
-                                                            <InputNumber id="HomeTeamScore" class="form-control" @bind-Value="typedResult.Score1" Min="0" Max="3" placeholder="Wynik drużyny gospodarzy" />
-                                                            <label for="HomeTeamScore">Wynik @MatchData.HomeTeam.Name</label>
-                                                            <ValidationMessage For="@(() => typedResult.Score1)" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-floating mb-4">
-                                                            <InputNumber id="GuestTeamScore" class="form-control" @bind-Value="typedResult.Score2" Min="0" Max="3" placeholder="Wynik drużyny gości" />
-                                                            <label for="GuestTeamScore">Wynik @MatchData.GuestTeam.Name</label>
-                                                            <ValidationMessage For="@(() => typedResult.Score2)" />
-                                                        </div>
+                                            <div class="row margin-top-xs">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-4">
+                                                        <InputNumber id="HomeTeamScore" class="form-control" @bind-Value="typedResult.Score1" Min="0" Max="3" placeholder="Wynik drużyny gospodarzy" />
+                                                        <label for="HomeTeamScore">Wynik @MatchData.HomeTeam.Name</label>
+                                                        <ValidationMessage For="@(() => typedResult.Score1)" />
                                                     </div>
                                                 </div>
-
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="submit" class="btn btn-primary">Dodaj wynik</button>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-4">
+                                                        <InputNumber id="GuestTeamScore" class="form-control" @bind-Value="typedResult.Score2" Min="0" Max="3" placeholder="Wynik drużyny gości" />
+                                                        <label for="GuestTeamScore">Wynik @MatchData.GuestTeam.Name</label>
+                                                        <ValidationMessage For="@(() => typedResult.Score2)" />
+                                                    </div>
                                                 </div>
-                                            </EditForm>
-                                        }
-                                        else
-                                        {
-                                            <button @onclick="EnableEditing" class="btn btn-primary">Dodaj typ</button>
-                                        }
+                                            </div>
+
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary">Zatwierdź wynik</button>
+                                            </div>
+                                        </EditForm>
                                     }
                                 }
                                 else
@@ -364,12 +357,11 @@
         }
     }
 
-
     private TypedResultDto typedResult = new TypedResultDto();
 
     private async Task HandleValidSubmit()
     {
-        typedResult.UserId = "";
+        typedResult.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         typedResult.MatchId = Id;
 
         if (userTypedResult != null)

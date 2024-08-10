@@ -132,15 +132,15 @@ namespace VolleyLeague.Services.Services
 
         public async Task<bool> UpdateTypedResultAsync(TypedResultDto typedResultDto, string identity)
         {
-            var userId = _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity).Id;
-
+            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity);
+            var userId = user.UserId;
             if (userId == 0)
             {
                 return false;
             }
 
             var existingResult = await _typedResultsRepository.GetAll()
-                .FirstOrDefaultAsync(tr => tr.Id == userId && tr.MatchId == typedResultDto.MatchId);
+                .FirstOrDefaultAsync(tr => tr.UserId == userId && tr.MatchId == typedResultDto.MatchId);
 
             if (existingResult == null)
             {
