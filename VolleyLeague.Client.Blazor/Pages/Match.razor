@@ -2,14 +2,12 @@
 @using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Identity
 @using VolleyLeague.Shared.Dtos.Matches
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
 
 @inject IMatchService matchService
 @inject ITypedResultService typedResultService
-@inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <head>
@@ -21,6 +19,7 @@
         <div class="row">
             @if (MatchData != null)
             {
+                <!-- Match Result Section -->
                 <div class="order-2">
                     <div class="card m-1 text-center">
                         <h2 class="match-result-header">Wynik Meczu</h2>
@@ -64,6 +63,7 @@
                     </div>
                 </div>
 
+                <!-- Teams Section -->
                 <div class="d-flex flex-row flex-nowrap justify-content-around team-cards-container move-top">
                     <div class="card m-2 text-center team order-1">
                         <div class="card-body">
@@ -152,6 +152,7 @@
                     </div>
                 </div>
 
+                <!-- Basic Information Section -->
                 <div class="d-flex flex-column justify-content-center flex-wrap">
                     <div class="card m-2 info-card">
                         <div class="card-header"><h2>Podstawowe informacje</h2></div>
@@ -200,11 +201,9 @@
                             </table>
                         </div>
                     </div>
-
-                    <div class="card m-2">
-                    </div>
                 </div>
 
+                <!-- Prediction Section -->
                 <div class="order-2">
                     <div class="card m-1 text-center">
                         <div class="card-body table-responsive">
@@ -214,28 +213,37 @@
                             {
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <div class="form-floating mb-4">
-                                        <InputText id="Name" class="form-control" @bind-Value="NewTeam.Name" placeholder="Nazwa drużyny" />
-                                        <label class="text-center" for="Name">Nazwa drużyny</label>
-                                        <ValidationMessage For="@(() => NewTeam.Name)" class="text-danger" />
-                                    </div>
-
-
-                                    <div class="card-header text-center">Dodaj wynik</div>
+                                    <div class="card m-1 text-center">
+                                        <div class="card-body">
                                     <EditForm Model="typedResult" OnValidSubmit="HandleValidSubmit">
-                                        <input type="hidden" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" />
-                                        <div class="form-group d-flex justify-content-around score-inputs-container">
-                                            <div class="p-2">
-                                                <label class="score-label" for="score1">Wynik @MatchData.HomeTeam.Name</label>
-                                                <InputNumber class="form-control" id="score1" @bind-Value="typedResult.Score1" Min="0" Max="3" />
+                                        <DataAnnotationsValidator />
+
+                                        <h3>Typermania</h3>
+                                        <p class="text-muted">Dodaj wynik swojego typu na nadchodzący mecz</p>
+
+                                        <div class="row margin-top-xs">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-4">
+                                                    <InputNumber id="HomeTeamScore" class="form-control" @bind-Value="typedResult.Score1" Min="0" Max="3" placeholder="Wynik drużyny gospodarzy" />
+                                                    <label for="HomeTeamScore">Wynik @MatchData.HomeTeam.Name</label>
+                                                    <ValidationMessage For="@(() => typedResult.Score1)" />
+                                                </div>
                                             </div>
-                                            <div class="p-2">
-                                                <label class="score-label" for="score2">Wynik @MatchData.GuestTeam.Name</label>
-                                                <InputNumber class="form-control" id="score2" @bind-Value="typedResult.Score2" Min="0" Max="3" />
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-4">
+                                                    <InputNumber id="GuestTeamScore" class="form-control" @bind-Value="typedResult.Score2" Min="0" Max="3" placeholder="Wynik drużyny gości" />
+                                                    <label for="GuestTeamScore">Wynik @MatchData.GuestTeam.Name</label>
+                                                    <ValidationMessage For="@(() => typedResult.Score2)" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Dodaj wynik</button>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-primary">Dodaj wynik</button>
+                                        </div>
                                     </EditForm>
+                                    </div>
+                                    </div>
                                 }
                                 else
                                 {
@@ -250,8 +258,7 @@
                     </div>
                 </div>
 
-                <p>@surname</p>
-
+                <!-- Edit Match Button -->
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="d-flex justify-content-center m-3 edit-match-button-container">
@@ -303,8 +310,8 @@
 
     private ClaimsPrincipal User { get; set; }
 
-    // private bool IsOneDayBeforeMatch => MatchData != null && DateTime.Now.Date == MatchData.Schedule.Date.AddDays(-1);
-    private bool IsOneDayBeforeMatch => true;
+    // Check if it's possible to submit predictions
+    private bool IsOneDayBeforeMatch => MatchData != null && DateTime.Now.Date <= MatchData.Schedule.Date.AddDays(-1);
 
     protected override async Task OnInitializedAsync()
     {
@@ -334,9 +341,6 @@
         if (await typedResultService.CreateTypedResult(typedResult))
         {
             NavigationManager.NavigateTo($"/match/{Id}", forceLoad: true);
-        }
-        else
-        {
         }
     }
 }
