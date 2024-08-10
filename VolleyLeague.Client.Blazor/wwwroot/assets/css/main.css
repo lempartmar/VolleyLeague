@@ -28152,3 +28152,19 @@ img.img-half {
     text-align: center;
     padding: 0;
 }
+
+.main-page-button, .main-page-button:link, .main-page-button:visited {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
+.main-page-button:hover {
+        color: var(--theme-color) !important;
+}
+
+    .main-page-button:active {
+        color: var(--theme-color) !important;
+    }

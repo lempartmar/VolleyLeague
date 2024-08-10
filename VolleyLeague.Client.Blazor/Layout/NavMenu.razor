@@ -1,4 +1,5 @@
-﻿@using VolleyLeague.Client.Blazor.Services
+﻿@using VolleyLeague.Client.Blazor.Pages
+@using VolleyLeague.Client.Blazor.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using VolleyLeague.Client.Blazor.Authentication
 @using VolleyLeague.Client.Blazor.Shared.Dtos
@@ -16,6 +17,11 @@
 
 @inherits LayoutComponentBase
 
+@if (isLoading)
+{
+    <Preloader />
+
+}else {
 <header id="rtsHeader" class="rts-header1 header-four cricket">
     <div class="navbar-sticky"></div>
     <div class="navbar-part navbar-part1">
@@ -35,8 +41,8 @@
                     <AuthorizeView>
                         <NotAuthorized>
                             <div class="top-bar-right">
-                                <a href="/login" class="login-btn">ZALOGUJ</a>
-                                <a href="/register" class="sign-up-btn">REJESTRACJA</a>
+                                    <NavLink href="/login" class="main-page-button">ZALOGUJ</NavLink>
+                                    <NavLink href="/register" class="main-page-button">REJESTRACJA</NavLink>
                             </div>
                         </NotAuthorized>
                     </AuthorizeView>
@@ -45,8 +51,9 @@
                             <div class="top-bar-right">
                                 <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
                                 <a class="sign-up-btn">|</a>
-                                <a @onclick="Logout" class="sign-up-btn">WYLOGUJ</a>
+                                <button @onclick="Logout" class="main-page-button">WYLOGUJ</button>
                             </div>
+
                         </Authorized>
                     </AuthorizeView>
                 </div>
@@ -219,6 +226,8 @@
     </div>
 </aside>
 
+}
+
 <script>
     function clickHiddenNavLink() {
         var hiddenNavLink = document.getElementById("hiddenNavLink");
@@ -284,6 +293,7 @@
     private string searchTerm;
     private string selectedCategory;
     private string menuClass = string.Empty;
+    private bool isLoading = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -350,18 +360,19 @@
 
     private string GetPageTitle()
     {
-        // if (string.IsNullOrEmpty(currentPath))
-        // {
-        //     return "STRONA GŁÓWNA";
-        // }
+        if (string.IsNullOrEmpty(currentPath))
+        {
+            return "STRONA GŁÓWNA";
+        }
 
-        // if (currentPath.StartsWith("article"))
-        // {
-        //     return "ARTYKUŁ";
-        // }
+        if (currentPath.StartsWith("article"))
+        {
+            return "ARTYKUŁ";
+        }
 
         return currentPath switch
         {
+            _ when currentPath.StartsWith("account") => "PANEL ADMINISTRACYJNY",
             "standings" => "TABELA",
             "mvp" => "MVP",
             "typedResults" => "TYPERMANIA",
@@ -374,6 +385,7 @@
             _ => "STRONA",
         };
     }
+
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
@@ -412,11 +424,18 @@
         return isCurrentHomePage || isPreviousHomePage;
     }
 
-    public async void Logout()
+    public async Task Logout()
     {
+        isLoading = true;
+        // Wywołanie metody NotifyUserLogout
+        await ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+
+        // Usunięcie tokenu z lokalnego magazynu
         await localStorage.RemoveItemAsync("token");
-        ((CustomAuthenticationStateProvider)authStateProvider).NotifyUserLogout();
+
+        // Nawigacja do strony głównej
         NavigationManager.NavigateTo("/", forceLoad: true);
+        isLoading = false;
     }
 
     private string GetDayName(DateTime date)
