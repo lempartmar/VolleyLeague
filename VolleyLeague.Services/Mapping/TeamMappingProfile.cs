@@ -41,13 +41,16 @@ namespace VolleyLeague.Services.Mapping
             CreateMap<User, TeamPlayerDto>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdditionalEmail))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Credentials != null));
+
 
             CreateMap<TeamPlayer, TeamPlayerDto>()
                 .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Player.Position.Name))
                 .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.Position.Id))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Player.FirstName))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Player.LastName));
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Player.LastName))
+                            .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Player.Credentials != null)); 
 
             //CreateMap<ManageTeamDto, Team>()
             //.ForMember(dest => dest.TeamPlayers, opt => opt.Ignore());
@@ -90,7 +93,9 @@ namespace VolleyLeague.Services.Mapping
             .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.PositionId))
             .ForMember(dest => dest.JerseyNumber, opt => opt.MapFrom(src => src.Player.JerseyNumber))
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Player.Gender))
-            .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Player.Height));
+            .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Player.Height))
+            .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Player.Credentials != null));
+
 
 
 
