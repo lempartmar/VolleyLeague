@@ -265,14 +265,7 @@
                 </div>
 
                 <!-- Edit Match Button -->
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="d-flex justify-content-center m-3 edit-match-button-container">
-                        <button @onclick="EditMatch" class="btn btn-primary edit-match-button">
-                            Edytuj mecz
-                        </button>
-                    </div>
-                }
+
             }
             else
             {
@@ -282,6 +275,14 @@
             }
         </div>
     </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="d-flex justify-content-center m-3 edit-match-button-container">
+            <button @onclick="EditMatch" class="btn btn-primary edit-match-button">
+                Edytuj mecz
+            </button>
+        </div>
+    }
 </section>
 
 @code {
