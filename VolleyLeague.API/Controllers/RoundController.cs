@@ -56,7 +56,7 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> DeleteRound(int id)
         {
             var result = await _roundService.DeletePosition(id);
-            if (result == "Round deleted successfully")
+            if (result == "Runda została pomyślnie usunięta")
                 return Ok(result);
             else
                 return BadRequest(result);
