@@ -40,7 +40,7 @@ namespace VolleyLeague.Client.Blazor.Services
                 return new Shared.Dtos.LoginResponse
                 {
                     Success = false,
-                    ErrorMessage = "Błędny email lub hasło. Spróbuj ponownie."
+                    ErrorMessage = "Błędny email lub hasło. Spróbuj ponownie. Logowanie przy pomocy nazwy użytkownika tylko możliwe do czasu weryfikacji adresu e-mail. Uprzejma prośba o użycie adresu e-mail."
                 };
             }
 

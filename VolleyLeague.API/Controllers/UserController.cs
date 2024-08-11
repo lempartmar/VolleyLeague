@@ -47,11 +47,10 @@ namespace VolleyLeague.API.Controllers
                 return Unauthorized();
             }
 
-            // U¿ycie Email lub UserName jako alternatywy, jeœli Email jest null
             var identifier = credentials.Email ?? credentials.UserName;
             if (string.IsNullOrEmpty(identifier))
             {
-                return BadRequest("Email or Username cannot be null or empty.");
+                return BadRequest("Adres email nie mo¿e byæ null.");
             }
 
             string issuer = _config.GetValue<string>("Jwt:Issuer");

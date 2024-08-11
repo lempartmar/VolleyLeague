@@ -74,6 +74,12 @@ namespace VolleyLeague.Services.Services
                 .Include(c => c.User)
                 .FirstOrDefault(c => c.Email == loginDto.Identifier || c.UserName == loginDto.Identifier);
 
+
+            if (credentials.Email != null && credentials.Email != loginDto.Identifier)
+            {
+                return null;
+            }
+
             if (credentials == null || !VerifyPassword(credentials, loginDto.Password, out rehashNeeded))
             {
                 return null;
