@@ -1,6 +1,11 @@
 .btn:hover {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
+}
+
+.btn-background:hover {
+    background-color: white !important;
+    color: black !important;
 }
 
 .team-btn.banner-btn {
@@ -52,3 +57,9 @@
     .slide-bar.show {
         display: block;
     }
+
+.btn-danger:hover {
+    color: #fff !important;
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+}

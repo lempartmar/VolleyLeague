@@ -1,0 +1,15 @@
+.btn-label {
+    background: black;
+    border: none;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
+.btn:hover {
+    background: black;
+    border: none;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
