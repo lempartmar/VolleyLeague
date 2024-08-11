@@ -63,7 +63,24 @@ else
                                     </tr>
                                     <tr>
                                         <th>Płeć</th>
-                                        <td>@(UserProfileData.Gender.HasValue ? (UserProfileData.Gender.Value ? "Mężczyzna" : "Kobieta") : "-")</td>
+                                        <td>
+                                            @if (UserProfileData.Gender.HasValue)
+                                            {
+                                                if (UserProfileData.Gender.Value)
+                                                {
+                                                    @:Mężczyzna
+                                                }
+                                                else
+                                                {
+                                                    @:Kobieta
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @:-
+                                            }
+                                        </td>
+
                                     </tr>
                                     <tr>
                                         <th>Wzrost</th>
