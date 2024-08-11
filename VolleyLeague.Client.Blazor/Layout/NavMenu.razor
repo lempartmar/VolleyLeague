@@ -182,49 +182,50 @@
 </header>
 
 
-<aside class="slide-bar @(menuClass)">
-    <div class="offset-sidebar">
-        <button class="slide-bar-close ml--30" @onclick="ToggleMenu"><i class="fal fa-times"></i></button>
-        <div class="offset-widget offset-logo mb-30">
-            <a href="/">
-                <img src="/assets/images/logo-new.png" alt="logo">
-            </a>
+    <aside class="slide-bar @(menuClass)">
+        <div class="offset-sidebar">
+            <button class="slide-bar-close ml--30" @onclick="ToggleMenu"><i class="fal fa-times"></i></button>
+            <div class="offset-widget offset-logo mb-30">
+                <a href="/">
+                    <img src="/assets/images/logo-new.png" alt="logo">
+                </a>
+            </div>
         </div>
-    </div>
-    <nav class="side-mobile-menu side-mobile-menu1">
-        <ul id="mobile-menu-active">
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/">Home</NavLink>
-            </li>
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/standings">Wyniki <i class="rt-angle-down"></i></NavLink>
-                <ul class="sub-menu">
-                    <li><NavLink class="dropdown-link" href="/standings">Tabele</NavLink></li>
-                    <li><NavLink class="dropdown-link" href="/mvp">MVP</NavLink></li>
-                    <li><NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink></li>
-                </ul>
-            </li>
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/schedule">Terminarz</NavLink>
-            </li>
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/teams-list">Zespoły</NavLink>
-            </li>
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/policy">Liga</NavLink>
-            </li>
-            <li class="has-dropdown firstlvl">
-                <NavLink class="mm-link" href="/contact">Kontakt</NavLink>
-            </li>
+        <nav class="side-mobile-menu side-mobile-menu1">
+            <ul id="mobile-menu-active">
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/" @onclick="CloseMobileMenu">Home</NavLink>
+                </li>
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/standings" @onclick="CloseMobileMenu">Wyniki <i class="rt-angle-down"></i></NavLink>
+                    <ul class="sub-menu">
+                        <li><NavLink class="dropdown-link" href="/standings" @onclick="CloseMobileMenu">Tabele</NavLink></li>
+                        <li><NavLink class="dropdown-link" href="/mvp" @onclick="CloseMobileMenu">MVP</NavLink></li>
+                        <li><NavLink class="dropdown-link" href="/typedResults" @onclick="CloseMobileMenu">Typermania</NavLink></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/schedule" @onclick="CloseMobileMenu">Terminarz</NavLink>
+                </li>
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/teams-list" @onclick="CloseMobileMenu">Zespoły</NavLink>
+                </li>
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/policy" @onclick="CloseMobileMenu">Liga</NavLink>
+                </li>
+                <li class="has-dropdown firstlvl">
+                    <NavLink class="mm-link" href="/contact" @onclick="CloseMobileMenu">Kontakt</NavLink>
+                </li>
                 <li class="has-dropdown firstlvl" style="text-align: center; border-top: 1px solid white;">
-                    <NavLink class="mm-link" href="/login" style="display: block; text-align: center;">LOGOWANIE</NavLink>
+                    <NavLink class="mm-link" href="/login" @onclick="CloseMobileMenu" style="display: block; text-align: center;">LOGOWANIE</NavLink>
                 </li>
                 <li class="has-dropdown firstlvl" style="text-align: center;">
-                    <NavLink class="mm-link" href="/register" style="display: block; text-align: center;">REJESTRACJA</NavLink>
+                    <NavLink class="mm-link" href="/register" @onclick="CloseMobileMenu" style="display: block; text-align: center;">REJESTRACJA</NavLink>
                 </li>
-        </ul>
-    </nav>
-</aside>
+            </ul>
+        </nav>
+    </aside>
+
 
 }
 
@@ -312,6 +313,12 @@
     {
         menuClass = menuClass == string.Empty ? "show" : string.Empty;
     }
+
+    private void CloseMobileMenu()
+    {
+        menuClass = string.Empty;
+    }
+
 
     protected override async Task OnInitializedAsync()
     {

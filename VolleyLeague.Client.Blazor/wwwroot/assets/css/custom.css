@@ -47,6 +47,10 @@ a.display-menu {
         display: block !important;
     }
 
+    .mobile-gap {
+        margin-bottom: 50px;
+    }
+
     header#rtsHeader {
         position: fixed;
         top: 0;
