@@ -8,6 +8,14 @@
     animation: spin 1s linear infinite;
 }
 
+.btn.btn-primary.custom-button.team-list-btn-spacing.team-list-btn-hover:hover {
+    background: black;
+    border: none;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
 .team-wraper {
     width: 100%;
     text-align: center; /* Center content */
