@@ -549,6 +549,52 @@ namespace VolleyLeague.Services.Services
 
             return matches;
         }
+
+        public async Task<bool> UpdateMatch(ManageMatchDto matchDto)
+        {
+            try
+            {
+                var matchToUpdate = await _matchRepository.GetAll().FirstOrDefaultAsync(m => m.Id == matchDto.Id);
+
+                if (matchToUpdate == null)
+                {
+                    _logger.LogWarning($"Nie znaleziono meczu o Id {matchDto.Id}.");
+                    return false;
+                }
+
+                matchToUpdate.Team1Score = (byte)matchDto.Team1Score;
+                matchToUpdate.Team2Score = (byte)matchDto.Team2Score;
+                matchToUpdate.MvpId = matchDto.MvpId;
+                matchToUpdate.RefereeId = matchDto.RefereeId;
+                matchToUpdate.Sector = (byte)matchDto.Sector;
+                matchToUpdate.Schedule = matchDto.Schedule;
+                matchToUpdate.VenueId = matchDto.VenueId ?? matchToUpdate.VenueId;
+                matchToUpdate.UnknownRefereeName = matchDto.UnknownRefereeName;
+                matchToUpdate.MatchInfo = matchDto.MatchInfo;
+                matchToUpdate.Set1Team1Score = (byte?)matchDto.Set1Team1Score;
+                matchToUpdate.Set1Team2Score = (byte?)matchDto.Set1Team2Score;
+                matchToUpdate.Set2Team1Score = (byte?)matchDto.Set2Team1Score;
+                matchToUpdate.Set2Team2Score = (byte?)matchDto.Set2Team2Score;
+                matchToUpdate.Set3Team1Score = (byte?)matchDto.Set3Team1Score;
+                matchToUpdate.Set3Team2Score = (byte?)matchDto.Set3Team2Score;
+                matchToUpdate.Set4Team1Score = (byte?)matchDto.Set4Team1Score;
+                matchToUpdate.Set4Team2Score = (byte?)matchDto.Set4Team2Score;
+                matchToUpdate.Set5Team1Score = (byte?)matchDto.Set5Team1Score;
+                matchToUpdate.Set5Team2Score = (byte?)matchDto.Set5Team2Score;
+
+                await _matchRepository.UpdateAsync(matchToUpdate);
+                await _matchRepository.SaveChangesAsync();
+
+                _logger.LogInformation($"Mecz o Id {matchDto.Id} został zaktualizowany pomyślnie.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Wystąpił błąd podczas aktualizacji meczu o Id {matchDto.Id}.");
+                return false;
+            }
+        }
+
         public async Task<LastMatchDto> GetLastMatchAsync()
         {
             var match = await _matchRepository.GetAll()
@@ -600,6 +646,8 @@ namespace VolleyLeague.Services.Services
             string logLink = $"match/" + newMatchEntity.Id;
             await _logService.AddLog(logMessage, logLink, false, null);
         }
+
+
 
         public async Task<List<PlayerSummaryDto>> GetMvpBySeasonAndLeague(int seasonId, int leagueId)
         {

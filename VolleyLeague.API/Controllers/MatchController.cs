@@ -65,21 +65,22 @@ namespace VolleyLeague.API.Controllers
             return Ok();
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateMatch(ManageMatchDto match)
-        //{
-        //    string? id = User.Identity?.Name;
-        //    if (string.IsNullOrWhiteSpace(id))
-        //    {
-        //        return Unauthorized();
-        //    }
-        //    var result = await _matchService.UpdateMatch(match);
-        //    if (result.Success)
-        //    {
-        //        return Ok(result);
-        //    }
-        //    return BadRequest(result);
-        //}
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateMatch(ManageMatchDto match)
+        {
+            string? id = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Unauthorized();
+            }
+            var result = await _matchService.UpdateMatch(match);
+            if (result)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete]
