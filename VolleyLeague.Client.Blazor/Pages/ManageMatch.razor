@@ -152,8 +152,10 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td>Data</td>
-                                                <td>@MatchData.Schedule</td>
+                                                <td>Data i godzina meczu</td>
+                                                <td>
+                                                    <input type="datetime-local" id="scheduleDateTime" class="form-control" @bind="ManageModel.Schedule" />
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>@MatchData.MatchLeague</td>
