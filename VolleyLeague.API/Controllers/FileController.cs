@@ -35,11 +35,10 @@ namespace VolleyLeague.API.Controllers
             try
             {
                 await _fileService.MigrateTeamImagesToDatabase();
-                return Ok("Team images migrated successfully.");
+                return Ok("Zdjêcia dru¿yn zmigrowane prawid³owo.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while migrating team images.");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -66,7 +65,7 @@ namespace VolleyLeague.API.Controllers
         public async Task<ActionResult> UploadTeamImage(int teamId, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded.");
+                return BadRequest("Brak updatu plików.");
 
             await _fileService.UploadTeamImage(teamId, file);
             return Ok();

@@ -220,7 +220,7 @@ namespace VolleyLeague.Services.Services
 
         private string PepperPassword(string password)
         {
-            string pepper = "qaSJKvYBm9$$;=EDOC-)EJ0m";
+            string pepper = "Z@4F!jW9pL+q82%m*C7e^RsD3T6#UjY8>g!8hS$QmXz2&7PqRfVwB@Nc^Yh5t7Bv";
             return password + pepper;
         }
 
