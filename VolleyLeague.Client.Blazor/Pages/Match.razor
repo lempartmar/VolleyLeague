@@ -5,10 +5,10 @@
 @using VolleyLeague.Shared.Dtos.Matches
 @inject HttpClient _httpClient
 @inject NavigationManager NavigationManager
-
 @inject IMatchService matchService
 @inject ITypedResultService typedResultService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JS
 
 <head>
     <link href="/assets/css/custom-match.css" rel="stylesheet" />
@@ -19,7 +19,6 @@
         <div class="row">
             @if (MatchData != null)
             {
-                <!-- Match Result Section -->
                 <div class="order-2">
                     <div class="card m-1 text-center">
                         <h2 class="match-result-header">Wynik Meczu</h2>
@@ -62,8 +61,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Teams Section -->
                 <div class="d-flex flex-row flex-nowrap justify-content-around team-cards-container move-top">
                     <div class="card m-2 text-center team order-1">
                         <div class="card-body">
@@ -152,7 +149,6 @@
                     </div>
                 </div>
 
-                <!-- Basic Information Section -->
                 <div class="d-flex flex-column justify-content-center flex-wrap">
                     <div class="card m-2 info-card">
                         <div class="card-header"><h2>Podstawowe informacje</h2></div>
@@ -203,7 +199,6 @@
                     </div>
                 </div>
 
-                <!-- Prediction Section -->
                 <div class="order-2">
                     <div class="card m-1 text-center">
                         <div class="card-body table-responsive">
@@ -263,9 +258,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Edit Match Button -->
-
             }
             else
             {
@@ -278,9 +270,8 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div class="d-flex justify-content-center m-3 edit-match-button-container">
-            <button @onclick="EditMatch" class="btn btn-primary edit-match-button">
-                Edytuj mecz
-            </button>
+            <button @onclick="EditMatch" class="btn btn-primary edit-match-button">Edytuj mecz</button>
+            <button @onclick="DeleteMatch" class="btn btn-primary edit-match-button">Usuń mecz</button>
         </div>
     }
 </section>
@@ -288,28 +279,6 @@
 @code {
     [Parameter]
     public int Id { get; set; }
-
-    private string? authMessage;
-    private string? surname;
-    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
-    ClaimsPrincipal user;
-
-    private async Task GetClaimsPrincipalData()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        user = authState.User;
-
-        if (user.Identity is not null && user.Identity.IsAuthenticated)
-        {
-            authMessage = $"{user.Identity.Name} is authenticated.";
-            claims = user.Claims;
-            surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
-        }
-        else
-        {
-            authMessage = "The user is NOT authenticated.";
-        }
-    }
 
     private int i1 = 1;
     private int i2 = 1;
@@ -319,10 +288,10 @@
 
     private ClaimsPrincipal User { get; set; }
 
-    // Check if it's possible to submit predictions
     private bool IsDayBeforeMatch => MatchData != null && DateTime.Now.Date <= MatchData.Schedule.Date.AddDays(-1);
-
     private bool isEditing = false;
+
+    private TypedResultDto typedResult = new TypedResultDto();
 
     protected override async Task OnInitializedAsync()
     {
@@ -350,15 +319,12 @@
 
                 if (userTypedResult != null)
                 {
-                    // Copy the existing result to the typedResult model for editing
                     typedResult.Score1 = userTypedResult.Score1;
                     typedResult.Score2 = userTypedResult.Score2;
                 }
             }
         }
     }
-
-    private TypedResultDto typedResult = new TypedResultDto();
 
     private async Task HandleValidSubmit()
     {
@@ -367,14 +333,12 @@
 
         if (userTypedResult != null)
         {
-            // Update existing result
             userTypedResult.Score1 = typedResult.Score1;
             userTypedResult.Score2 = typedResult.Score2;
             await typedResultService.UpdateTypedResult(userTypedResult);
         }
         else
         {
-            // Create new result
             await typedResultService.CreateTypedResult(typedResult);
         }
 
@@ -391,5 +355,22 @@
     public void EditMatch()
     {
         NavigationManager.NavigateTo("/managematch/" + Id);
+    }
+
+    private async Task DeleteMatch()
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Czy na pewno chcesz usunąć ten mecz?");
+        if (confirmed)
+        {
+            var success = await matchService.DeleteMatch(Id);
+            if (success)
+            {
+                NavigationManager.NavigateTo("/schedule");
+            }
+            else
+            {
+                var confirmedInfo = await JS.InvokeAsync<bool>("confirm", "Wystąpił błąd w trakcie usuwania meczu!");
+            }
+        }
     }
 }

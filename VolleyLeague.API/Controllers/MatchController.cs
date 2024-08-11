@@ -83,7 +83,7 @@ namespace VolleyLeague.API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete]
+        [HttpDelete("deleteMatch/{id}")]
         public async Task<IActionResult> DeleteMatch(int id)
         {
             string? userId = User.Identity?.Name;

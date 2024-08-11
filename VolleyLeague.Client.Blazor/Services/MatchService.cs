@@ -10,6 +10,7 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<List<RoundDto>> GetRounds();
         public Task<List<RoundDto>> GetRounds(int seasonId);
         public Task<List<LeagueDto>> GetLeagues();
+        public Task<bool> DeleteMatch(int matchId);
         public Task<List<SeasonDto>> GetSeasons();
         public Task<List<PlayerSummaryDto>> GetReferees();
         public Task<bool> AddReferee(int userId);
@@ -64,6 +65,12 @@ namespace VolleyLeague.Client.Blazor.Services
             var rounds = JsonSerializer.Deserialize<List<RoundDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return rounds;
+        }
+
+        public async Task<bool> DeleteMatch(int matchId)
+        {
+            var response = await _httpClient.DeleteAsync($"api/match/deleteMatch/{matchId}");
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<List<LeagueDto>> GetLeagues()
