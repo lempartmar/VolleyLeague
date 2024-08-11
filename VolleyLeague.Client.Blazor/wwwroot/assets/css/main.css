@@ -28168,3 +28168,80 @@ img.img-half {
     .main-page-button:active {
         color: var(--theme-color) !important;
     }
+
+.additional-info-left {
+    text-align: left;
+}
+
+.add-article-mb-4 {
+    margin-bottom: 4px;
+}
+
+.add-article-text-danger {
+    color: red;
+}
+.add-article-editor {
+    height: 300px;
+}
+
+.add-article-offset-sm-2 {
+    margin-left: 2rem; 
+}
+
+.add-article-btn-primary {
+    background-color: blue;
+    color: white;
+}
+
+.add-article-btn-secondary {
+    background-color: grey;
+    color: white;
+}
+
+.add-article-file-input {
+    display: none;
+}
+
+.add-article-d-flex {
+    display: flex;
+}
+
+.add-article-flex-column {
+    flex-direction: column;
+}
+
+.add-article-align-items-center {
+    align-items: center;
+}
+
+.add-article-text-center {
+    text-align: center;
+}
+
+.add-article-justify-content-center {
+    justify-content: center;
+}
+
+.add-article-flex-wrap {
+    flex-wrap: wrap;
+}
+
+.add-article-thumbnail {
+    width: 100px;
+    height: auto;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.add-article-selected-image {
+    width: 200px;
+    height: auto;
+}
+
+.add-article-mt-2 {
+    margin-top: 2rem;
+}
+
+.add-article-mt-4 {
+    margin-top: 4rem;
+}

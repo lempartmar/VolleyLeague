@@ -1,0 +1,27 @@
+.editor {
+    height: 300px;
+}
+
+.file-input {
+    display: none;
+}
+
+.thumbnail {
+    width: 100px;
+    height: auto;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.selected-image {
+    width: 200px;
+    height: auto;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}

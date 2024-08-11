@@ -13,6 +13,11 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
+
+<head>
+    <link rel="stylesheet" href="/assets/css/custom-add-article.css" />
+</head>
+
 <RadzenDialog />
 
 <div class="account-main accountdtls filterd-items">
@@ -36,7 +41,7 @@
                         <div class="form-group row">
                             <label class="col-sm-0 col-form-label" for="Content">Zawartość:</label>
                             <div class="col-sm-0">
-                                <RadzenHtmlEditor style="height: 300px;" @bind-Value="articleDto.Content" UploadUrl="@UploadImageUrl">
+                                <RadzenHtmlEditor class="editor" @bind-Value="articleDto.Content" UploadUrl="@UploadImageUrl">
                                     <RadzenHtmlEditorUndo />
                                     <RadzenHtmlEditorRedo />
                                     <RadzenHtmlEditorSeparator />
@@ -66,7 +71,7 @@
                             <div class="col-sm-10">
                                 <label class="btn btn-primary">
                                     Wybierz plik (max 256 KB)
-                                    <InputFile OnChange="HandleFileChange" style="display:none;" />
+                                    <InputFile OnChange="HandleFileChange" class="file-input" />
                                 </label>
                                 <ValidationMessage class="text-danger" For="@(() => articleDto.Image)" />
                                 @if (!string.IsNullOrEmpty(FileErrorMessage))
@@ -109,14 +114,14 @@
                         <div class="image-selection d-flex justify-content-center flex-wrap">
                             @foreach (var imageUrl in availableImages)
                             {
-                                <img src="@imageUrl" class="thumbnail" @onclick="() => SelectImage(imageUrl)" style="width: 100px; height: auto; margin: 5px; cursor: pointer;" />
+                                <img src="@imageUrl" class="thumbnail" @onclick="() => SelectImage(imageUrl)" />
                             }
                         </div>
                         @if (!string.IsNullOrEmpty(selectedImage))
                         {
                             <div class="selected-image-preview text-center mt-4">
                                 <h5>Wybrane zdjęcie:</h5>
-                                <img src="@selectedImage" style="width: 200px; height: auto;" />
+                                <img src="@selectedImage" class="selected-image" />
                                 <button class="btn btn-secondary mt-2" @onclick="DownloadSelectedImage">Pobierz zdjęcie</button>
                             </div>
                         }
@@ -126,7 +131,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     window.downloadFileFromStream = async (fileName, contentStreamReference) => {
