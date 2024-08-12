@@ -25,88 +25,53 @@
     padding: 30px;
 }
 
-.form {
-    margin-bottom: 15px;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.edit-form {
+    width: 100%;
 }
 
 .text-center {
     text-align: center;
 }
 
-.form-label {
-    display: block;
-    width: 100%;
+.players-title {
+    margin-bottom: 25px;
 }
-
-.players-section {
-    padding: 16px;
-}
-
-    .players-section h2 {
-        margin-bottom: 25px;
-    }
 
 .players-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.player-row {
-    margin-top: 20px;
-}
-
-.player-input {
+.player-input, .player-number, .player-select {
+    padding: 4px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 120px;
-    padding: 4px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.player-input-number {
+.player-number {
     max-width: 55px;
-    padding: 4px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .player-select {
     max-width: 100px;
-    padding: 4px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.player-select-cell {
-    margin-bottom: 8px;
-}
-
-.player-remove-button {
+.remove-btn {
     padding: 4px 8px;
     background-color: #dc3545;
     color: #fff;
     border: none;
-    margin-bottom: 8px;
     border-radius: 4px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 8px;
 }
 
-.add-player-button {
+.add-btn {
     padding: 8px 16px;
     background-color: #28a745;
     color: #fff;
@@ -116,13 +81,17 @@
     margin-right: auto;
 }
 
-.submit-section {
+.additional-info p {
+    text-align: left;
+}
+
+.card-footer-btns {
     padding: 16px;
     display: flex;
     justify-content: center;
 }
 
-.submit-button {
+.update-btn {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -130,7 +99,7 @@
     border-radius: 4px;
 }
 
-.delete-button {
+.delete-team-btn, .confirm-delete-btn {
     padding: 10px 20px;
     background-color: #dc3545;
     color: #fff;
@@ -138,7 +107,7 @@
     border-radius: 4px;
 }
 
-.cancel-button {
+.cancel-btn {
     padding: 10px 20px;
     background-color: #6c757d;
     color: #fff;
@@ -146,16 +115,7 @@
     border-radius: 4px;
 }
 
-.form-width {
-    width: 300px;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+.btn-manageTeam-padding {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }
