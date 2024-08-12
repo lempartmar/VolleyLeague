@@ -94,7 +94,6 @@ else
     {
         await LoadSeasons();
         await LoadAllLeagues();
-        // No initial LoadMatches call here; wait for user selection
     }
 
     private async Task LoadAllLeagues()
@@ -115,7 +114,7 @@ else
             if (_seasons.Any())
             {
                 _selectedSeasonId = _seasons.First().Id;
-                await LoadRounds(_selectedSeasonId); // Preload rounds for the first season
+                await LoadRounds(_selectedSeasonId); 
             }
         }
     }
@@ -136,7 +135,7 @@ else
         {
             _selectedSeasonId = newSeasonId;
             await LoadRounds(_selectedSeasonId);
-            await LoadMatches(); // Reload matches for the new season
+            await LoadMatches(); 
         }
     }
 
