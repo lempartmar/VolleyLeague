@@ -6,6 +6,11 @@
 @inject IUserService UserService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
+<head>
+    <link href="assets/css/custom-register.css" rel="stylesheet" />
+</head>
+3
+
 @if (!pageReady)
 {
     <section id="loading_section" style="margin-top: 150px" class="loading_section">
@@ -148,70 +153,7 @@ else
     </div>
 }
 
-<style>
-    .password-requirements {
-        list-style-type: none;
-        padding: 0;
-    }
 
-        .password-requirements li {
-            display: flex;
-            align-items: center;
-            margin-top: 0.5em;
-        }
-
-            .password-requirements li.valid {
-                color: green;
-            }
-
-            .password-requirements li::before {
-                content: '✘';
-                margin-right: 8px;
-                font-size: 1.2em;
-                display: inline-block;
-            }
-
-            .password-requirements li.valid::before {
-                content: '✔';
-                color: green;
-            }
-
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-dialog-centered {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
-    .modal-content {
-        background: white;
-        padding: 1em;
-        max-width: 500px;
-        width: 100%;
-    }
-
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-</style>
 
 @code {
     private RegisterDto registerModel = new RegisterDto();
