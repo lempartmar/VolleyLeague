@@ -5,6 +5,10 @@
 @inject NavigationManager Navigation
 @inject IArticleService _articleService
 
+<head>
+    <link rel="stylesheet" href="/assets/css/custom-article-one.css" />
+</head>
+
 @code {
     [Parameter]
     public int ArticleId { get; set; }
@@ -37,20 +41,20 @@
     }
 }
 
-<section class="category_section additional-margin-medium" style="margin-top: 60px;">
-    <div class="container" style="display:flex; justify-content: center;">
-        <div class="row" style="width: 75%;">
+<section class="category_section additional-margin-medium article-section">
+    <div class="container article-container">
+        <div class="row article-row">
 
             @if (pageReady)
             {
                 @if (_article != null)
                 {
                     <div class="article-details">
-                        <h1 style="text-align: center; margin-bottom: 20px;">@_article.Title</h1>
-                        <div style="text-align: center; margin-bottom: 20px;">
-                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(_article.Image)" alt="Article Image" style="max-width: 100%; height: auto;" />
+                        <h1 class="article-title">@_article.Title</h1>
+                        <div class="article-image-container">
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(_article.Image)" alt="Article Image" class="article-image" />
                         </div>
-                        <p style="text-align: center; font-weight: bold; color: black; line-height: 1.6;">@((MarkupString)_article.Content)</p>
+                        <p class="article-content">@((MarkupString)_article.Content)</p>
                     </div>
                 }
                 else
@@ -78,3 +82,7 @@
         </div>
     </div>
 </section>
+
+<style>
+
+</style>
