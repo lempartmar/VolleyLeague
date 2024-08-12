@@ -671,3 +671,10 @@ th, td {
 .font-size-decrease {
     font-size: 80%
 }
+
+.mm-input-score {
+    max-width: 50px;
+    height: 50px;
+    border: 1px solid grey;
+    text-align: center;
+}
