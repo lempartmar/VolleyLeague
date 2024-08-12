@@ -7,9 +7,13 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
+<head>
+    <link href="/assets/css/custom-handle-season.css" rel="stylesheet" />
+</head>
+
 @if (!pageReady)
 {
-    <section id="loading_section" style="margin-top: 150px" class="loading_section">
+    <section id="loading_section" class="loading_section">
         <div class="container">
             <div id="spinner"></div>
         </div>
@@ -25,7 +29,7 @@ else
             <div class="card">
                 <div class="card-body">
                     <h3>Dodaj nowy sezon</h3>
-                    <EditForm Model="@newSeason" OnValidSubmit="CreateSeason" style="width: 100%">
+                    <EditForm Model="@newSeason" OnValidSubmit="CreateSeason" class="edit-form">
                         <DataAnnotationsValidator />
                         <div class="form-floating mb-4">
                             <InputText id="newSeasonName" class="form-control" @bind-Value="newSeason.Name" placeholder="Nazwa sezonu" />
@@ -56,8 +60,8 @@ else
                         <ul class="list-group">
                             @foreach (var season in PaginatedSeasons)
                             {
-                                <li class="list-group-item" style="display: flex;flex-direction: column;">
-                                    <div class="d-flex justify-content-between align-items-center" style="display:flex; justify-content: space-between; width: 100%">
+                                <li class="list-group-item list-group-item-season">
+                                    <div class="season-info">
                                         <span>@season.Name</span>
                                         <span>
                                             <button class="btn btn-primary btn-sm me-2" @onclick="() => ToggleEditSeason(season)">Edytuj</button>
@@ -84,7 +88,7 @@ else
                                     {
                                         <div class="card card-body mt-2">
                                             <h4>Kolejki sezonu</h4>
-                                            <EditForm Model="@newRound" OnValidSubmit="CreateRound" style="width: 100%">
+                                            <EditForm Model="@newRound" OnValidSubmit="CreateRound" class="edit-form">
                                                 <div class="form-floating mb-4">
                                                     <InputText id="newRoundName" class="form-control" @bind-Value="newRound.Name" placeholder="Nazwa kolejki" />
                                                     <label for="newRoundName">Nazwa kolejki</label>
@@ -141,88 +145,7 @@ else
     </div>
 }
 
-<style>
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
 
-    .account-main {
-        padding: 20px;
-        background-color: #f9f9f9;
-    }
-
-    .section-title h2 {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card {
-        margin-bottom: 20px;
-    }
-
-    .login-form .card-body {
-        padding: 30px;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 5px;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .form-label {
-        display: block;
-        width: 100%;
-    }
-
-    .list-group-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 5px;
-    }
-
-    .form-control {
-        width: 100%;
-        height: 40px;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-    }
-
-    .btn-new{
-        padding: 15px 0px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #fff;
-        border-radius: 0;
-        background: #000000;
-        display: inline-block;
-        text-align: center;
-        vertical-align: middle;
-        -webkit-transform: perspective(1px) translateZ(0);
-        transform: perspective(1px) translateZ(0);
-        text-transform: uppercase;
-        position: relative;
-        -webkit-transition-property: color;
-        border: none;
-        transition-property: color;
-        -webkit-transition-duration: 0.3s;
-        letter-spacing: 2px;
-        transition-duration: 0.3s;
-    }
-</style>
 
 @code {
     private bool pageReady = false;

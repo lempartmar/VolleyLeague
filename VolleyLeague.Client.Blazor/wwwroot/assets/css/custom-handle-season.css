@@ -1,0 +1,91 @@
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
+
+.account-main {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.section-title h2 {
+    margin-bottom: 20px;
+}
+
+.login-form .card {
+    margin-bottom: 20px;
+}
+
+.login-form .card-body {
+    padding: 30px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    width: 100%;
+}
+
+.list-group-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.season-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.btn-new {
+    padding: 15px 0px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 0;
+    background: #000000;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    text-transform: uppercase;
+    position: relative;
+    -webkit-transition-property: color;
+    border: none;
+    transition-property: color;
+    -webkit-transition-duration: 0.3s;
+    letter-spacing: 2px;
+    transition-duration: 0.3s;
+}
+
+.edit-form {
+    width: 100%;
+}
