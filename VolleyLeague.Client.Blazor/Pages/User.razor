@@ -8,6 +8,10 @@
 @inject IUserService userService
 @inject NavigationManager NavigationManager
 
+<head>
+    <link rel="stylesheet" href="/assets/css/custom-user.css" />
+</head>
+
     <div class="rts-point-table-section section-gap">
         <div class="container">
             <div class="table-area table-full text-center">
@@ -119,63 +123,6 @@
         </div>
     </div>
     </div>
-
-<style>
-    #spinner {
-        width: 40px;
-        height: 40px;
-        border: 5px solid #ccc;
-        border-top: 5px solid #015293;
-        border-radius: 50%;
-        margin: 50px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    .team-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .team-image {
-        width: 70%;
-        max-width: 300px;
-        height: auto;
-        margin-bottom: 20px;
-    }
-
-    .p-2.card {
-        margin-bottom: 50px;
-    }
-
-    .table th, .table td {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .thead-dark th {
-        background-color: #015293;
-        color: white;
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-        border: 1px solid #015293;
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .table-responsive {
-        margin-top: 20px;
-    }
-
-    .alert-info, .alert-danger {
-        margin-top: 20px;
-    }
-</style>
 
 @code {
     [Parameter]

@@ -28245,3 +28245,13 @@ img.img-half {
 .add-article-mt-4 {
     margin-top: 4rem;
 }
+
+#spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: 50px auto;
+    animation: spin 1s linear infinite;
+}
