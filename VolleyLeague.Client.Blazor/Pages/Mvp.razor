@@ -14,91 +14,91 @@
 }
 else
 {
-<div class="rts-point-table-section section-gap">
-    <div class="container">
-        <div class="table-area table-full">
-            <form class="checkout-form">
-                <div class="row">
-                    <div class="col-xl-3 col-md-3">
-                        <div class="form-group">
-                            <label for="seasonSelect" class="form-label">SEZON:</label>
-                            <select id="seasonSelect" value="@Filter.SeasonId" @onchange="@(e => OnSeasonOrLeagueChanged(e, true))" class="form-select">
-                                @foreach (var season in Filter.SeasonList)
-                                {
-                                    <option value="@season.Id">@season.Name</option>
-                                }
-                            </select>
+    <div class="rts-point-table-section section-gap">
+        <div class="container">
+            <div class="table-area table-full">
+                <form class="checkout-form">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="seasonSelect" class="form-label">SEZON:</label>
+                                <select id="seasonSelect" value="@Filter.SeasonId" @onchange="@(e => OnSeasonOrLeagueChanged(e, true))" class="form-select">
+                                    @foreach (var season in Filter.SeasonList)
+                                    {
+                                        <option value="@season.Id">@season.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-3">
+                            <div class="form-group">
+                                <label for="leagueSelect" class="form-label">LIGA:</label>
+                                <select id="leagueSelect" value="@Filter.LeagueId" @onchange="@(e => OnSeasonOrLeagueChanged(e, false))" class="form-select">
+                                    @foreach (var league in Filter.LeagueList)
+                                    {
+                                        <option value="@league.Id">@league.Name</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-3">
-                        <div class="form-group">
-                            <label for="leagueSelect" class="form-label">LIGA:</label>
-                            <select id="leagueSelect" value="@Filter.LeagueId" @onchange="@(e => OnSeasonOrLeagueChanged(e, false))" class="form-select">
-                                @foreach (var league in Filter.LeagueList)
-                                {
-                                    <option value="@league.Id">@league.Name</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
 
-            @if (mvpLoading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="table-spinner"></div>
-                </div>
-            }
-            else if (!string.IsNullOrEmpty(mvpErrorMessage))
-            {
-                <div class="alert alert-danger mvp-alert-danger">
-                    @mvpErrorMessage
-                </div>
-            }
-            else if (MvpList.Count == 0)
-            {
-                <div class="alert alert-info mvp-alert-info" role="alert">
-                    Nie znaleziono MVP dla danego sezonu.
-                </div>
-            }
-            else
-            {
-                <div class="table-area table-full">
-                    <table class="table table-table-bordered">
-                        <thead class="table-thead table-thead-dark">
-                            <tr class="table-head-tr">
-                                <th scope="col">LP</th>
-                                <th scope="col">Zawodnik</th>
-                                <th scope="col">Drużyna</th>
-                                <th scope="col">Ilość MVP</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                int rank = 1;
-                            }
-                            @foreach (var player in MvpList)
-                            {
-                                <tr>
-                                    <td><span class="position-number">@rank</span></td>
-                                    <td>
-                                        <div class="table-title-area">
-                                            <h4 class="player-name"><a href="/user/@player.Id/">@player.Name</a></h4>
-                                        </div>
-                                    </td>
-                                    <td><span class="team-name">@player.TeamName</span></td>
-                                    <td><span class="mvp-count">@player.TotalMvpCount</span></td>
+                @if (mvpLoading)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="table-spinner"></div>
+                    </div>
+                }
+                else if (!string.IsNullOrEmpty(mvpErrorMessage))
+                {
+                    <div class="alert alert-danger mvp-alert-danger">
+                        @mvpErrorMessage
+                    </div>
+                }
+                else if (MvpList.Count == 0)
+                {
+                    <div class="alert alert-info mvp-alert-info" role="alert">
+                        Nie znaleziono MVP dla danego sezonu.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-area table-full">
+                        <table class="table table-table-bordered">
+                            <thead class="table-thead table-thead-dark">
+                                <tr class="table-head-tr">
+                                    <th scope="col">LP</th>
+                                    <th scope="col">Zawodnik</th>
+                                    <th scope="col">Drużyna</th>
+                                    <th scope="col">Ilość MVP</th>
                                 </tr>
-                                rank++;
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rank = 1;
+                                }
+                                @foreach (var player in MvpList)
+                                {
+                                    <tr>
+                                        <td><span class="position-number">@rank</span></td>
+                                        <td>
+                                            <div class="table-title-area">
+                                                <h4 class="player-name"><a href="/user/@player.Id/">@player.Name</a></h4>
+                                            </div>
+                                        </td>
+                                        <td><span class="team-name">@player.TeamName</span></td>
+                                        <td><span class="mvp-count">@player.TotalMvpCount</span></td>
+                                    </tr>
+                                    rank++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
 }
 
 @code {

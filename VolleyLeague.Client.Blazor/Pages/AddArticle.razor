@@ -13,7 +13,6 @@
 
 @attribute [Authorize(Roles = "Admin")]
 
-
 <head>
     <link rel="stylesheet" href="/assets/css/custom-add-article.css" />
 </head>
@@ -207,7 +206,7 @@
     private void SelectImage(string imageUrl)
     {
         selectedImage = imageUrl;
-        articleDto.Image = null; // Clear any uploaded image
+        articleDto.Image = null;
         FileErrorMessage = "";
         StateHasChanged();
     }

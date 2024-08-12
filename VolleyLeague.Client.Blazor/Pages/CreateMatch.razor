@@ -80,7 +80,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="GuestTeam" class="form-select"  @onchange="OnGuestTeamChanged">
+                            <Select id="GuestTeam" class="form-select" @onchange="OnGuestTeamChanged">
                                 @foreach (var team in NewMatch.GuestTeamList)
                                 {
                                     <option value="@team.Id">@team.Name</option>
@@ -102,7 +102,7 @@ else
                         </div>
 
                         <div class="form-floating mb-4">
-                            <Select id="Venues" class="form-select"  @onchange="OnVenueChange">
+                            <Select id="Venues" class="form-select" @onchange="OnVenueChange">
                                 @foreach (var venue in NewMatch.VenueList)
                                 {
                                     <option value="@venue.Id">@venue.Name</option>

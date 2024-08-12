@@ -77,7 +77,7 @@
                         <p class="additional-info-left">DODATKOWE INFORMACJE</p>
                         <p class="additional-info-left">* Korzystanie z panelu administracyjnego tylko po zweryfikowaniu adresu e-mail.</p>
                         <p class="additional-info-left">* Zmiana ta wynika z migracji systemu. Wykorzystanie adresu e-mail jest bezpieczniejsze dla użytkownika.</p>
-                        <p class ="additional-info-left">* Po zweryfikowaniu adresu e-mail logowanie będzie tylko możliwe przy pomocy adresu e-mail.</p>
+                        <p class="additional-info-left">* Po zweryfikowaniu adresu e-mail logowanie będzie tylko możliwe przy pomocy adresu e-mail.</p>
                     </div>
                     <button class="btn btn-primary mt-4" @onclick="NavigateToEmailRegistration">Zarejestruj e-mail</button>
                 }
@@ -156,32 +156,31 @@
     {
         HasUserEmail = await userService.GetHasUserEmail();
 
-        if (HasUserEmail) { 
-        var authState = await authStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (user.Identity.IsAuthenticated)
+        if (HasUserEmail)
         {
-            IsPlayer = user.IsInRole("Player");
-            IsAdmin = user.IsInRole("Admin");
+            var authState = await authStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
 
-            playerSummary = await userService.GetUserSummary();
-            HasTeam = await userService.IsTeamCaptain();
-
-
-            var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
-            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("section", out var section))
+            if (user.Identity.IsAuthenticated)
             {
-                if (Enum.TryParse<InfoPages>(section, true, out var parsedSection))
+                IsPlayer = user.IsInRole("Player");
+                IsAdmin = user.IsInRole("Admin");
+
+                playerSummary = await userService.GetUserSummary();
+                HasTeam = await userService.IsTeamCaptain();
+
+
+                var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+                if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("section", out var section))
                 {
-                    currentSection = parsedSection;
+                    if (Enum.TryParse<InfoPages>(section, true, out var parsedSection))
+                    {
+                        currentSection = parsedSection;
+                    }
                 }
             }
         }
     }
-    }
-
-
 
     private void ShowSection(InfoPages section)
     {

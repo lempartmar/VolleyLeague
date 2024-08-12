@@ -31,7 +31,6 @@ else if (!isVerificationStep)
                                 <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
-                                    <!-- Fields for FirstName, LastName, Email, Password, ConfirmPassword -->
                                     <div class="form">
                                         <label for="FirstName" class="control-label"></label>
                                         <input @bind="registerModel.FirstName" type="text" class="form-control" id="FirstName" placeholder="Imię" required />
@@ -45,7 +44,6 @@ else if (!isVerificationStep)
                                         <small class="form-text text-muted">Jeśli wpiszesz dokładnie takie samo imię i nazwisko jak Twój kapitan podczas tworzenia drużyny będziesz mógł zsynchronizować konto poprzez dołączenie do drużyny.</small>
                                     </div>
                                     <div class="form">
-@*                                         <label for="Gender" class="control-label">Płeć</label> *@
                                         <select @bind="registerModel.Gender" class="form-control" id="Gender" required style="color: #6c757d">
                                             <option value="">Płeć</option>
                                             <option value="1">Mężczyzna</option>
@@ -236,7 +234,7 @@ else
                 LastName = registerModel.LastName,
                 Email = verificationModel.Email,
                 Password = registerModel.Password,
-                Gender = registerModel.Gender == 1, // Use the integer value directly
+                Gender = registerModel.Gender == 1,
                 VerificationCode = verificationModel.VerificationCode
             };
 

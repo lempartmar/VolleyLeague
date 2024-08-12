@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Shared.Dtos.Teams;
 
@@ -105,10 +104,10 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> UpdateTeam([FromBody] ManageTeamDto team)
         {
             string? id = User.Identity?.Name;
-            //if (string.IsNullOrWhiteSpace(id))
-            //{
-            //    return Unauthorized();
-            //}
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Unauthorized();
+            }
             var result = await _teamService.UpdateTeam(team, id);
 
             if (result.Success)
@@ -123,10 +122,10 @@ namespace VolleyLeague.API.Controllers
         public async Task<IActionResult> UpdateExtendedTeam([FromBody] ExtendedTeamDto team)
         {
             string? id = User.Identity?.Name;
-            //if (string.IsNullOrWhiteSpace(id))
-            //{
-            //    return Unauthorized();
-            //}
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Unauthorized();
+            }
             var result = await _teamService.UpdateExtendedTeam(team);
 
             return Ok();
@@ -156,7 +155,7 @@ namespace VolleyLeague.API.Controllers
             {
                 return Ok();
             }
-            return BadRequest("Failed to delete the team.");
+            return BadRequest("Nie udało się usunąć zespołu.");
         }
 
         [Authorize(Roles = "Admin")]
@@ -246,6 +245,5 @@ namespace VolleyLeague.API.Controllers
             }
             return BadRequest(new { result.Success, result.Message });
         }
-
     }
 }

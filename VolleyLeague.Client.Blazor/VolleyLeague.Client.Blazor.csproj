@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Administrator\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 

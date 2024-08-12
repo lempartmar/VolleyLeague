@@ -1,6 +1,7 @@
 ﻿@page "/articlesByContent/{searchType}"
 @using VolleyLeague.Shared.Dtos.Discussion
 @inject HttpClient Http
+@inject NavigationManager Navigation
 @inject IJSRuntime JS
 
 @if (!pageReady)
@@ -129,7 +130,7 @@ else
 
     private void NavigateToArticle(int articleId)
     {
-        // Navigation.NavigateTo($"/article/{articleId}");
+         Navigation.NavigateTo($"/article/{articleId}");
     }
 
     private string ConvertImageToBase64(byte[] image)
@@ -145,7 +146,7 @@ else
             if (result.IsSuccessStatusCode)
             {
                 _articles = await result.Content.ReadFromJsonAsync<List<ArticleDto>>();
-                _currentPage = 1;  
+                _currentPage = 1;
             }
         }
     }

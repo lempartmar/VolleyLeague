@@ -111,11 +111,6 @@ namespace VolleyLeague.API.Controllers
         [HttpGet("GetReferees")]
         public async Task<IActionResult> GetReferees()
         {
-            //string? userId = User.Identity?.Name;
-            //if (string.IsNullOrWhiteSpace(userId))
-            //{
-            //    return Unauthorized();
-            //}
             var data = await _matchService.GetOtherData();
             return Ok(await _matchService.GetReferees());
         }
@@ -146,12 +141,6 @@ namespace VolleyLeague.API.Controllers
         [HttpGet("AddReferee")]
         public async Task<IActionResult> AddReferee(int userId)
         {
-            //string? userId = User.Identity?.Name;
-            //if (string.IsNullOrWhiteSpace(userId))
-            //{
-            //    return Unauthorized();
-            //}
-
             return Ok(await _matchService.AddReferee(userId));
         }
 

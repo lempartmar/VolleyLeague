@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using VolleyLeague.Services.Interfaces;
 using VolleyLeague.Services.Services;
 
 namespace VolleyLeague.API.Controllers
@@ -24,7 +21,7 @@ namespace VolleyLeague.API.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
-                return BadRequest("Email parameter is required.");
+                return BadRequest("Pole email jest wymagane.");
             }
 
             var result = await _accountMergingService.GetHasAccountsForMerging(email);
@@ -36,7 +33,7 @@ namespace VolleyLeague.API.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
-                return BadRequest("Email parameter is required.");
+                return BadRequest("Pole email jest wymagane.");
             }
 
             var result = await _accountMergingService.GetInfoAboutTheMergedTeam(email);
@@ -48,15 +45,15 @@ namespace VolleyLeague.API.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
-                return BadRequest("Email parameter is required.");
+                return BadRequest("Pole email jest wymagane.");
             }
 
             var result = await _accountMergingService.AccountMerging(email);
             if (result)
             {
-                return Ok("Accounts merged and unlinked account deleted successfully.");
+                return Ok("Konta zosta³y scalone, a niepowi¹zane konto zosta³o usuniête pomyœlnie.");
             }
-            return NotFound("Either accounts not found or merge criteria not met.");
+            return NotFound("Nie znaleziono kont lub nie spe³niono kryteriów scalania.");
         }
     }
 }

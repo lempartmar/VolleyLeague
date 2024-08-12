@@ -12,69 +12,69 @@
         </div>
     </section>
 }
-else{
-<section class="rts-blog-section3 section4 section-gap">
-    <div class="container">
-        <div class="section-inner">
-            <div class="section-title-area section-ttile-area2">
-                <h1 class="section-title"></h1>
-            </div>
-            <div class="blog-area">
-                <div class="row">
-                    @if (_articles != null && _articles.Any())
-                    {
-                        @foreach (var article in _articles)
+else
+{
+    <section class="rts-blog-section3 section4 section-gap">
+        <div class="container">
+            <div class="section-inner">
+                <div class="section-title-area section-ttile-area2">
+                    <h1 class="section-title"></h1>
+                </div>
+                <div class="blog-area">
+                    <div class="row">
+                        @if (_articles != null && _articles.Any())
                         {
-                            <div class="col-lg-4 col-md-6">
-                                <div class="blog-item">
-                                    <div class="blog-picture">
-                                        <img src="@ConvertImageToBase64(article.Image)" alt="Article Image">
-                                    </div>
-                                    <div class="contents-wrapper">
-                                        <div class="contents text-start">
-                                            <div class="d-block">
-                                                <div class="heading d-flex">
-                                                    <span class="blog-date">@article.CreationDate.ToString("dd MMMM yyyy")</span>
+                            @foreach (var article in _articles)
+                            {
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="blog-item">
+                                        <div class="blog-picture">
+                                            <img src="@ConvertImageToBase64(article.Image)" alt="Article Image">
+                                        </div>
+                                        <div class="contents-wrapper">
+                                            <div class="contents text-start">
+                                                <div class="d-block">
+                                                    <div class="heading d-flex">
+                                                        <span class="blog-date">@article.CreationDate.ToString("dd MMMM yyyy")</span>
+                                                    </div>
+                                                    <div class="gallery-title">
+                                                        <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
+                                                    </div>
                                                 </div>
-                                                <div class="gallery-title">
-                                                    <a href="javascript:void(0)" @onclick="() => NavigateToArticle(article.Id)">@article.Title</a>
-                                                </div>
-                                            </div>
-                                            <div class="author-info">
-                                                <div class="content">
-                                                    <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">WIĘCEJ</a>
+                                                <div class="author-info">
+                                                    <div class="content">
+                                                        <a href="javascript:void(0)" class="read-more" @onclick="() => NavigateToArticle(article.Id)">WIĘCEJ</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <p>No articles found.</p>
-                    }
-                </div>
-                <div class="pagination-controls">
-                    @if (_currentPage > 1)
-                    {
-                        <button @onclick="LoadPreviousPage">Poprzednia Strona</button>
-                    }
+                        else
+                        {
+                            <p>No articles found.</p>
+                        }
+                    </div>
+                    <div class="pagination-controls">
+                        @if (_currentPage > 1)
+                        {
+                            <button @onclick="LoadPreviousPage">Poprzednia Strona</button>
+                        }
 
-                    <span>Strona @_currentPage</span>
+                        <span>Strona @_currentPage</span>
 
-                    @if (_articles.Count() >= _articlesPerPage)
-                    {
-                        <button @onclick="LoadNextPage">Następna Strona</button>
-                    }
+                        @if (_articles.Count() >= _articlesPerPage)
+                        {
+                            <button @onclick="LoadNextPage">Następna Strona</button>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 }
-
 
 @code {
     private bool pageReady = false;
@@ -122,4 +122,3 @@ else{
         return image != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(image)}" : "path/to/default/image.jpg";
     }
 }
-

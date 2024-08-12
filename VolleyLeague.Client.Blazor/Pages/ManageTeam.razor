@@ -357,7 +357,6 @@ else
     </div>
 }
 
-<!-- Modal for deletion confirmation -->
 <div class="modal" tabindex="-1" role="dialog" style="@(ShowModal ? "display:block" : "display:none")">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -374,8 +373,6 @@ else
         </div>
     </div>
 </div>
-
-
 
 @code {
     ManageTeamListsDto ManagedTeam { get; set; } = new ManageTeamListsDto();
@@ -478,7 +475,7 @@ else
             else
             {
                 ShowErrorMessage = true;
-                ErrorMessage = response.Message; // Pokaż komunikat zwrócony z backendu
+                ErrorMessage = response.Message;
                 StateHasChanged();
             }
         }
@@ -552,7 +549,6 @@ else
                 return false;
             }
         }
-
         return true;
     }
 }

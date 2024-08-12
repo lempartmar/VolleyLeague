@@ -35,11 +35,11 @@ namespace VolleyLeague.API.Controllers
             try
             {
                 await _fileService.MigrateTeamImagesToDatabase();
-                return Ok("Zdjêcia dru¿yn zmigrowane prawid³owo.");
+                return Ok("Zdjêcia dru¿yn zosta³y pomyœlnie zmigrowane.");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Wewnêtrzny b³¹d serwera");
             }
         }
 
@@ -65,7 +65,7 @@ namespace VolleyLeague.API.Controllers
         public async Task<ActionResult> UploadTeamImage(int teamId, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest("Brak updatu plików.");
+                return BadRequest("Brak pliku do przes³ania.");
 
             await _fileService.UploadTeamImage(teamId, file);
             return Ok();
@@ -91,27 +91,24 @@ namespace VolleyLeague.API.Controllers
             try
             {
                 var uploadsPath = Path.Combine(_env.ContentRootPath, "uploads");
-                _logger.LogInformation($"Uploads path: {uploadsPath}");
 
                 if (!Directory.Exists(uploadsPath))
                 {
-                    _logger.LogWarning("Uploads directory does not exist.");
-                    return NotFound("Uploads directory does not exist.");
+                    return NotFound("Katalog 'uploads' nie istnieje.");
                 }
 
                 var files = Directory.EnumerateFiles(uploadsPath).Select(Path.GetFileName).ToList();
 
                 if (!files.Any())
                 {
-                    _logger.LogInformation("No files found in uploads directory.");
+                    _logger.LogInformation("Nie znaleziono plików w katalogu 'uploads'.");
                 }
 
                 return Ok(files);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while getting uploaded files.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Wewnêtrzny b³¹d serwera");
             }
         }
 
@@ -137,17 +134,14 @@ namespace VolleyLeague.API.Controllers
             }
             catch (UnauthorizedAccessException ex)
             {
-                _logger.LogError(ex, $"Access denied while deleting image for team {teamId}");
-                return StatusCode(403, "Access denied. Check file permissions.");
+                return StatusCode(403, "Odmowa dostêpu. SprawdŸ uprawnienia do pliku.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error deleting image for team {teamId}");
-                return StatusCode(500, "Internal server error");
+                _logger.LogError(ex, $"B³¹d podczas usuwania obrazu dla dru¿yny {teamId}");
+                return StatusCode(500, "Wewnêtrzny b³¹d serwera");
             }
         }
-
-
 
         [HttpGet("DownloadTeamImage/{teamId}")]
         public async Task<IActionResult> DownloadTeamImage(int teamId)

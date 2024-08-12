@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using VolleyLeague.Entities.Models;
 using VolleyLeague.Services.Services;
-using VolleyLeague.Shared.Dtos.Discussion;
 
 namespace VolleyLeague.API.Controllers
 {
@@ -36,18 +35,17 @@ namespace VolleyLeague.API.Controllers
         {
             if (code == null)
             {
-                return BadRequest("Invalid code data.");
+                return BadRequest("Nieprawid³owe dane kodu.");
             }
 
             try
             {
                 await _codeService.UpdateCodeAsync(code);
-                return Ok("Code updated successfully.");
+                return Ok("Kod zosta³ zaktualizowany pomyœlnie.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating code");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Wewnêtrzny b³¹d serwera");
             }
         }
     }

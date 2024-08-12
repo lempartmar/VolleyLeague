@@ -290,7 +290,6 @@ else
                 var result = await teamService.LeaveTeamByEmail(UserProfileData.AdditionalEmail);
                 if (result.Success)
                 {
-                    // Sukces, przeładuj dane profilu
                     NavigationManager.NavigateTo($"/user-profile/{Id}", forceLoad: true);
                 }
                 else
