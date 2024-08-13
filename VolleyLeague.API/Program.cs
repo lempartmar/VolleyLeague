@@ -13,12 +13,9 @@ using VolleyLeague.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-// Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("VolleybalSystemConnection");
 Console.WriteLine(connectionString);
@@ -50,7 +47,6 @@ builder.Services.AddTransient(typeof(ITypedResultService), typeof(TypedResultSer
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient(typeof(ISeasonService), typeof(SeasonService));
 builder.Services.AddTransient(typeof(ILeagueService), typeof(LeagueService));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -89,8 +85,6 @@ app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 var configuration = app.Services.GetRequiredService<IConfiguration>();
 AppSettings.Initialize(configuration);
 
-// Configure the HTTP request pipeline.
-
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseWebAssemblyDebugging();
@@ -100,7 +94,6 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-// Udostêpnianie plików statycznych z katalogu "uploads"
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
 if (!Directory.Exists(uploadsPath))
 {
