@@ -14,8 +14,8 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task CreateSeason(SeasonDto season);
         public Task UpdateSeason(SeasonDto season);
         public Task<HttpResponseMessage> DeleteSeason(int seasonId);
-        public Task CreateRound(RoundDto round); // Dodano metodę
-        public Task UpdateRound(RoundDto round); // Dodano metodę
+        public Task CreateRound(RoundDto round);
+        public Task UpdateRound(RoundDto round);
         Task<HttpResponseMessage> DeleteRound(int roundId);
     }
 

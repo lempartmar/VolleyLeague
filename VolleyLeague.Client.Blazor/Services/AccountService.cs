@@ -23,9 +23,8 @@ namespace VolleyLeague.Client.Blazor.Services
                  AuthService.GenerateStringContent(
                  AuthService.SerializeObj(userDTO)));
 
-            //Read Response
             if (!response.IsSuccessStatusCode)
-                return new GeneralResponse(false, "Error occured. Try again later...");
+                return new GeneralResponse(false, "Wystąpił błąd. Spróbuj ponownie później...");
 
             var apiResponse = await response.Content.ReadAsStringAsync();
             return AuthService.DeserializeJsonString<GeneralResponse>(apiResponse);

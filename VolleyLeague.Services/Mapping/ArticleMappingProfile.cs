@@ -13,6 +13,5 @@ namespace VolleyLeague.Services.Mapping
                 .ReverseMap();
             CreateMap<User, AuthorInfoDto>();
         }
-
     }
 }

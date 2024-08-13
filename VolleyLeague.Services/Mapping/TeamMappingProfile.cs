@@ -50,10 +50,7 @@ namespace VolleyLeague.Services.Mapping
                 .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Player.Position.Id))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Player.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Player.LastName))
-                            .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Player.Credentials != null)); 
-
-            //CreateMap<ManageTeamDto, Team>()
-            //.ForMember(dest => dest.TeamPlayers, opt => opt.Ignore());
+                .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Player.Credentials != null)); 
 
             CreateMap<TeamPlayerDto, User>();
             CreateMap<TeamPlayerDto, User>();
@@ -95,9 +92,6 @@ namespace VolleyLeague.Services.Mapping
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Player.Gender))
             .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Player.Height))
             .ForMember(dest => dest.IsRegisteredUser, opt => opt.MapFrom(src => src.Player.Credentials != null));
-
-
-
 
             CreateMap<Team, ManagedTeamDataDto>()
                 .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.TeamPlayers));

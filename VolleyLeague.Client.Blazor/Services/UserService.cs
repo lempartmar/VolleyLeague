@@ -18,15 +18,16 @@ namespace VolleyLeague.Client.Blazor.Services
 
         Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto);
 
-        //Task<string> Login(LoginDto loginDto);
-        //Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto);
         Task<List<PositionDto>> GetPositions();
+
         Task<PlayerSummaryDto> GetUserSummary();
+
         Task<UserProfileDto> GetUserProfile(int userId);
 
         Task<bool> IsTeamCaptain();
 
         Task<UserProfileDto> GetCurrentUserProfile();
+
         Task UpdateUser(UpdateUserDto userProfileDto);
 
         Task<bool> RequestPasswordReset(PasswordResetRequestDto requestDto);
@@ -36,7 +37,6 @@ namespace VolleyLeague.Client.Blazor.Services
         Task<bool> IsTokenValid(string token);
 
         Task<bool> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
-
     }
 
     public class UserService : IUserService
@@ -118,15 +118,6 @@ namespace VolleyLeague.Client.Blazor.Services
             }
         }
 
-        //public async Task<string> Login(LoginDto loginDto)
-        //{
-        //    var response = await _httpClient.PostAsJsonAsync("api/user/login", loginDto);
-        //    response.EnsureSuccessStatusCode();
-
-        //    var token = await response.Content.ReadAsStringAsync();
-        //    return token;
-        //}
-
         public async Task<List<PositionDto>> GetPositions()
         {
             var response = await _httpClient.GetAsync("api/position/getallpositions");
@@ -189,23 +180,6 @@ namespace VolleyLeague.Client.Blazor.Services
             return response.IsSuccessStatusCode;
         }
 
-
-        //public async Task<string> Login(LoginDto loginDto)
-        //{
-        //    try
-        //    {
-        //        var response = await _httpClient.PostAsJsonAsync("api/User/User", loginDto);
-        //        response.EnsureSuccessStatusCode();
-
-        //        var content = await response.Content.ReadAsStringAsync();
-        //        return content;
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //}
-
         public async Task<bool> IsTeamCaptain()
         {
             var response = await _httpClient.GetAsync($"api/User/isteamcaptain");
@@ -229,11 +203,5 @@ namespace VolleyLeague.Client.Blazor.Services
             var response = await _httpClient.PutAsJsonAsync("api/user/updateuserdata", updateUserDto);
             response.EnsureSuccessStatusCode();
         }
-
-        //public async Task UpdatePassword(string userId, UpdatePasswordDto updatePasswordDto)
-        //{
-        //    var response = await _httpClient.PostAsJsonAsync($"api/user/{userId}/updatePassword", updatePasswordDto);
-        //    response.EnsureSuccessStatusCode();
-        //}
     }
 }

@@ -13,6 +13,5 @@ namespace VolleyLeague.Services.Services
 
         Task<bool> DeletePosition(int id);
     }
-
 }
 

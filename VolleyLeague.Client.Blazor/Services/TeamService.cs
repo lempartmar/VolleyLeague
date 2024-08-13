@@ -11,7 +11,6 @@ namespace VolleyLeague.Client.Blazor.Services
         public Task<TeamDto> GetTeam(int id);
         public Task<(bool Success, string Message)> CreateTeam(NewTeamDto team);
         Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team);
-
         public Task<bool> DeleteTeam(int id);
         public Task<List<TeamDto>> GetTeamsByLeague(int leagueId);
         public Task<ManagedTeamDataDto> GetManagedTeam();

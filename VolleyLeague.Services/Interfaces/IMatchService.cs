@@ -31,6 +31,7 @@ namespace VolleyLeague.Services.Interfaces
         Task AddMatch(NewMatchDto match);
 
         Task<List<StandingsDto>> GetStandings(int seasonId, int leagueId);
+
         Task<List<NextMatchMinDto>> GetNextTwoMatchesAsync();
 
         Task<LastMatchDto> GetLastMatchAsync();

@@ -24,8 +24,13 @@
 
 @if (isLoading)
 {
-    <Preloader />
+    <section id="loading_section mt-5 mb-5" class="loading_section">
+        <div class="container">
+            <div id="spinner"></div>
+        </div>
+    </section>
 }
+
 else
 {
     @if (!cookiesAccepted)
