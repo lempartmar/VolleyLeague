@@ -184,7 +184,7 @@ namespace VolleyLeague.Services.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error uploading file {untrustedFileName}: {ex.Message}");
+                    Console.WriteLine($"Blad w uploadzie pliki {untrustedFileName}: {ex.Message}");
                     uploadResults.Add(uploadResult);
                 }
             }

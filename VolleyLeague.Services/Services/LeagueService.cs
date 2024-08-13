@@ -64,7 +64,6 @@ namespace VolleyLeague.Services.Services
                 catch (Exception ex)
                 {
                     result = false;
-                    _logger.LogError(ex.Message, "Error when deleting league");
                 }
 
                 return result;

@@ -357,7 +357,7 @@ namespace VolleyLeague.Services.Services
                 var match = matches.FirstOrDefault(t => t.Id == team.Id);
                 if (match?.GuestTeam.Logo != null && match.GuestTeam.Logo.Length > 0)
                 {
-                    team.GuestTeam.Logo = match.GuestTeam.Logo; // Przypisujemy logo, jeśli spełniono warunki
+                    team.GuestTeam.Logo = match.GuestTeam.Logo; 
                 }
             }
 
@@ -366,10 +366,9 @@ namespace VolleyLeague.Services.Services
                 var match = matches.FirstOrDefault(t => t.Id == team.Id);
                 if (match?.HomeTeam.Logo != null && match.HomeTeam.Logo.Length > 0)
                 {
-                    team.HomeTeam.Logo = match.HomeTeam.Logo; // Przypisujemy logo, jeśli spełniono warunki
+                    team.HomeTeam.Logo = match.HomeTeam.Logo; 
                 }
             }
-
 
             return result;
         }

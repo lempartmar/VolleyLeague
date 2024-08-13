@@ -127,11 +127,11 @@ namespace VolleyLeague.Services.Services
 
                 await _credentialsRepository.SaveChangesAsync();
 
-                return (true, "Passwords migrated and OldPassword column cleared successfully.");
+                return (true, "Hasła zostały przeniesione, a kolumna OldPassword została pomyślnie wyczyszczona.");
             }
             catch (Exception ex)
             {
-                return (false, $"An error occurred while migrating passwords. {ex}");
+                return (false, $"Wystąpił błąd podczas migracji haseł. {ex}");
             }
         }
 
@@ -317,9 +317,9 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception)
             {
-                return (false, "Registration failed due to a server error.");
+                return (false, "Rejestracja nie powiodła się z powodu błędu serwera.");
             }
-            return (true, "Registration successful");
+            return (true, "Rejestracja przebiegła pomyślnie");
         }
 
         public async Task<bool> IsTeamCaptain(string playerEmail)
@@ -365,21 +365,18 @@ namespace VolleyLeague.Services.Services
                 var principal = GetPrincipalFromExpiredToken(token);
                 if (principal == null)
                 {
-                    Console.WriteLine("Principal is null.");
                     return false;
                 }
 
                 var emailClaim = principal.FindFirst("email");
                 if (emailClaim == null)
                 {
-                    Console.WriteLine("Email claim not found in token.");
                     return false;
                 }
 
                 var email = emailClaim.Value;
                 if (string.IsNullOrEmpty(email))
                 {
-                    Console.WriteLine("Email claim is null or empty.");
                     return false;
                 }
 
@@ -388,7 +385,6 @@ namespace VolleyLeague.Services.Services
                                                 .FirstOrDefaultAsync(u => u.Credentials.Email == email);
                 if (user == null)
                 {
-                    Console.WriteLine("User not found.");
                     return false;
                 }
 
@@ -399,7 +395,7 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error resetting password: {ex.Message}");
+                Console.WriteLine($"Błąd resetowania hasła: {ex.Message}");
                 return false;
             }
         }
@@ -449,7 +445,7 @@ namespace VolleyLeague.Services.Services
 
             await SendVerificationEmail(registerDto.Email, verificationCode);
 
-            return (true, "Verification code sent to email.");
+            return (true, "Kod weryfikacyjny wysłany na e-mail.");
         }
 
         public async Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto)
@@ -476,7 +472,7 @@ namespace VolleyLeague.Services.Services
 
             await SendVerificationEmail(registerDto.Email, verificationCode);
 
-            return (true, "Verification code sent to email.");
+            return (true, "Kod weryfikacyjny wysłany na e-mail.");
         }
 
         public async Task<(bool Success, string Message)> CompleteEmailVerification(CompleteEmailRegistrationDto completeEmailRegistrationDto, string userName)
@@ -492,7 +488,7 @@ namespace VolleyLeague.Services.Services
 
                     if (verificationEntity == null || verificationEntity.ExpirationTime < DateTime.UtcNow)
                     {
-                        return (false, "Invalid or expired verification code.");
+                        return (false, "Nieprawidłowy lub wygasły kod weryfikacyjny.");
                     }
 
                     var credentials = await _credentialsRepository.GetAll().Where(x => x.UserName == userName || x.Email == userName).FirstOrDefaultAsync();
@@ -529,7 +525,7 @@ namespace VolleyLeague.Services.Services
 
                     if (verificationEntity == null || verificationEntity.ExpirationTime < DateTime.UtcNow)
                     {
-                        return (false, "Invalid or expired verification code.");
+                        return (false, "Nieprawidłowy lub wygasły kod weryfikacyjny.");
                     }
                 }
 
@@ -586,12 +582,12 @@ namespace VolleyLeague.Services.Services
 
                 await transaction.CommitAsync();
 
-                return (true, "Registration successful");
+                return (true, "Rejestracja przebiegła pomyślnie");
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                return (false, $"Registration failed due to a server error: {ex.Message}");
+                return (false, $"Rejestracja nie powiodła się z powodu błędu serwera: {ex.Message}");
             }
         }
 
@@ -612,7 +608,7 @@ namespace VolleyLeague.Services.Services
             {
                 if (stream == null)
                 {
-                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                    throw new FileNotFoundException($"Nie znaleziono pliku szablonu wiadomości e-mail: {resourcePath}");
                 }
 
                 using (StreamReader reader = new StreamReader(stream))
@@ -665,7 +661,7 @@ namespace VolleyLeague.Services.Services
             {
                 if (stream == null)
                 {
-                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                    throw new FileNotFoundException($"Nie znaleziono pliku szablonu wiadomości e-mail: {resourcePath}");
                 }
 
                 using (StreamReader reader = new StreamReader(stream))
@@ -709,14 +705,14 @@ namespace VolleyLeague.Services.Services
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 AccountId = null,
-                AdditionalEmail = registerDto.Email,//
+                AdditionalEmail = registerDto.Email,
                 Gender = registerDto.Gender == 1,
                 PositionId = 6,
                 PhotoWidth = null,
                 PhotoHeight = null,
                 Articles = new List<Article>(),
                 Team = null,
-                TeamPlayers = new List<TeamPlayer>(), // Initialize as needed
+                TeamPlayers = new List<TeamPlayer>(),
             };
         }
 
@@ -775,31 +771,20 @@ namespace VolleyLeague.Services.Services
 
                 if (jwtSecurityToken == null)
                 {
-                    Console.WriteLine("Invalid JWT token.");
                     throw new SecurityTokenException("Invalid token");
                 }
 
                 if (!jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    Console.WriteLine("Invalid JWT token algorithm.");
                     throw new SecurityTokenException("Invalid token");
                 }
 
                 var emailClaim = principal.FindFirst("email");
-                if (emailClaim == null)
-                {
-                    Console.WriteLine("Email claim not found.");
-                }
-                else
-                {
-                    Console.WriteLine($"Email claim found: {emailClaim.Value}");
-                }
 
                 return principal;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Token validation error: {ex.Message}");
                 throw new SecurityTokenException("Invalid token");
             }
         }

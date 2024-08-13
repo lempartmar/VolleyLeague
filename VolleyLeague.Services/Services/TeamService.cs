@@ -217,7 +217,7 @@ namespace VolleyLeague.Services.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while inserting the team: {ex}");
+                Console.WriteLine($"Wystapil blad w trakcie dodawania druzyny: {ex}");
                 throw;
             }
 
@@ -240,7 +240,7 @@ namespace VolleyLeague.Services.Services
             await _teamImageRepository.Delete(teamImage);
             await _teamImageRepository.SaveChangesAsync();
 
-            return (true, "Image deleted successfully.");
+            return (true, "Image usuniety prawidlowo.");
         }
 
         public async Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file)
@@ -261,8 +261,6 @@ namespace VolleyLeague.Services.Services
                     ImageType = file.ContentType
                 };
 
-                Console.WriteLine($"Uploading image with MIME type: {file.ContentType}");
-
                 if (team.TeamImage != null)
                 {
                     team.TeamImage.Image = teamImage.Image;
@@ -277,7 +275,7 @@ namespace VolleyLeague.Services.Services
                 await _teamImageRepository.SaveChangesAsync();
             }
 
-            return (true, "Image uploaded successfully.");
+            return (true, "Image dodany prawidlowo.");
         }
 
 
@@ -645,7 +643,7 @@ namespace VolleyLeague.Services.Services
             {
                 if (stream == null)
                 {
-                    throw new FileNotFoundException($"Email template file not found: {resourcePath}");
+                    throw new FileNotFoundException($"Template email nie znaleziony: {resourcePath}");
                 }
 
                 using (StreamReader reader = new StreamReader(stream))
