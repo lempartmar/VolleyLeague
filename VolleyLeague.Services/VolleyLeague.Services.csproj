@@ -10,11 +10,13 @@
 		  <None Remove="EmailTemplates\newTeamMate.html" />
 		  <None Remove="EmailTemplates\PasswordResetTemplate.html" />
 		  <None Remove="EmailTemplates\VerificationEmailTemplate.html" />
+		  <None Remove="EmailTemplates\VerificationEmailTemplateHasAccount.html" />
 		  <None Remove="Services\VerificationEmailTemplate2.html" />
 		</ItemGroup>
 
 		<ItemGroup>
 				<EmbeddedResource Include="EmailTemplates\PasswordResetTemplate.html" />
+				<EmbeddedResource Include="EmailTemplates\VerificationEmailTemplateHasAccount.html" />
 				<EmbeddedResource Include="EmailTemplates\VerificationEmailTemplate.html" />
 				<EmbeddedResource Include="Services\VerificationEmailTemplate.html" />
 		</ItemGroup>

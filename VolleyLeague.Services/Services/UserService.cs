@@ -470,7 +470,7 @@ namespace VolleyLeague.Services.Services
             await _verificationCodeRepository.InsertAsync(verificationEntity);
             await _verificationCodeRepository.SaveChangesAsync();
 
-            await SendVerificationEmail(registerDto.Email, verificationCode);
+            await SendVerificationEmailUserHasAccount(registerDto.Email, verificationCode);
 
             return (true, "Kod weryfikacyjny wysłany na e-mail.");
         }
@@ -618,7 +618,7 @@ namespace VolleyLeague.Services.Services
 
                     var message = new MailMessage("noreply@yourwebsite.com", email)
                     {
-                        Subject = "Verification Code",
+                        Subject = "Kod weryfikacyjny",
                         Body = emailBody,
                         IsBodyHtml = true,
                     };
@@ -628,7 +628,35 @@ namespace VolleyLeague.Services.Services
             }
         }
 
+        private async Task SendVerificationEmailUserHasAccount(string email, string verificationCode)
+        {
+            string resourcePath = "VolleyLeague.Services.EmailTemplates.VerificationEmailTemplateHasAccount.html";
 
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
+            {
+                if (stream == null)
+                {
+                    throw new FileNotFoundException($"Nie znaleziono pliku szablonu wiadomości e-mail: {resourcePath}");
+                }
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string emailTemplate = await reader.ReadToEndAsync();
+                    string emailBody = emailTemplate.Replace("623123", verificationCode);
+
+                    var message = new MailMessage("noreply@yourwebsite.com", email)
+                    {
+                        Subject = "Kod weryfikacyjny",
+                        Body = emailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    await _emailService.Send(email, message);
+                }
+            }
+        }
 
         public async Task<bool> ChangePasswordAsync(string email, string currentPassword, string newPassword)
         {

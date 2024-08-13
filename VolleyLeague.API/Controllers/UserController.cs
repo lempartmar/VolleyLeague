@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -104,7 +103,7 @@ namespace VolleyLeague.API.Controllers
             {
                 return BadRequest(result.Message);
             }
-            return Ok("Verification code sent to email.");
+            return Ok("Kod weryfikacyjny wys³any na adres e-mail.");
         }
 
         [Authorize]
@@ -116,7 +115,7 @@ namespace VolleyLeague.API.Controllers
             {
                 return BadRequest(result.Message);
             }
-            return Ok("Verification code sent to email.");
+            return Ok("Kod weryfikacyjny wys³any na adres e-mail.");
         }
 
         [AllowAnonymous]
@@ -128,7 +127,7 @@ namespace VolleyLeague.API.Controllers
             {
                 return BadRequest(result.Message);
             }
-            return Ok("Registration successful.");
+            return Ok("Rejestracja zakoñczona prawid³owo.");
         }
 
         [Authorize]
@@ -232,9 +231,9 @@ namespace VolleyLeague.API.Controllers
             var result = await _userService.RequestPasswordResetAsync(requestDto.Email);
             if (!result)
             {
-                return BadRequest("Invalid email address");
+                return BadRequest("Nieprawid³owy adres e-mail");
             }
-            return Ok("Password reset email sent");
+            return Ok("Wys³ano wiadomoœæ e-mail dotycz¹c¹ resetowania has³a");
         }
 
         [HttpPost("resetPassword")]
@@ -243,9 +242,9 @@ namespace VolleyLeague.API.Controllers
             var result = await _userService.ResetPasswordAsync(resetDto.Token, resetDto.NewPassword);
             if (!result)
             {
-                return BadRequest("Invalid token or token expired");
+                return BadRequest("Nieprawid³owy token lub token wygas³");
             }
-            return Ok("Password has been reset successfully");
+            return Ok("Has³o zosta³o pomyœlnie zresetowane");
         }
 
         [HttpGet("isTokenValid")]
@@ -254,7 +253,7 @@ namespace VolleyLeague.API.Controllers
             var result = await _userService.IsTokenValid(token);
             if (!result)
             {
-                return BadRequest("Invalid token or token expired");
+                return BadRequest("Nieprawid³owy token lub token wygas³");
             }
             return Ok(result);
         }
@@ -273,10 +272,10 @@ namespace VolleyLeague.API.Controllers
 
             if (result)
             {
-                return Ok(new { message = "Password changed successfully" });
+                return Ok(new { message = "Has³o zosta³o pomyœlnie zmienione" });
             }
 
-            return BadRequest(new { message = "Failed to change password" });
+            return BadRequest(new { message = "Nie uda³o siê zmieniæ has³a" });
         }
 
         [HttpPost("migratePasswords")]
