@@ -34,14 +34,14 @@ else if (!isVerificationStep)
                                         <label for="Email" class="control-label"></label>
                                         <input @bind="registerModel.Email" type="email" class="form-control" id="Email" placeholder="Adres e-mail" required />
                                         <ValidationMessage class="text-danger" For="@(() => registerModel.Email)" />
-                                        <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie.</small>
+                                        <small class="form-text text-muted">Adres email jest potrzebny do logowania się w serwisie. Nastapi wysłanie na ten adres kodu weryfikacyjnego.</small>
                                     </div>
                                     @if (ShowErrorMessage)
                                     {
                                         <div class="text-danger mt-2" style="margin-top: 30px; margin-bottom: 20px; font-size: 120%;">@ErrorMessage</div>
                                     }
                                     <div class="form">
-                                        <button type="submit" class="btn btn-primary">Zarejestruj</button>
+                                        <button type="submit" class="btn btn-primary">Weryfikuj</button>
                                     </div>
                                 </EditForm>
                             </div>
