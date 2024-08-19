@@ -195,7 +195,9 @@ else
 
         if (submitResult)
         {
-            NavigationManager.NavigateTo("/schedule");
+            // Resetuj formularz po pomyślnym dodaniu meczu
+            await ResetForm();
+            submitError = "";
         }
         else
         {
@@ -203,6 +205,36 @@ else
         }
 
         submitLoading = false;
+    }
+
+    private async Task ResetForm()
+    {
+        NewMatch = new NewMatchModel();
+
+        var seasonsResult = await matchOrganizerService.GetSeasons();
+        NewMatch.SeasonList = seasonsResult;
+        NewMatch.SeasonId = NewMatch.SeasonList.FirstOrDefault()?.Id ?? 0;
+
+        var roundsResult = await matchOrganizerService.GetRounds();
+        AllRounds = roundsResult;
+        NewMatch.RoundList = AllRounds.Where(r => r.SeasonId == NewMatch.SeasonId).ToList();
+        NewMatch.RoundId = NewMatch.RoundList.FirstOrDefault()?.Id ?? 0;
+
+        var leaguesResult = await matchOrganizerService.GetLeagues();
+        NewMatch.LeagueList = leaguesResult;
+        NewMatch.LeagueId = NewMatch.LeagueList.FirstOrDefault()?.Id ?? 0;
+
+        var refereesResult = await matchOrganizerService.GetReferees();
+        NewMatch.RefereeList = refereesResult;
+        NewMatch.RefereeId = NewMatch.RefereeList.FirstOrDefault()?.Id ?? 0;
+
+        var teamsResult = await teamService.GetAllTeams();
+        AllTeams = teamsResult;
+        await LoadTeamsForRound();
+
+        var venueResult = await matchOrganizerService.GetVenues();
+        NewMatch.VenueList = venueResult;
+        NewMatch.VenueId = NewMatch.VenueList.FirstOrDefault()?.Id ?? 0;
     }
 
     private async Task LoadTeamsForRound()
@@ -217,11 +249,6 @@ else
             .Where(t => t.Id != NewMatch.HomeTeamId)
             .ToList();
         NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
-    }
-
-    private void HandleInvalidSubmit()
-    {
-
     }
 
     private async Task OnSeasonChanged(ChangeEventArgs e)
