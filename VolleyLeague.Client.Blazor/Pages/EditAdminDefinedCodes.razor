@@ -280,6 +280,7 @@
     {
         var result = await AdminDefinedCodeService.UpdateCode(codeDto);
         messageEditDescription = result.Success ? "Aktualizacja tekstu zakończona z sukcesem." : "Niestety nie udało się zaktualizować kodu.";
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
 
     private async Task HandleValidSubmitYTLinks()
