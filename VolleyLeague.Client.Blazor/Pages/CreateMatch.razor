@@ -128,6 +128,23 @@ else
     </div>
 }
 
+<!-- Modal for confirmation -->
+<div class="modal" tabindex="-1" role="dialog" style="@(ShowModal ? "display:block" : "display:none")">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@ModalTitle</h5>
+            </div>
+            <div class="modal-body">
+                <p>@ModalMessage</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" @onclick="CloseModal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     private NewMatchModel NewMatch = new NewMatchModel();
     private NewMatchDto NewMatchDto = new NewMatchDto();
@@ -139,6 +156,10 @@ else
 
     private bool submitLoading = false;
     private string submitError = "";
+
+    private bool ShowModal { get; set; } = false;
+    private string ModalTitle { get; set; } = "";
+    private string ModalMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -195,16 +216,27 @@ else
 
         if (submitResult)
         {
-            // Resetuj formularz po pomyślnym dodaniu meczu
+            ShowModalWithMessage("Sukces", "Mecz został pomyślnie dodany.");
             await ResetForm();
-            submitError = "";
         }
         else
         {
-            submitError = "Wystąpił błąd podczas tworzenia meczu.";
+            ShowModalWithMessage("Błąd", "Wystąpił błąd podczas tworzenia meczu.");
         }
 
         submitLoading = false;
+    }
+
+    private void ShowModalWithMessage(string title, string message)
+    {
+        ModalTitle = title;
+        ModalMessage = message;
+        ShowModal = true;
+    }
+
+    private void CloseModal()
+    {
+        ShowModal = false;
     }
 
     private async Task ResetForm()
