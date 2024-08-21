@@ -90,13 +90,13 @@ else
     private async Task<List<PlayerSummaryDto>> LoadReferees()
     {
         var referees = await matchService.GetReferees();
-        return referees ?? new List<PlayerSummaryDto>();
+        return referees?.OrderBy(r => r.Name).ToList() ?? new List<PlayerSummaryDto>();
     }
 
     private async Task<List<PlayerSummaryDto>> LoadPotentialReferees()
     {
         var potentialReferees = await matchService.GetPotentialReferees();
-        return potentialReferees ?? new List<PlayerSummaryDto>();
+        return potentialReferees?.OrderBy(r => r.Name).ToList() ?? new List<PlayerSummaryDto>();
     }
 
     private void OnPotentialRefereeSelected(ChangeEventArgs e)
