@@ -1,5 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
+@inject CacheManager CacheManager
+@inject IJSRuntime JSRuntime
+
+
             <NavMenu />
             <div class="mobile-gap"></div>
             @Body
@@ -55,3 +59,25 @@
         </div>
     </div>
 </div>
+
+@code {
+    private string currentVersion = "1.0.3";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var storedVersion = await CacheManager.GetVersionAsync();
+
+        await JSRuntime.InvokeVoidAsync("console.log", $"Current version: {currentVersion}");
+        await JSRuntime.InvokeVoidAsync("console.log", $"Stored version: {storedVersion}");
+
+        if (storedVersion != currentVersion)
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "Versions do not match. Clearing cache...");
+
+            await CacheManager.ClearCacheAsync();
+            await CacheManager.SetVersionAsync(currentVersion);
+
+            await JSRuntime.InvokeVoidAsync("console.log", "Cache cleared and version updated.");
+        }
+    }
+}
