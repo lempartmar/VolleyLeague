@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using VolleyLeague.Entities.Models;
+using VolleyLeague.Repositories;
 using VolleyLeague.Repositories.Interfaces;
 using VolleyLeague.Services.Helpers;
 using VolleyLeague.Services.Interfaces;
@@ -60,14 +61,19 @@ namespace VolleyLeague.Services.Services
 
         public async Task UpdateRound(RoundDto round)
         {
-            var roundToUpdate = await _roundRepository.GetById(round.Id);
-            if (roundToUpdate == null)
+            using (var context = new VolleyballContext())
             {
-                throw new KeyNotFoundException(ServicesConsts.League_not_found);
+                var roundToUpdate = await context.Rounds.FindAsync(round.Id);
+
+                if (roundToUpdate == null)
+                {
+                    throw new KeyNotFoundException(ServicesConsts.League_not_found);
+                }
+
+                roundToUpdate.Name = round.Name;
+
+                await context.SaveChangesAsync();
             }
-            roundToUpdate.Name = round.Name;
-            await _roundRepository.UpdateAsync(roundToUpdate);
-            await _roundRepository.SaveChangesAsync();
         }
 
         public async Task<string> DeletePosition(int id)
