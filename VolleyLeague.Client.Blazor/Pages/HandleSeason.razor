@@ -31,6 +31,7 @@ else
                     <h3>Dodaj nowy sezon</h3>
                     <EditForm Model="@newSeason" OnValidSubmit="CreateSeason" class="edit-form">
                         <DataAnnotationsValidator />
+                        <ValidationSummary />
                         <div class="form-floating mb-4">
                             <InputText id="newSeasonName" class="form-control" @bind-Value="newSeason.Name" placeholder="Nazwa sezonu" />
                             <label for="newSeasonName">Nazwa sezonu</label>
@@ -89,6 +90,8 @@ else
                                         <div class="card card-body mt-2">
                                             <h4>Kolejki sezonu</h4>
                                             <EditForm Model="@newRound" OnValidSubmit="CreateRound" class="edit-form">
+                                                <DataAnnotationsValidator />
+                                                <ValidationSummary />
                                                 <div class="form-floating mb-4">
                                                     <InputText id="newRoundName" class="form-control" @bind-Value="newRound.Name" placeholder="Nazwa kolejki" />
                                                     <label for="newRoundName">Nazwa kolejki</label>
@@ -100,9 +103,9 @@ else
                                                 {
                                                     <li class="list-group-item">
                                                         <div class="d-flex justify-content-between align-items-center">
-                                                            <span>@round.Name</span>
+                                                            <span class="mr-5">@round.Name</span>
                                                             <span>
-                                                                <button class="btn btn-primary btn-sm me-2" @onclick="() => ToggleEditRound(round)">Edytuj</button>
+                                                                <button class="btn btn-primary btn-sm me-2 ms-5" @onclick="() => ToggleEditRound(round)">Edytuj</button>
                                                                 <button class="btn btn-danger btn-sm" @onclick="() => DeleteRound(round.Id)">Usuń</button>
                                                             </span>
                                                         </div>
