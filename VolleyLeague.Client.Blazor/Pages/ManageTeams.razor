@@ -97,14 +97,7 @@ else
                                                 }
                                             </td>
                                             <td>
-                                                @if (team.IsEditing)
-                                                {
-                                                    <input type="checkbox" @bind="team.Accepted" />
-                                                }
-                                                else
-                                                {
-                                                    @(team.Accepted ? "Tak" : "Nie")
-                                                }
+                                                <input type="checkbox" checked="@team.Accepted" @onchange="(e) => OnAcceptedChanged(e, team)" />
                                             </td>
                                             <td>
                                                 @if (team.IsEditing)
@@ -223,6 +216,15 @@ else
     private void CancelEdit(ExtendedTeamDto team)
     {
         team.IsEditing = false;
+    }
+
+    private async Task OnAcceptedChanged(ChangeEventArgs e, ExtendedTeamDto team)
+    {
+        // Aktualizacja wartości Accepted na podstawie wartości checkboxa
+        team.Accepted = (bool)e.Value;
+
+        // Wywołanie aktualizacji drużyny po zmianie checkboxa "Zaakceptowany"
+        await teamService.UpdateExtendedTeamByAdmin(team);
     }
 
     private async Task UpdatePointsForAllTeams()
