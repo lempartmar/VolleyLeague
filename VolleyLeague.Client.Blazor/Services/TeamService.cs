@@ -8,6 +8,7 @@ namespace VolleyLeague.Client.Blazor.Services
     {
         public Task<List<TeamSummaryDto>> GetAllTeams();
         public Task<List<TeamDto>> GetAllTeamsDto();
+        public Task<(bool Success, string Message)> UpdateNumberOfChangesForAllTeams(int numberOfChanges);
         public Task<TeamDto> GetTeam(int id);
         public Task<(bool Success, string Message)> CreateTeam(NewTeamDto team);
         Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team);
@@ -196,6 +197,21 @@ namespace VolleyLeague.Client.Blazor.Services
                 return result.Success;
             }
             return false;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateNumberOfChangesForAllTeams(int numberOfChanges)
+        {
+            var response = await _httpClient.PutAsync($"api/team/UpdateNumberOfChangesForAllTeams?numberOfChanges={numberOfChanges}", null);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, content);
+            }
+            else
+            {
+                var result = JsonSerializer.Deserialize<JsonResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return (false, result.Message);
+            }
         }
 
         public async Task<(bool Success, string Message)> UpdateReportedToPlay(ReportedToPlayDto reportedToPlay)

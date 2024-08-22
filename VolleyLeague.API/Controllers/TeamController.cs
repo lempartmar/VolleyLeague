@@ -260,6 +260,20 @@ namespace VolleyLeague.API.Controllers
             return BadRequest(result.Message);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPut("UpdateNumberOfChangesForAllTeams")]
+        public async Task<IActionResult> UpdateNumberOfChangesForAllTeams([FromQuery] int numberOfChanges)
+        {
+            var result = await _teamService.UpdateNumberOfChangesForAllTeams(numberOfChanges);
+
+            if (result)
+            {
+                return Ok(new { Success = true, Message = "Number of changes updated successfully for all teams." });
+            }
+
+            return BadRequest(new { Success = false, Message = "Failed to update number of changes for all teams." });
+        }
+
         [Authorize]
         [HttpDelete("LeaveTeamByEmail")]
         public async Task<IActionResult> LeaveTeamByEmail([FromQuery] string email)

@@ -23,14 +23,26 @@ else
                 <h2>Zarządzaj drużynami</h2>
 
                 <div class="legend margin-top-xs">
-                    <p><strong>Legenda:</strong></p>
-                    <ul>
-                        <li><strong>ZGŁ:</strong> Zgłoszony?</li>
-                        <li><strong>ZA:</strong> Zaakceptowany</li>
-                        <li><strong>NL:</strong> Nazwa ligi</li>
-                        <li><strong>KP:</strong> Korekta punktów</li>
-                    </ul>
+                    <p><strong>LEGENDA</strong></p>
+                    <p><strong>ZGŁ:</strong> Zgłoszony?</p>
+                    <p><strong>ZA:</strong> Zaakceptowany</p>
+                    <p><strong>NL:</strong> Nazwa ligi</p>
+                    <p><strong>KP:</strong> Korekta punktów</p>
                 </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="pointsCorrection" class="form-label font-size-changes"><strong>Zmień korektę punktów dla wszystkich drużyn:</strong></label>
+                                <input type="number" id="pointsCorrection" class="form-control" @bind="pointsCorrection" placeholder="Wprowadź liczbę punktów" />
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button class="btn btn-success" @onclick="UpdatePointsForAllTeams">Zatwierdź zmiany punktów</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="card">
                 <div class="">
@@ -43,7 +55,7 @@ else
                     else
                     {
                         <div class="table-responsive">
-                            <table class="table table-bordered font-size-decrease" >
+                            <table class="table table-bordered font-size-decrease">
                                 <thead class="thead-dark text-center">
                                     <tr class="head-tr">
                                         <th scope="col">Id drużyny</th>
@@ -177,6 +189,7 @@ else
     private List<ExtendedTeamDto> extendedTeams;
     private List<LeagueDto> leagues;
     private bool pageReady = false;
+    private int pointsCorrection = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -210,5 +223,19 @@ else
     private void CancelEdit(ExtendedTeamDto team)
     {
         team.IsEditing = false;
+    }
+
+    private async Task UpdatePointsForAllTeams()
+    {
+        var result = await teamService.UpdateNumberOfChangesForAllTeams(pointsCorrection);
+        if (result.Success)
+        {
+            var extendedTeamsWithLeague = await GetTeamProfile();
+            extendedTeams = extendedTeamsWithLeague.ExtendedTeamListDto;
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
+        }
     }
 }

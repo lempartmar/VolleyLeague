@@ -385,6 +385,27 @@ namespace VolleyLeague.Services.Services
             }
         }
 
+        public async Task<bool> UpdateNumberOfChangesForAllTeams(int numberOfChanges)
+        {
+            try
+            {
+                var allTeams = await _teamRepository.GetAll().ToListAsync();
+
+                foreach (var team in allTeams)
+                {
+                    team.ChangeCount = numberOfChanges; 
+                }
+
+                await _teamRepository.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team, string email)
         {
             var teamToUpdate = await _teamRepository.GetAll()
