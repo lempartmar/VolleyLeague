@@ -218,6 +218,37 @@ namespace VolleyLeague.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("IsReportedToPlay/{teamId}")]
+        public async Task<IActionResult> IsReportedToPlay(int teamId)
+        {
+            var result = await _teamService.IsReportedToPlay(teamId);
+
+            if (result)
+            {
+                return Ok(new { Success = true, IsReportedToPlay = result });
+            }
+            return NotFound(new { Success = false, Message = "Team not found or not reported to play." });
+        }
+
+        [Authorize]
+        [HttpPut("UpdateReportedToPlay")]
+        public async Task<IActionResult> UpdateReportedToPlay([FromBody] ReportedToPlayDto reportedToPlay)
+        {
+            if (reportedToPlay == null || reportedToPlay.TeamId <= 0)
+            {
+                return BadRequest(new { Success = false, Message = "Invalid data." });
+            }
+
+            var result = await _teamService.UpdateReportedToPlay(reportedToPlay);
+
+            if (result)
+            {
+                return Ok(new { Success = true, Message = "ReportedToPlay status updated successfully." });
+            }
+            return BadRequest(new { Success = false, Message = "Failed to update ReportedToPlay status." });
+        }
+
+        [Authorize]
         [HttpDelete("DeleteTeamImage/{teamId}")]
         public async Task<IActionResult> DeleteTeamImage(int teamId)
         {

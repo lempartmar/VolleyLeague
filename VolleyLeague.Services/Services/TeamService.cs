@@ -76,9 +76,10 @@ namespace VolleyLeague.Services.Services
 
             TeamDto teamDto = _mapper.Map<TeamDto>(team);
 
-            if (team.TeamImage != null) { 
+            if (team.TeamImage != null)
+            {
                 teamDto.Photo = team.TeamImage.Image;
-        }
+            }
             return teamDto;
         }
 
@@ -175,7 +176,7 @@ namespace VolleyLeague.Services.Services
                         JoinDate = DateTime.UtcNow
                     });
 
-                 //   await SendEmailAddedToTeam(player, team.TeamDescription);
+                    //   await SendEmailAddedToTeam(player, team.TeamDescription);
                 }
             }
 
@@ -341,12 +342,42 @@ namespace VolleyLeague.Services.Services
             {
                 var teamToUpdate = await _teamRepository.GetAll()
                     .FirstOrDefaultAsync(t => t.Id == extendedTeamDto.Id);
-                if (teamToUpdate == null) return false;  
+                if (teamToUpdate == null) return false;
 
                 _mapper.Map(extendedTeamDto, teamToUpdate);
 
-                _teamRepository.Update(teamToUpdate); 
+                _teamRepository.Update(teamToUpdate);
                 return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> IsReportedToPlay(int teamId)
+        {
+            var team = await _teamRepository.GetAll().Where(x => x.Id == teamId).FirstOrDefaultAsync();
+
+            if (team == null) return false;
+
+            return (bool)team.IsReportedToPlay;
+        }
+
+        public async Task<bool> UpdateReportedToPlay(ReportedToPlayDto reportedToPlay)
+        {
+            var team = await _teamRepository.GetAll().Where(x => x.Id == reportedToPlay.TeamId).FirstOrDefaultAsync();
+
+            if (team == null) return false;
+
+            try
+            {
+
+                team.IsReportedToPlay = reportedToPlay.IsReportedToPlay;
+
+                await _teamImageRepository.SaveChangesAsync();
+                return true;
+
             }
             catch (Exception ex)
             {
@@ -404,7 +435,7 @@ namespace VolleyLeague.Services.Services
             {
                 var newTeamPlayer = new TeamPlayer();
                 var existingPlayer = await _userRepository.GetAll()
-                    .Include(u => u.TeamPlayers)  
+                    .Include(u => u.TeamPlayers)
                     .FirstOrDefaultAsync(u => u.AdditionalEmail == player.Email);
 
                 if (existingPlayer != null && existingPlayer.TeamPlayers.Any())
@@ -412,23 +443,23 @@ namespace VolleyLeague.Services.Services
                     return (false, $"Zawodnik z adresem email {player.Email} posiada już drużynę.");
                 }
 
-                    newTeamPlayer = new TeamPlayer
+                newTeamPlayer = new TeamPlayer
+                {
+                    Player = new User
                     {
-                        Player = new User
-                        {
-                            FirstName = player.FirstName,
-                            LastName = player.LastName,
-                            Height = (byte?)player.Height,
-                            JerseyNumber = (byte?)player.JerseyNumber,
-                            PositionId = player.PositionId,
-                            Credentials = null,
-                            AdditionalEmail = player.Email
-                        },
-                        JoinDate = DateTime.Now
-                    };
+                        FirstName = player.FirstName,
+                        LastName = player.LastName,
+                        Height = (byte?)player.Height,
+                        JerseyNumber = (byte?)player.JerseyNumber,
+                        PositionId = player.PositionId,
+                        Credentials = null,
+                        AdditionalEmail = player.Email
+                    },
+                    JoinDate = DateTime.Now
+                };
 
-               //     await SendEmailAddedToTeam(player, player.FirstName);
-                
+                //     await SendEmailAddedToTeam(player, player.FirstName);
+
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
 
@@ -543,8 +574,8 @@ namespace VolleyLeague.Services.Services
                 .Include(t => t.League)
                 .Include(u => u.Captain)
                 .Include(t => t.TeamPlayers)
-                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == identity 
-                                    || t.Captain.Credentials.LoweredUserName == identity 
+                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == identity
+                                    || t.Captain.Credentials.LoweredUserName == identity
                                     || t.Captain.Credentials.UserName == identity);
 
             if (team == null)

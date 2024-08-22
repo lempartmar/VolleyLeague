@@ -22,6 +22,10 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team, string email);
 
+        Task<bool> IsReportedToPlay(int teamId);
+
+        Task<bool> UpdateReportedToPlay(ReportedToPlayDto reportedToPlay);
+
         Task<bool> UpdateTeamPlayer(PlayerSummaryDto userSummary);
 
         Task<ManagedTeamDataDto> GetTeamByCaptain(string email);
