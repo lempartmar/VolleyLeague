@@ -37,7 +37,7 @@ else
                                 <input type="number" id="pointsCorrection" class="form-control" @bind="pointsCorrection" placeholder="Wprowadź liczbę punktów" />
                             </div>
                             <div class="col-md-6 d-flex align-items-end">
-                                <button class="btn btn-success" @onclick="UpdatePointsForAllTeams">Zatwierdź zmiany punktów</button>
+                                <button class="btn btn-success" @onclick="ShowConfirmationModalForPoints">Zatwierdź zmiany punktów</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@ else
                         <div class="row">
                             <div class="row mt-3">
                                 <div class="col-md-12">
-                                    <button class="btn btn-danger" @onclick="SetAllAcceptedToFalse">Ustaw wszystkie 'Zgłoszony' na False</button>
+                                    <button class="btn btn-danger" @onclick="ShowConfirmationModalForReportedToFalse">Ustaw wszystkie 'Zgłoszony' na False</button>
                                 </div>
                             </div>
                         </div>
@@ -188,11 +188,47 @@ else
     </div>
 }
 
+<div class="modal" tabindex="-1" role="dialog" style="@(showPointsConfirmationModal ? "display:block" : "display:none")">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potwierdzenie zmiany korekty punktów</h5>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz zmienić korektę punktów dla wszystkich drużyn?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel-btn" @onclick="HidePointsConfirmationModal">Anuluj</button>
+                <button class="btn btn-success confirm-btn" @onclick="ConfirmUpdatePointsForAllTeams">Zatwierdź</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" style="@(showReportedToFalseConfirmationModal ? "display:block" : "display:none")">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potwierdzenie ustawienia 'Zgłoszony' na False</h5>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz ustawić wszystkie 'Zgłoszony' na False?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel-btn" @onclick="HideReportedToFalseConfirmationModal">Anuluj</button>
+                <button class="btn btn-danger confirm-btn" @onclick="ConfirmSetAllReportedToFalse">Zatwierdź</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     private List<ExtendedTeamDto> extendedTeams;
     private List<LeagueDto> leagues;
     private bool pageReady = false;
     private int pointsCorrection = 0;
+    private bool showPointsConfirmationModal = false;
+    private bool showReportedToFalseConfirmationModal = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -235,8 +271,20 @@ else
         await teamService.UpdateExtendedTeamByAdmin(team);
     }
 
-    private async Task UpdatePointsForAllTeams()
+    private void ShowConfirmationModalForPoints()
     {
+        showPointsConfirmationModal = true;
+    }
+
+    private void HidePointsConfirmationModal()
+    {
+        showPointsConfirmationModal = false;
+    }
+
+    private async Task ConfirmUpdatePointsForAllTeams()
+    {
+        HidePointsConfirmationModal();
+
         var result = await teamService.UpdateNumberOfChangesForAllTeams(pointsCorrection);
         if (result.Success)
         {
@@ -249,8 +297,20 @@ else
         }
     }
 
-    private async Task SetAllAcceptedToFalse()
+    private void ShowConfirmationModalForReportedToFalse()
     {
+        showReportedToFalseConfirmationModal = true;
+    }
+
+    private void HideReportedToFalseConfirmationModal()
+    {
+        showReportedToFalseConfirmationModal = false;
+    }
+
+    private async Task ConfirmSetAllReportedToFalse()
+    {
+        HideReportedToFalseConfirmationModal();
+
         var result = await teamService.SetAllReportedToPlayToFalse(false);
         if (result.Success)
         {
