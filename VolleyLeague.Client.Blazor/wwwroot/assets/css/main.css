@@ -28267,3 +28267,7 @@ img.img-half {
 .font-size-changes {
     font-size: 15px !important;
 }
+
+.email-column {
+    font-size: 0.9em !important;
+}

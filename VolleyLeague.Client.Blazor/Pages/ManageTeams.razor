@@ -71,9 +71,9 @@ else
                                         <th scope="col">Id drużyny</th>
                                         <th scope="col">Nazwa</th>
                                         <th scope="col">ZGŁ</th>
-                                        <th scope="col">ZA</th>
+                                        <th scope="col" class="ms-3 me-3">ZA</th>
                                         <th scope="col">NL</th>
-                                        <th scope="col">Email</th>
+                                        <th scope="col" class="email-column">Email</th>
                                         <th scope="col">Telefon</th>
                                         <th scope="col">Liczba zmian</th>
                                         <th scope="col">KP</th>
@@ -106,7 +106,7 @@ else
                                                     @(team.IsReportedToPlay ? "Tak" : "Nie")
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="ps-3 pe-3">
                                                 <input type="checkbox" checked="@team.Accepted" @onchange="(e) => OnAcceptedChanged(e, team)" />
                                             </td>
                                             <td>
@@ -124,7 +124,7 @@ else
                                                     @team.LeagueName
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="email-column">
                                                 @if (team.IsEditing)
                                                 {
                                                     <input class="form-control" @bind="team.Email" />
