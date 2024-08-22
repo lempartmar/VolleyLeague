@@ -42,7 +42,17 @@ else
                         </div>
                     </div>
                 </div>
-
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <button class="btn btn-danger" @onclick="SetAllAcceptedToFalse">Ustaw wszystkie 'Zgłoszony' na False</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card">
                 <div class="">
@@ -220,16 +230,28 @@ else
 
     private async Task OnAcceptedChanged(ChangeEventArgs e, ExtendedTeamDto team)
     {
-        // Aktualizacja wartości Accepted na podstawie wartości checkboxa
         team.Accepted = (bool)e.Value;
 
-        // Wywołanie aktualizacji drużyny po zmianie checkboxa "Zaakceptowany"
         await teamService.UpdateExtendedTeamByAdmin(team);
     }
 
     private async Task UpdatePointsForAllTeams()
     {
         var result = await teamService.UpdateNumberOfChangesForAllTeams(pointsCorrection);
+        if (result.Success)
+        {
+            var extendedTeamsWithLeague = await GetTeamProfile();
+            extendedTeams = extendedTeamsWithLeague.ExtendedTeamListDto;
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
+        }
+    }
+
+    private async Task SetAllAcceptedToFalse()
+    {
+        var result = await teamService.SetAllReportedToPlayToFalse(false);
         if (result.Success)
         {
             var extendedTeamsWithLeague = await GetTeamProfile();

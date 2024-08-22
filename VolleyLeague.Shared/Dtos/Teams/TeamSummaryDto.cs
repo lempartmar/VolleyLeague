@@ -9,6 +9,8 @@ namespace VolleyLeague.Shared.Dtos.Teams
 
         public int LeagueId { get; set; }
 
+        public bool Accepted { get; set; }
+
         public byte[]? Logo { get; set; }
 
         public static explicit operator TeamSummaryDto(Team team)

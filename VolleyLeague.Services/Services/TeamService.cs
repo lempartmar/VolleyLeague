@@ -385,6 +385,34 @@ namespace VolleyLeague.Services.Services
             }
         }
 
+        public async Task<bool> SetAllReportedToPlayToFalse(bool isAccepted)
+        {
+            try
+            {
+                var allTeams = await _teamRepository.GetAll().ToListAsync();
+
+                if (!isAccepted)
+                {
+                    foreach (var team in allTeams)
+                    {
+                        team.IsReportedToPlay = isAccepted;
+                    }
+
+                    await _teamRepository.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> UpdateNumberOfChangesForAllTeams(int numberOfChanges)
         {
             try

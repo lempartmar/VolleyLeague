@@ -196,9 +196,9 @@ namespace VolleyLeague.API.Controllers
 
             if (result)
             {
-                return Ok(new { Success = true, Message = "Captain updated successfully." });
+                return Ok(new { Success = true, Message = "Kapitan został pomyślnie zaktualizowany." });
             }
-            return BadRequest(new { Success = false, Message = "Failed to update captain." });
+            return BadRequest(new { Success = false, Message = "\r\nNie udało się zaktualizować kapitana." });
         }
 
 
@@ -227,7 +227,7 @@ namespace VolleyLeague.API.Controllers
             {
                 return Ok(new { Success = true, IsReportedToPlay = result });
             }
-            return NotFound(new { Success = false, Message = "Team not found or not reported to play." });
+            return NotFound(new { Success = false, Message = "Nie znaleziono drużyny lub nie zgłoszono jej do gry." });
         }
 
         [Authorize]
@@ -243,9 +243,9 @@ namespace VolleyLeague.API.Controllers
 
             if (result)
             {
-                return Ok(new { Success = true, Message = "ReportedToPlay status updated successfully." });
+                return Ok(new { Success = true, Message = "Status ReportedToPlay został pomyślnie zaktualizowany." });
             }
-            return BadRequest(new { Success = false, Message = "Failed to update ReportedToPlay status." });
+            return BadRequest(new { Success = false, Message = "Nie udało się zaktualizować statusu ReportedToPlay." });
         }
 
         [Authorize]
@@ -268,10 +268,24 @@ namespace VolleyLeague.API.Controllers
 
             if (result)
             {
-                return Ok(new { Success = true, Message = "Number of changes updated successfully for all teams." });
+                return Ok(new { Success = true, Message = "Liczba zmian pomyślnie zaktualizowanych dla wszystkich zespołów." });
             }
 
-            return BadRequest(new { Success = false, Message = "Failed to update number of changes for all teams." });
+            return BadRequest(new { Success = false, Message = "Nie udało się zaktualizować liczby zmian dla wszystkich zespołów." });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("SetAllReportedToPlayToFalse")]
+        public async Task<IActionResult> SetAllReportedToPlayToFalse([FromQuery] bool isAccepted)
+        {
+            var result = await _teamService.SetAllReportedToPlayToFalse(isAccepted);
+
+            if (result)
+            {
+                return Ok(new { Success = true, Message = "Status Zaakceptowany wszystkich zespołów został pomyślnie ustawiony na wartość Fałsz." });
+            }
+
+            return BadRequest(new { Success = false, Message = "Nie udało się ustawić statusu Zaakceptowano wszystkich zespołów na wartość Fałsz." });
         }
 
         [Authorize]
@@ -280,7 +294,7 @@ namespace VolleyLeague.API.Controllers
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                return BadRequest(new { Success = false, Message = "Email is required." });
+                return BadRequest(new { Success = false, Message = "Email jest wymagany." });
             }
 
             var result = await _teamService.LeaveTeamByEmail(email);

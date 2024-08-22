@@ -12,6 +12,8 @@
 
         public int LeagueId { get; set; }
 
+        public bool Accepted { get; set; }
+
         public LeagueDto? League { get; set; }
 
         public UserProfileDto Captain { get; set; } = null!;

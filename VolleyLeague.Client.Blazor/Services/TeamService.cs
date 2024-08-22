@@ -16,6 +16,7 @@ namespace VolleyLeague.Client.Blazor.Services
         Task<bool> IsReportedToPlay(int teamId);
         public Task<bool> DeleteTeam(int id);
         public Task<List<TeamDto>> GetTeamsByLeague(int leagueId);
+        public Task<(bool Success, string Message)> SetAllReportedToPlayToFalse(bool isAccepted);
         public Task<ManagedTeamDataDto> GetManagedTeam();
         public Task<List<LeagueDto>> GetLeagues();
         public Task<bool> UpdateCaptain(int newCaptainEmail);
@@ -133,6 +134,21 @@ namespace VolleyLeague.Client.Blazor.Services
         {
             var response = await _httpClient.PutAsJsonAsync("api/team/updateextendedteam", team);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<(bool Success, string Message)> SetAllReportedToPlayToFalse(bool isAccepted)
+        {
+            var response = await _httpClient.PutAsync($"api/team/SetAllReportedToPlayToFalse?isAccepted={isAccepted}", null);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, content);
+            }
+            else
+            {
+                var result = JsonSerializer.Deserialize<JsonResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return (false, result.Message);
+            }
         }
 
         public async Task<bool> DeleteTeam(int id)

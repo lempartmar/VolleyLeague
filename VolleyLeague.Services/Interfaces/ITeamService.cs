@@ -20,6 +20,8 @@ namespace VolleyLeague.Services.Interfaces
 
         Task<(bool Success, string Message)> UploadTeamImage(int teamId, IFormFile file);
 
+        Task<bool> SetAllReportedToPlayToFalse(bool isAccepted);
+
         Task<List<TeamDto>> GetAllTeams();
 
         Task<(bool Success, string Message)> UpdateTeam(ManageTeamDto team, string email);

@@ -36,6 +36,7 @@ namespace VolleyLeague.Services.Mapping
              .ForMember(dest => dest.League, opt => opt.MapFrom(src => src.League))
              .ForMember(dest => dest.Captain, opt => opt.MapFrom(src => src.Captain))
              .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.TeamPlayers.Select(tp => tp.Player)))
+             .ForMember(dest => dest.Accepted, opt => opt.MapFrom(src => src.Accepted))
              .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Image));
 
             CreateMap<User, TeamPlayerDto>()
@@ -100,6 +101,7 @@ namespace VolleyLeague.Services.Mapping
             CreateMap<Team, TeamSummaryDto>()
              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+             .ForMember(dest => dest.Accepted, opt => opt.MapFrom(src => src.Accepted))
              .ForMember(dest => dest.LeagueId, opt => opt.MapFrom(src => src.LeagueId))
              .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo));
 

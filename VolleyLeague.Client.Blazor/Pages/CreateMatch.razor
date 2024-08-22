@@ -273,13 +273,17 @@ else
     {
         var teamsInRound = await matchOrganizerService.GetTeamsInRound(NewMatch.RoundId);
         var teamsInRoundSet = new HashSet<int>(teamsInRound);
+
         NewMatch.HomeTeamList = AllTeams
-            .Where(t => t.LeagueId == NewMatch.LeagueId && !teamsInRoundSet.Contains(t.Id))
+            .Where(t => t.LeagueId == NewMatch.LeagueId && t.Accepted && !teamsInRoundSet.Contains(t.Id))
             .ToList();
+
         NewMatch.HomeTeamId = NewMatch.HomeTeamList.FirstOrDefault()?.Id ?? 0;
+
         NewMatch.GuestTeamList = NewMatch.HomeTeamList
-            .Where(t => t.Id != NewMatch.HomeTeamId)
+            .Where(t => t.Id != NewMatch.HomeTeamId && t.Accepted)
             .ToList();
+
         NewMatch.GuestTeamId = NewMatch.GuestTeamList.FirstOrDefault()?.Id ?? 0;
     }
 
