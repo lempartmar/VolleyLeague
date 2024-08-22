@@ -28255,3 +28255,7 @@ img.img-half {
     margin: 50px auto;
     animation: spin 1s linear infinite;
 }
+
+.form-width {
+    width: 400px !important;
+}

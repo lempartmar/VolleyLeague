@@ -175,7 +175,7 @@ namespace VolleyLeague.Services.Services
                         JoinDate = DateTime.UtcNow
                     });
 
-                    await SendEmailAddedToTeam(player, team.TeamDescription);
+                 //   await SendEmailAddedToTeam(player, team.TeamDescription);
                 }
             }
 
@@ -221,10 +221,10 @@ namespace VolleyLeague.Services.Services
                 throw;
             }
 
-            foreach (var newUser in newUsersToSendInvitation)
-            {
-                await SendEmailAddedToTeam(newUser, newTeam.Name);
-            }
+            //foreach (var newUser in newUsersToSendInvitation)
+            //{
+            //    await SendEmailAddedToTeam(newUser, newTeam.Name);
+            //}
 
             return (true, "Drużyna została pomyślnie dodana.");
         }
@@ -427,7 +427,7 @@ namespace VolleyLeague.Services.Services
                         JoinDate = DateTime.Now
                     };
 
-                    await SendEmailAddedToTeam(player, player.FirstName);
+               //     await SendEmailAddedToTeam(player, player.FirstName);
                 
                 teamToUpdate.TeamPlayers.Add(newTeamPlayer);
             }
@@ -461,10 +461,10 @@ namespace VolleyLeague.Services.Services
 
                     if (newTeamPlayer != null)
                     {
-                        if (player.Email != null)
-                        {
-                            await SendEmailAddedToTeam(player, team.TeamDescription);
-                        }
+                        //if (player.Email != null)
+                        //{
+                        //    await SendEmailAddedToTeam(player, team.TeamDescription);
+                        //}
 
                         await _logService.AddLog(player.FirstName + " " + player.LastName + " dołączył do drużyny " + team.TeamDescription, "user-profile/" + newTeamPlayer.Id, false, /*newTeamPlayer.Team.GetAllPlayers()*/null);
                     }
