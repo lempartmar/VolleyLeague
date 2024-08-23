@@ -23,6 +23,17 @@
     display: none !important;
 }
 
+.img-top-relative {
+    position: relative;
+    top: -50px;
+    left: -40px;
+}
+
+.menu-top-relative {
+    position: relative !important;
+    top: -30px !important;
+}
+
 .banner-content .pretitle,
 .banner-content .banner-heading,
 .banner-content .desc {
