@@ -75,6 +75,27 @@ a.display-menu {
         color: #FFFFFF !important;
     }
 
+    .article-details{
+        margin-top:30px !important;
+    }
+
+    .rts-gallery-section .filtered-items .gallery-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .left-side{
+        display: flex !important;
+    }
+
+    .right-side {
+        display: flex !important;
+    }
+
+    .logo-area.logo-max-width img {
+        display:none !important;
+    }
 
     .banner-content .banner-heading,
     .banner-content .desc {
@@ -120,6 +141,10 @@ a.display-menu {
 
     .display_mobile{
         display: inline !important;
+    }
+
+    .display_mobile_none {
+        display: none !important;
     }
 
     .logo img {

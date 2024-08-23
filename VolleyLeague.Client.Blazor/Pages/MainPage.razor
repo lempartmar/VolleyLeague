@@ -13,6 +13,7 @@
 @inject IMatchService matchService
 @inject ILogService logService
 @inject ILocalStorageService _localStorageService
+@inject NavigationManager Navigation
 @inject AuthenticationStateProvider _authStateProvider
 @inject IJSRuntime JS
 @inject IAdminDefinedCodeService adminDefinedCodeService
@@ -58,9 +59,9 @@ else
                                 <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
                                 <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
                                 <div class="form">
-                                    <button  class="btn btn-background" style="margin-top: 20px">
-                                        Dołącz do nas <i class=""></i>
-                                    </button>
+                                        <button @onclick="NavigateToRegister" class="btn btn-background" style="margin-top: 20px">
+                                            Dołącz do nas <i class=""></i>
+                                        </button>
                                 </div>
                             </div>
                         </div>
@@ -533,6 +534,11 @@ else
         currentStandings = StandingsListShortBLS;
         blsClass = "active-tab top";
         blskClass = "top";
+    }
+
+    private void NavigateToRegister()
+    {
+        Navigation.NavigateTo("/register");
     }
 
     private void ShowStandingsBLSK()

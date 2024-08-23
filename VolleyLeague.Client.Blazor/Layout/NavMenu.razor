@@ -25,165 +25,167 @@
 {
     <Preloader />
 
-}else {
-<header id="rtsHeader" class="rts-header1 header-four cricket">
-    <div class="navbar-sticky"></div>
-    <div class="navbar-part navbar-part1">
-        <div class="container main">
-            <div class="top-bar">
-                <div class="top-bar-inner">
-                    <div class="top-bar-left">
-                        <a href="#" class="get-ticket-btn">MEDIA SPOŁECZNOŚCIOWE</a>
-                        <ul class="social-wrapper">
-                            <li><a href="https://www.youtube.com/@@BialoleckaLigaSiatkowki/videos"><i class="fab fa-youtube"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="top-bar-mid">
-                        <span class="tag">AKTUALNY SEZON</span>
-                        <div class="live-match">@currentSeason</div>
-                    </div>
-                    <AuthorizeView>
-                        <NotAuthorized>
-                            <div class="top-bar-right">
-                                    <NavLink href="/login" class="main-page-button">ZALOGUJ</NavLink>
-                                    <NavLink href="/register" class="main-page-button">REJESTRACJA</NavLink>
-                            </div>
-                        </NotAuthorized>
-                    </AuthorizeView>
-                    <AuthorizeView>
-                        <Authorized>
-                            <div class="top-bar-right">
-                                <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
-                                <a class="sign-up-btn">|</a>
-                                <button @onclick="Logout" class="main-page-button">WYLOGUJ</button>
-                            </div>
-
-                        </Authorized>
-                    </AuthorizeView>
-                </div>
-            </div>
-            <div class="navbar-inner">
-                <a href="/" class="logo"><img src="/assets/images/logo-new.png" alt="sportius-logo"></a>
-                <a href="/" class="logo-sticky">
-                    <img src="/assets/images/logo-new.png" alt="liga-siatkowki-logo">
-                </a>
-                <div class="rts-menu">
-                    <nav class="menus menu-toggle">
-                        <ul class="nav__menu">
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item active1" href="/">Home</NavLink>
-                            </li>
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item" href="#">Wyniki</NavLink>
-                                <ul class="dropdown-ul">
-                                    <li class="dropdown-li">
-                                        <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
-                                    </li>
-                                    <li class="dropdown-li">
-                                        <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
-                            </li>
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
-                            </li>
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/policy">Liga</NavLink>
-                            </li>
-                            <li class="has-dropdown">
-                                <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <div class="header-action-items header-action-items1">
-                    <div class="search-part">
-                        <div class="search-icon action-item icon"><i class="rt-search"></i></div>
-                        <div class="search-input-area">
-                            <div class="container">
-                                <div class="search-input-inner">
-                                    <div class="input-div">
-                                        <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                        <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Wyszukaj artykuł wg hasła" @onkeydown="HandleKeyDown">
-                                    </div>
-                                    <div class="search-close-icon"><i class="rt-xmark"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <NavLink id="hiddenNavLink" href="@GetSearchUrl()" class="d-none"></NavLink>
-                <a class="hamburger-menu aitem d-block display-menu" @onclick="ToggleMenu">
-                    <div class="hamburger-menu-inner">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="banner banner1 display_none_mobile volleyball @(IsHomePage ? "" : "display_none")">
-        <div class="swiper bannerSlide2">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="banner-single banner-single-1 banner-bg">
-                        <div class="container">
-                            <div class="banner-content">
-                                <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
-                                <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce. Dołącz do nas!</p>
-                                <div class="form">
-                                        <button @onclick="NavigateToRegister" class="btn btn-background" style="margin-top: 20px">
-                                        Dołącz do nas <i class=""></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="banner-single banner-single-1_2 banner-bg">
-                        <div class="container">
-                            <div class="banner-content">
-                                <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
-                                <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
-                                <div class="form">
-                                    <button @onclick="NavigateToRegister" class="btn btn-background" style="margin-top: 20px">
-                                        Dołącz do nas <i class=""></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="banner display_none_mobile banner1 @(IsHomePage ? "display_none" : "")">
-        <div class="banner banner1">
-            <div class="inner-page-banner banner-bg">
-                <div class="container">
-                    <div class="banner-content">
-                        <div class="page-path">
-                            <ul>
-                                <li><a class="home-page-link" href="/">Strona Główna</a></li>
+}
+else
+{
+    <header id="rtsHeader" class="rts-header1 header-four cricket">
+        <div class="navbar-sticky"></div>
+        <div class="navbar-part navbar-part1">
+            <div class="container main">
+                <div class="top-bar">
+                    <div class="top-bar-inner">
+                        <div class="top-bar-left">
+                            <a href="#" class="get-ticket-btn">MEDIA SPOŁECZNOŚCIOWE</a>
+                            <ul class="social-wrapper">
+                                <li><a href="https://www.youtube.com/@@BialoleckaLigaSiatkowki/videos"><i class="fab fa-youtube"></i></a></li>
                             </ul>
                         </div>
-                        <h1 class="banner-heading-top">@GetPageTitle()</h1>
+                        <div class="top-bar-mid">
+                            <span class="tag">AKTUALNY SEZON</span>
+                            <div class="live-match">@currentSeason</div>
+                        </div>
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <div class="top-bar-right">
+                                    <NavLink href="/login" class="main-page-button">ZALOGUJ</NavLink>
+                                    <NavLink href="/register" class="main-page-button">REJESTRACJA</NavLink>
+                                </div>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView>
+                            <Authorized>
+                                <div class="top-bar-right">
+                                    <NavLink class="menu-item text-label" href="/account">PANEL ADMINISTRACYJNY</NavLink>
+                                    <a class="sign-up-btn">|</a>
+                                    <button @onclick="Logout" class="main-page-button">WYLOGUJ</button>
+                                </div>
+
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                </div>
+                <div class="navbar-inner">
+                    <a href="/" class="logo"><img src="/assets/images/logo-new.png" alt="sportius-logo"></a>
+                    <a href="/" class="logo-sticky">
+                        <img src="/assets/images/logo-new.png" alt="liga-siatkowki-logo">
+                    </a>
+                    <div class="rts-menu">
+                        <nav class="menus menu-toggle">
+                            <ul class="nav__menu">
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item active1" href="/">Home</NavLink>
+                                </li>
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item" href="#">Wyniki</NavLink>
+                                    <ul class="dropdown-ul">
+                                        <li class="dropdown-li">
+                                            <NavLink class="dropdown-link" href="/standings">Tabele</NavLink>
+                                        </li>
+                                        <li class="dropdown-li">
+                                            <NavLink class="dropdown-link" href="/mvp">MVP</NavLink>
+                                        </li>
+                                        <li class="dropdown-li">
+                                            <NavLink class="dropdown-link" href="/typedResults">Typermania</NavLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item" href="/schedule">Terminarz</NavLink>
+                                </li>
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item" href="/teams-list">Zespoły</NavLink>
+                                </li>
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item" href="/policy">Liga</NavLink>
+                                </li>
+                                <li class="has-dropdown">
+                                    <NavLink class="menu-item" href="/contact">Kontakt</NavLink>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="header-action-items header-action-items1">
+                        <div class="search-part">
+                            <div class="search-icon action-item icon"><i class="rt-search"></i></div>
+                            <div class="search-input-area">
+                                <div class="container">
+                                    <div class="search-input-inner">
+                                        <div class="input-div">
+                                            <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
+                                            <input @bind="searchTerm" id="searchInput1" class="search-input" type="text" placeholder="Wyszukaj artykuł wg hasła" @onkeydown="HandleKeyDown">
+                                        </div>
+                                        <div class="search-close-icon"><i class="rt-xmark"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <NavLink id="hiddenNavLink" href="@GetSearchUrl()" class="d-none"></NavLink>
+                    <a class="hamburger-menu aitem d-block display-menu" @onclick="ToggleMenu">
+                        <div class="hamburger-menu-inner">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="banner banner1 display_none_mobile volleyball @(IsHomePage ? "" : "display_none")">
+            <div class="swiper bannerSlide2">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="banner-single banner-single-1 banner-bg">
+                            <div class="container">
+                                <div class="banner-content">
+                                    <h1 class="banner-heading">LIGASIATKOWKI.pl</h1>
+                                    <p class="desc">Największe amatorskie rozgrywki siatkarskie w Polsce. Dołącz do nas!</p>
+                                    <div class="form">
+                                        <button @onclick="NavigateToRegister" class="btn btn-background" style="margin-top: 20px">
+                                            Dołącz do nas <i class=""></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="banner-single banner-single-1_2 banner-bg">
+                            <div class="container">
+                                <div class="banner-content">
+                                    <h1 class="banner-heading">LIGASIATKOWKI.PL</h1>
+                                    <p class="desc">Gramy od 2012 roku! Dołącz do Nas!</p>
+                                    <div class="form">
+                                        <button @onclick="NavigateToRegister" class="btn btn-background" style="margin-top: 20px">
+                                            Dołącz do nas <i class=""></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="banner display_none_mobile banner1 @(IsHomePage ? "display_none" : "")">
+            <div class="banner banner1">
+                <div class="inner-page-banner banner-bg">
+                    <div class="container">
+                        <div class="banner-content">
+                            <div class="page-path">
+                                <ul>
+                                    <li><a class="home-page-link" href="/">Strona Główna</a></li>
+                                </ul>
+                            </div>
+                            <h1 class="banner-heading-top">@GetPageTitle()</h1>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
 
     <aside class="slide-bar @(menuClass)">
@@ -220,17 +222,31 @@
                 <li class="has-dropdown firstlvl">
                     <NavLink class="mm-link" href="/contact" @onclick="CloseMobileMenu">Kontakt</NavLink>
                 </li>
-                <li class="has-dropdown firstlvl" style="text-align: center; border-top: 1px solid white;">
-                    <NavLink class="mm-link" href="/login" @onclick="CloseMobileMenu" style="display: block; text-align: center;">LOGOWANIE</NavLink>
-                </li>
-                <li class="has-dropdown firstlvl" style="text-align: center;">
-                    <NavLink class="mm-link" href="/register" @onclick="CloseMobileMenu" style="display: block; text-align: center;">REJESTRACJA</NavLink>
-                </li>
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <li class="has-dropdown firstlvl" style="text-align: center; border-top: 1px solid white;">
+                            <NavLink class="mm-link" href="/login" @onclick="CloseMobileMenu" style="display: block; text-align: center;">LOGOWANIE</NavLink>
+                        </li>
+                        <li class="has-dropdown firstlvl" style="text-align: center;">
+                            <NavLink class="mm-link" href="/register" @onclick="CloseMobileMenu" style="display: block; text-align: center;">REJESTRACJA</NavLink>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+                <AuthorizeView>
+                    <Authorized>
+
+                        <li class="has-dropdown firstlvl" style="text-align: center; border-top: 1px solid white;">
+                            <NavLink class="mm-link" href="/account" @onclick="CloseMobileMenu" style="display: block; text-align: center;">PANEL ADMINISTRACYJNY</NavLink>
+                        </li>
+                        <li class="has-dropdown firstlvl" style="text-align: center;">
+                            <NavLink class="mm-link" href="/Logout" @onclick="CloseMobileMenu" style="display: block; text-align: center;">WYLOGUJ</NavLink>
+                        </li>
+
+                    </Authorized>
+                </AuthorizeView>
             </ul>
         </nav>
     </aside>
-
-
 }
 
 <script>
