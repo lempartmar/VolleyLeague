@@ -20,7 +20,7 @@
 }
 
 .display_none {
-    display: none;
+    display: none !important;
 }
 
 .banner-content .pretitle,
