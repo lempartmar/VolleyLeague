@@ -61,23 +61,23 @@
 </div>
 
 @code {
-    private string currentVersion = "1.0.4";
+    private string currentVersion = "1.0.1";
+
+    // 1.0.1 - initial application deploy 
 
     protected override async Task OnInitializedAsync()
     {
         var storedVersion = await CacheManager.GetVersionAsync();
 
-        await JSRuntime.InvokeVoidAsync("console.log", $"Current version: {currentVersion}");
-        await JSRuntime.InvokeVoidAsync("console.log", $"Stored version: {storedVersion}");
+        await JSRuntime.InvokeVoidAsync("console.log", $"Obecna wersja: {currentVersion}");
+        await JSRuntime.InvokeVoidAsync("console.log", $"Zapisana: {storedVersion}");
 
         if (storedVersion != currentVersion)
         {
-            await JSRuntime.InvokeVoidAsync("console.log", "Versions do not match. Clearing cache...");
-
             await CacheManager.ClearCacheAsync();
             await CacheManager.SetVersionAsync(currentVersion);
 
-            await JSRuntime.InvokeVoidAsync("console.log", "Cache cleared and version updated.");
+            await JSRuntime.InvokeVoidAsync("console.log", "Cache wyczyszczony i wersja zaktualizowana.");
         }
     }
 }
