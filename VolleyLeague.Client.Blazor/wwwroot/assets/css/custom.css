@@ -50,6 +50,11 @@ a.display-menu {
         display: block;
     }
 
+    #spinner {
+        margin-top: 300px !important;
+        margin-bottom: 200px !important;
+    }
+
     .navbar-inner {
         position: fixed;
         top: 0;
