@@ -12,7 +12,10 @@
         display: block;
     }
 
-.hamburger-menu {
+.display-mobile-header {
+    display:none !important;
+}
+    .hamburger-menu {
     display: none;
     cursor: pointer;
 }
@@ -60,7 +63,10 @@ a.display-menu {
         background: rgb(26 25 25);
     }
 
-    .rts-trending-news-section.volleyball {
+    #rtsHeader.rts-header1.header-four.cricket .navbar-part .navbar-inner {
+        background: rgb(17 17 17 / 0.9) !important;
+    }
+        .rts-trending-news-section.volleyball {
         position: relative !important;
         top: -50px !important;
     }
@@ -141,6 +147,12 @@ a.display-menu {
 
     .display_mobile{
         display: inline !important;
+    }
+
+    .display-mobile-header {
+        display: block !important;
+        text-align: center !important;
+        margin-bottom:40px !important;
     }
 
     .display_mobile_none {
