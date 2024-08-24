@@ -469,6 +469,8 @@ namespace VolleyLeague.Services.Services
                 var playerToUpdate = teamToUpdate.TeamPlayers.FirstOrDefault(p => p.Id == player.Id);
                 if (playerToUpdate != null)
                 {
+                    playerToUpdate.Player.FirstName = player.FirstName;
+                    playerToUpdate.Player.LastName = player.LastName;
                     playerToUpdate.Player.JerseyNumber = (byte?)player.JerseyNumber;
                     playerToUpdate.Player.Height = (byte?)player.Height;
                     playerToUpdate.Player.PositionId = player.PositionId;
