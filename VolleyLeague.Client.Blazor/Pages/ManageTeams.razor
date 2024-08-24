@@ -38,11 +38,11 @@ else
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="pointsCorrection" class="form-label font-size-changes"><strong>Zmień korektę punktów dla wszystkich drużyn:</strong></label>
-                                <input type="number" id="pointsCorrection" class="form-control" @bind="pointsCorrection" placeholder="Wprowadź liczbę punktów" />
+                                <label for="pointsCorrection" class="form-label font-size-changes"><strong>Ustaw liczbę zmian dla wszystkich drużyn:</strong></label>
+                                <input type="number" id="pointsCorrection" class="form-control" @bind="pointsCorrection" placeholder="Wprowadź liczbę zmian" />
                             </div>
                             <div class="col-md-6 d-flex align-items-end">
-                                <button class="btn btn-success" @onclick="ShowConfirmationModalForPoints">Zatwierdź zmiany punktów</button>
+                                <button class="btn btn-success" @onclick="ShowConfirmationModalForPoints">Zatwierdź liczbę zmian</button>
                             </div>
                         </div>
                     </div>
