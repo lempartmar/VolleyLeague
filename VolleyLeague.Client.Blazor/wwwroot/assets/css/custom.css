@@ -13,9 +13,10 @@
     }
 
 .display-mobile-header {
-    display:none !important;
+    display: none !important;
 }
-    .hamburger-menu {
+
+.hamburger-menu {
     display: none;
     cursor: pointer;
 }
@@ -71,7 +72,8 @@ a.display-menu {
     #rtsHeader.rts-header1.header-four.cricket .navbar-part .navbar-inner {
         background: rgb(17 17 17 / 0.9) !important;
     }
-        .rts-trending-news-section.volleyball {
+
+    .rts-trending-news-section.volleyball {
         position: relative !important;
         top: -50px !important;
     }
@@ -86,8 +88,8 @@ a.display-menu {
         color: #FFFFFF !important;
     }
 
-    .article-details{
-        margin-top:30px !important;
+    .article-details {
+        margin-top: 30px !important;
     }
 
     .rts-gallery-section .filtered-items .gallery-grid {
@@ -96,7 +98,7 @@ a.display-menu {
         gap: 20px;
     }
 
-    .left-side{
+    .left-side {
         display: flex !important;
     }
 
@@ -105,7 +107,7 @@ a.display-menu {
     }
 
     .logo-area.logo-max-width img {
-        display:none !important;
+        display: none !important;
     }
 
     .banner-content .banner-heading,
@@ -134,12 +136,6 @@ a.display-menu {
         border-bottom-right-radius: 15px;
     }
 
-/*    .banner.banner1 {
-        height: 90px;
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
-    }
-*/
     .container .top-bar {
         display: none;
     }
@@ -150,14 +146,14 @@ a.display-menu {
         background-color: black;
     }
 
-    .display_mobile{
+    .display_mobile {
         display: inline !important;
     }
 
     .display-mobile-header {
         display: block !important;
         text-align: center !important;
-        margin-bottom:40px !important;
+        margin-bottom: 40px !important;
     }
 
     .display_mobile_none {
@@ -209,9 +205,9 @@ a.display-menu {
         text-align: center;
     }
 
-        .club-score {
-            flex-direction: column;
-        }
+    .club-score {
+        flex-direction: column;
+    }
 
     .match-single .form {
         text-align: center;
@@ -229,7 +225,7 @@ a.display-menu {
         font-size: 70%;
     }
 
-    div span.club-name.color-dark{
+    div span.club-name.color-dark {
         font-size: 100% !important;
     }
 
@@ -237,7 +233,7 @@ a.display-menu {
         font-size: 80%;
     }
 
-    .col-12.main-section{
+    .col-12.main-section {
         padding: 0px;
     }
 
@@ -287,20 +283,20 @@ a.display-menu {
 }
 
 .standings-thead {
-    border: 1px solid #e7e7e7; /* Ensure thead has a border */
+    border: 1px solid #e7e7e7; 
 }
 
 .standings-th,
 .standings-td {
-    border: none; /* Set border for table headers and cells */
+    border: none; 
 }
 
 .standings-head-tr th {
-    border-bottom: none; /* Ensure thicker border for header row */
+    border-bottom: none; 
 }
 
 .standings-table-bordered {
-    border: none; /* Ensure table itself has a border */
+    border: none;
 }
 
 .standings-thead-dark {
@@ -308,11 +304,9 @@ a.display-menu {
     color: white;
 }
 
-/* Spinner animation */
 
 }
 
-/* MVP Page Styles */
 
 .mvp-btn-label {
     background: none;
@@ -353,19 +347,19 @@ a.display-menu {
 }
 
 .mvp-thead {
-    border: 1px solid #e7e7e7; /* Ensure thead has a border */
+    border: 1px solid #e7e7e7; 
 }
 
 .mvp-th, .mvp-td {
-    border: 1px solid #e7e7e7; /* Set border for table headers and cells */
+    border: 1px solid #e7e7e7;
 }
 
 .mvp-head-tr th {
-    border-bottom: 2px solid #e7e7e7; /* Ensure thicker border for header row */
+    border-bottom: 2px solid #e7e7e7; 
 }
 
 .mvp-table-bordered {
-    border: 1px solid #e7e7e7; /* Ensure table itself has a border */
+    border: 1px solid #e7e7e7;
 }
 
 .mvp-thead-dark {
@@ -463,7 +457,7 @@ a.display-menu {
 .player-name-area {
     display: flex;
     align-items: center;
-    justify-content:center
+    justify-content: center
 }
 
 .standings-alert-info, .standings-alert-danger {
@@ -494,6 +488,7 @@ a.display-menu {
     display: flex;
     align-items: center;
 }
+
 .player-name-area, .product-title-area, .table-title-area {
     display: flex;
     align-items: center;
@@ -514,16 +509,16 @@ a.display-menu {
 }
 
 .table-bordered {
-    border: 1px solid #e7e7e7; 
-    border-collapse: collapse; 
-    width: 100%; 
+    border: 1px solid #e7e7e7;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 th, td {
-    border: 1px solid #e7e7e7; 
-    padding: 8px; 
+    border: 1px solid #e7e7e7;
+    padding: 8px;
     text-align: center;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .blog-details h3, .blog-details h4, .blog-details h6 {
