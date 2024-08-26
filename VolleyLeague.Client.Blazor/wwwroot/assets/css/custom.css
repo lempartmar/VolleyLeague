@@ -69,6 +69,10 @@ a.display-menu {
         background: rgb(26 25 25);
     }
 
+    .mobile-margin-top {
+        margin-top: 30px;
+    }
+
     #rtsHeader.rts-header1.header-four.cricket .navbar-part .navbar-inner {
         background: rgb(17 17 17 / 0.9) !important;
     }

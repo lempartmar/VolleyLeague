@@ -25,7 +25,7 @@
                             <EditForm Model="User" OnValidSubmit="HandleLogin">
                                 <DataAnnotationsValidator />
                                 <div class="form">
-                                    <label for="identifier" class="form-label">Adres e-mail lub nazwa użytkownika</label>
+                                    <label for="identifier" class="form-label">Adres e-mail</label>
                                     <InputText id="identifier" class="form-control" @bind-Value="User.Identifier" />
                                     <ValidationMessage For="@(() => User.Identifier)" />
                                 </div>
@@ -48,6 +48,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="display_mobile">
+            <div class="alert alert-info" role="alert">
+                <strong>Uwaga!</strong>Nowy system wymaga resetowania hasła! Obecnie logowanie odbywa się za pomocą adresu e-mail podanego podczas rejestracji.
             </div>
         </div>
     </div>

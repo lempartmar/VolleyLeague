@@ -85,9 +85,12 @@ app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 var configuration = app.Services.GetRequiredService<IConfiguration>();
 AppSettings.Initialize(configuration);
 
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseWebAssemblyDebugging();
+}
 
 app.UseHttpsRedirection();
 
