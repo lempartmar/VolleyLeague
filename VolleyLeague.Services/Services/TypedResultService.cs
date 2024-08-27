@@ -24,7 +24,7 @@ namespace VolleyLeague.Services.Services
 
         public async Task CreateTypedResult(TypedResultDto typedResult, string identity)
         {
-            var userId = _credentialsRepository.GetAll().Where(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity).FirstOrDefault();
+            var userId = _credentialsRepository.GetAll().Where(x => x.Email == identity).FirstOrDefault();
             TypedResult newScore = new TypedResult()
             {
                 UserId = (int)userId.UserId,
@@ -109,7 +109,7 @@ namespace VolleyLeague.Services.Services
         public async Task<TypedResultDto?> GetTypedResultByMatchAndUserAsync(int matchId, string identity)
         {
 
-            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity);
+            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity);
             var userId = user.UserId;
 
             if (userId == 0)
@@ -132,7 +132,7 @@ namespace VolleyLeague.Services.Services
 
         public async Task<bool> UpdateTypedResultAsync(TypedResultDto typedResultDto, string identity)
         {
-            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity || x.LoweredUserName == identity || x.UserName == identity);
+            var user = await _credentialsRepository.GetAll().FirstOrDefaultAsync(x => x.Email == identity);
             var userId = user.UserId;
             if (userId == 0)
             {

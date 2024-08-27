@@ -625,9 +625,7 @@ namespace VolleyLeague.Services.Services
                 .Include(t => t.League)
                 .Include(u => u.Captain)
                 .Include(t => t.TeamPlayers)
-                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == identity
-                                    || t.Captain.Credentials.LoweredUserName == identity
-                                    || t.Captain.Credentials.UserName == identity);
+                .FirstOrDefaultAsync(t => t.Captain.Credentials!.Email == identity);
 
             if (team == null)
             {

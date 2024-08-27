@@ -72,7 +72,7 @@ namespace VolleyLeague.Services.Services
             credentials = _credentialsRepository.GetAll()
                 .Include(c => c.Roles)
                 .Include(c => c.User)
-                .FirstOrDefault(c => c.Email == loginDto.Identifier || c.UserName == loginDto.Identifier);
+                .FirstOrDefault(c => c.Email == loginDto.Identifier);
 
 
             if (credentials.Email != null && credentials.Email != loginDto.Identifier)
@@ -109,36 +109,10 @@ namespace VolleyLeague.Services.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
-        public async Task<(bool Success, string Message)> MigratePasswordsAsync()
-        {
-            try
-            {
-                var credentialsList = await _credentialsRepository.GetAll()
-                    .Where(c => !string.IsNullOrEmpty(c.OldPassword))
-                    .ToListAsync();
-
-                foreach (var credentials in credentialsList)
-                {
-                    var hashedPassword = passwordHasher.HashPassword(null, PepperPassword(credentials.OldPassword));
-                    credentials.Password = hashedPassword;
-
-                    credentials.OldPassword = null;
-                }
-
-                await _credentialsRepository.SaveChangesAsync();
-
-                return (true, "Hasła zostały przeniesione, a kolumna OldPassword została pomyślnie wyczyszczona.");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Wystąpił błąd podczas migracji haseł. {ex}");
-            }
-        }
-
         public async Task<bool> GetHasUserEmail(string identity)
         {
 
-            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity || c.UserName == identity || c.LoweredUserName == identity);
+            var credentials = await _credentialsRepository.GetAll().Include(c => c.User).FirstOrDefaultAsync(c => c.Email == identity);
 
             if (credentials?.Email != null)
             {
@@ -491,7 +465,7 @@ namespace VolleyLeague.Services.Services
                         return (false, "Nieprawidłowy lub wygasły kod weryfikacyjny.");
                     }
 
-                    var credentials = await _credentialsRepository.GetAll().Where(x => x.UserName == userName || x.Email == userName).FirstOrDefaultAsync();
+                    var credentials = await _credentialsRepository.GetAll().Where(x => x.Email == userName).FirstOrDefaultAsync();
                     credentials.Email = completeEmailRegistrationDto.Email;
 
                     var user = await _userRepository.GetAll().Where(x => x.Id == credentials.UserId).FirstOrDefaultAsync();

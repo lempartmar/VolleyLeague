@@ -9,12 +9,9 @@ namespace VolleyLeague.Services.Services
 
         List<Role> Login(LoginDto loginDto, out Credentials? credentials);
 
-        Task<(bool Success, string Message)> MigratePasswordsAsync();
-
         Task<(bool Success, string Message)> StartEmailVerification(RegisterEmailDto registerDto);
 
         Task<(bool Success, string Message)> CompleteEmailVerification(CompleteEmailRegistrationDto completeEmailRegistrationDto, string userName);
-
         Task<UserProfileDto> GetUserProfileByEmail(string email);
 
         Task<bool> GetHasUserEmail(string identity);

@@ -46,7 +46,7 @@ namespace VolleyLeague.API.Controllers
                 return Unauthorized();
             }
 
-            var identifier = credentials.Email ?? credentials.UserName;
+            var identifier = credentials.Email;
             if (string.IsNullOrEmpty(identifier))
             {
                 return BadRequest("Adres email nie mo¿e byæ null.");
@@ -277,19 +277,5 @@ namespace VolleyLeague.API.Controllers
 
             return BadRequest(new { message = "Nie uda³o siê zmieniæ has³a" });
         }
-
-        [HttpPost("migratePasswords")]
-        public async Task<IActionResult> MigratePasswords()
-        {
-            var result = await _userService.MigratePasswordsAsync();
-
-            if (result.Success)
-            {
-                return Ok(result.Message);
-            }
-
-            return StatusCode(500, result.Message);
-        }
-
     }
 }
